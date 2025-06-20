@@ -212,7 +212,6 @@ export default function Home() {
                 height={240}
                 priority
                 className="mx-auto filter drop-shadow-lg max-w-[180px] sm:max-w-[200px] md:max-w-[240px]"
-                aspectRatio="1/1"
               />
             </motion.div>
 
@@ -303,7 +302,6 @@ export default function Home() {
                     width={600}
                     height={400}
                     className="rounded-lg w-full shadow-lg"
-                    aspectRatio="4/3"
                     sizes="(max-width: 768px) 100vw, 50vw"
                   />
                 </div>
