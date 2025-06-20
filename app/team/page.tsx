@@ -152,6 +152,15 @@ export default function Team() {
       linkedin: "",
       className: "mx-auto",
     },
+    {
+      id: 12,
+      name: "Madhavan",
+      role: "Outreach",
+      description: "Works on expanding the society",
+      image: "/images/madhavan.jpg",
+      linkedin: "https://www.linkedin.com/in/madhavan-s-a047b4219",
+      className: "mx-auto",
+    },
   ]
 
   // Web Dev team
