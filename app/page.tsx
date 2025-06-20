@@ -317,15 +317,14 @@ export default function Home() {
               >
                 <div className="glass-card p-6">
                   <h3 className="text-responsive font-bold" style={{ fontSize: "clamp(1.25rem, 3vw, 1.5rem)" }}>
-                    Priya Sharma
+                    Anshi Jain
                   </h3>
                   <p className="text-gray-400 text-responsive break-all sm:break-normal">
-                    24f1002346@ds.study.iitm.ac.in
+                    
                   </p>
-                  <p className="text-gray-300 text-responsive">Theme: "Nature's Patterns"</p>
+                  <p className="text-gray-300 text-responsive">Theme: "Paradox & Memories"</p>
                   <p className="text-gray-300 text-responsive">
-                    This beautiful butterfly was captured during early morning at the campus garden. The intricate
-                    patterns on its wings showcase nature's artistic precision.
+                  In the midst of travel, fest chaos, and ever-moving days, it's moments like these — gathered hands, a deck of UNO, and bursts of laughter — that become the heart of every journey. Captured in the glow of shared stories and silent rivalries, this frame speaks of Paradox 2025 not through grand adventures, but through the joy of pause, play, and pure jubilation.
                   </p>
                   <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }} className="mt-4">
                     <Link href="/potw" className="btn-primary inline-block w-full sm:w-auto text-center">
