@@ -298,7 +298,7 @@ export default function Home() {
               >
                 <div className="glass-card">
                   <ResponsiveImage
-                    src="/images/week1.jpeg"
+                    src="/images/paradox_memories.png"
                     alt="Photo of the Week - Nature's Patterns by Priya Sharma"
                     width={600}
                     height={400}
