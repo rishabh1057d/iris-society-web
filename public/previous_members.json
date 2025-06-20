@@ -1,0 +1,34 @@
+{
+  "2024-2025": {
+    "leadershipTeam": [
+      {
+        "id": 1,
+        "name": "Akarsh Gupta",
+        "role": "Secretary",
+        "description": "Led the society with a vision for creative excellence.",
+        "image": "/images/akarsh.9c8e5c0981934174f296.png",
+        "linkedin": "https://www.linkedin.com/in/theakarshgupta/"
+      },
+      {
+        "id": 2,
+        "name": "Anshi Jain",
+        "role": "Deputy Secretary",
+        "description": "Assisted in managing events and member engagements.",
+        "image": "/images/anshi.e2e1cc8fa6f466cf14f9.png",
+        "linkedin": "https://www.linkedin.com/in/anshi-jain-5853361a8/"
+      }
+    ],
+    "coreTeam": [
+      { "id": 1, "name": "Akansha Nailwal", "role": "Outreach", "description": "Planned and executed all events smoothly.", "image": "/images/akansha.22e5a19410bfc4278e66.jpg", "linkedin": "https://www.linkedin.com/in/akansha-nailwal-97041524a/" },
+      { "id": 2, "name": "Akhilesh", "role": "Event Coordinator", "description": "Coordinated various society events.", "image": "/images/akhilesh.accee9fe6c52144610f9.jpg", "linkedin": "" },
+      { "id": 3, "name": "Chahat Gupta", "role": "Content Writer", "description": "Created engaging content for the society.", "image": "/images/chahat.jpg", "linkedin": "https://www.linkedin.com/in/chahat-gupta-030801257/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" },
+      { "id": 4, "name": "Daksh Sharma", "role": "Design and Editor", "description": "Captured and created content for the society.", "image": "/images/daksh.73ae7b2c945b5faa20f0.jpg", "linkedin": "https://www.linkedin.com/in/daksh-sharma-1b668232b/" },
+      { "id": 5, "name": "Kshitiz Rana", "role": "Event Management Head", "description": "Managed all society events.", "image": "/images/Kshitiz.jpg", "linkedin": "https://www.linkedin.com/in/kshitiz-rana/" },
+      { "id": 6, "name": "Ritik Raghuvanshi", "role": "Engagement Lead", "description": "Led member engagement initiatives.", "image": "/images/ritik.0703ed4eedcfeff3e2ec.jpg", "linkedin": "https://www.linkedin.com/in/ritik-raghuwanshi-695b0b208/" },
+      { "id": 7, "name": "Sadhana", "role": "Social Media Manager", "description": "Managed the society's social media presence.", "image": "/images/sadhna.a1efb50719ccaa49af7f.jpg", "linkedin": "https://www.linkedin.com/in/sadhana-kumari-1658072b0/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" }
+    ],
+    "webDevTeam": [
+      
+    ]
+  }
+}

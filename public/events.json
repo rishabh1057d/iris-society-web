@@ -1,0 +1,86 @@
+[
+  {
+    "id": 1,
+    "title": "Shutter Safari 2.0 – Paradox'25 Special",
+    "description": "Campus-themed multi-round offline photo contest",
+    "dates": "4–7 June 2025",
+    "location": "Offline, IIT Madras",
+    "collab": "IRIS x Kanha House",
+    "image": "/images/Shutter Safari sponsorerd.png",
+    "registrationOpen": false,
+    "registrationLink": "",
+    "status": "previous"
+  },
+  {
+    "id": 2,
+    "title": "Through Stillness – Mental Health Week Special",
+    "description": "Mental health storytelling through reflective photography.",
+    "dates": "14–20 May 2025",
+    "location": "Online",
+    "collab": "IRIS x Raahat x Kanha House",
+    "image": "/images/raahat_poster.png",
+    "registrationOpen": false,
+    "registrationLink": "",
+    "status": "previous"
+  },
+  {
+    "id": 3,
+    "title": "Lumen Astrum – Astrophotography Competition",
+    "description": "Space-themed photo contest with expert judging and talk.",
+    "dates": "19–29 Apr (Submissions), 1 May (Judging)",
+    "location": "Online",
+    "collab": "IRIS x AVASYA",
+    "image": "/images/lumen_astrum.png",
+    "registrationOpen": false,
+    "registrationLink": "",
+    "status": "previous"
+  },
+  {
+    "id": 4,
+    "title": "Festive Frames – Holi Edition",
+    "description": "Holi-themed photography challenge with live feedback.",
+    "dates": "10–19 Mar 2025",
+    "location": "Online",
+    "collab": "IRIS x Kanha House",
+    "image": "/images/festive frames.png",
+    "registrationOpen": false,
+    "registrationLink": "",
+    "status": "previous"
+  },
+  {
+    "id": 5,
+    "title": "Unstoppable Her – She Frames",
+    "description": "Women's Day contest on powerful female narratives.",
+    "dates": "4–8 Mar 2025",
+    "location": "Online",
+    "collab": "IRIS x Kanha House",
+    "image": "/images/she_frames.png",
+    "registrationOpen": false,
+    "registrationLink": "",
+    "status": "previous"
+  },
+  {
+    "id": 6,
+    "title": "Frame Quest",
+    "description": "Portrait challenge with 3 stages + workshop + judgment.",
+    "dates": "10–16 Feb 2025",
+    "location": "Online",
+    "collab": "IRIS x Sundarbans House",
+    "image": "/images/frame quest.png",
+    "registrationOpen": false,
+    "registrationLink": "",
+    "status": "previous"
+  },
+  {
+    "id": 7,
+    "title": "Shutter Safari Virtual Edition - Margazhi",
+    "description": "Uniqe themed multi-round Online photo contest",
+    "dates": "4–7 Jan 2025",
+    "location": "Online",
+    "collab": "IRIS x Kanha House",
+    "image": "/images/ssve.png",
+    "registrationOpen": false,
+    "registrationLink": "",
+    "status": "previous"
+  }
+]
