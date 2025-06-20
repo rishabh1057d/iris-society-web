@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react"
 
 export default function WaveAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const animationRef = useRef<number>()
+  const animationRef = useRef<number | undefined>(undefined)
   const [isReducedMotion, setIsReducedMotion] = useState(false)
 
   useEffect(() => {
