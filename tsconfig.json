@@ -24,7 +24,6 @@
       "@/components/*": ["./components/*"],
       "@/app/*": ["./app/*"],
       "@/lib/*": ["iitm-iris-website/lib/*"],
-      "@/utils/*": ["iitm-iris-website/utils/*"],
       "@/types/*": ["./types/*"],
       "@/contexts/*": ["./contexts/*"]
     }
