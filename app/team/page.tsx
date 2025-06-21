@@ -194,7 +194,7 @@ export default function Team() {
           </div>
         )}
 
-        {/* Web Dev Team - Compact Version */}
+        {/* Web Dev Team */}
         <motion.h2
           ref={webDevRef}
           className="text-2xl font-bold mb-8 text-center"
@@ -205,7 +205,7 @@ export default function Team() {
           Web Dev Team
         </motion.h2>
         <motion.div
-          className="flex justify-center mb-16"
+          className="flex justify-center flex-wrap gap-4 mb-16"
           variants={containerVariants}
           initial="hidden"
           animate={isWebDevInView ? "visible" : "hidden"}

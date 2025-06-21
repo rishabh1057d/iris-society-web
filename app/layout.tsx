@@ -6,6 +6,7 @@ import Navbar from "@/components/navbar"
 import { CustomCursor } from "@/components/custom-cursor"
 import { InteractiveBackground } from "@/components/interactive-background"
 import ScrollProgress from "@/components/scroll-progress"
+import { ContextMenuBlocker } from "@/components/context-menu-blocker"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -33,6 +34,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className} antialiased`}>
         <div className="relative min-h-screen flex flex-col">
+          <ContextMenuBlocker />
           <InteractiveBackground />
           <CustomCursor />
           <ScrollProgress />
