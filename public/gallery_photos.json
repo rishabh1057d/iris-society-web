@@ -24,5 +24,12 @@
   { "id": 25, "alt": "ss_round1_poorani", "src": "/images/ss_round1_1_ POORANI KANDASAMY.jpg", "photographer": "POORANI KANDASAMY" },
   { "id": 26, "alt": "ss_round1_2", "src": "/images/ss_round1_2_Shreyaskar Srrivastava.png", "photographer": "Shreyaskar Srivastava" },
   { "id": 27, "alt": "ss_rouund1_3", "src": "/images/ss_round1_3_Ritushree Mondal (1).jpg", "photographer": "Ritushree Mondal" },
-  { "id": 28, "alt": "ss_rouund1_4", "src": "/images/ss_round1_4_saurojeet bhattacharya.jpg", "photographer": "Saurojeet Bhattacharaya" }
+  { "id": 29, "alt": "POTD1", "src": "/images/sreekar_sharma.png", "photographer": "Sreekar Sharma" },
+  { "id": 30, "alt": "POTD2", "src": "/images/aman_sachin_kujur.png", "photographer": "Aman Sachin Kujur" },
+  { "id": 31, "alt": "POTD3", "src": "/images/anil_pendalay.png", "photographer": "Anil Pendyala" },
+  { "id": 32, "alt": "POTD4", "src": "/images/vashu_pandey.png", "photographer": "Vashu Pandey" },
+  { "id": 33, "alt": "POTD5", "src": "/images/Moupiya_Aich.png", "photographer": "Moupiya Aich" },
+  { "id": 34, "alt": "POTD6", "src": "/images/Harchintan_Kaur.png", "photographer": "Harchintan Kaur" },
+  { "id": 35, "alt": "POTD7", "src": "/images/Ayush.png", "photographer": "Ayush" },
+  { "id": 36, "alt": "POTD8", "src": "/images/rishabh_singh.jpg", "photographer": "Rishabh Singh" }
 ]
