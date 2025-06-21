@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
 import Image from "next/image"
@@ -16,10 +16,18 @@ export default function Events() {
 
   const [canScrollLeft, setCanScrollLeft] = useState(false)
   const [canScrollRight, setCanScrollRight] = useState(true)
+  const [events, setEvents] = useState<any[]>([])
 
   const isTitleInView = useInView(titleRef, { once: true })
   const isOngoingInView = useInView(ongoingRef, { once: true })
   const isPreviousInView = useInView(previousRef, { once: true })
+
+  useEffect(() => {
+    fetch("/events.json")
+      .then((res) => res.json())
+      .then((data) => setEvents(data))
+      .catch(() => setEvents([]))
+  }, [])
 
   // Scroll animations
   const { scrollYProgress } = useScroll({
@@ -85,6 +93,10 @@ export default function Events() {
     }
   }
 
+  // Split events into ongoing and previous
+  const ongoingEvents = events.filter(e => e.status === "ongoing")
+  const previousEvents = events.filter(e => e.status === "previous")
+
   return (
     <main className="flex min-h-screen flex-col items-center relative">
       <Navbar />
@@ -100,6 +112,7 @@ export default function Events() {
           Event Calendar
         </motion.h1>
 
+        {/* Ongoing Events */}
         <motion.section
           className="mb-12"
           ref={ongoingRef}
@@ -109,9 +122,67 @@ export default function Events() {
           style={{ y: y1 }}
         >
           <h2 className="text-2xl font-bold mb-4 pb-2 border-b border-blue-400/30 text-white">Ongoing Events</h2>
-          <p className="text-blue-200">No events are going on right now.</p>
+          {ongoingEvents.length === 0 ? (
+            <p className="text-blue-200">No events are going on right now.</p>
+          ) : (
+            <div className="flex flex-wrap gap-6">
+              {ongoingEvents.map((event, idx) => (
+                <motion.div
+                  key={event.id}
+                  className="event-card glass-card-event flex-shrink-0 w-80 backdrop-blur-md bg-white/5 border border-blue-400/20"
+                  variants={cardVariants}
+                  whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
+                >
+                  <div className="aspect-[3/4] bg-gray-700 relative">
+                    <Image
+                      src={event.image}
+                      alt={event.title}
+                      width={300}
+                      height={400}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="p-4">
+                    <h3 className="text-lg font-semibold mb-2 text-white">{event.title}</h3>
+                    <p className="text-blue-200 mb-3 text-sm">{event.description}</p>
+                    <div className="space-y-1 text-xs text-blue-300 mb-3">
+                      <div className="flex items-center">
+                        <Calendar className="w-3 h-3 mr-2" />
+                        <span>{event.dates}</span>
+                      </div>
+                      <div className="flex items-center">
+                        <MapPin className="w-3 h-3 mr-2" />
+                        <span>{event.location}</span>
+                      </div>
+                      <div className="flex items-center">
+                        <Users className="w-3 h-3 mr-2" />
+                        <span>{event.collab}</span>
+                      </div>
+                    </div>
+                    <div className="flex justify-center">
+                      {event.registrationOpen ? (
+                        <a
+                          href={event.registrationLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs px-3 py-1 bg-blue-600/20 text-blue-200 rounded-md border border-blue-400/20 hover:bg-blue-600/30 transition"
+                        >
+                          Register Now
+                        </a>
+                      ) : (
+                        <span className="text-xs px-3 py-1 bg-gray-600/20 text-gray-400 rounded-md border border-gray-500/20">
+                          Registration Closed
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
         </motion.section>
 
+        {/* Previous Events */}
         <motion.section
           ref={previousRef}
           variants={sectionVariants}
@@ -156,287 +227,58 @@ export default function Events() {
             initial="hidden"
             animate={isPreviousInView ? "visible" : "hidden"}
           >
-            {/* Shutter Safari 2.0 – Paradox'25 Special (Most Recent) */}
-            <motion.div
-              className="event-card glass-card-event flex-shrink-0 w-80 backdrop-blur-md bg-white/5 border border-blue-400/20"
-              variants={cardVariants}
-              whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
-            >
-              <div className="aspect-[3/4] bg-gray-700 relative">
-                <Image
-                  src="/images/Shutter Safari sponsorerd.png"
-                  alt="Shutter Safari 2.0 – Paradox'25 Special"
-                  width={300}
-                  height={400}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-4">
-                <h3 className="text-lg font-semibold mb-2 text-white">Shutter Safari 2.0 – Paradox'25 Special</h3>
-                <p className="text-blue-200 mb-3 text-sm">Campus-themed multi-round offline photo contest</p>
-                <div className="space-y-1 text-xs text-blue-300 mb-3">
-                  <div className="flex items-center">
-                    <Calendar className="w-3 h-3 mr-2" />
-                    <span>4–7 June 2025</span>
+            {previousEvents.map((event, idx) => (
+              <motion.div
+                key={event.id}
+                className="event-card glass-card-event flex-shrink-0 w-80 backdrop-blur-md bg-white/5 border border-blue-400/20"
+                variants={cardVariants}
+                whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
+              >
+                <div className="aspect-[3/4] bg-gray-700 relative">
+                  <Image
+                    src={event.image}
+                    alt={event.title}
+                    width={300}
+                    height={400}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="p-4">
+                  <h3 className="text-lg font-semibold mb-2 text-white">{event.title}</h3>
+                  <p className="text-blue-200 mb-3 text-sm">{event.description}</p>
+                  <div className="space-y-1 text-xs text-blue-300 mb-3">
+                    <div className="flex items-center">
+                      <Calendar className="w-3 h-3 mr-2" />
+                      <span>{event.dates}</span>
+                    </div>
+                    <div className="flex items-center">
+                      <MapPin className="w-3 h-3 mr-2" />
+                      <span>{event.location}</span>
+                    </div>
+                    <div className="flex items-center">
+                      <Users className="w-3 h-3 mr-2" />
+                      <span>{event.collab}</span>
+                    </div>
                   </div>
-                  <div className="flex items-center">
-                    <MapPin className="w-3 h-3 mr-2" />
-                    <span>Offline, IIT Madras</span>
-                  </div>
-                  <div className="flex items-center">
-                    <Users className="w-3 h-3 mr-2" />
-                    <span>IRIS x Kanha House</span>
+                  <div className="flex justify-center">
+                    {event.registrationOpen ? (
+                      <a
+                        href={event.registrationLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs px-3 py-1 bg-blue-600/20 text-blue-200 rounded-md border border-blue-400/20 hover:bg-blue-600/30 transition"
+                      >
+                        Register Now
+                      </a>
+                    ) : (
+                      <span className="text-xs px-3 py-1 bg-gray-600/20 text-gray-400 rounded-md border border-gray-500/20">
+                        Registration Closed
+                      </span>
+                    )}
                   </div>
                 </div>
-                <div className="flex justify-center">
-                  <span className="text-xs px-3 py-1 bg-gray-600/20 text-gray-400 rounded-md border border-gray-500/20">
-                    Registration Closed
-                  </span>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Through Stillness – Mental Health Week Special */}
-            <motion.div
-              className="event-card glass-card-event flex-shrink-0 w-80 backdrop-blur-md bg-white/5 border border-blue-400/20"
-              variants={cardVariants}
-              whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
-            >
-              <div className="aspect-[3/4] bg-gray-700 relative">
-                <Image
-                  src="/images/raahat_poster.png"
-                  alt="Through Stillness – Mental Health Week Special"
-                  width={300}
-                  height={400}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-4">
-                <h3 className="text-lg font-semibold mb-2 text-white">
-                  Through Stillness – Mental Health Week Special
-                </h3>
-                <p className="text-blue-200 mb-3 text-sm">Mental health storytelling through reflective photography.</p>
-                <div className="space-y-1 text-xs text-blue-300 mb-3">
-                  <div className="flex items-center">
-                    <Calendar className="w-3 h-3 mr-2" />
-                    <span>14–20 May 2025</span>
-                  </div>
-                  <div className="flex items-center">
-                    <MapPin className="w-3 h-3 mr-2" />
-                    <span>Online</span>
-                  </div>
-                  <div className="flex items-center">
-                    <Users className="w-3 h-3 mr-2" />
-                    <span>IRIS x Raahat x Kanha House</span>
-                  </div>
-                </div>
-                <div className="flex justify-center">
-                  <span className="text-xs px-3 py-1 bg-gray-600/20 text-gray-400 rounded-md border border-gray-500/20">
-                    Registration Closed
-                  </span>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Lumen Astrum – Astrophotography Competition */}
-            <motion.div
-              className="event-card glass-card-event flex-shrink-0 w-80 backdrop-blur-md bg-white/5 border border-blue-400/20"
-              variants={cardVariants}
-              whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
-            >
-              <div className="aspect-[3/4] bg-gray-700 relative">
-                <Image
-                  src="/images/lumen_astrum.png"
-                  alt="Lumen Astrum – Astrophotography Competition"
-                  width={300}
-                  height={400}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-4">
-                <h3 className="text-lg font-semibold mb-2 text-white">Lumen Astrum – Astrophotography Competition</h3>
-                <p className="text-blue-200 mb-3 text-sm">Space-themed photo contest with expert judging and talk.</p>
-                <div className="space-y-1 text-xs text-blue-300 mb-3">
-                  <div className="flex items-center">
-                    <Calendar className="w-3 h-3 mr-2" />
-                    <span>19–29 Apr (Submissions), 1 May (Judging)</span>
-                  </div>
-                  <div className="flex items-center">
-                    <MapPin className="w-3 h-3 mr-2" />
-                    <span>Online</span>
-                  </div>
-                  <div className="flex items-center">
-                    <Users className="w-3 h-3 mr-2" />
-                    <span>IRIS x AVASYA</span>
-                  </div>
-                </div>
-                <div className="flex justify-center">
-                  <span className="text-xs px-3 py-1 bg-gray-600/20 text-gray-400 rounded-md border border-gray-500/20">
-                    Registration Closed
-                  </span>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Festive Frames – Holi Edition */}
-            <motion.div
-              className="event-card glass-card-event flex-shrink-0 w-80 backdrop-blur-md bg-white/5 border border-blue-400/20"
-              variants={cardVariants}
-              whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
-            >
-              <div className="aspect-[3/4] bg-gray-700 relative">
-                <Image
-                  src="/images/festive frames.png"
-                  alt="Festive Frames – Holi Edition"
-                  width={300}
-                  height={400}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-4">
-                <h3 className="text-lg font-semibold mb-2 text-white">Festive Frames – Holi Edition</h3>
-                <p className="text-blue-200 mb-3 text-sm">Holi-themed photography challenge with live feedback.</p>
-                <div className="space-y-1 text-xs text-blue-300 mb-3">
-                  <div className="flex items-center">
-                    <Calendar className="w-3 h-3 mr-2" />
-                    <span>10–19 Mar 2025</span>
-                  </div>
-                  <div className="flex items-center">
-                    <MapPin className="w-3 h-3 mr-2" />
-                    <span>Online</span>
-                  </div>
-                  <div className="flex items-center">
-                    <Users className="w-3 h-3 mr-2" />
-                    <span>IRIS x Kanha House</span>
-                  </div>
-                </div>
-                <div className="flex justify-center">
-                  <span className="text-xs px-3 py-1 bg-gray-600/20 text-gray-400 rounded-md border border-gray-500/20">
-                    Registration Closed
-                  </span>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Unstoppable Her – She Frames */}
-            <motion.div
-              className="event-card glass-card-event flex-shrink-0 w-80 backdrop-blur-md bg-white/5 border border-blue-400/20"
-              variants={cardVariants}
-              whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
-            >
-              <div className="aspect-[3/4] bg-gray-700 relative">
-                <Image
-                  src="/images/she_frames.png"
-                  alt="Unstoppable Her – She Frames"
-                  width={300}
-                  height={400}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-4">
-                <h3 className="text-lg font-semibold mb-2 text-white">Unstoppable Her – She Frames</h3>
-                <p className="text-blue-200 mb-3 text-sm">Women's Day contest on powerful female narratives.</p>
-                <div className="space-y-1 text-xs text-blue-300 mb-3">
-                  <div className="flex items-center">
-                    <Calendar className="w-3 h-3 mr-2" />
-                    <span>4–8 Mar 2025</span>
-                  </div>
-                  <div className="flex items-center">
-                    <MapPin className="w-3 h-3 mr-2" />
-                    <span>Online</span>
-                  </div>
-                  <div className="flex items-center">
-                    <Users className="w-3 h-3 mr-2" />
-                    <span>IRIS x Kanha House</span>
-                  </div>
-                </div>
-                <div className="flex justify-center">
-                  <span className="text-xs px-3 py-1 bg-gray-600/20 text-gray-400 rounded-md border border-gray-500/20">
-                    Registration Closed
-                  </span>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Frame Quest */}
-            <motion.div
-              className="event-card glass-card-event flex-shrink-0 w-80 backdrop-blur-md bg-white/5 border border-blue-400/20"
-              variants={cardVariants}
-              whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
-            >
-              <div className="aspect-[3/4] bg-gray-700 relative">
-                <Image
-                  src="/images/frame quest.png"
-                  alt="Frame Quest"
-                  width={300}
-                  height={400}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-4">
-                <h3 className="text-lg font-semibold mb-2 text-white">Frame Quest</h3>
-                <p className="text-blue-200 mb-3 text-sm">Portrait challenge with 3 stages + workshop + judgment.</p>
-                <div className="space-y-1 text-xs text-blue-300 mb-3">
-                  <div className="flex items-center">
-                    <Calendar className="w-3 h-3 mr-2" />
-                    <span>10–16 Feb 2025</span>
-                  </div>
-                  <div className="flex items-center">
-                    <MapPin className="w-3 h-3 mr-2" />
-                    <span>Online</span>
-                  </div>
-                  <div className="flex items-center">
-                    <Users className="w-3 h-3 mr-2" />
-                    <span>IRIS x Sundarbans House</span>
-                  </div>
-                </div>
-                
-                <div className="flex justify-center">
-                  <span className="text-xs px-3 py-1 bg-gray-600/20 text-gray-400 rounded-md border border-gray-500/20">
-                    Registration Closed
-                  </span>
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              className="event-card glass-card-event flex-shrink-0 w-80 backdrop-blur-md bg-white/5 border border-blue-400/20"
-              variants={cardVariants}
-              whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
-            >
-              <div className="aspect-[3/4] bg-gray-700 relative">
-                <Image
-                  src="/images/ssve.png"
-                  alt="Shutter Safari - Virtual Edition"
-                  width={300}
-                  height={400}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-4">
-                <h3 className="text-lg font-semibold mb-2 text-white">Shutter Safari Virtual Edition - Margazhi</h3>
-                <p className="text-blue-200 mb-3 text-sm">Uniqe themed multi-round Online photo contest</p>
-                <div className="space-y-1 text-xs text-blue-300 mb-3">
-                  <div className="flex items-center">
-                    <Calendar className="w-3 h-3 mr-2" />
-                    <span>4–7 Jan 2025</span>
-                  </div>
-                  <div className="flex items-center">
-                    <MapPin className="w-3 h-3 mr-2" />
-                    <span>Online</span>
-                  </div>
-                  <div className="flex items-center">
-                    <Users className="w-3 h-3 mr-2" />
-                    <span>IRIS x Kanha House</span>
-                  </div>
-                </div>
-                <div className="flex justify-center">
-                  <span className="text-xs px-3 py-1 bg-gray-600/20 text-gray-400 rounded-md border border-gray-500/20">
-                    Registration Closed
-                  </span>
-                </div>
-              </div>
-            </motion.div>
+              </motion.div>
+            ))}
           </motion.div>
         </motion.section>
       </div>

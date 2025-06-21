@@ -18,6 +18,9 @@ export default function Gallery() {
   const [imagesLoaded, setImagesLoaded] = useState(false)
   const [screenSize, setScreenSize] = useState<"mobile" | "tablet" | "desktop">("desktop")
 
+  // Gallery items state (fetched from JSON)
+  const [galleryItems, setGalleryItems] = useState<any[]>([])
+
   // Track screen size for responsive grid
   useEffect(() => {
     const updateScreenSize = () => {
@@ -35,39 +38,20 @@ export default function Gallery() {
     return () => window.removeEventListener("resize", updateScreenSize)
   }, [])
 
-  // Updated gallery items with real photos
-  const galleryItems = [
-    { id: 1, alt: "LumenAstrum_naman", src: "/images/lumen_astrum_NamanDeepSingh.jpg", photographer: "Naman Deep Singh" },
-    { id: 2, alt: "LumenAstrum_winner", src: "/images/Lumen_astrum_RAKSHITHASRI SHRINIVASAN.jpg", photographer: "RAKSHITHASRI SHRINIVASAN" },
-    { id: 3, alt: "LumenAstrum_yashas", src: "/images/Lumen_astrum_yashas_rao.png", photographer: "Yashas Rao" },
-    { id: 4, alt: "ShutterSafari_piyush", src: "/images/shutter_safari_piyush.jpg", photographer: "Piyush Tiwari" },
-    { id: 5, alt: "ShutterSafari_Devi", src: "/images/shutter_safari_second.jpg", photographer: "Devi Vrinda" },
-    { id: 6, alt: "ShutterSafari_susheel", src: "/images/shutter_safari_third.jpg", photographer: "Susheel Soni" },
-    { id: 7, alt: "ShutterSafari_Winner", src: "/images/shutter_safari_winner.jpg", photographer: "Shreyaskar Srivastava" },
-    { id: 8, alt: "ShutterSafari_Sriram", src: "/images/Shutter_safari_sriram.jpeg", photographer: "Sriram" },
-    { id: 9, alt: "ShutterSafari_round1_kaustubh", src: "/images/kaustubh_round1_ss.png", photographer: "Kaustubh" },
-    { id: 10, alt: "FrameQuest_1", src: "/images/week3.jpeg", photographer: "Arnab Sarkar" },
-    { id: 11, alt: "FrameQuest_5", src: "/images/week1.jpeg", photographer: "Piyush Dipak Wani" },
-    { id: 12, alt: "FrameQuest_3", src: "/images/week2.jpeg", photographer: "Kaustubh" },
-    { id: 14, alt: "FrameQuest_2", src: "/images/framequest_2.png", photographer: "Ashutosh Diwan" },
-    { id: 15, alt: "FrameQuest_4", src: "/images/framequest_4.png", photographer: "Siddhanta Roy" },
-    { id: 17, alt: "Shutter_safari_ve_3", src: "/images/shutter_safari_ve_deepesh.png", photographer: "Deepesh Kumar Dawar" },
-    { id: 18, alt: "Shutter_safari_ve_2", src: "/images/shutter_safari_ve_shreya.png", photographer: "Shreya Saxena" },
-    { id: 19, alt: "Shutter_Safari_ve_1", src: "/images/shutter_safari_ve_susheel.png", photographer: "Susheel Soni" },
-    { id: 20, alt: "ff_holi_1", src: "/images/ff_holi_1.png", photographer: "Diptesh Ghosh" },
-    { id: 21, alt: "ff_holi_2", src: "/images/ff_holi_2.png", photographer: "Susheel Soni" },
-    { id: 22, alt: "ff_holi_3", src: "/images/ff_holi_3.png", photographer: "Shreemad R. Gandhi" },
-    { id: 23, alt: "ff_holi_4", src: "/images/ff_holi_4.png", photographer: "Suprovo Mallick" },
-    { id: 24, alt: "ff_holi_5", src: "/images/ff_holi_5.png", photographer: "Farah Shaikh" },
-    { id: 25, alt: "ss_round1_poorani", src: "/images/ss_round1_1_ POORANI KANDASAMY.jpg", photographer: "POORANI KANDASAMY" },
-    { id: 26, alt: "ss_round1_2", src: "/images/ss_round1_2_Shreyaskar Srrivastava.png", photographer: "Shreyaskar Srivastava" },
-    { id: 27, alt: "ss_rouund1_3", src: "/images/ss_round1_3_Ritushree Mondal (1).jpg", photographer: "Ritushree Mondal" },
-    { id: 28, alt: "ss_rouund1_4", src: "/images/ss_round1_4_saurojeet bhattacharya.jpg", photographer: "Saurojeet Bhattacharaya" },
-  ]
+  // Fetch gallery items from JSON
+  useEffect(() => {
+    fetch("/gallery_photos.json")
+      .then((res) => res.json())
+      .then((data) => setGalleryItems(data))
+      .catch((err) => {
+        console.error("Failed to load gallery photos:", err)
+        setGalleryItems([])
+      })
+  }, [])
 
   // Fix: Ensure imagesLoaded is set if all images are loaded, even if no user interaction
   useEffect(() => {
-    if (!imagesLoaded && Object.keys(loadedImages).length === galleryItems.length) {
+    if (!imagesLoaded && Object.keys(loadedImages).length === galleryItems.length && galleryItems.length > 0) {
       setImagesLoaded(true)
     }
   }, [loadedImages, imagesLoaded, galleryItems.length])
