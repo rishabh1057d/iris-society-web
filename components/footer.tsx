@@ -20,7 +20,6 @@ export default function Footer() {
     >
       <ResponsiveContainer size="lg" padding="md">
         <div className="text-center">
-          <p className="text-gray-300 mb-1 text-responsive">Made with Love by Rishabh</p>
           <p className="text-gray-400 text-sm text-responsive">© 2025 IRIS Society. All rights reserved.</p>
           <motion.div
             className="flex justify-center space-x-6 mt-4"
