@@ -12,7 +12,7 @@ export default function Contact() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div>
             <Image
-              src="/images/Untitled design (7).png"
+              src="/images/collage.png"
               alt="Contact Illustration"
               width={500}
               height={400}

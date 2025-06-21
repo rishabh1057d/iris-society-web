@@ -15,6 +15,8 @@ import { motion, useAnimation, useInView, useScroll, useTransform } from "framer
 export default function Home() {
   const [scrollY, setScrollY] = useState(0)
   const [isRedirecting, setIsRedirecting] = useState(false)
+  const [potwData, setPotwData] = useState<Record<string, any[]>>({})
+  const [currentPotw, setCurrentPotw] = useState<any | null>(null)
   const heroRef = useRef<HTMLDivElement>(null)
   const logoRef = useRef<HTMLDivElement>(null)
   const potwRef = useRef<HTMLDivElement>(null)
@@ -177,6 +179,65 @@ export default function Home() {
     },
   }
 
+  // Fetch POTW data from JSON
+  useEffect(() => {
+    fetch("/potw.json")
+      .then((res) => res.json())
+      .then((data) => setPotwData(data))
+      .catch((err) => {
+        console.error("Failed to load POTW data:", err)
+        setPotwData({})
+      })
+  }, [])
+
+  // Determine current month and week, and select the photo
+  useEffect(() => {
+    if (!potwData || Object.keys(potwData).length === 0) return
+
+    const now = new Date()
+    const monthName = now.toLocaleString("default", { month: "long" })
+    // Calculate week of month (1-based)
+    const firstDay = new Date(now.getFullYear(), now.getMonth(), 1).getDay()
+    const weekOfMonth = Math.ceil((now.getDate() + firstDay) / 7)
+
+    let photo = null
+
+    // Helper to check if a photo is TBA (by theme or photographer or image)
+    const isTBA = (p: any) =>
+      (typeof p.theme === "string" && p.theme.trim().toUpperCase() === "TBA") ||
+      (typeof p.photographer === "string" && p.photographer.trim().toUpperCase() === "TBA") ||
+      (typeof p.image === "string" && p.image.trim().toUpperCase() === "TBA")
+
+    // 1. Try to find the current week's photo (and skip TBA)
+    if (potwData[monthName]) {
+      photo = potwData[monthName].find((p: any) => p.week === weekOfMonth && !isTBA(p))
+      // 2. If not found, fallback to the latest non-TBA photo in the month
+      if (!photo) {
+        for (let i = potwData[monthName].length - 1; i >= 0; i--) {
+          if (!isTBA(potwData[monthName][i])) {
+            photo = potwData[monthName][i]
+            break
+          }
+        }
+      }
+    }
+    // 3. If still not found, fallback to the latest non-TBA photo in any month
+    if (!photo) {
+      const months = Object.keys(potwData)
+      for (let i = months.length - 1; i >= 0; i--) {
+        const arr = potwData[months[i]]
+        for (let j = arr.length - 1; j >= 0; j--) {
+          if (!isTBA(arr[j])) {
+            photo = arr[j]
+            break
+          }
+        }
+        if (photo) break
+      }
+    }
+    setCurrentPotw(photo)
+  }, [potwData])
+
   return (
     <ErrorBoundary>
       {/* Redirect Handler */}
@@ -288,50 +349,51 @@ export default function Home() {
               Photo of the Week
             </motion.h2>
 
-            <div className="flex flex-col lg:flex-row gap-8 items-center">
-              <motion.div
-                className="w-full lg:w-1/2 hardware-accelerated"
-                initial={{ opacity: 0, x: -50 }}
-                animate={isPotwInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-              >
-                <div className="glass-card">
-                  <ResponsiveImage
-                    src="/images/paradox_memories.png"
-                    alt="Photo of the Week - Nature's Patterns by Priya Sharma"
-                    width={600}
-                    height={400}
-                    className="rounded-lg w-full shadow-lg"
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                  />
-                </div>
-              </motion.div>
+            {currentPotw ? (
+              <div className="flex flex-col lg:flex-row gap-8 items-center">
+                <motion.div
+                  className="w-full lg:w-1/2 hardware-accelerated"
+                  initial={{ opacity: 0, x: -50 }}
+                  animate={isPotwInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                >
+                  <div className="glass-card">
+                    <ResponsiveImage
+                      src={currentPotw.image || "/placeholder.svg"}
+                      alt={`Photo of the Week - ${currentPotw.theme || ""} by ${currentPotw.photographer || ""}`}
+                      width={600}
+                      height={400}
+                      className="rounded-lg w-full shadow-lg"
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                    />
+                  </div>
+                </motion.div>
 
-              <motion.div
-                className="w-full lg:w-1/2 space-y-4 hardware-accelerated"
-                initial={{ opacity: 0, x: 50 }}
-                animate={isPotwInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-              >
-                <div className="glass-card p-6">
-                  <h3 className="text-responsive font-bold" style={{ fontSize: "clamp(1.25rem, 3vw, 1.5rem)" }}>
-                    Anshi Jain
-                  </h3>
-                  <p className="text-gray-400 text-responsive break-all sm:break-normal">
-                    
-                  </p>
-                  <p className="text-gray-300 text-responsive">Theme: "Paradox & Memories"</p>
-                  <p className="text-gray-300 text-responsive">
-                  In the midst of travel, fest chaos, and ever-moving days, it's moments like these — gathered hands, a deck of UNO, and bursts of laughter — that become the heart of every journey. Captured in the glow of shared stories and silent rivalries, this frame speaks of Paradox 2025 not through grand adventures, but through the joy of pause, play, and pure jubilation.
-                  </p>
-                  <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }} className="mt-4">
-                    <Link href="/potw" className="btn-primary inline-block w-full sm:w-auto text-center">
-                      View All Weekly Photos
-                    </Link>
-                  </motion.div>
-                </div>
-              </motion.div>
-            </div>
+                <motion.div
+                  className="w-full lg:w-1/2 space-y-4 hardware-accelerated"
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={isPotwInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
+                  transition={{ duration: 0.8, delay: 0.4 }}
+                >
+                  <div className="glass-card p-6">
+                    <h3 className="text-responsive font-bold" style={{ fontSize: "clamp(1.25rem, 3vw, 1.5rem)" }}>
+                      {currentPotw.photographer}
+                    </h3>
+                    <p className="text-gray-400 text-responsive break-all sm:break-normal">
+                      {currentPotw.theme ? `Theme: "${currentPotw.theme}"` : ""}
+                    </p>
+                    <p className="text-gray-300 text-responsive">{currentPotw.description}</p>
+                    <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }} className="mt-4">
+                      <Link href="/potw" className="btn-primary inline-block w-full sm:w-auto text-center">
+                        View All Weekly Photos
+                      </Link>
+                    </motion.div>
+                  </div>
+                </motion.div>
+              </div>
+            ) : (
+              <div className="text-center text-gray-400 py-12">No Photo of the Week available.</div>
+            )}
           </ResponsiveContainer>
         </motion.div>
 
