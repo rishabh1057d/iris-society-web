@@ -29,7 +29,7 @@ export default function About() {
           About Us
         </motion.h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+        <div className="flex flex-col-reverse md:grid md:grid-cols-2 gap-8 mb-12">
           <motion.div
             ref={textRef}
             initial={{ opacity: 0, x: -50 }}

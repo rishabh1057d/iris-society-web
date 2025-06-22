@@ -245,7 +245,7 @@ export default function POTW() {
             onClick={() => setShowModal(false)}
           >
             <motion.div
-              className="bg-gray-900 rounded-lg overflow-hidden max-w-5xl w-full max-h-[90vh] flex flex-col"
+              className="bg-gray-900 rounded-lg overflow-hidden max-w-5xl w-full max-h-[80vh] flex flex-col"
               variants={modalVariants}
               initial="hidden"
               animate="visible"
@@ -266,7 +266,7 @@ export default function POTW() {
               <div className="flex flex-col md:flex-row overflow-hidden">
                 {/* Image container with natural aspect ratio */}
                 <div className="md:w-3/5 flex items-center justify-center p-2">
-                  <div className="flex items-center justify-center w-full h-[70vh]">
+                  <div className="flex items-center justify-center w-full h-[40vh] md:h-[60vh]">
                     <motion.div
                       initial={{ opacity: 0, scale: 0.9 }}
                       animate={{ opacity: 1, scale: 1 }}
