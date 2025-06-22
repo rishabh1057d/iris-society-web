@@ -6,7 +6,11 @@ import Image from "next/image"
 import { Menu, X } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 
-export default function Navbar() {
+interface NavbarProps {
+  onJoinClick?: () => void
+}
+
+export default function Navbar({ onJoinClick }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const navRef = useRef<HTMLElement>(null)
@@ -80,14 +84,20 @@ export default function Navbar() {
         {/* CTA Button - Desktop */}
         <div className="hidden lg:block">
           <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }}>
-            <Link
-              href="https://docs.google.com/forms/d/e/1FAIpQLSczSzMGIAd-sE_nxe9wOFSrsYy59lzRBhU9e5uhOjMtmIquLQ/viewform"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`btn-nav-cta ${scrolled ? "btn-nav-cta-scrolled" : ""}`}
-            >
-              Join Now
-            </Link>
+            {onJoinClick ? (
+              <button onClick={onJoinClick} className={`btn-nav-cta ${scrolled ? "btn-nav-cta-scrolled" : ""}`}>
+                Join Now
+              </button>
+            ) : (
+              <Link
+                href="https://docs.google.com/forms/d/e/1FAIpQLSczSzMGIAd-sE_nxe9wOFSrsYy59lzRBhU9e5uhOjMtmIquLQ/viewform"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`btn-nav-cta ${scrolled ? "btn-nav-cta-scrolled" : ""}`}
+              >
+                Join Now
+              </Link>
+            )}
           </motion.div>
         </div>
 
@@ -133,15 +143,27 @@ export default function Navbar() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: navItems.length * 0.1 }}
               >
-                <Link
-                  href="https://docs.google.com/forms/d/e/1FAIpQLSczSzMGIAd-sE_nxe9wOFSrsYy59lzRBhU9e5uhOjMtmIquLQ/viewform"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-mobile-cta w-full"
-                  onClick={closeMenu}
-                >
-                  Join Now
-                </Link>
+                {onJoinClick ? (
+                  <button
+                    onClick={() => {
+                      onJoinClick()
+                      closeMenu()
+                    }}
+                    className="btn-mobile-cta w-full"
+                  >
+                    Join Now
+                  </button>
+                ) : (
+                  <Link
+                    href="https://docs.google.com/forms/d/e/1FAIpQLSczSzMGIAd-sE_nxe9wOFSrsYy59lzRBhU9e5uhOjMtmIquLQ/viewform"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-mobile-cta w-full"
+                    onClick={closeMenu}
+                  >
+                    Join Now
+                  </Link>
+                )}
               </motion.div>
             </div>
           </motion.div>

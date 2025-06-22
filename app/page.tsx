@@ -28,8 +28,7 @@ export default function Home() {
     "https://docs.google.com/forms/d/e/1FAIpQLSczSzMGIAd-sE_nxe9wOFSrsYy59lzRBhU9e5uhOjMtmIquLQ/viewform"
 
   // Handle Join Now click
-  const handleJoinNowClick = (e: React.MouseEvent) => {
-    e.preventDefault()
+  const handleJoinNowClick = () => {
     setIsRedirecting(true)
   }
 
@@ -248,7 +247,7 @@ export default function Home() {
       />
 
       <main ref={mainRef} className="flex min-h-screen flex-col items-center relative overflow-hidden">
-        <Navbar />
+        <Navbar onJoinClick={handleJoinNowClick} />
 
         {/* Hero section */}
         <div
@@ -269,10 +268,10 @@ export default function Home() {
               <ResponsiveImage
                 src="/images/logo.png"
                 alt="IRIS Society Logo"
-                width={240}
-                height={240}
+                width={300}
+                height={300}
                 priority
-                className="mx-auto filter drop-shadow-lg max-w-[180px] sm:max-w-[200px] md:max-w-[240px]"
+                className="mx-auto filter drop-shadow-lg max-w-[220px] sm:max-w-[250px] md:max-w-[300px]"
               />
             </motion.div>
 
