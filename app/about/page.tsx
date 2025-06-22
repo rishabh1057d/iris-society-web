@@ -37,14 +37,15 @@ export default function About() {
             transition={{ duration: 0.8 }}
           >
             <p className="text-gray-300 mb-4">
-              Welcome to the IRIS Society at IIT Madras, a dynamic community dedicated to celebrating and exploring the
-              art of photography. Our society aims to inspire creativity, enhance skills, and foster a shared passion
-              for capturing moments through the lens.
+            Founded in November 2023, IRIS Society is the official Photography and Videography Society of the IIT Madras BS Degree program. 
+            We are a passionate community of visual storytellers dedicated to capturing moments, crafting narratives, and 
+            expressing creativity through both photography and videography.
             </p>
             <p className="text-gray-300 mb-6">
-              Founded under the IIT Madras BS Degree program, IRIS is open to all students under this domain, regardless
-              of their photography experience. We believe that photography is a powerful medium for storytelling and
-              self-expression, and we strive to create an inclusive environment where every member can grow and thrive.
+            What began as a photography club has grown into a vibrant creative society that celebrates the power of both still and moving images. 
+            Whether you are just starting out or already experienced in the field, IRIS offers a welcoming space to learn, explore, and grow your craft.
+          
+            At IRIS, we believe that visual media is more than just an art form. It is a language that allows us to see the world differently, share unique perspectives, and tell stories that inspire and connect.
             </p>
 
             <h2 className="text-xl font-bold mb-3">Our Activities</h2>
@@ -55,7 +56,7 @@ export default function About() {
               animate={isActivitiesInView ? { opacity: 1 } : { opacity: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
             >
-              {["Workshops and Tutorials", "Photowalks", "Collaborations", "Monthly Competitions"].map(
+              {["Workshops","Monthly Competitions", "Photowalks", "Collaborations"].map(
                 (activity, index) => (
                   <motion.li
                     key={index}
