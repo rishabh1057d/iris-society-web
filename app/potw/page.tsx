@@ -141,8 +141,9 @@ export default function POTW() {
           animate={isDescInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          Each week, IRIS Society members submit photos based on a theme. The best submission is featured as our Photo
-          of the Week. Browse through our calendar to see the winning entries.
+          Each week, IRIS Society members submit photos based on a theme. The best submission is featured as our Photo of the Week. 
+          Browse through our calendar to see the winning entries. 
+          To participate, share your photo along with the required details in the designated WhatsApp group or Gspace.
         </motion.p>
 
         <motion.div
@@ -152,7 +153,7 @@ export default function POTW() {
           transition={{ duration: 0.6, delay: 0.3 }}
         >
           <Link
-            href="https://docs.google.com/document/d/1pytF-tK4XXgi8r6lLzEMzyEXjD0vAjT63ff6oejznrY/edit?usp=sharing"
+            href="https://docs.google.com/document/d/1pytF-tK4XXgi8r6lLzEMzyEXjD0vAjT63ff6oejznrY/edit?usp=sharing"  
             target="_blank"
             rel="noopener noreferrer"
             className="btn-secondary w-full sm:w-auto py-1 px-3 text-xs min-h-[32px]"

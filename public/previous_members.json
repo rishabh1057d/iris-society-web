@@ -24,8 +24,7 @@
       { "id": 3, "name": "Chahat Gupta", "role": "Content Writer", "description": "Created engaging content for the society.", "image": "/images/chahat.jpg", "linkedin": "https://www.linkedin.com/in/chahat-gupta-030801257/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" },
       { "id": 4, "name": "Daksh Sharma", "role": "Design and Editor", "description": "Captured and created content for the society.", "image": "/images/daksh.73ae7b2c945b5faa20f0.jpg", "linkedin": "https://www.linkedin.com/in/daksh-sharma-1b668232b/" },
       { "id": 5, "name": "Kshitiz Rana", "role": "Event Management Head", "description": "Managed all society events.", "image": "/images/Kshitiz.jpg", "linkedin": "https://www.linkedin.com/in/kshitiz-rana/" },
-      { "id": 6, "name": "Ritik Raghuvanshi", "role": "Engagement Lead", "description": "Led member engagement initiatives.", "image": "/images/ritik.0703ed4eedcfeff3e2ec.jpg", "linkedin": "https://www.linkedin.com/in/ritik-raghuwanshi-695b0b208/" },
-      { "id": 7, "name": "Sadhana", "role": "Social Media Manager", "description": "Managed the society's social media presence.", "image": "/images/sadhna.a1efb50719ccaa49af7f.jpg", "linkedin": "https://www.linkedin.com/in/sadhana-kumari-1658072b0/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" }
+      { "id": 6, "name": "Sadhana", "role": "Social Media Manager", "description": "Managed the society's social media presence.", "image": "/images/sadhna.a1efb50719ccaa49af7f.jpg", "linkedin": "https://www.linkedin.com/in/sadhana-kumari-1658072b0/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" }
     ],
     "webDevTeam": [
       
