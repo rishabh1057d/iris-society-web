@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
 import { ChevronLeft, ChevronRight, X } from "lucide-react"
@@ -135,7 +136,7 @@ export default function POTW() {
 
         <motion.p
           ref={descRef}
-          className="text-gray-300 text-center max-w-3xl mx-auto mb-12"
+          className="text-gray-300 text-center max-w-3xl mx-auto mb-8"
           initial={{ opacity: 0 }}
           animate={isDescInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
@@ -143,6 +144,30 @@ export default function POTW() {
           Each week, IRIS Society members submit photos based on a theme. The best submission is featured as our Photo
           of the Week. Browse through our calendar to see the winning entries.
         </motion.p>
+
+        <motion.div
+          className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isDescInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.3 }}
+        >
+          <Link
+            href="https://docs.google.com/document/d/1pytF-tK4XXgi8r6lLzEMzyEXjD0vAjT63ff6oejznrY/edit?usp=sharing"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-secondary w-full sm:w-auto py-1 px-3 text-xs min-h-[32px]"
+          >
+            View Guidelines
+          </Link>
+          <Link
+            href="https://docs.google.com/forms/u/1/d/e/1FAIpQLSczSzMGIAd-sE_nxe9wOFSrsYy59lzRBhU9e5uhOjMtmIquLQ/viewform"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary w-full sm:w-auto py-1 px-3 text-xs min-h-[32px]"
+          >
+            Submit Now
+          </Link>
+        </motion.div>
 
         <motion.div
           ref={calendarRef}
