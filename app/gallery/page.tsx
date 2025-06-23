@@ -177,17 +177,18 @@ export default function Gallery() {
   const getSortedItems = () => {
     if (!imagesLoaded) return galleryItems
 
-    return [...galleryItems].sort((a, b) => {
-      const propsA = getGridItemProperties(a, galleryItems.indexOf(a))
-      const propsB = getGridItemProperties(b, galleryItems.indexOf(b))
-
-      // Sort by priority (higher priority first), then by aspect ratio
-      if (propsA.priority !== propsB.priority) {
-        return propsB.priority - propsA.priority
-      }
-
-      return propsB.aspectRatio - propsA.aspectRatio
-    })
+    // Sort by id descending first, then by priority/aspect ratio for layout
+    return [...galleryItems]
+      .sort((a, b) => b.id - a.id)
+      .sort((a, b) => {
+        const propsA = getGridItemProperties(a, galleryItems.indexOf(a))
+        const propsB = getGridItemProperties(b, galleryItems.indexOf(b))
+        // Sort by priority (higher priority first), then by aspect ratio
+        if (propsA.priority !== propsB.priority) {
+          return propsB.priority - propsA.priority
+        }
+        return propsB.aspectRatio - propsA.aspectRatio
+      })
   }
 
   // Animation variants
