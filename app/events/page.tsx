@@ -25,7 +25,11 @@ export default function Events() {
   useEffect(() => {
     fetch("/events.json")
       .then((res) => res.json())
-      .then((data) => setEvents(data))
+      .then((data) => {
+        // Sort by id descending
+        data.sort((a: { id: number }, b: { id: number }) => b.id - a.id)
+        setEvents(data)
+      })
       .catch(() => setEvents([]))
   }, [])
 
