@@ -261,20 +261,8 @@ export default function Events() {
                     </div>
                   </div>
                   <div className="flex justify-center">
-                    {event.registrationOpen ? (
-                      <a
-                        href={event.registrationLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-xs px-3 py-1 bg-blue-600/20 text-blue-200 rounded-md border border-blue-400/20 hover:bg-blue-600/30 transition"
-                      >
-                        Register Now
-                      </a>
-                    ) : (
+                    {event.status === "previous" ? (
                       <div className="flex items-center justify-center gap-2">
-                        <span className="text-xs px-3 py-1 bg-gray-600/20 text-gray-400 rounded-md border border-gray-500/20">
-                          Registration Closed
-                        </span>
                         {event.resultLink && event.resultLink.trim() !== "" && (
                           <a
                             href={event.resultLink}
@@ -282,10 +270,37 @@ export default function Events() {
                             rel="noopener noreferrer"
                             className="text-xs px-3 py-1 bg-blue-600/20 text-blue-200 rounded-md border border-blue-400/20 hover:bg-blue-600/30 transition"
                           >
-                            View Result
+                            View Results
+                          </a>
+                        )}
+                        {event.liveSessionLink && event.liveSessionLink.trim() !== "" && (
+                          <a
+                            href={event.liveSessionLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-xs px-3 py-1 bg-green-600/20 text-green-200 rounded-md border border-green-400/20 hover:bg-green-600/30 transition"
+                          >
+                            View Live Session
                           </a>
                         )}
                       </div>
+                    ) : (
+                      <>
+                        {event.registrationOpen ? (
+                          <a
+                            href={event.registrationLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-xs px-3 py-1 bg-blue-600/20 text-blue-200 rounded-md border border-blue-400/20 hover:bg-blue-600/30 transition"
+                          >
+                            Register Now
+                          </a>
+                        ) : (
+                          <span className="text-xs px-3 py-1 bg-gray-600/20 text-gray-400 rounded-md border border-gray-500/20">
+                            Registration Closed
+                          </span>
+                        )}
+                      </>
                     )}
                   </div>
                 </div>
