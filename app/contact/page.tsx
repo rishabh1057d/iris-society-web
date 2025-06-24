@@ -32,7 +32,11 @@ export default function Contact() {
                   <span className="inline-block w-3 h-3 bg-yellow-400 rounded-full mr-2"></span>
                   Email:
                 </h2>
-                <p className="text-gray-300 ml-5">photography.society@study.iitm.ac.in</p>
+                <p className="text-gray-300 ml-5">
+                  <a href="mailto:photography.society@study.iitm.ac.in" className="underline hover:text-blue-400 transition-colors">
+                    photography.society@study.iitm.ac.in
+                  </a>
+                </p>
               </div>
 
               <div>

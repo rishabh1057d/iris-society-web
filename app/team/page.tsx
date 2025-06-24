@@ -205,7 +205,7 @@ export default function Team() {
           Web Dev Team
         </motion.h2>
         <motion.div
-          className="flex justify-center mb-16"
+          className="flex flex-wrap justify-center gap-6 mb-16"
           variants={containerVariants}
           initial="hidden"
           animate={isWebDevInView ? "visible" : "hidden"}

@@ -107,7 +107,7 @@ export default function Events() {
       <div ref={containerRef} className="pt-24 pb-12 px-6 w-full max-w-7xl mx-auto relative z-10">
         <motion.h1
           ref={titleRef}
-          className="text-3xl md:text-4xl font-bold mb-8 text-center text-white"
+          className="text-3xl md:text-4xl font-bold mb-24 md:mb-12 text-center text-white inline-block border-b-4 border-blue-400/80 pb-2"
           initial={{ opacity: 0, y: -20 }}
           animate={isTitleInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
           transition={{ duration: 0.6 }}
@@ -118,7 +118,7 @@ export default function Events() {
 
         {/* Ongoing Events */}
         <motion.section
-          className="mb-12"
+          className="mb-12 mt-12 md:mt-0"
           ref={ongoingRef}
           variants={sectionVariants}
           initial="hidden"
