@@ -85,6 +85,20 @@
   },
   {
     "id": 1,
+    "title": "Frames of Freedom",
+    "description": "Republic Day photo contest with patriotic themes",
+    "dates": "26–28 Jan 2025",
+    "location": "Online",
+    "collab": "IRIS x Sundarbans House",
+    "image": "/images/fof.png",
+    "registrationOpen": false,
+    "registrationLink": "",
+    "status": "previous",
+    "resultLink": "https://www.instagram.com/p/DFsupF7SFB3/?utm_source=ig_web_button_share_sheet&igsh=MnI5Mnp1cTl0MTV5",
+    "liveSessionLink": ""
+  },
+  {
+    "id": 0,
     "title": "Shutter Safari Virtual Edition - Margazhi",
     "description": "Uniqe themed multi-round Online photo contest",
     "dates": "4–7 Jan 2025",
@@ -97,5 +111,4 @@
     "resultLink": "https://www.instagram.com/p/DE15qPDynT-/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
     "liveSessionLink": "https://drive.google.com/file/d/1Kt-_ehgEjXQsTTf-qes3YA2i_EbCmgvu/view?usp=sharing"
   }
-  
 ]
