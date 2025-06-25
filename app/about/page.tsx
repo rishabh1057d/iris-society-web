@@ -37,7 +37,7 @@ export default function About() {
             transition={{ duration: 0.8 }}
           >
             <p className="text-gray-300 mb-4">
-            Founded in November 2023, IRIS Society is the official Photography and Videography Society of the IIT Madras BS Degree program. 
+            Founded in November 2023, IRIS Society is the official Photography and Videography Society of IIT Madras BS Degree program. 
             We are a passionate community of visual storytellers dedicated to capturing moments, crafting narratives, and 
             expressing creativity through both photography and videography.
             </p>

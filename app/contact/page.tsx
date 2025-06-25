@@ -40,7 +40,10 @@ export default function Contact() {
               </div>
 
               <div>
-                <h2 className="text-xl font-semibold mb-2">Social Media:</h2>
+                <h2 className="text-xl font-semibold mb-2 flex items-center">
+                  <span className="inline-block w-3 h-3 bg-yellow-400 rounded-full mr-2"></span>
+                  Social Media:
+                </h2>
                 <div className="flex space-x-4 ml-5">
                   <Link href="https://www.linkedin.com/company/iris-camera-society/" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-white transition-colors">
                     <Linkedin className="w-6 h-6" />
