@@ -11,6 +11,7 @@ import { ContextMenuBlocker } from "@/components/context-menu-blocker"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://iris-society-web.vercel.app"),
   title: "IRIS Society",
   description:
     "Join IRIS Society, the premier photography club dedicated to capturing moments and creating memories through the art of photography.",
@@ -21,8 +22,24 @@ export const metadata: Metadata = {
     description:
       "Join IRIS Society, the premier photography club dedicated to capturing moments and creating memories through the art of photography.",
     type: "website",
+    url: "https://iris-society-web.vercel.app",
+    siteName: "IRIS Society",
+    images: [
+      {
+        url: "/logo.png",
+        width: 512,
+        height: 512,
+        alt: "IRIS Society Logo",
+      },
+    ],
   },
-    generator: 'v0.dev'
+  twitter: {
+    card: "summary_large_image",
+    title: "IRIS Society",
+    description:
+      "Join IRIS Society, the premier photography and Videography society dedicated to capturing moments and creating memories through the art..",
+    images: ["/logo.png"],
+  },
 }
 
 export default function RootLayout({
