@@ -11,6 +11,13 @@ import ResponsiveImage from "@/components/responsive-image"
 import ErrorBoundary from "@/components/error-boundary"
 import RedirectHandler from "@/components/redirect-handler"
 import { motion, useAnimation, useInView, useScroll, useTransform } from "framer-motion"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog"
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0)
@@ -23,6 +30,7 @@ export default function Home() {
   const isPotwInView = useInView(potwRef, { once: false, margin: "-100px 0px" })
   const controls = useAnimation()
   const [isReducedMotion, setIsReducedMotion] = useState(false)
+  const [showHiringModal, setShowHiringModal] = useState(true)
 
   const GOOGLE_FORM_URL =
     "https://docs.google.com/forms/d/e/1FAIpQLSczSzMGIAd-sE_nxe9wOFSrsYy59lzRBhU9e5uhOjMtmIquLQ/viewform"
@@ -239,6 +247,27 @@ export default function Home() {
 
   return (
     <ErrorBoundary>
+      {/* Hiring Popup Modal */}
+      <Dialog open={showHiringModal} onOpenChange={setShowHiringModal}>
+        <DialogContent className="backdrop-blur-md max-w-[90vw] sm:max-w-lg p-8 rounded-xl shadow-2xl border-0 bg-neutral-900 text-white">
+          <DialogHeader>
+            <DialogTitle className="text-2xl sm:text-3xl font-bold text-center mb-2 text-white">We are Hiring</DialogTitle>
+            <DialogDescription className="text-center text-base sm:text-lg mb-6 text-gray-300">
+              We are looking for people to join our core team.<br />If you are interested, join now!
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex justify-center">
+            <a
+              href="https://forms.gle/XkNmxfYLzbR6E7Xt8"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary px-6 py-2 text-lg rounded shadow w-full sm:w-auto text-center"
+            >
+              Join the core team
+            </a>
+          </div>
+        </DialogContent>
+      </Dialog>
       {/* Redirect Handler */}
       <RedirectHandler
         isRedirecting={isRedirecting}
@@ -318,6 +347,16 @@ export default function Home() {
                 <button onClick={handleJoinNowClick} className="btn-primary w-full sm:w-auto" disabled={isRedirecting}>
                   <span className="relative z-10">{isRedirecting ? "Redirecting..." : "Join Now"}</span>
                 </button>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.05 }} className="will-change-transform w-full sm:w-auto">
+                <a
+                  href="https://forms.gle/XkNmxfYLzbR6E7Xt8"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-secondary w-full sm:w-auto border-2 border-blue-400 text-blue-400 bg-transparent hover:bg-blue-50 transition-colors duration-200 font-semibold py-2 px-6 rounded shadow"
+                >
+                  Join The Core Team
+                </a>
               </motion.div>
             </motion.div>
           </ResponsiveContainer>
