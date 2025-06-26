@@ -24,13 +24,15 @@ export default function Home() {
   const [isRedirecting, setIsRedirecting] = useState(false)
   const [potwData, setPotwData] = useState<Record<string, any[]>>({})
   const [currentPotw, setCurrentPotw] = useState<any | null>(null)
+  const [applyModalOpen, setApplyModalOpen] = useState(false)
   const heroRef = useRef<HTMLDivElement>(null)
   const logoRef = useRef<HTMLDivElement>(null)
   const potwRef = useRef<HTMLDivElement>(null)
   const isPotwInView = useInView(potwRef, { once: false, margin: "-100px 0px" })
   const controls = useAnimation()
   const [isReducedMotion, setIsReducedMotion] = useState(false)
-  const [showHiringModal, setShowHiringModal] = useState(true)
+  const [showHiringModal, setShowHiringModal] = useState(false)
+  const [recruiting, setRecruiting] = useState(false)
 
   const GOOGLE_FORM_URL =
     "https://docs.google.com/forms/d/e/1FAIpQLSczSzMGIAd-sE_nxe9wOFSrsYy59lzRBhU9e5uhOjMtmIquLQ/viewform"
@@ -245,26 +247,62 @@ export default function Home() {
     setCurrentPotw(photo)
   }, [potwData])
 
+  // Fetch recruiting status from current_members.json
+  useEffect(() => {
+    fetch("/current_members.json")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && typeof data.recruiting === "boolean") {
+          setRecruiting(data.recruiting)
+          setShowHiringModal(data.recruiting)
+        }
+      })
+      .catch(() => {
+        setRecruiting(false)
+        setShowHiringModal(false)
+      })
+  }, [])
+
   return (
     <ErrorBoundary>
       {/* Hiring Popup Modal */}
-      <Dialog open={showHiringModal} onOpenChange={setShowHiringModal}>
-        <DialogContent className="backdrop-blur-md max-w-[90vw] sm:max-w-lg p-8 rounded-xl shadow-2xl border-0 bg-neutral-900 text-white">
+      {recruiting && (
+        <Dialog open={showHiringModal} onOpenChange={setShowHiringModal}>
+          <DialogContent className="backdrop-blur-md max-w-[90vw] sm:max-w-lg p-8 rounded-xl shadow-2xl border-0 bg-neutral-900 text-white">
+            <DialogHeader>
+              <DialogTitle className="text-2xl sm:text-3xl font-bold text-center mb-2 text-white">We are Hiring</DialogTitle>
+              <DialogDescription className="text-center text-base sm:text-lg mb-6 text-gray-300">
+                We are looking for people to join our core team.<br />If you are interested, join now!
+              </DialogDescription>
+            </DialogHeader>
+            <div className="flex justify-center">
+              <button
+                onClick={() => {
+                  if (recruiting) {
+                    window.open("https://forms.gle/XkNmxfYLzbR6E7Xt8", "_blank", "noopener,noreferrer")
+                  } else {
+                    setApplyModalOpen(true)
+                  }
+                }}
+                className="btn-primary px-6 py-2 text-lg rounded shadow w-full sm:w-auto text-center"
+              >
+                Join the core team
+              </button>
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
+      {/* Apply Modal for when recruiting is false */}
+      <Dialog open={applyModalOpen} onOpenChange={setApplyModalOpen}>
+        <DialogContent className="bg-gradient-to-br from-blue-950/95 via-blue-900/90 to-gray-900/95 border border-blue-400/30 shadow-2xl rounded-2xl p-8">
           <DialogHeader>
-            <DialogTitle className="text-2xl sm:text-3xl font-bold text-center mb-2 text-white">We are Hiring</DialogTitle>
-            <DialogDescription className="text-center text-base sm:text-lg mb-6 text-gray-300">
-              We are looking for people to join our core team.<br />If you are interested, join now!
-            </DialogDescription>
+            <DialogTitle className="text-blue-300 text-xl font-bold flex items-center gap-2">
+              <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#2563eb" fillOpacity="0.15"/><path d="M12 8v4" stroke="#60a5fa" strokeWidth="2" strokeLinecap="round"/><circle cx="12" cy="16" r="1" fill="#60a5fa"/></svg>
+              Recruitment Closed
+            </DialogTitle>
           </DialogHeader>
-          <div className="flex justify-center">
-            <a
-              href="https://forms.gle/XkNmxfYLzbR6E7Xt8"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-primary px-6 py-2 text-lg rounded shadow w-full sm:w-auto text-center"
-            >
-              Join the core team
-            </a>
+          <div className="py-4 px-2 text-center text-blue-100 text-base font-medium">
+            We aren't recruiting at the moment, but keep an eye out for announcements.
           </div>
         </DialogContent>
       </Dialog>
@@ -349,14 +387,18 @@ export default function Home() {
                 </button>
               </motion.div>
               <motion.div whileHover={{ scale: 1.05 }} className="will-change-transform w-full sm:w-auto">
-                <a
-                  href="https://forms.gle/XkNmxfYLzbR6E7Xt8"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  onClick={() => {
+                    if (recruiting) {
+                      window.open("https://forms.gle/XkNmxfYLzbR6E7Xt8", "_blank", "noopener,noreferrer")
+                    } else {
+                      setApplyModalOpen(true)
+                    }
+                  }}
                   className="btn-secondary w-full sm:w-auto border-2 border-blue-400 text-blue-400 bg-transparent hover:bg-blue-50 transition-colors duration-200 font-semibold py-2 px-6 rounded shadow"
                 >
                   Join The Core Team
-                </a>
+                </button>
               </motion.div>
             </motion.div>
           </ResponsiveContainer>
