@@ -383,7 +383,7 @@ export default function Home() {
             >
               <motion.div whileHover="hover" className="will-change-transform w-full sm:w-auto">
                 <button onClick={handleJoinNowClick} className="btn-primary w-full sm:w-auto" disabled={isRedirecting}>
-                  <span className="relative z-10">{isRedirecting ? "Redirecting..." : "Join Now"}</span>
+                  <span className="relative z-10">{isRedirecting ? "Redirecting..." : "Be a member"}</span>
                 </button>
               </motion.div>
               <motion.div whileHover={{ scale: 1.05 }} className="will-change-transform w-full sm:w-auto">

@@ -86,7 +86,7 @@ export default function Navbar({ onJoinClick }: NavbarProps) {
           <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }}>
             {onJoinClick ? (
               <button onClick={onJoinClick} className={`btn-nav-cta ${scrolled ? "btn-nav-cta-scrolled" : ""}`}>
-                Join Now
+                Be a member
               </button>
             ) : (
               <Link
@@ -95,7 +95,7 @@ export default function Navbar({ onJoinClick }: NavbarProps) {
                 rel="noopener noreferrer"
                 className={`btn-nav-cta ${scrolled ? "btn-nav-cta-scrolled" : ""}`}
               >
-                Join Now
+                Be a member
               </Link>
             )}
           </motion.div>
@@ -151,7 +151,7 @@ export default function Navbar({ onJoinClick }: NavbarProps) {
                     }}
                     className="btn-mobile-cta w-full"
                   >
-                    Join Now
+                    Be a member
                   </button>
                 ) : (
                   <Link
@@ -161,7 +161,7 @@ export default function Navbar({ onJoinClick }: NavbarProps) {
                     className="btn-mobile-cta w-full"
                     onClick={closeMenu}
                   >
-                    Join Now
+                    Be a member
                   </Link>
                 )}
               </motion.div>
