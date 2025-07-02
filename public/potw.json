@@ -168,9 +168,20 @@
       "description": "No POTW this week because everyone is at campus busy in enjoying Paradox 2025",
       "image": "/images/PAradox_break.jpg"
     },
+    
     {
       "id": 22,
       "week": 2,
+      "month": "June",
+      "theme": "Break due to Paradox",
+      "photographer": "No Winner",
+      "email": "24f1009012@ds.study.iitm.ac.in",
+      "description": "No POTW this week because everyone is at campus busy in enjoying Paradox 2025",
+      "image": "/images/PAradox_break.jpg"
+    },
+    {
+      "id": 23,
+      "week": 3,
       "month": "June",
       "theme": "Paradox & Memories",
       "photographer": "Anshi Jain",
@@ -178,25 +189,16 @@
       "description": "In the midst of travel, fest chaos, and ever-moving days, it's moments like these — gathered hands, a deck of UNO, and bursts of laughter — that become the heart of every journey. Captured in the glow of shared stories and silent rivalries, this frame speaks of Paradox 2025 not through grand adventures, but through the joy of pause, play, and pure jubilation.",
       "image": "/images/paradox_memories.png"
     },
-    {
-      "id": 23,
-      "week": 3,
-      "month": "May",
-      "theme": "TBA",
-      "photographer": "TBA",
-      "email": "24f1000123@ds.study.iitm.ac.in",
-      "description": "TBA",
-      "image": "/placeholder.svg"
-    },
+    
     {
       "id": 24,
       "week": 4,
-      "month": "May",
-      "theme": "TBA",
-      "photographer": "TBA",
-      "email": "24f1001234@ds.study.iitm.ac.in",
-      "description": "TBA",
-      "image": "/placeholder.svg"
+      "month": "June",
+      "theme": "Architecture and Symmetry",
+      "photographer": "Priyanshu Sharma",
+      "email": " ",
+      "description": "Framing the soul of symmetry – this shot captures the perfect corner of a Rajasthani haveli, where geometry meets heritage. The play of lines draws the eye upward to the twin arched windows, slightly ajar, revealing stories untold.",
+      "image": "/images/potw_16.jpg"
     }
   ]
 }
