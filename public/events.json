@@ -1,4 +1,17 @@
-[
+[{
+    "id": 8,
+    "title": "Green Tales, Van Mahotsava Competition",
+    "description": "Capture the spirit of Van Mahotsav through photos, videos, or words and raise your voice for nature, biodiversity, and climate action.",
+    "dates": "1–7 July 2025",
+    "location": "Online",
+    "collab": "IRIS x Nature Nurture x Bangla Susthayi Krishi Foundation (BSKF)",
+    "image": "/images/greentales.png",
+    "registrationOpen": true,
+    "registrationLink": "https://docs.google.com/forms/d/e/1FAIpQLScBfCA9_axlKnBJrRD0PSdPn3VjQVsTziIzr4Nxl_eYAsbUWQ/viewform",
+    "status": "ongoing",
+    "resultLink": "",
+    "liveSessionLink": ""
+  },
   {
     "id": 7,
     "title": "Shutter Safari 2.0 – Paradox'25 Special",
