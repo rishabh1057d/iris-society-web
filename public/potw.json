@@ -200,5 +200,17 @@
       "description": "Framing the soul of symmetry – this shot captures the perfect corner of a Rajasthani haveli, where geometry meets heritage. The play of lines draws the eye upward to the twin arched windows, slightly ajar, revealing stories untold.",
       "image": "/images/potw_16.jpg"
     }
+  ],
+    "July": [
+    {
+      "id": 25,
+      "week": 1,
+      "month": "July",
+      "theme": "Moods Of Monsoon",
+      "photographer": "Khushi",
+      "email": "",
+      "description": "A forest wrapped in mist, clouds heavy with stories, and light breaking gently through this frame captures the soul of the monsoon. It’s not just rain; it’s rhythm, reflection, and raw emotion. A quiet symphony where every droplet paints the sky, and nature sways to the music of the storm.",
+      "image": "/images/mood_of_monsson.jpg"
+    }
   ]
 }
