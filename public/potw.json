@@ -211,6 +211,16 @@
       "email": "",
       "description": "A forest wrapped in mist, clouds heavy with stories, and light breaking gently through this frame captures the soul of the monsoon. It’s not just rain; it’s rhythm, reflection, and raw emotion. A quiet symphony where every droplet paints the sky, and nature sways to the music of the storm.",
       "image": "/images/mood_of_monsson.jpg"
+    },
+    {
+      "id": 26,
+      "week": 2,
+      "month": "July",
+      "theme": "Abstract Photography",
+      "photographer": "Gouri Nandana",
+      "email": "",
+      "description": "A lone paper boat drifts across a dark sea of fabric delicate, uncertain, and beautifully adrift. There's no clear story, only emotion: a quiet longing, a memory half-formed, a journey imagined. This is the essence of Beyond the Frame abstract not in what it shows, but in what it makes you feel.",
+      "image": "/images/abstract_photography.jpg"
     }
   ]
 }
