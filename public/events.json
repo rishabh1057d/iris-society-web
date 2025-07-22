@@ -1,4 +1,34 @@
 [{
+  "id": 10,
+  "title": "Workshop on Portrait Photography by Nishant Ratnakar",
+  "description": "inFocus Workshop Series - Learn storytelling, lighting, and the power of a single impactful shot with the lens behind Forbes India and Fortune India.",
+  "dates": "24 July 2025 - 7 PM",
+  "location": "Online",
+  "collab": "IRIS Society",
+  "image": "/images/workshop 1.png",
+  "registrationOpen": true,
+  "registrationLink": "",
+  "status": "ongoing",
+  "resultLink": "",
+  "liveSessionLink": "",
+  "speakerInstagram": "https://instagram.com/nishantratnakar"
+},
+{
+  "id": 9,
+  "title": "Workshop on Creative Vision by Adwaith Shine",
+  "description": "inFocus Workshop Series - From Coca-Cola to Hyundai, CUMAC’s visual wizard Adwaith Shine shares how to carve your unique photographic identity. ",
+  "dates": "25 July 2025 - 6 PM",
+  "location": "Online",
+  "collab": "IRIS Society",
+  "image": "/images/workshop 2.png",
+  "registrationOpen": true,
+  "registrationLink": "",
+  "status": "ongoing",
+  "resultLink": "",
+  "liveSessionLink": "",
+  "speakerInstagram": "https://www.instagram.com/adwaithshine"
+},
+{
     "id": 8,
     "title": "Green Tales, Van Mahotsava Competition",
     "description": "Capture the spirit of Van Mahotsav through photos, videos, or words and raise your voice for nature, biodiversity, and climate action.",
@@ -8,9 +38,10 @@
     "image": "/images/greentales.png",
     "registrationOpen": true,
     "registrationLink": "https://docs.google.com/forms/d/e/1FAIpQLScBfCA9_axlKnBJrRD0PSdPn3VjQVsTziIzr4Nxl_eYAsbUWQ/viewform",
-    "status": "ongoing",
+    "status": "previous",
     "resultLink": "",
-    "liveSessionLink": ""
+    "liveSessionLink": "",
+    "speakerInstagram": ""
   },
   {
     "id": 7,
@@ -24,7 +55,8 @@
     "registrationLink": "",
     "status": "previous",
     "resultLink": "https://www.instagram.com/p/DK7HmTdSjwB/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
-    "liveSessionLink": ""
+    "liveSessionLink": "",
+    "speakerInstagram": ""
   },
   {
     "id": 6,
@@ -38,7 +70,8 @@
     "registrationLink": "",
     "status": "previous",
     "resultLink": "https://www.instagram.com/p/DKUXuQ7yWFU/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
-    "liveSessionLink": ""
+    "liveSessionLink": "",
+    "speakerInstagram": ""
   },
   {
     "id": 5,
@@ -52,7 +85,8 @@
     "registrationLink": "",
     "status": "previous",
     "resultLink": "https://www.instagram.com/p/DJb3B0CydwS/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
-    "liveSessionLink": "https://www.youtube.com/live/kxeI0imuUbM?si=WHeaZzztq-B4gmco"
+    "liveSessionLink": "https://www.youtube.com/live/kxeI0imuUbM?si=WHeaZzztq-B4gmco",
+    "speakerInstagram": ""
   },
   {
     "id": 4,
@@ -66,7 +100,8 @@
     "registrationLink": "",
     "status": "previous",
     "resultLink": "https://www.instagram.com/p/DH_sSZTyYRf/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
-    "liveSessionLink": "https://www.youtube.com/live/x70VH153Iko?si=AiJuC6Xs88whMpaN"
+    "liveSessionLink": "https://www.youtube.com/live/x70VH153Iko?si=AiJuC6Xs88whMpaN",
+    "speakerInstagram": ""
   },
   {
     "id": 3,
@@ -80,7 +115,8 @@
     "registrationLink": "",
     "status": "previous",
     "resultLink": "https://www.instagram.com/p/DHGG8-sy7BZ/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
-    "liveSessionLink": "https://www.youtube.com/live/r3zzUMKqkzM?si=9V5bp3yHtW8WfRcY"
+    "liveSessionLink": "https://www.youtube.com/live/r3zzUMKqkzM?si=9V5bp3yHtW8WfRcY",
+    "speakerInstagram": ""
   },
   {
     "id": 2,
@@ -94,7 +130,8 @@
     "registrationLink": "",
     "status": "previous",
     "resultLink": "https://www.instagram.com/p/DGk48F_SP_c/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
-    "liveSessionLink": "https://www.youtube.com/live/ICOa8EAOQTY?si=5Cxi4QWKajnfzDFO"
+    "liveSessionLink": "https://www.youtube.com/live/ICOa8EAOQTY?si=5Cxi4QWKajnfzDFO",
+    "speakerInstagram": ""
   },
   {
     "id": 1,
@@ -108,7 +145,8 @@
     "registrationLink": "",
     "status": "previous",
     "resultLink": "https://www.instagram.com/p/DFsupF7SFB3/?utm_source=ig_web_button_share_sheet&igsh=MnI5Mnp1cTl0MTV5",
-    "liveSessionLink": ""
+    "liveSessionLink": "",
+    "speakerInstagram": ""
   },
   {
     "id": 0,
@@ -122,6 +160,7 @@
     "registrationLink": "",
     "status": "previous",
     "resultLink": "https://www.instagram.com/p/DE15qPDynT-/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
-    "liveSessionLink": "https://drive.google.com/file/d/1Kt-_ehgEjXQsTTf-qes3YA2i_EbCmgvu/view?usp=sharing"
+    "liveSessionLink": "https://drive.google.com/file/d/1Kt-_ehgEjXQsTTf-qes3YA2i_EbCmgvu/view?usp=sharing",
+    "speakerInstagram": ""
   }
 ]

@@ -163,7 +163,7 @@ export default function Events() {
                         <span>{event.collab}</span>
                       </div>
                     </div>
-                    <div className="flex justify-center">
+                    <div className="flex justify-center gap-2">
                       {event.registrationOpen ? (
                         <a
                           href={event.registrationLink}
@@ -171,12 +171,22 @@ export default function Events() {
                           rel="noopener noreferrer"
                           className="text-xs px-3 py-1 bg-blue-600/20 text-blue-200 rounded-md border border-blue-400/20 hover:bg-blue-600/30 transition"
                         >
-                          Register Now
+                          Join Now
                         </a>
                       ) : (
                         <span className="text-xs px-3 py-1 bg-gray-600/20 text-gray-400 rounded-md border border-gray-500/20">
                           Registration Closed
                         </span>
+                      )}
+                      {event.speakerInstagram && event.speakerInstagram.trim() !== "" && (
+                        <a
+                          href={event.speakerInstagram}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs px-3 py-1 bg-pink-600/20 text-pink-200 rounded-md border border-pink-400/20 hover:bg-pink-600/30 transition"
+                        >
+                          Our Guest
+                        </a>
                       )}
                     </div>
                   </div>
