@@ -221,6 +221,16 @@
       "email": "",
       "description": "A lone paper boat drifts across a dark sea of fabric delicate, uncertain, and beautifully adrift. There's no clear story, only emotion: a quiet longing, a memory half-formed, a journey imagined. This is the essence of Beyond the Frame abstract not in what it shows, but in what it makes you feel.",
       "image": "/images/abstract_photography.jpg"
+    },
+    {
+      "id": 27,
+      "week": 3,
+      "month": "July",
+      "theme": "Wildlife Photography",
+      "photographer": "Aditi",
+      "email": "",
+      "description": "Two tiny fledglings huddle together on a fragile branch — innocent, alert, and untouched by the noise of the world. Their feathers ruffle in the breeze, but their bond holds steady.",
+      "image": "/images/potw27.jpg"
     }
   ]
 }
