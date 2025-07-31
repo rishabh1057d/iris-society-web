@@ -231,6 +231,16 @@
       "email": "",
       "description": "Two tiny fledglings huddle together on a fragile branch — innocent, alert, and untouched by the noise of the world. Their feathers ruffle in the breeze, but their bond holds steady.",
       "image": "/images/potw27.jpg"
+    },
+    {
+      "id": 28,
+      "week": 4,
+      "month": "July",
+      "theme": " Portrait Photography",
+      "photographer": "Vashu Pandey",
+      "email": "",
+      "description": "A moment of quiet wonder, her eyes drawn to something above, lost in thought. This portrait captures not just her gaze, but the innocence and curiosity of childhood.",
+      "image": "/images/potw28.jpg"
     }
   ]
 }
