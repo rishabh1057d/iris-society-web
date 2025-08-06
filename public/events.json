@@ -1,6 +1,35 @@
-[
-  {
+[{
   "id": 11,
+  "title": "Workshop on Cinematic Storytelling by Siddharth Nuni",
+  "description": "inFocus Workshop Series - Join Siddharth Nuni, a visual storyteller and IIT Madras alumnus, as he shares his expertise in cinematic storytelling and the art of capturing compelling narratives through photography.",
+  "dates": "13 Aug 2025 - 7 PM",
+  "location": "Online",
+  "collab": "IRIS Society",
+  "image": "/images/workshop_5.png",
+  "registrationOpen": true,
+  "registrationLink": "https://docs.google.com/forms/d/e/1FAIpQLSczSzMGIAd-sE_nxe9wOFSrsYy59lzRBhU9e5uhOjMtmIquLQ/viewform",
+  "status": "ongoing",
+  "resultLink": "",
+  "liveSessionLink": "",
+  "speakerInstagram": "https://www.instagram.com/siddnuni.dop"
+},
+{
+  "id": 12,
+  "title": "Workshop on Cinematic Potential by Shanti Bhushan Roy",
+  "description": "inFocus Workshop Series - Dive into the world of cinematic storytelling with Shanti Bhushan Roy, a master in capturing the essence of moments through his lens.",
+  "dates": "12 Aug 2025 - 6 PM",
+  "location": "Online",
+  "collab": "IRIS Society",
+  "image": "/images/workshop_4.png",
+  "registrationOpen": true,
+  "registrationLink": "https://docs.google.com/forms/d/e/1FAIpQLSczSzMGIAd-sE_nxe9wOFSrsYy59lzRBhU9e5uhOjMtmIquLQ/viewform",
+  "status": "ongoing",
+  "resultLink": "",
+  "liveSessionLink": "",
+  "speakerInstagram": "https://www.instagram.com/shantibhushandp"
+},
+  {
+  "id": 13,
   "title": "Workshop on Architectural Photography by Rejoy Krishnan",
   "description": "inFocus Workshop Series - Explore the art of capturing architectural beauty with Rejoy Krishnan, renowned for his work in the fields of Fashion, Potraits, and Architecture Photography.",
   "dates": "8 Aug 2025 - 7 PM",
