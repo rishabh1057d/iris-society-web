@@ -103,6 +103,7 @@ html {
 
 body {
   color: var(--text-primary);
+  /* Mesh gradient renders the background; keep a solid fallback */
   background: linear-gradient(135deg, rgb(var(--background-start-rgb)), rgb(var(--background-end-rgb))) fixed;
   overflow-x: hidden;
   font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",

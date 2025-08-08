@@ -271,17 +271,19 @@ export default function POTW() {
             onClick={() => setShowModal(false)}
           >
             <motion.div
-              className="bg-gray-900 rounded-lg overflow-hidden max-w-5xl w-full max-h-[80vh] flex flex-col"
+              className="relative rounded-2xl overflow-hidden max-w-5xl w-full max-h-[80vh] flex flex-col backdrop-blur-xl bg-white/10 border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.3)]"
               variants={modalVariants}
               initial="hidden"
               animate="visible"
               exit="exit"
               onClick={(e) => e.stopPropagation()}
             >
+              {/* subtle glass highlight overlay */}
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-white/5" />
               <div className="flex justify-end p-2">
                 <motion.button
                   onClick={() => setShowModal(false)}
-                  className="p-1 rounded-full hover:bg-gray-800 transition-colors"
+                  className="p-1 rounded-full hover:bg-white/10 transition-colors"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
                 >

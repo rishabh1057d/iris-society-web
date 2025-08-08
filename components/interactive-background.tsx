@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from "react"
 import { motion, useMotionValue, useSpring, AnimatePresence } from "framer-motion"
+import MeshGradientComponent from "@/components/mesh-gradient"
 
 interface Particle {
   id: number
@@ -298,6 +299,12 @@ function InteractiveBackground() {
 
   return (
     <div className="fixed inset-0 pointer-events-none z-0">
+      {/* Mesh gradient background (from floating-notification) */}
+      <MeshGradientComponent
+        id="gradient-canvas"
+        colors={["#51173A", "#001d3f", "#090d32", "#080e32"]}
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
+      />
       {/* Canvas for particles */}
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" style={{ mixBlendMode: "screen" }} />
 
