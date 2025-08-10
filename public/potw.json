@@ -242,5 +242,17 @@
       "description": "A moment of quiet wonder, her eyes drawn to something above, lost in thought. This portrait captures not just her gaze, but the innocence and curiosity of childhood.",
       "image": "/images/potw28.jpg"
     }
+  ],
+  "August": [
+    {
+      "id": 29,
+      "week": 1,
+      "month": "August",
+      "theme": "Monochrome Moments",
+      "photographer": "Mohikshit Ghorai",
+      "email": "",
+      "description": "A monochrome reimagining of an iconic Death Note scene - shadows, tension, and that unmistakable stillness before everything changes.",
+      "image": "/images/potw_29.jpg"
+    }
   ]
 }

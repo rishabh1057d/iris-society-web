@@ -45,6 +45,9 @@ export default function POTW() {
   const [selectedMonth, setSelectedMonth] = useState(getCurrentMonth())
   const [selectedPhoto, setSelectedPhoto] = useState<WeeklyPhoto | null>(null)
   const [showModal, setShowModal] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+  const [imageLoadErrors, setImageLoadErrors] = useState<Set<string>>(new Set())
+  const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set())
   // Removed click tracking functionality - will be re-added with database later
 
   const titleRef = useRef<HTMLHeadingElement>(null)
@@ -59,14 +62,71 @@ export default function POTW() {
   const [weeklyPhotos, setWeeklyPhotos] = useState<Record<string, WeeklyPhoto[]>>({})
 
   useEffect(() => {
+    setIsLoading(true)
     fetch("/potw.json")
       .then((res) => res.json())
-      .then((data) => setWeeklyPhotos(data))
+      .then((data) => {
+        setWeeklyPhotos(data)
+        // Preload images for the current month
+        if (data[selectedMonth]) {
+          preloadImages(data[selectedMonth])
+        }
+        setIsLoading(false)
+      })
       .catch((err) => {
         console.error("Failed to load POTW data:", err)
         setWeeklyPhotos({})
+        setIsLoading(false)
       })
   }, [])
+
+  // Preload images whenever selectedMonth changes
+  useEffect(() => {
+    if (weeklyPhotos[selectedMonth] && weeklyPhotos[selectedMonth].length > 0) {
+      // Small delay to ensure component is fully rendered
+      const timer = setTimeout(() => {
+        preloadImages(weeklyPhotos[selectedMonth])
+      }, 100)
+      return () => clearTimeout(timer)
+    }
+  }, [selectedMonth, weeklyPhotos])
+
+  // Immediate preloading when data becomes available
+  useEffect(() => {
+    if (Object.keys(weeklyPhotos).length > 0 && weeklyPhotos[selectedMonth]) {
+      console.log('Data available, immediately preloading images for:', selectedMonth)
+      preloadImages(weeklyPhotos[selectedMonth])
+    }
+  }, [weeklyPhotos, selectedMonth])
+
+  // Preload images for a given month
+  const preloadImages = (photos: WeeklyPhoto[]) => {
+    console.log(`Preloading images for ${selectedMonth}:`, photos.length, 'photos')
+    photos.forEach((photo) => {
+      if (photo.image && !photo.image.startsWith('data:')) {
+        const img = new window.Image()
+        img.src = photo.image
+        img.onload = () => {
+          // Image loaded successfully
+          console.log(`Image loaded: ${photo.image}`)
+          setLoadedImages(prev => new Set(prev).add(photo.image))
+        }
+        img.onerror = () => {
+          console.error(`Failed to load image: ${photo.image}`)
+          setImageLoadErrors(prev => new Set(prev).add(photo.image))
+        }
+      }
+    })
+  }
+
+  // Handle month change with image preloading
+  const handleMonthChange = (newMonth: string) => {
+    setSelectedMonth(newMonth)
+    // Preload images for the new month
+    if (weeklyPhotos[newMonth]) {
+      preloadImages(weeklyPhotos[newMonth])
+    }
+  }
 
   const handlePhotoClick = async (photo: WeeklyPhoto) => {
     setSelectedPhoto(photo)
@@ -77,13 +137,13 @@ export default function POTW() {
   const handlePrevMonth = () => {
     const currentIndex = months.indexOf(selectedMonth)
     const prevIndex = (currentIndex - 1 + months.length) % months.length
-    setSelectedMonth(months[prevIndex])
+    handleMonthChange(months[prevIndex])
   }
 
   const handleNextMonth = () => {
     const currentIndex = months.indexOf(selectedMonth)
     const nextIndex = (currentIndex + 1) % months.length
-    setSelectedMonth(months[nextIndex])
+    handleMonthChange(months[nextIndex])
   }
 
   // Animation variants
@@ -118,6 +178,21 @@ export default function POTW() {
       scale: 0.9,
       transition: { duration: 0.2 },
     },
+  }
+
+  // Handle image load error
+  const handleImageError = (imageSrc: string) => {
+    setImageLoadErrors(prev => new Set(prev).add(imageSrc))
+  }
+
+  // Handle image load success
+  const handleImageLoad = (imageSrc: string) => {
+    setLoadedImages(prev => new Set(prev).add(imageSrc))
+    setImageLoadErrors(prev => {
+      const newSet = new Set(prev)
+      newSet.delete(imageSrc)
+      return newSet
+    })
   }
 
   return (
@@ -205,6 +280,19 @@ export default function POTW() {
           </motion.button>
         </motion.div>
 
+        {/* Loading state */}
+        {isLoading && (
+          <motion.div
+            className="text-center py-12"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-300"></div>
+            <p className="text-gray-400 mt-4">Loading photos...</p>
+          </motion.div>
+        )}
+
         {/* Removed click count display - will be re-added with database */}
 
         <AnimatePresence mode="wait">
@@ -215,7 +303,7 @@ export default function POTW() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
-            {weeklyPhotos[selectedMonth] && weeklyPhotos[selectedMonth].length > 0 ? (
+            {!isLoading && weeklyPhotos[selectedMonth] && weeklyPhotos[selectedMonth].length > 0 ? (
               <motion.div
                 className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4"
                 variants={containerVariants}
@@ -231,12 +319,22 @@ export default function POTW() {
                     onClick={() => handlePhotoClick(photo)}
                   >
                     <div className="relative h-[400px] md:h-[300px] w-full">
+                      {!loadedImages.has(photo.image) && !imageLoadErrors.has(photo.image) && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-gray-800">
+                          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-300"></div>
+                        </div>
+                      )}
                       <Image
                         src={photo.image || "/placeholder.svg"}
                         alt={`Week ${photo.week} - ${photo.theme}`}
                         fill
                         className="absolute inset-0 w-full h-full object-cover"
                         style={{ objectFit: 'cover' }}
+                        onLoad={() => handleImageLoad(photo.image)}
+                        onError={() => handleImageError(photo.image)}
+                        priority={true}
+                        unoptimized={true}
+                        sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 25vw"
                       />
                       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
                         <h3 className="text-xl font-bold text-white">Week {photo.week}</h3>
@@ -246,7 +344,7 @@ export default function POTW() {
                   </motion.div>
                 ))}
               </motion.div>
-            ) : (
+            ) : !isLoading ? (
               <motion.div
                 className="text-center py-12"
                 initial={{ opacity: 0 }}
@@ -255,7 +353,7 @@ export default function POTW() {
               >
                 <p className="text-gray-400">No photos available for {selectedMonth}.</p>
               </motion.div>
-            )}
+            ) : null}
           </motion.div>
         </AnimatePresence>
       </div>
@@ -308,6 +406,10 @@ export default function POTW() {
                         height={600}
                         className="object-contain max-h-full max-w-full mx-auto"
                         style={{ display: 'block' }}
+                        priority={true}
+                        unoptimized={true}
+                        onLoad={() => handleImageLoad(selectedPhoto.image)}
+                        onError={() => handleImageError(selectedPhoto.image)}
                       />
                     </motion.div>
                   </div>
