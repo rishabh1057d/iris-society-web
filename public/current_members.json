@@ -37,6 +37,6 @@
     { "id": 1, "name": "Rishabh Singh", "role": "Web Developer", "description": "Development of the entire website from scratch and continues to maintain and improve its features.", "image": "/images/rishabh.jpg", "linkedin": "https://www.linkedin.com/in/rishabh-singh-514b8628a/" },
     { "id": 2, "name": "Kaustubh", "role": "Web Developer", "description": "Key role in structuring the website, fixing bugs, and organizing code.", "image": "/images/meh.jpg", "linkedin": "https://www.linkedin.com/in/kaustubhismyname/" }
   ],
-  "recruiting":false, 
+  "recruiting":true, 
   "recruitmentForm": "https://forms.gle/XkNmxfYLzbR6E7Xt8"
 }
