@@ -15,7 +15,7 @@
   "speakerInstagram": "https://www.instagram.com/siddnuni.dop"
 },
 {
-  "id": 12,
+  "id": 13,
   "title": "Workshop on Cinematic Potential by Shanti Bhushan Roy",
   "description": "inFocus Workshop Series - Dive into the world of cinematic storytelling with Shanti Bhushan Roy, a master in capturing the essence of moments through his lens.",
   "dates": "12 Aug 2025 - 6 PM",
@@ -24,13 +24,13 @@
   "image": "/images/workshop_4.png",
   "registrationOpen": true,
   "registrationLink": "https://meet.google.com/fmg-vanc-ncm",
-  "status": "ongoing",
+  "status": "previous",
   "resultLink": "",
-  "liveSessionLink": "",
+  "liveSessionLink": "https://www.youtube.com/watch?v=19g9LCBq3uk",
   "speakerInstagram": "https://www.instagram.com/shantibhushandp"
 },
   {
-  "id": 13,
+  "id": 12,
   "title": "Workshop on Architectural Photography by Rejoy Krishnan",
   "description": "inFocus Workshop Series - Explore the art of capturing architectural beauty with Rejoy Krishnan, renowned for his work in the fields of Fashion, Potraits, and Architecture Photography.",
   "dates": "8 Aug 2025 - 7 PM",
