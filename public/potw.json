@@ -253,6 +253,16 @@
       "email": "",
       "description": "A monochrome reimagining of an iconic Death Note scene - shadows, tension, and that unmistakable stillness before everything changes.",
       "image": "/images/potw_29.jpg"
+    },
+    {
+      "id": 30,
+      "week": 2,
+      "month": "August",
+      "theme": "Colors of Freedom",
+      "photographer": "Khushi",
+      "email": "",
+      "description": "Freedom is not just seen in flags and parades, but in the reflections within us. This close-up eye captures the tricolor spirit as a symbol of vision, pride, and unity — a reminder that independence lives in the way we see our nation and the hope we carry forward.",
+      "image": "/images/potw_30.jpg"
     }
   ]
 }
