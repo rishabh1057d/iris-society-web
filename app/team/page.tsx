@@ -13,8 +13,8 @@ import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from 
 type TeamMember = {
   id: number
   name: string
-  role: string
-  description: string
+  role?: string
+  description?: string
   image: string
   linkedin?: string
   className?: string
@@ -23,8 +23,13 @@ import TeamClientPage from "./team-client-page"
 
 export default function Team() {
   const [showPreviousMembers, setShowPreviousMembers] = useState(false)
-  const [showMoreCore, setShowMoreCore] = useState(false)
-  const [currentMembers, setCurrentMembers] = useState<any>({ leadershipTeam: [], coreTeam: [], webDevTeam: [] })
+  const [currentMembers, setCurrentMembers] = useState<any>({
+    leadershipTeam: [],
+    OutreachAndSponsor: [],
+    CreativeProduction: [],
+    MultimediaDesign: [],
+    ContentStrategyPR: [],
+  })
   const [previousMembers, setPreviousMembers] = useState<any>({})
   const [selectedTenure, setSelectedTenure] = useState<string>("")
   const [open, setOpen] = useState(false)
@@ -32,28 +37,37 @@ export default function Team() {
   const titleRef = useRef<HTMLHeadingElement>(null)
   const leadershipRef = useRef<HTMLDivElement>(null)
   const coreTeamRef = useRef<HTMLHeadingElement>(null)
-  const webDevRef = useRef<HTMLHeadingElement>(null)
   const buttonRef = useRef<HTMLDivElement>(null)
 
   const isTitleInView = useInView(titleRef, { once: true })
   const isLeadershipInView = useInView(leadershipRef, { once: true })
   const isCoreTeamInView = useInView(coreTeamRef, { once: true })
-  const isWebDevInView = useInView(webDevRef, { once: true })
   const isButtonInView = useInView(buttonRef, { once: true })
 
   useEffect(() => {
     fetch("/current_members.json")
       .then((res) => res.json())
       .then((data) => setCurrentMembers(data))
-      .catch(() => setCurrentMembers({ leadershipTeam: [], coreTeam: [], webDevTeam: [] }))
-    fetch("/previous_members.json")
-      .then((res) => res.json())
-      .then((data) => {
-        setPreviousMembers(data)
-        // Set default selectedTenure to the latest (last) key
-        const tenures = Object.keys(data)
-        if (tenures.length > 0) setSelectedTenure(tenures[tenures.length - 1])
-      })
+      .catch(() => setCurrentMembers({
+        leadershipTeam: [],
+        OutreachAndSponsor: [],
+        CreativeProduction: [],
+        MultimediaDesign: [],
+        ContentStrategyPR: [],
+        recruiting: false,
+        recruitmentForm: "",
+      }))
+            fetch("/previous_members.json")
+          .then((res) => res.json())
+          .then((data) => {
+            setPreviousMembers(data)
+            // Set default selectedTenure to the current team (last key)
+            const tenures = Object.keys(data).sort()
+            if (tenures.length > 0) {
+              // Show the current team (last in sorted order)
+              setSelectedTenure(tenures[tenures.length - 1])
+            }
+          })
       .catch(() => setPreviousMembers({}))
   }, [])
 
@@ -81,9 +95,13 @@ export default function Team() {
     },
   }
 
+  // No grouping helpers needed; sections come from JSON arrays
+
   // Render team member card
   const TeamMemberCard = ({ member, isCompact = false }: { member: TeamMember; isCompact?: boolean }) => {
     const linkedinUrl = member.linkedin && member.linkedin.trim() !== "" ? member.linkedin : "https://www.linkedin.com/company/iris-camera-society/"
+    const hasRole = Boolean(member.role && member.role.trim() !== "")
+    const hasDescription = Boolean(member.description && member.description.trim() !== "")
     return (
       <motion.div
         className={`team-card bg-gray-800 bg-opacity-50 rounded-lg overflow-hidden p-4 flex flex-col items-center ${
@@ -95,7 +113,7 @@ export default function Team() {
         <div className={`w-full mb-3 ${isCompact ? "max-w-[200px]" : ""}`}>
           <ResponsiveImage
             src={member.image || "/placeholder.svg"}
-            alt={`${member.name} - ${member.role}`}
+            alt={`${member.name}${hasRole ? ` - ${member.role}` : ""}`}
             width={isCompact ? 200 : 300}
             height={isCompact ? 200 : 300}
             aspectRatio="1/1"
@@ -109,10 +127,14 @@ export default function Team() {
           />
         </div>
         <h3 className={`font-bold mb-1 text-center ${isCompact ? "text-lg" : "text-xl"}`}>{member.name}</h3>
-        <p className={`text-blue-300 mb-2 text-center ${isCompact ? "text-sm" : ""}`}>{member.role}</p>
-        <p className={`text-gray-400 text-center mb-3 flex-grow ${isCompact ? "text-xs" : "text-sm"}`}>
-          {member.description}
-        </p>
+        {hasRole && (
+          <p className={`text-blue-300 mb-2 text-center ${isCompact ? "text-sm" : ""}`}>{member.role}</p>
+        )}
+        {hasDescription && (
+          <p className={`text-gray-400 text-center mb-3 flex-grow ${isCompact ? "text-xs" : "text-sm"}`}>
+            {member.description}
+          </p>
+        )}
         <Link
           href={linkedinUrl}
           target={linkedinUrl ? "_blank" : "_self"}
@@ -190,77 +212,81 @@ export default function Team() {
             Leadership Team
           </motion.h2>
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 gap-8"
+            className="flex flex-wrap justify-center gap-8"
             variants={containerVariants}
             initial="hidden"
             animate={isLeadershipInView ? "visible" : "hidden"}
           >
             {currentMembers.leadershipTeam.map((member: any) => (
-              <TeamMemberCard key={member.id} member={member} />
+              <div key={member.id} className="max-w-sm">
+                <TeamMemberCard member={member} isCompact={false} />
+              </div>
             ))}
           </motion.div>
         </div>
 
-        {/* Current Core Team */}
-        <motion.h2
-          ref={coreTeamRef}
-          className="text-2xl font-bold mb-8 text-center"
-          initial={{ opacity: 0 }}
-          animate={isCoreTeamInView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          Core Team Members
-        </motion.h2>
-        <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-16"
-          variants={containerVariants}
-          initial="hidden"
-          animate={isCoreTeamInView ? "visible" : "hidden"}
-        >
-          {/* First row: 5 members */}
-          {currentMembers.coreTeam.slice(0, 5).map((member: any) => (
-            <TeamMemberCard key={member.id} member={member} isCompact={false} />
-          ))}
-          {/* View More: show additional members if toggled */}
-          {showMoreCore && currentMembers.coreTeam.slice(5).map((member: any) => (
-            <TeamMemberCard key={member.id} member={member} isCompact={false} />
-          ))}
-        </motion.div>
-        {/* View More Button */}
-        {currentMembers.coreTeam.length > 5 && (
-          <div className="flex justify-center mb-8">
-            <motion.button
-              onClick={() => setShowMoreCore((prev) => !prev)}
-              className="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-white px-6 py-3 rounded-md transition-colors"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+        {/* Current Team Sections */}
+        {[
+          { key: "OutreachAndSponsor", title: "Outreach and Sponsership Team" },
+          { key: "ContentStrategyPR", title: "Content Strategy And PR" },
+          { key: "CreativeProduction", title: "Creative Production Crew" },
+          { key: "MultimediaDesign", title: "Mutimedia and Design" },
+        ].map(section => (
+          (currentMembers[section.key] && currentMembers[section.key].length > 0) ? (
+            <div key={section.key} className="mb-16">
+              <motion.h2
+                className="text-2xl font-bold mb-8 text-center"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.6 }}
+              >
+                {section.title}
+              </motion.h2>
+              <motion.div
+                className="flex flex-wrap justify-center gap-6"
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+              >
+                {currentMembers[section.key].map((member: any) => (
+                  <div key={member.id} className="max-w-xs">
+                    <TeamMemberCard member={member} isCompact={true} />
+                  </div>
+                ))}
+              </motion.div>
+            </div>
+          ) : null
+        ))}
+
+        {/* Current Web Dev Team - Compact and centered */}
+        {(currentMembers.webDevTeam && currentMembers.webDevTeam.length > 0) && (
+          <div className="mb-16">
+            <motion.h2
+              className="text-2xl font-bold mb-8 text-center"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.6 }}
             >
-              {showMoreCore ? "View Less" : "View More"}
-              {showMoreCore ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
-            </motion.button>
+              Web Dev Team
+            </motion.h2>
+            <motion.div
+              className="flex flex-wrap justify-center gap-6"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              {currentMembers.webDevTeam.map((member: any) => (
+                <div key={member.id} className="max-w-xs">
+                  <TeamMemberCard member={member} isCompact={true} />
+                </div>
+              ))}
+            </motion.div>
           </div>
         )}
 
-        {/* Web Dev Team - Compact Version */}
-        <motion.h2
-          ref={webDevRef}
-          className="text-2xl font-bold mb-8 text-center"
-          initial={{ opacity: 0 }}
-          animate={isWebDevInView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          Web Dev Team
-        </motion.h2>
-        <motion.div
-          className="flex flex-wrap justify-center gap-6 mb-16"
-          variants={containerVariants}
-          initial="hidden"
-          animate={isWebDevInView ? "visible" : "hidden"}
-        >
-          {currentMembers.webDevTeam.map((member: any) => (
-            <TeamMemberCard key={member.id} member={member} isCompact={true} />
-          ))}
-        </motion.div>
+        {/* Web Dev Team removed as per new structure */}
 
         {/* Previous Members Toggle Button */}
         <motion.div
@@ -286,10 +312,10 @@ export default function Team() {
           {showPreviousMembers && (
             <motion.div
               className="border-t border-gray-700 pt-8 mt-8"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.5 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.4 }}
             >
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 gap-4">
                 <motion.h2
@@ -325,19 +351,21 @@ export default function Team() {
                       Leadership Team
                     </motion.h3>
                     <motion.div
-                      className="grid grid-cols-1 md:grid-cols-2 gap-8"
+                      className="flex flex-wrap justify-center gap-8"
                       variants={containerVariants}
                       initial="hidden"
                       animate="visible"
                       transition={{ delayChildren: 0.4 }}
                     >
                       {previousMembers[selectedTenure].leadershipTeam.map((member: any) => (
-                        <TeamMemberCard key={member.id} member={member} />
+                        <div key={member.id} className="max-w-sm">
+                          <TeamMemberCard member={member} />
+                        </div>
                       ))}
                     </motion.div>
                   </div>
 
-                  {/* Previous Core Team */}
+                  {/* Previous Core Team - Single Section */}
                   <motion.h3
                     className="text-2xl font-bold mb-8 text-center"
                     initial={{ opacity: 0 }}
@@ -347,41 +375,18 @@ export default function Team() {
                     Core Team Members
                   </motion.h3>
                   <motion.div
-                    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-16"
+                    className="flex flex-wrap justify-center gap-6 mb-16"
                     variants={containerVariants}
                     initial="hidden"
                     animate="visible"
                     transition={{ delayChildren: 0.6 }}
                   >
                     {previousMembers[selectedTenure].coreTeam.map((member: any) => (
-                      <TeamMemberCard key={member.id} member={member} />
+                      <div key={member.id} className="max-w-xs">
+                        <TeamMemberCard member={member} isCompact={true} />
+                      </div>
                     ))}
                   </motion.div>
-
-                  {/* Previous Web Dev Team (conditionally render if exists and is non-empty) */}
-                  {Array.isArray(previousMembers[selectedTenure].webDevTeam) && previousMembers[selectedTenure].webDevTeam.length > 0 && (
-                    <>
-                      <motion.h3
-                        className="text-2xl font-bold mb-8 text-center"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.6, delay: 0.7 }}
-                      >
-                        Web Dev Team
-                      </motion.h3>
-                      <motion.div
-                        className="flex justify-around mb-16 flex-wrap gap-0"
-                        variants={containerVariants}
-                        initial="hidden"
-                        animate="visible"
-                        transition={{ delayChildren: 0.8 }}
-                      >
-                        {previousMembers[selectedTenure].webDevTeam.map((member: any) => (
-                          <TeamMemberCard key={member.id} member={member} isCompact={true} />
-                        ))}
-                      </motion.div>
-                    </>
-                  )}
                 </>
               )}
             </motion.div>

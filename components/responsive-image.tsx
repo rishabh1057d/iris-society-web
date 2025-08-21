@@ -59,6 +59,16 @@ export default function ResponsiveImage({
     setHasError(true)
   }
 
+  // Ensure src is always a valid, encoded URL for Next/Image default loader
+  const normalizedSrc = (() => {
+    const fallback = "/placeholder.svg"
+    const raw = src && src.trim() !== "" ? src : fallback
+    // Prepend leading slash for relative public assets if missing
+    const withLeadingSlash = raw.startsWith("/") || raw.startsWith("http") || raw.startsWith("data:") ? raw : `/${raw}`
+    // Encode spaces and other unsafe URL chars while preserving slashes
+    return encodeURI(withLeadingSlash)
+  })()
+
   if (hasError) {
     return (
       <div className={`bg-gray-800 rounded-lg flex items-center justify-center ${aspectRatioClass} ${className}`}>
@@ -92,7 +102,7 @@ export default function ResponsiveImage({
         className="w-full h-full"
       >
         <Image
-          src={src || "/placeholder.svg"}
+          src={normalizedSrc}
           alt={alt}
           width={width}
           height={height}
@@ -103,6 +113,7 @@ export default function ResponsiveImage({
           placeholder={placeholder}
           blurDataURL={blurDataURL}
           onLoad={handleLoad}
+          onLoadingComplete={() => setIsLoading(false)}
           onError={handleError}
           className={`w-full h-full image-responsive`}
           style={{ objectFit: finalObjectFit }}

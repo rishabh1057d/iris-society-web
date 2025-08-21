@@ -1,5 +1,46 @@
-{
-  "2024-2025": {
+{ "2024-2025": {
+  "leadershipTeam": [
+    {
+      "id": 1,
+      "name": "Anshi Jain",
+      "role": "Secretary",
+      "description": "Leads the society with a vision for creative excellence.",
+      "image": "/images/secretary.jpg",
+      "linkedin": "https://www.linkedin.com/in/anshi-jain-5853361a8/"
+    },
+    {
+      "id": 2,
+      "name": "Mannu Yadav",
+      "role": "Deputy Secretary",
+      "description": "Assists in managing events and member engagements.",
+      "image": "/images/mannyu.jpg",
+      "linkedin": "https://www.linkedin.com/in/mannuyadav/"
+    }
+  ],
+  "coreTeam": [
+    { "id": 1, "name": "Rishabh Singh", "role": "Multimedia Team", "description": "Manages all multimedia content for the society.", "image": "/images/rishabh.jpg", "linkedin": "https://www.linkedin.com/in/rishabh-singh-514b8628a/" },
+    { "id": 2, "name": "Kaustubh", "role": "Multimedia Team", "description": "Leads the design team and creates visual content.", "image": "/images/meh.jpg", "linkedin": "https://www.linkedin.com/in/kaustubhismyname/" },
+    { "id": 3, "name": "Khadija Hussain", "role": "Outreach Team", "description": "Handles external communications and partnerships.", "image": "/images/khadija.jpg", "linkedin": "" },
+    { "id": 5, "name": "Swapnil Acharya", "role": "Outreach Team", "description": "Works on expanding the society's reach and impact.", "image": "/images/swapnil-acharya.jpg", "linkedin": "https://www.linkedin.com/in/swapnil-acharya-298018343/" },
+    { "id": 4, "name": "Varchaswa Shukla", "role": "Core Operations Team", "description": "Ensures smooth end-to-end operations.", "image": "/images/varchaswa.JPG", "linkedin": "https://www.linkedin.com/in/varchaswa-shukla-0a6418348/" },
+    { "id": 6, "name": "Amirtheswaran", "role": "Meetup Coordinater", "description": "Coordinated meetups and events.", "image": "/images/amriteshwaran.jpg", "linkedin": "https://www.linkedin.com/in/amirth06/", "className": "mx-auto" },
+    { "id": 7, "name": "Aakash Rawal", "role": "PR Team", "description": "Manages advertising and promotions.", "image": "/images/WhatsApp Image 2025-06-07 at 01.31.07_d83cd6aa.jpg", "linkedin": "https://www.linkedin.com/in/aakash-rawal-04b24b324/", "className": "mx-auto" },
+    { "id": 8, "name": "Nitesh Ghosh", "role": "Multimedia Team", "description": "Designs and creates visual content.", "image": "/images/nitesh.jpeg", "linkedin": "https://www.linkedin.com/in/niteshchandraghosh/", "className": "mx-auto" },
+    { "id": 9, "name": "Sarthak Gupta", "role": "PR Team", "description": "Manages advertising and promotions.", "image": "/images/sarthak.jpg", "linkedin": "https://www.linkedin.com/in/sarthak-gupta-4b5b1921b/", "className": "mx-auto" },
+    { "id": 10, "name": "Shreyash Shrivastava", "role": "Outreach Team", "description": "Assists in gathering judges", "image": "/images/shreyash.jpg", "linkedin": "https://www.linkedin.com/in/shreyash-srivastava-406656345/", "className": "mx-auto" },
+    { "id": 11, "name": "Meenakshi", "role": "PR Team", "description": "Manages advertising and promotions.", "image": "/images/meenakshi.jpg", "linkedin": "", "className": "mx-auto" },
+    { "id": 12, "name": "Siddarth Kushwaha", "role": "Multimedia Team", "description": "Major Role in Desinging Logo. Designs and creates visual content.", "image": "/images/siddharth.jpeg", "linkedin": "https://www.linkedin.com/in/siddarthkushwaha/", "className": "mx-auto" },
+    { "id": 13, "name": "Madhavan", "role": "Outreach Team", "description": "Works on expanding the society", "image": "/images/madhavan.jpg", "linkedin": "https://www.linkedin.com/in/madhavan-s-a047b4219/", "className": "mx-auto" },
+    { "id": 14, "name": "Thondapi Rohit", "role": "Outreach Team", "description": "Works on expanding the society", "image": "/images/rohit.jpg", "linkedin": "https://www.linkedin.com/in/rohitsharma1819/", "className": "mx-auto" }
+  ],
+  "webDevTeam": [
+    { "id": 1, "name": "Rishabh Singh", "role": "Web Developer", "description": "Development of the entire website from scratch and continues to maintain and improve its features.", "image": "/images/rishabh.jpg", "linkedin": "https://www.linkedin.com/in/rishabh-singh-514b8628a/" },
+    { "id": 2, "name": "Kaustubh", "role": "Web Developer", "description": "Key role in structuring the website, fixing bugs, and organizing code.", "image": "/images/meh.jpg", "linkedin": "https://www.linkedin.com/in/kaustubhismyname/" }
+  ],
+  "recruiting":true, 
+  "recruitmentForm": "https://forms.gle/XkNmxfYLzbR6E7Xt8"
+},
+  "2023-2024": {
     "leadershipTeam": [
       {
         "id": 1,

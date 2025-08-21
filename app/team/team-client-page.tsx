@@ -238,10 +238,10 @@ export default function TeamClientPage() {
           {showPreviousMembers && (
             <motion.div
               className="border-t border-gray-700 pt-8 mt-8"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.5 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.4 }}
             >
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 gap-4">
                 <motion.h2
