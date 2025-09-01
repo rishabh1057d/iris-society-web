@@ -29,9 +29,10 @@
     { "id": 9, "name": "Shreyaskar Srivastava", "role": "Creative Producer", "description": "Designs visual assets and edits media.", "image": "/images/shreyaskar.jpg", "linkedin": "https://www.linkedin.com/in/shreyaskar-srivastava-510168315", "className": "mx-auto" }
   ],
   "MultimediaDesign": [
-    { "id": 10, "name": "Avinash Kumar", "role": "Multimedia Designer", "description": "Works on posters, reels, and brand creatives.", "image": "/images/avinash.JPG", "linkedin": "" },
+    { "id": 10, "name": "Avinash Kumar", "role": "Video Editor", "description": "Works on videos, reels, and brand creatives.", "image": "/images/avinash.JPG", "linkedin": "" },
     { "id": 11, "name": "Tanushree Dey", "role": "Graphic Designer", "description": "Designs graphics and social assets.", "image": "/images/Tanushree_dey.jpg", "linkedin": "https://www.linkedin.com/in/tanushree-dey-614397259" },
-    { "id": 12, "name": "Adarsh A V", "role": "Multimedia Designer", "description": "Creates visuals and assists with editing.", "image": "/images/adarshav.jpg", "linkedin": "https://www.linkedin.com/in/adarshaevy?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app", "className": "mx-auto" }
+    { "id": 12, "name": "Adarsh A V", "role": "Graphic Designer", "description": "Creates visuals and assists with editing.", "image": "/images/adarshav.jpg", "linkedin": "https://www.linkedin.com/in/adarshaevy?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app", "className": "mx-auto" },
+    { "id": 19, "name": "Naman Deep Singh", "role": "Video Editor", "description": "Works on videos, reels, and brand creatives.", "image": "/images/Naman_deep_singh.jpg", "linkedin": "https://www.linkedin.com/in/naman-deep-singh-a579ba207?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app", "className": "mx-auto" }
   ],
   "ContentStrategyPR": [
     { "id": 13, "name": "Divya Sharma ", "role": "Content Strategist", "description": "Plans and drafts content for campaigns.", "image": "/images/Divya.jpg", "linkedin": "https://www.linkedin.com/in/divya-sharma-2090b82b9?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app", "className": "mx-auto" },
@@ -43,6 +44,6 @@
   "webDevTeam": [
     { "id": 18, "name": "Rishabh Singh", "role": "Web Developer", "description": "Development of the entire website from scratch and continues to maintain and improve its features.", "image": "/images/rishabh.jpg", "linkedin": "https://www.linkedin.com/in/rishabh-singh-514b8628a/" }
   ],
-  "recruiting":true, 
+  "recruiting":false, 
   "recruitmentForm": "https://forms.gle/XkNmxfYLzbR6E7Xt8"
 }
