@@ -1,4 +1,18 @@
-[
+[{
+  "id": 14,
+  "title": "Shutter Safari: Saavan Edition",
+  "description": "Shutter Safari: Saavan Edition is IRIS Society's flagship photography competition, continuing the legacy from Paradox and Margazhi. Features two rounds: Street Stories (street photography) and Beyond the Visible (abstract photography), with expert judging celebrating storytelling and technical artistry.",
+  "dates": "18 Sep 2025 - 8 AM",
+  "location": "Online",
+  "collab": "IRIS Society",
+  "image": "/images/shutter_safari_saavan.png",
+  "registrationOpen": true,
+  "registrationLink": "https://saavan.iitmparadox.org/events/culturals/kha1IPT4cFGeiblHYUvh",
+  "status": "ongoing",
+  "resultLink": "",
+  "liveSessionLink": "",
+  "speakerInstagram": ""
+},
   {
   "id": 13,
   "title": "Workshop on Cinematic Storytelling by Siddharth Nuni",
