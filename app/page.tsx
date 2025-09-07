@@ -85,6 +85,7 @@ export default function Home() {
   const [recruiting, setRecruiting] = useState(false)
   const [showEventPopup, setShowEventPopup] = useState(false)
   const [popupData, setPopupData] = useState<{ enabled?: boolean; title?: string; description?: string; image?: string; registerUrl?: string; rulebookUrl?: string; registrationDeadline?: string } | null>(null)
+  const [imageLoaded, setImageLoaded] = useState(false)
 
   const GOOGLE_FORM_URL =
     "https://docs.google.com/forms/d/e/1FAIpQLSczSzMGIAd-sE_nxe9wOFSrsYy59lzRBhU9e5uhOjMtmIquLQ/viewform"
@@ -319,6 +320,14 @@ export default function Home() {
           setPopupData(data.popup)
           if (data.popup.enabled) {
             setShowEventPopup(true)
+            // Preload the popup image for faster loading
+            if (data.popup.image) {
+              const link = document.createElement('link')
+              link.rel = 'preload'
+              link.as = 'image'
+              link.href = data.popup.image
+              document.head.appendChild(link)
+            }
           }
         }
       })
@@ -382,9 +391,13 @@ export default function Home() {
                           src={popupData?.image || "/placeholder.svg"}
                           alt={popupData?.title || "Event"}
                           fill
-                          className="object-contain"
+                          className={`object-contain transition-opacity duration-300 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
                           priority
-                          unoptimized
+                          quality={90}
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                          placeholder="blur"
+                          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+                          onLoad={() => setImageLoaded(true)}
                         />
                       </motion.div>
                     </div>
