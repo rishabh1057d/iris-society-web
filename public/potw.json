@@ -273,6 +273,28 @@
       "email": "",
       "description": "In the pauses of life, time speaks the loudest. A man rests against the fading walls, wrapped in silence and shadows, a moment of waiting, of 'Intejaar'. Everyday sights like these hold stories of patience, resilience, and the quiet poetry of existence.",
       "image": "/images/potw_31.jpg"
+    },
+    {
+      "id": 32,
+      "week": 4,
+      "month": "August",
+      "theme": "Break Due to End Term",
+      "photographer": "No Winner",
+      "email": "",
+      "description": "No POTW this week because everyone is busy in studying for End Term",
+      "image": "/images/PAradox_break.jpg"
+    }
+  ],
+  "September": [
+    {
+      "id": 33,
+      "week": 1,
+      "month": "September",
+      "theme": "Everydays Heroes",
+      "photographer": "Vashu Pandey",
+      "email": "",
+      "description": "Between ‘majboor’ and ‘majdoor’ lies the story of resilience. The daily grind, the silent strength, and the unacknowledged sacrifices of workers who build our cities, brick by brick. They may not wear capes, but their labor holds up the world we live in.",
+      "image": "/images/potw_33.jpg"
     }
   ]
 }
