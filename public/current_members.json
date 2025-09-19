@@ -45,7 +45,7 @@
     { "id": 18, "name": "Rishabh Singh", "role": "Web Developer", "description": "Development of the entire website from scratch and continues to maintain and improve its features.", "image": "/images/rishabh.jpg", "linkedin": "https://www.linkedin.com/in/rishabh-singh-514b8628a/" }
   ],
   "popup": {
-    "enabled": true,
+    "enabled": false,
     "title": "Shutter Safari - Saavan Edition",
     "description": "Shutter Safari: Saavan Edition is IRIS Society's flagship photography competition, continuing the legacy from Paradox and Margazhi. Features two rounds: Street Stories (street photography) and Beyond the Visible (abstract photography), with expert judging celebrating storytelling and technical artistry.",
     "image": "/images/Shutter_Safari_saavan.png",
