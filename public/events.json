@@ -1,5 +1,20 @@
 [{
-  "id": 14,
+  "id": 16,
+  "title": " Lumina Frames 🌸",
+  "description": "Capture your favorite Navratri & Dussehra moments in one magical clip. No experience, no limits – just the festive vibe!",
+  "dates": "27th Sept – 5th Oct 2025",
+  "location": "Online",
+  "collab": "IRIS Society x Pixels N Panels",
+  "image": "/images/LuminaFrames.jpg",
+  "registrationOpen": true,
+  "registrationLink": "https://tinyurl.com/2k83sc49",
+  "status": "ongoing",
+  "resultLink": "",
+  "liveSessionLink": "",
+  "speakerInstagram": "https://www.ankitbhatdop.com/about-me"
+},
+  {
+  "id": 15,
   "title": "Shutter Safari: Saavan Edition",
   "description": "Shutter Safari: Saavan Edition is IRIS Society's flagship photography competition, continuing the legacy from Paradox and Margazhi. Features two rounds: Street Stories (street photography) and Beyond the Visible (abstract photography), with expert judging celebrating storytelling and technical artistry.",
   "dates": "18 Sep 2025 - 8 AM",

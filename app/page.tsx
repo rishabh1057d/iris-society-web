@@ -509,6 +509,51 @@ export default function Home() {
     }
   }, [showEventPopup, popupData?.enabled, videoData?.enabled])
 
+  // Auto-scroll and autoplay when popup is disabled but video section is enabled
+  useEffect(() => {
+    if (videoData?.enabled && !popupData?.enabled && videoSectionRef.current) {
+      // Give the page a moment to settle, then scroll and attempt autoplay
+      const scrollTimeout = setTimeout(() => {
+        videoSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+
+        const playTimeout = setTimeout(() => {
+          if (videoRef.current) {
+            videoRef.current.play().catch(() => {
+              // Ignore autoplay rejection silently
+            })
+          }
+        }, 800)
+
+        return () => clearTimeout(playTimeout)
+      }, 500)
+
+      return () => clearTimeout(scrollTimeout)
+    }
+  }, [videoData?.enabled, popupData?.enabled])
+
+  // Best-effort autoplay once video can play (muted autoplay is allowed by most browsers)
+  useEffect(() => {
+    if (!videoData?.enabled) return
+    const video = videoRef.current
+    if (!video) return
+
+    const tryPlay = () => {
+      video.play().catch(() => {
+        // Autoplay may still be blocked in some environments; no-op
+      })
+    }
+
+    if (video.readyState >= 2) {
+      tryPlay()
+      return
+    }
+
+    video.addEventListener('canplay', tryPlay, { once: true })
+    return () => {
+      video.removeEventListener('canplay', tryPlay)
+    }
+  }, [videoData?.enabled])
+
   // Sync video muted property with state
   useEffect(() => {
     if (videoRef.current) {
