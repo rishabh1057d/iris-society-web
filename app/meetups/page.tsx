@@ -113,7 +113,7 @@ export default function Meetups() {
           transition={{ duration: 0.6 }}
           style={{ opacity }}
         >
-          Meetups & Photowalks
+          Photowalks
         </motion.h1>
 
         {/* Upcoming Meetups */}
@@ -125,9 +125,9 @@ export default function Meetups() {
           animate={isUpcomingInView ? "visible" : "hidden"}
           style={{ y: y1 }}
         >
-          <h2 className="text-2xl md:text-3xl font-bold mb-6 pb-2 border-b border-blue-400/30 text-white">Upcoming Meetups</h2>
+          <h2 className="text-2xl md:text-3xl font-bold mb-6 pb-2 border-b border-blue-400/30 text-white">Upcoming Photowalks</h2>
           {upcomingMeetups.length === 0 ? (
-            <p className="text-blue-200">No upcoming meetups scheduled.</p>
+            <p className="text-blue-200">No upcoming photowalks scheduled.</p>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
               {upcomingMeetups.map((meetup, idx) => (
@@ -204,7 +204,7 @@ export default function Meetups() {
           style={{ y: y2 }}
         >
           <div className="flex items-center justify-between mb-4 md:mb-6">
-            <h2 className="text-2xl md:text-3xl font-bold pb-2 border-b border-blue-400/30 text-white">Previous Meetups</h2>
+            <h2 className="text-2xl md:text-3xl font-bold pb-2 border-b border-blue-400/30 text-white">Previous Photowalks</h2>
             <div className="hidden sm:flex space-x-2">
               <button
                 onClick={scrollLeft}
