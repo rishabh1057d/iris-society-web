@@ -295,6 +295,36 @@
       "email": "",
       "description": "Between ‘majboor’ and ‘majdoor’ lies the story of resilience. The daily grind, the silent strength, and the unacknowledged sacrifices of workers who build our cities, brick by brick. They may not wear capes, but their labor holds up the world we live in.",
       "image": "/images/potw_33.jpg"
+    },
+    {
+      "id": 34,
+      "week": 2,
+      "month": "September",
+      "theme": "Saavan Break",
+      "photographer": "No winner",
+      "email": "",
+      "description": "No POTW this week because of Saavan Fest",
+      "image": "/images/PAradox_break.jpg"
+    },
+    {
+      "id": 35,
+      "week": 3,
+      "month": "September",
+      "theme": "Saavan Break",
+      "photographer": "No winner",
+      "email": "",
+      "description": "No POTW this week because of Saavan Fest",
+      "image": "/images/PAradox_break.jpg"
+    },
+    {
+      "id": 36,
+      "week": 4,
+      "month": "September",
+      "theme": "Chants In Silence",
+      "photographer": "Akash",
+      "email": "",
+      "description": "In the glow of the flame and the silence of reverence, faith takes form. Navratri isn’t just about celebration — it’s about the quiet moments when devotion speaks louder than words, when every flicker of light becomes a prayer in motion.",
+      "image": "/images/potw_36.jpg"
     }
   ]
 }
