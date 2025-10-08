@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "title": "PhotoWalk Meetup - Hyderabad",
+    "title": "PhotoWalk - Hyderabad",
     "dates": "1:30 PM | October 12, 2025",
     "location": "Chowmahalla Palace, Hyderabad",
     "collab": "IRIS Society x Sundarbans House",
@@ -12,8 +12,8 @@
     "locationLink": "https://share.google/L3vXUtC1OZrQmklV5"
   },
   {
-    "id": 2,
-    "title": "Photowalk Meetup - Varanasi",
+    "id": 3,
+    "title": "Photowalk - Varanasi",
     "dates": "2PM | October 5, 2025",
     "location": "BHU Varanasi Temple, Varanasi",
     "collab": "IRIS x Gir x Kaziranga x Namdapha x Pichavaram",
@@ -22,5 +22,17 @@
     "registrationOpen": false,
     "registrationLink": "",
     "locationLink": "https://share.google/CVC4Jz7kYJOllcEXR"
+  },
+  {
+    "id": 2,
+    "title": "Photowalk - Kerala",
+    "dates": "1PM | June 11 2025",
+    "location": "Lulu Mall, Thrivananthapuram",
+    "collab": "IRIS Society",
+    "image": "/images/kerela_meetup.webp",
+    "status": "previous",
+    "registrationOpen": false,
+    "registrationLink": "",
+    "locationLink": "https://share.google/aPf9yCtV45CpDs6rs"
   }
 ]
