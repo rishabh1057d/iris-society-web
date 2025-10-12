@@ -765,13 +765,24 @@ export default function Home() {
       <main ref={mainRef} className="flex min-h-screen flex-col items-center relative overflow-hidden">
         <Navbar onJoinClick={handleJoinNowClick} />
 
-        {/* Hero section */}
+        {/* Enhanced Hero section with improved visual hierarchy */}
         <div
           ref={heroRef}
           className="min-h-screen w-full flex flex-col items-center justify-center text-center safe-area-inset-top relative z-10"
         >
+          {/* Enhanced background overlay with gradient mesh */}
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-purple-900/15 to-indigo-900/25 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none" />
+          
+          {/* Floating orbs for depth */}
+          <div className="absolute inset-0 pointer-events-none overflow-hidden">
+            <div className="absolute w-96 h-96 rounded-full bg-gradient-to-r from-blue-500/10 to-purple-500/10 blur-3xl top-1/4 left-1/4 animate-pulse" />
+            <div className="absolute w-80 h-80 rounded-full bg-gradient-to-r from-purple-500/8 to-pink-500/8 blur-3xl top-3/4 right-1/4 animate-pulse" style={{ animationDelay: '2s' }} />
+            <div className="absolute w-64 h-64 rounded-full bg-gradient-to-r from-indigo-500/6 to-blue-500/6 blur-3xl top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 animate-pulse" style={{ animationDelay: '4s' }} />
+          </div>
+
           <ResponsiveContainer size="lg" padding="lg">
-            {/* Logo with optimized animations */}
+            {/* Enhanced Logo with better visual impact */}
             <motion.div
               ref={logoRef}
               variants={logoVariants}
@@ -779,63 +790,113 @@ export default function Home() {
               animate="animate"
               whileHover="hover"
               style={{ scale: logoScale, opacity: logoOpacity, y: logoY }}
-              className="mb-8 cursor-pointer hardware-accelerated will-change-transform"
+              className="mb-12 cursor-pointer hardware-accelerated will-change-transform relative"
             >
-              <ResponsiveImage
-                src="/images/logo.png"
-                alt="IRIS Society Logo"
-                width={300}
-                height={300}
-                priority
-                className="mx-auto filter drop-shadow-lg max-w-[220px] sm:max-w-[250px] md:max-w-[300px]"
-              />
+              {/* Logo glow effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 blur-2xl scale-110 opacity-60" />
+              <div className="relative">
+                <ResponsiveImage
+                  src="/images/logo.png"
+                  alt="IRIS Society Logo"
+                  width={300}
+                  height={300}
+                  priority
+                  className="mx-auto filter drop-shadow-2xl max-w-[220px] sm:max-w-[250px] md:max-w-[300px] relative z-10"
+                />
+                {/* Subtle border glow */}
+                <div className="absolute inset-0 rounded-full border-2 border-white/10 scale-105" />
+              </div>
             </motion.div>
 
+            {/* Enhanced title with gradient text */}
             <motion.h1
               variants={textVariants}
               initial="hidden"
               animate="visible"
-              style={{ y: titleY, fontSize: "clamp(2rem, 5vw, 3.5rem)" }}
-              className="text-responsive font-bold mb-4 text-white drop-shadow-lg will-change-transform"
+              style={{ y: titleY, fontSize: "clamp(2.5rem, 6vw, 4rem)" }}
+              className="font-extrabold mb-6 text-white drop-shadow-2xl will-change-transform relative"
             >
-              IRIS Society
+              <span className="bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent">
+                IRIS Society
+              </span>
+              {/* Decorative underline */}
+              <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full" />
             </motion.h1>
 
-            <motion.p
-              variants={textVariants}
-              initial="hidden"
-              animate="visible"
-              style={{ y: subtitleY, fontSize: "clamp(1rem, 3vw, 1.25rem)" }}
-              transition={{ delay: 0.2 }}
-              className="text-responsive text-gray-300 mb-2 max-w-lg mx-auto will-change-transform"
-            >
-              Photography & Videography Society of IITM BS Degree
-            </motion.p>
-
-            <motion.p
-              variants={textVariants}
-              initial="hidden"
-              animate="visible"
-              style={{ y: subtitleY, fontSize: "clamp(0.875rem, 2.5vw, 1.125rem)" }}
-              transition={{ delay: 0.3 }}
-              className="text-responsive text-gray-400 mb-10 max-w-lg mx-auto will-change-transform italic"
-            >
-              Through Our Lenses, Beyond the Ordinary
-            </motion.p>
-
-            {/* Enhanced CTA buttons with distinct styles */}
+            {/* Enhanced subtitle with better typography */}
             <motion.div
-              className="flex flex-col sm:flex-row gap-4 justify-center items-center w-full max-w-md mx-auto"
+              variants={textVariants}
+              initial="hidden"
+              animate="visible"
+              transition={{ delay: 0.2 }}
+              className="mb-6 max-w-2xl mx-auto will-change-transform"
+            >
+              <p 
+                style={{ fontSize: "clamp(1.125rem, 3.5vw, 1.5rem)" }}
+                className="text-gray-200 font-medium leading-relaxed"
+              >
+                Photography & Videography Society of IITM BS Degree
+              </p>
+            </motion.div>
+
+            {/* Enhanced tagline with better styling */}
+            <motion.div
+              variants={textVariants}
+              initial="hidden"
+              animate="visible"
+              transition={{ delay: 0.3 }}
+              className="mb-16 max-w-xl mx-auto will-change-transform"
+            >
+              <p 
+                style={{ fontSize: "clamp(1rem, 2.5vw, 1.25rem)" }}
+                className="text-gray-300 italic font-light leading-relaxed relative"
+              >
+                <span className="absolute -left-4 top-1/2 transform -translate-y-1/2 text-blue-400 text-2xl">"</span>
+                Through Our Lenses, Beyond the Ordinary
+                <span className="absolute -right-4 top-1/2 transform -translate-y-1/2 text-blue-400 text-2xl">"</span>
+              </p>
+            </motion.div>
+
+            {/* Enhanced CTA buttons with modern design */}
+            <motion.div
+              className="flex flex-col sm:flex-row gap-6 justify-center items-center w-full max-w-lg mx-auto"
               variants={buttonVariants}
               initial="hidden"
               animate="visible"
             >
-              <motion.div whileHover="hover" className="will-change-transform w-full sm:w-auto">
-                <button onClick={handleJoinNowClick} className="btn-primary w-full sm:w-auto" disabled={isRedirecting}>
-                  <span className="relative z-10">{isRedirecting ? "Redirecting..." : "Be a member"}</span>
+              <motion.div 
+                whileHover="hover" 
+                className="will-change-transform w-full sm:w-auto relative group"
+              >
+                {/* Button glow effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg blur-lg opacity-75 group-hover:opacity-100 transition-opacity duration-300 scale-110" />
+                <button 
+                  onClick={handleJoinNowClick} 
+                  className="relative btn-primary w-full sm:w-auto px-8 py-4 text-lg font-bold shadow-2xl group-hover:shadow-blue-500/25 transition-all duration-300" 
+                  disabled={isRedirecting}
+                >
+                  <span className="relative z-10 flex items-center justify-center gap-2">
+                    {isRedirecting ? (
+                      <>
+                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        Redirecting...
+                      </>
+                    ) : (
+                      <>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+                          <path fillRule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clipRule="evenodd" />
+                        </svg>
+                        Be a Member
+                      </>
+                    )}
+                  </span>
                 </button>
               </motion.div>
-              <motion.div whileHover={{ scale: 1.05 }} className="will-change-transform w-full sm:w-auto">
+              
+              <motion.div 
+                whileHover={{ scale: 1.05 }} 
+                className="will-change-transform w-full sm:w-auto relative group"
+              >
                 <button
                   onClick={() => {
                     if (recruiting) {
@@ -844,134 +905,178 @@ export default function Home() {
                       setApplyModalOpen(true)
                     }
                   }}
-                  className="btn-secondary w-full sm:w-auto border-2 border-blue-400 text-blue-400 bg-transparent hover:bg-blue-50 transition-colors duration-200 font-semibold py-2 px-6 rounded shadow"
+                  className="relative w-full sm:w-auto px-8 py-4 text-lg font-bold rounded-lg border-2 border-blue-400/60 text-blue-300 bg-transparent hover:bg-blue-400/10 hover:border-blue-400 transition-all duration-300 shadow-lg hover:shadow-blue-500/25 backdrop-blur-sm"
                 >
-                  Join The Core Team
+                  <span className="flex items-center justify-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+                      <path fillRule="evenodd" d="M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.9-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z" clipRule="evenodd" />
+                    </svg>
+                    Join Core Team
+                  </span>
                 </button>
               </motion.div>
             </motion.div>
+
           </ResponsiveContainer>
         </div>
 
-        {/* Improved transition element - reduced on mobile */}
+        {/* Enhanced transition element with better visual flow */}
         <div className="w-full relative">
-          <div className="absolute top-0 left-0 w-full h-32 md:h-64 bg-gradient-to-b from-transparent via-blue-900/20 to-blue-900/40 transform -translate-y-32 md:-translate-y-64"></div>
-          <div className="w-full h-16 md:h-32 bg-gradient-to-b from-transparent to-blue-900/30"></div>
+          {/* Multi-layer gradient transition */}
+          <div className="absolute top-0 left-0 w-full h-40 md:h-80 bg-gradient-to-b from-transparent via-blue-900/25 to-blue-900/50 transform -translate-y-40 md:-translate-y-80"></div>
+          <div className="absolute top-0 left-0 w-full h-32 md:h-64 bg-gradient-to-b from-transparent via-purple-900/15 to-purple-900/30 transform -translate-y-32 md:-translate-y-64"></div>
+          <div className="w-full h-20 md:h-40 bg-gradient-to-b from-transparent to-blue-900/40"></div>
+          
+          {/* Decorative wave pattern */}
+          <div className="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-blue-500/20"></div>
         </div>
 
-        {/* Video Section - Only show if enabled in JSON */}
+        {/* Enhanced Video Section with improved design */}
         {videoData?.enabled && (
           <motion.div
             ref={videoSectionRef}
-            className="w-full relative z-10 bg-gradient-to-b from-blue-900/30 to-blue-900/20"
+            className="w-full relative z-10 bg-gradient-to-b from-blue-900/40 via-purple-900/20 to-blue-900/30"
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <ResponsiveContainer size="xl" padding="lg" className="py-8 md:py-20">
-              <motion.h2
-                className="text-responsive font-bold text-center mb-4 md:mb-8"
-                style={{ fontSize: "clamp(1.5rem, 4vw, 2.5rem)" }}
+            {/* Background decorative elements */}
+            <div className="absolute inset-0 pointer-events-none overflow-hidden">
+              <div className="absolute w-72 h-72 rounded-full bg-gradient-to-r from-blue-500/5 to-purple-500/5 blur-3xl top-1/4 left-1/4 animate-pulse" />
+              <div className="absolute w-64 h-64 rounded-full bg-gradient-to-r from-purple-500/5 to-pink-500/5 blur-3xl bottom-1/4 right-1/4 animate-pulse" style={{ animationDelay: '3s' }} />
+            </div>
+
+            <ResponsiveContainer size="xl" padding="lg" className="py-12 md:py-24">
+              {/* Enhanced section title */}
+              <motion.div
+                className="text-center mb-8 md:mb-16"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
               >
-                {videoData.title || "Watch Our Story"}
-              </motion.h2>
+                <motion.h2
+                  className="font-extrabold mb-4 relative"
+                  style={{ fontSize: "clamp(1.75rem, 4.5vw, 3rem)" }}
+                >
+                  <span className="bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent">
+                    {videoData.title || "Watch Our Story"}
+                  </span>
+                  {/* Decorative underline */}
+                  <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full" />
+                </motion.h2>
+                
+                <motion.p
+                  className="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                >
+                  Experience the passion and creativity of our photography community
+                </motion.p>
+              </motion.div>
               
+              {/* Enhanced video container */}
               <motion.div
-                className="relative max-w-4xl mx-auto"
+                className="relative max-w-5xl mx-auto"
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
               >
-                <div className="glass-card p-1 md:p-4">
-                  {/* 16:9 Aspect Ratio Container */}
-                  <div className="relative w-full" style={{ aspectRatio: '16/9' }}>
-                    <video
-                      ref={videoRef}
-                      className="absolute inset-0 w-full h-full object-cover rounded-lg"
-                      muted={videoMuted}
-                      loop
-                      playsInline
-                      preload="metadata"
-                      poster="/placeholder.jpg"
-                      onLoadedData={() => {
-                        // Ensure video is muted initially
-                        if (videoRef.current) {
-                          videoRef.current.muted = videoMuted;
-                        }
-                      }}
-                    >
-                      <source src={videoData.src || "/videos/iris_reel_1.mp4"} type="video/mp4" />
-                      Your browser does not support the video tag.
-                    </video>
-                    
-                    {/* Video Controls Overlay */}
-                    <div className="absolute inset-0 bg-black/20 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center rounded-lg">
-                      <motion.button
-                        onClick={() => {
-                          const newMutedState = !videoMuted;
-                          setVideoMuted(newMutedState);
+                {/* Enhanced glass card with better styling */}
+                <div className="relative glass-card p-2 md:p-6 overflow-hidden">
+                  {/* Decorative border gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-blue-500/20 rounded-xl blur-sm" />
+                  <div className="relative bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-xl border border-white/20 rounded-xl p-2 md:p-4">
+                    {/* 16:9 Aspect Ratio Container */}
+                    <div className="relative w-full rounded-lg overflow-hidden shadow-2xl" style={{ aspectRatio: '16/9' }}>
+                      <video
+                        ref={videoRef}
+                        className="absolute inset-0 w-full h-full object-cover"
+                        muted={videoMuted}
+                        loop
+                        playsInline
+                        preload="metadata"
+                        poster="/placeholder.jpg"
+                        onLoadedData={() => {
+                          // Ensure video is muted initially
                           if (videoRef.current) {
-                            videoRef.current.muted = newMutedState;
+                            videoRef.current.muted = videoMuted;
                           }
                         }}
-                        className="bg-white/20 backdrop-blur-sm rounded-full p-3 hover:bg-white/30 transition-colors"
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}
                       >
-                        {videoMuted ? (
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 text-white">
+                        <source src={videoData.src || "/videos/iris_reel_1.mp4"} type="video/mp4" />
+                        Your browser does not support the video tag.
+                      </video>
+                      
+                      {/* Enhanced video controls overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 hover:opacity-100 transition-all duration-300 flex items-center justify-center">
+                        <motion.button
+                          onClick={() => {
+                            const newMutedState = !videoMuted;
+                            setVideoMuted(newMutedState);
+                            if (videoRef.current) {
+                              videoRef.current.muted = newMutedState;
+                            }
+                          }}
+                          className="bg-white/20 backdrop-blur-md rounded-full p-4 hover:bg-white/30 transition-all duration-300 border border-white/20 shadow-lg"
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          {videoMuted ? (
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8 text-white">
+                              <path d="M13.5 4.06c0-1.336-1.616-2.005-2.56-1.06l-4.5 4.5H4.508c-1.141 0-2.318.664-2.66 1.905A9.76 9.76 0 0 0 1.5 12c0 .898.121 1.768.35 2.595.341 1.24 1.518 1.905 2.659 1.905h1.93l4.5 4.5c.945.945 2.561.276 2.561-1.06V4.06ZM18.584 5.106a.75.75 0 0 1 1.06 0 11.5 11.5 0 0 1 0 13.788.75.75 0 0 1-1.06-1.06 10 10 0 0 0 0-11.668.75.75 0 0 1 0-1.06Z"/>
+                              <path d="M15.932 7.757a.75.75 0 0 1 1.061 0 6.5 6.5 0 0 1 0 8.486.75.75 0 0 1-1.06-1.06 5 5 0 0 0 0-6.366.75.75 0 0 1 0-1.06Z"/>
+                            </svg>
+                          ) : (
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8 text-white">
+                              <path d="M13.5 4.06c0-1.336-1.616-2.005-2.56-1.06l-4.5 4.5H4.508c-1.141 0-2.318.664-2.66 1.905A9.76 9.76 0 0 0 1.5 12c0 .898.121 1.768.35 2.595.341 1.24 1.518 1.905 2.659 1.905h1.93l4.5 4.5c.945.945 2.561.276 2.561-1.06V4.06ZM17.78 9.22a.75.75 0 1 0-1.06 1.06L18.44 12l-1.72 1.72a.75.75 0 1 0 1.06 1.06L19.5 13.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L20.56 12l1.72-1.72a.75.75 0 1 0-1.06-1.06L19.5 10.94l-1.72-1.72Z"/>
+                            </svg>
+                          )}
+                        </motion.button>
+                      </div>
+                      
+                      {/* Enhanced mute indicator */}
+                      {videoMuted && (
+                        <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-md rounded-full p-3 border border-white/20">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-white">
                             <path d="M13.5 4.06c0-1.336-1.616-2.005-2.56-1.06l-4.5 4.5H4.508c-1.141 0-2.318.664-2.66 1.905A9.76 9.76 0 0 0 1.5 12c0 .898.121 1.768.35 2.595.341 1.24 1.518 1.905 2.659 1.905h1.93l4.5 4.5c.945.945 2.561.276 2.561-1.06V4.06ZM18.584 5.106a.75.75 0 0 1 1.06 0 11.5 11.5 0 0 1 0 13.788.75.75 0 0 1-1.06-1.06 10 10 0 0 0 0-11.668.75.75 0 0 1 0-1.06Z"/>
                             <path d="M15.932 7.757a.75.75 0 0 1 1.061 0 6.5 6.5 0 0 1 0 8.486.75.75 0 0 1-1.06-1.06 5 5 0 0 0 0-6.366.75.75 0 0 1 0-1.06Z"/>
                           </svg>
-                        ) : (
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 text-white">
-                            <path d="M13.5 4.06c0-1.336-1.616-2.005-2.56-1.06l-4.5 4.5H4.508c-1.141 0-2.318.664-2.66 1.905A9.76 9.76 0 0 0 1.5 12c0 .898.121 1.768.35 2.595.341 1.24 1.518 1.905 2.659 1.905h1.93l4.5 4.5c.945.945 2.561.276 2.561-1.06V4.06ZM17.78 9.22a.75.75 0 1 0-1.06 1.06L18.44 12l-1.72 1.72a.75.75 0 1 0 1.06 1.06L19.5 13.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L20.56 12l1.72-1.72a.75.75 0 1 0-1.06-1.06L19.5 10.94l-1.72-1.72Z"/>
-                          </svg>
-                        )}
-                      </motion.button>
+                        </div>
+                      )}
                     </div>
-                    
-                    {/* Mute indicator */}
-                    {videoMuted && (
-                      <div className="absolute top-4 right-4 bg-black/50 backdrop-blur-sm rounded-full p-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 text-white">
-                          <path d="M13.5 4.06c0-1.336-1.616-2.005-2.56-1.06l-4.5 4.5H4.508c-1.141 0-2.318.664-2.66 1.905A9.76 9.76 0 0 0 1.5 12c0 .898.121 1.768.35 2.595.341 1.24 1.518 1.905 2.659 1.905h1.93l4.5 4.5c.945.945 2.561.276 2.561-1.06V4.06ZM18.584 5.106a.75.75 0 0 1 1.06 0 11.5 11.5 0 0 1 0 13.788.75.75 0 0 1-1.06-1.06 10 10 0 0 0 0-11.668.75.75 0 0 1 0-1.06Z"/>
-                          <path d="M15.932 7.757a.75.75 0 0 1 1.061 0 6.5 6.5 0 0 1 0 8.486.75.75 0 0 1-1.06-1.06 5 5 0 0 0 0-6.366.75.75 0 0 1 0-1.06Z"/>
-                        </svg>
-                      </div>
-                    )}
                   </div>
                 </div>
                 
-                <motion.p
-                  className="text-center text-gray-300 mt-2 md:mt-4 text-xs md:text-base"
+                {/* Enhanced description */}
+                <motion.div
+                  className="text-center mt-6 md:mt-8"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ duration: 0.6, delay: 0.4 }}
+                  transition={{ duration: 0.6, delay: 0.5 }}
                 >
-                  {videoData.description || "Click the speaker icon to unmute"}
-                </motion.p>
+                  <p className="text-gray-300 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
+                    {videoData.description || "Click the speaker icon to unmute and experience the full audio"}
+                  </p>
+                </motion.div>
                 
-                {/* Instagram Link Button */}
+                {/* Enhanced Instagram Link Button */}
                 {videoData.instagramUrl && (
                   <motion.div
-                    className="flex justify-center mt-3 md:mt-4"
+                    className="flex justify-center mt-6 md:mt-8"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.5 }}
+                    transition={{ duration: 0.6, delay: 0.6 }}
                   >
                     <motion.a
                       href={videoData.instagramUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white text-sm font-semibold rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl"
+                      className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl border border-white/20"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
                         <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
                       </svg>
                       View on Instagram
@@ -983,69 +1088,185 @@ export default function Home() {
           </motion.div>
         )}
 
-        {/* Photo of the Week Section with seamless transition */}
+        {/* Enhanced Photo of the Week Section */}
         <motion.div
           ref={potwRef}
           variants={potwVariants}
           initial="hidden"
           animate={controls}
-          className="w-full relative z-10 bg-gradient-to-b from-blue-900/30 to-transparent"
+          className="w-full relative z-10 bg-gradient-to-b from-blue-900/40 via-purple-900/20 to-transparent"
         >
-          <ResponsiveContainer size="xl" padding="lg" className="py-8 md:py-20">
-            <motion.h2
-              className="text-responsive font-bold text-center mb-6 md:mb-12"
-              style={{ fontSize: "clamp(1.5rem, 4vw, 2.5rem)" }}
+          {/* Background decorative elements */}
+          <div className="absolute inset-0 pointer-events-none overflow-hidden">
+            <div className="absolute w-80 h-80 rounded-full bg-gradient-to-r from-blue-500/5 to-purple-500/5 blur-3xl top-1/4 right-1/4 animate-pulse" />
+            <div className="absolute w-72 h-72 rounded-full bg-gradient-to-r from-purple-500/5 to-pink-500/5 blur-3xl bottom-1/4 left-1/4 animate-pulse" style={{ animationDelay: '2s' }} />
+          </div>
+
+          <ResponsiveContainer size="xl" padding="lg" className="py-12 md:py-24">
+            {/* Enhanced section title */}
+            <motion.div
+              className="text-center mb-12 md:mb-20"
               initial={{ opacity: 0, y: 20 }}
               animate={isPotwInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.6 }}
             >
-              Photo of the Week
-            </motion.h2>
+              <motion.h2
+                className="font-extrabold mb-4 relative"
+                style={{ fontSize: "clamp(1.75rem, 4.5vw, 3rem)" }}
+              >
+                <span className="bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent">
+                  Photo of the Week
+                </span>
+                {/* Decorative underline */}
+                <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full" />
+              </motion.h2>
+              
+              <motion.p
+                className="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed"
+                initial={{ opacity: 0 }}
+                animate={isPotwInView ? { opacity: 1 } : { opacity: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
+                Celebrating exceptional photography from our talented community
+              </motion.p>
+            </motion.div>
 
             {currentPotw ? (
-              <div className="flex flex-col lg:flex-row gap-4 md:gap-8 items-center">
+              <div className="flex flex-col lg:flex-row gap-8 md:gap-12 items-center">
+                {/* Enhanced image section */}
                 <motion.div
                   className="w-full lg:w-1/2 hardware-accelerated"
                   initial={{ opacity: 0, x: -50 }}
                   animate={isPotwInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
-                  transition={{ duration: 0.8, delay: 0.2 }}
+                  transition={{ duration: 0.8, delay: 0.3 }}
                 >
-                  <div className="glass-card">
-                    <ResponsiveImage
-                      src={currentPotw.image || "/placeholder.svg"}
-                      alt={`Photo of the Week - ${currentPotw.theme || ""} by ${currentPotw.photographer || ""}`}
-                      width={600}
-                      height={400}
-                      className="rounded-lg w-full shadow-lg"
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                    />
+                  <div className="relative group">
+                    {/* Enhanced glass card with better styling */}
+                    <div className="relative glass-card p-2 md:p-4 overflow-hidden">
+                      {/* Decorative border gradient */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-blue-500/20 rounded-xl blur-sm" />
+                      <div className="relative bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-xl border border-white/20 rounded-xl p-2 md:p-4">
+                        <ResponsiveImage
+                          src={currentPotw.image || "/placeholder.svg"}
+                          alt={`Photo of the Week - ${currentPotw.theme || ""} by ${currentPotw.photographer || ""}`}
+                          width={600}
+                          height={400}
+                          className="rounded-lg w-full shadow-2xl transition-transform duration-500 group-hover:scale-105"
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                        />
+                      </div>
+                    </div>
+                    
                   </div>
                 </motion.div>
 
+                {/* Enhanced content section */}
                 <motion.div
-                  className="w-full lg:w-1/2 space-y-4 hardware-accelerated"
+                  className="w-full lg:w-1/2 space-y-6 hardware-accelerated"
                   initial={{ opacity: 0, x: 50 }}
                   animate={isPotwInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
-                  transition={{ duration: 0.8, delay: 0.4 }}
+                  transition={{ duration: 0.8, delay: 0.5 }}
                 >
-                  <div className="glass-card p-6">
-                    <h3 className="text-responsive font-bold" style={{ fontSize: "clamp(1.25rem, 3vw, 1.5rem)" }}>
-                      {currentPotw.photographer}
-                    </h3>
-                    <p className="text-gray-400 text-responsive break-all sm:break-normal">
-                      {currentPotw.theme ? `Theme: "${currentPotw.theme}"` : ""}
-                    </p>
-                    <p className="text-gray-300 text-responsive">{currentPotw.description}</p>
-                    <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }} className="mt-4">
-                      <Link href="/potw" className="btn-primary inline-block w-full sm:w-auto text-center">
-                        View All Weekly Photos
-                      </Link>
-                    </motion.div>
+                  <div className="relative glass-card p-6 md:p-8 overflow-hidden">
+                    {/* Decorative border gradient */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-blue-500/10 rounded-xl blur-sm" />
+                    <div className="relative bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-xl border border-white/20 rounded-xl p-6 md:p-8">
+                      {/* Photographer name */}
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={isPotwInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                        transition={{ duration: 0.6, delay: 0.6 }}
+                      >
+                        <h3 
+                          className="font-extrabold mb-3 relative"
+                          style={{ fontSize: "clamp(1.5rem, 3.5vw, 2rem)" }}
+                        >
+                          <span className="bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent">
+                            {currentPotw.photographer}
+                          </span>
+                          {/* Decorative underline */}
+                          <div className="absolute -bottom-1 left-0 w-16 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full" />
+                        </h3>
+                      </motion.div>
+
+                      {/* Theme */}
+                      {currentPotw.theme && (
+                        <motion.div
+                          className="mb-4"
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={isPotwInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                          transition={{ duration: 0.6, delay: 0.7 }}
+                        >
+                          <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-500/20 border border-blue-400/30 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 text-blue-400">
+                              <path fillRule="evenodd" d="M9.53 2.47a.75.75 0 0 1 0 1.06L4.81 8.25H15a6.75 6.75 0 0 1 0 13.5h-3a.75.75 0 0 1 0-1.5h3a5.25 5.25 0 1 0 0-10.5H4.81l4.72 4.72a.75.75 0 1 1-1.06 1.06l-6-6a.75.75 0 0 1 0-1.06l6-6a.75.75 0 0 1 1.06 0Z" clipRule="evenodd" />
+                            </svg>
+                            <span className="text-blue-300 font-medium text-sm">
+                              Theme: "{currentPotw.theme}"
+                            </span>
+                          </div>
+                        </motion.div>
+                      )}
+
+                      {/* Description */}
+                      <motion.div
+                        className="mb-6"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={isPotwInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                        transition={{ duration: 0.6, delay: 0.8 }}
+                      >
+                        <p className="text-gray-300 text-base md:text-lg leading-relaxed">
+                          {currentPotw.description}
+                        </p>
+                      </motion.div>
+
+                      {/* CTA Button */}
+                      <motion.div 
+                        className="mt-6"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={isPotwInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                        transition={{ duration: 0.6, delay: 0.9 }}
+                      >
+                        <motion.div 
+                          whileHover={{ scale: 1.05 }} 
+                          transition={{ duration: 0.2 }}
+                          className="relative group"
+                        >
+                          {/* Button glow effect */}
+                          <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg blur-lg opacity-75 group-hover:opacity-100 transition-opacity duration-300 scale-110" />
+                          <Link 
+                            href="/potw" 
+                            className="relative btn-primary inline-block w-full sm:w-auto text-center px-8 py-3 text-lg font-bold shadow-2xl group-hover:shadow-blue-500/25 transition-all duration-300"
+                          >
+                            <span className="relative z-10 flex items-center justify-center gap-2">
+                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+                                <path fillRule="evenodd" d="M1.5 6a2.25 2.25 0 0 1 2.25-2.25h16.5A2.25 2.25 0 0 1 22.5 6v12a2.25 2.25 0 0 1-2.25 2.25H3.75A2.25 2.25 0 0 1 1.5 18V6ZM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0 0 21 18v-1.94l-2.69-2.689a1.5 1.5 0 0 0-2.12 0l-6.19 6.19a1.5 1.5 0 0 1-2.12 0L3 16.06Zm10.125-7.81a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Z" clipRule="evenodd" />
+                              </svg>
+                              View All Weekly Photos
+                            </span>
+                          </Link>
+                        </motion.div>
+                      </motion.div>
+                    </div>
                   </div>
                 </motion.div>
               </div>
             ) : (
-              <div className="text-center text-gray-400 py-12">No Photo of the Week available.</div>
+              <motion.div 
+                className="text-center py-16"
+                initial={{ opacity: 0 }}
+                animate={isPotwInView ? { opacity: 1 } : { opacity: 0 }}
+                transition={{ duration: 0.6 }}
+              >
+                <div className="glass-card p-8 max-w-md mx-auto">
+                  <div className="text-gray-400 text-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-12 h-12 mx-auto mb-4 text-gray-500">
+                      <path fillRule="evenodd" d="M1.5 6a2.25 2.25 0 0 1 2.25-2.25h16.5A2.25 2.25 0 0 1 22.5 6v12a2.25 2.25 0 0 1-2.25 2.25H3.75A2.25 2.25 0 0 1 1.5 18V6ZM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0 0 21 18v-1.94l-2.69-2.689a1.5 1.5 0 0 0-2.12 0l-6.19 6.19a1.5 1.5 0 0 1-2.12 0L3 16.06Zm10.125-7.81a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Z" clipRule="evenodd" />
+                    </svg>
+                    No Photo of the Week available at the moment.
+                  </div>
+                </div>
+              </motion.div>
             )}
           </ResponsiveContainer>
         </motion.div>
