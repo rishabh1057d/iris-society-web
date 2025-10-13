@@ -1,18 +1,18 @@
 [
   {
-    "id": 1,
+    "id": 3,
     "title": "PhotoWalk - Hyderabad",
     "dates": "1:30 PM | October 12, 2025",
     "location": "Chowmahalla Palace, Hyderabad",
     "collab": "IRIS Society x Sundarbans House",
     "image": "/images/hyderabad_meetum_12.jpg",
-    "status": "upcoming",
+    "status": "previous",
     "registrationOpen": true,
     "registrationLink": "https://forms.gle/ewUt7E6CRiEzyBM28",
     "locationLink": "https://share.google/L3vXUtC1OZrQmklV5"
   },
   {
-    "id": 3,
+    "id": 2,
     "title": "Photowalk - Varanasi",
     "dates": "2PM | October 5, 2025",
     "location": "BHU Varanasi Temple, Varanasi",
@@ -24,7 +24,7 @@
     "locationLink": "https://share.google/CVC4Jz7kYJOllcEXR"
   },
   {
-    "id": 2,
+    "id": 1,
     "title": "Photowalk - Kerala",
     "dates": "1PM | June 11 2025",
     "location": "Lulu Mall, Thrivananthapuram",
