@@ -9,9 +9,9 @@
     "start": "next start"
   },
   "dependencies": {
-    "@paper-design/shaders-react": "latest",
     "@emotion/is-prop-valid": "latest",
     "@hookform/resolvers": "^3.9.1",
+    "@paper-design/shaders-react": "latest",
     "@radix-ui/react-accordion": "1.2.2",
     "@radix-ui/react-alert-dialog": "1.1.4",
     "@radix-ui/react-aspect-ratio": "1.1.1",
@@ -50,6 +50,7 @@
     "lucide-react": "^0.454.0",
     "next": "15.2.4",
     "next-themes": "^0.4.4",
+    "ogl": "^1.0.11",
     "react": "^19",
     "react-day-picker": "8.10.1",
     "react-dom": "^19",

@@ -5,6 +5,7 @@ import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
 import Image from "next/image"
 import { motion, useInView } from "framer-motion"
+import CircularGallery from "@/components/circular-gallery"
 
 export default function Gallery() {
   const titleRef = useRef<HTMLHeadingElement>(null)
@@ -275,6 +276,7 @@ export default function Gallery() {
 
   const config = getGridConfig()
   const sortedItems = getSortedItems()
+  const isDesktop = screenSize === "desktop"
 
   return (
     <main className="flex min-h-screen flex-col items-center relative overflow-hidden">
@@ -312,98 +314,108 @@ export default function Gallery() {
           </div>
         </motion.div>
 
-        {/* Enhanced Gallery Grid */}
-        <motion.div
-          ref={galleryRef}
-          className="relative"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          {/* Dynamic Masonry Grid with Enhanced Styling */}
-          <div className="columns-2 sm:columns-3 lg:columns-4 xl:columns-5 gap-4 sm:gap-6 lg:gap-8">
-            {sortedItems.map((item, index) => {
-              const imageData = loadedImages[item.id]
-              const props = getGridItemProperties(item, index)
-              const isHero = props.size === "hero"
-              const isWide = props.size === "wide"
-              const isFeatured = props.size === "featured"
-              
-              return (
-                <motion.div
-                  key={item.id}
-                  className={`
-                    gallery-item group relative overflow-hidden rounded-2xl cursor-pointer break-inside-avoid mb-4 sm:mb-6 lg:mb-8
-                    ${isHero ? 'shadow-2xl shadow-purple-500/20' : ''}
-                    ${isWide ? 'shadow-xl shadow-blue-500/15' : ''}
-                    ${isFeatured ? 'shadow-lg shadow-pink-500/10' : 'shadow-md shadow-gray-500/10'}
-                    backdrop-blur-sm bg-white/5 border border-white/10
-                    hover:border-white/20 hover:shadow-2xl hover:shadow-purple-500/25
-                    transition-all duration-500 ease-out
-                  `}
-                  variants={isHero ? heroVariants : itemVariants}
-                  transition={{ duration: isHero ? 0.8 : 0.6, ease: "easeOut" }}
-                  whileHover={{
-                    scale: 1.03,
-                    y: -8,
-                    rotateY: 2,
-                    transition: { duration: 0.3, ease: "easeOut" }
-                  }}
-                  whileTap={{ scale: 0.98 }}
-                  onMouseEnter={() => setHoveredImage(item.id)}
-                  onMouseLeave={() => setHoveredImage(null)}
-                  custom={index}
-                >
-                  <div
-                    className="relative w-full overflow-hidden"
-                    style={{
-                      aspectRatio: imageData ? `${imageData.aspectRatio}` : "1",
+        {isDesktop ? (
+          <div className="relative">
+            <div className="w-full">
+              <CircularGallery
+                items={galleryItems.map((g: any) => ({ image: g.src, text: g.photographer }))}
+                bend={3}
+                textColor="#ffffff"
+                borderRadius={0.05}
+                scrollEase={0.02}
+              />
+            </div>
+          </div>
+        ) : (
+          <motion.div
+            ref={galleryRef}
+            className="relative"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            <div className="columns-2 sm:columns-3 lg:columns-4 xl:columns-5 gap-4 sm:gap-6 lg:gap-8">
+              {sortedItems.map((item, index) => {
+                const imageData = loadedImages[item.id]
+                const props = getGridItemProperties(item, index)
+                const isHero = props.size === "hero"
+                const isWide = props.size === "wide"
+                const isFeatured = props.size === "featured"
+                
+                return (
+                  <motion.div
+                    key={item.id}
+                    className={`
+                      gallery-item group relative overflow-hidden rounded-2xl cursor-pointer break-inside-avoid mb-4 sm:mb-6 lg:mb-8
+                      ${isHero ? 'shadow-2xl shadow-purple-500/20' : ''}
+                      ${isWide ? 'shadow-xl shadow-blue-500/15' : ''}
+                      ${isFeatured ? 'shadow-lg shadow-pink-500/10' : 'shadow-md shadow-gray-500/10'}
+                      backdrop-blur-sm bg-white/5 border border-white/10
+                      hover:border-white/20 hover:shadow-2xl hover:shadow-purple-500/25
+                      transition-all duration-500 ease-out
+                    `}
+                    variants={isHero ? heroVariants : itemVariants}
+                    transition={{ duration: isHero ? 0.8 : 0.6, ease: "easeOut" }}
+                    whileHover={{
+                      scale: 1.03,
+                      y: -8,
+                      rotateY: 2,
+                      transition: { duration: 0.3, ease: "easeOut" }
                     }}
+                    whileTap={{ scale: 0.98 }}
+                    onMouseEnter={() => setHoveredImage(item.id)}
+                    onMouseLeave={() => setHoveredImage(null)}
+                    custom={index}
                   >
-                    <Image
-                      src={item.src || "/placeholder.svg"}
-                      alt={`Photo by ${item.photographer}`}
-                      fill
-                      style={{ 
-                        objectFit: "cover", 
-                        filter: imageData ? undefined : 'blur(12px)',
-                        transition: 'all 0.5s ease-out'
+                    <div
+                      className="relative w-full overflow-hidden"
+                      style={{
+                        aspectRatio: imageData ? `${imageData.aspectRatio}` : "1",
                       }}
-                      className={`
-                        absolute inset-0 transition-all duration-500 ease-out
-                        ${imageData ? 'group-hover:scale-110' : 'bg-gray-300 animate-pulse'}
-                        ${hoveredImage === item.id ? 'brightness-110' : ''}
-                      `}
-                      onLoad={(e) => handleImageLoad(item.id, e)}
-                      sizes={`
-                        (max-width: 640px) 50vw,
-                        (max-width: 1024px) 33vw,
-                        (max-width: 1280px) 25vw,
-                        20vw
-                      `}
-                      priority={index < 16}
-                      quality={85}
-                    />
-                    
-                    {/* Photographer Name - Simple Hover Effect */}
-                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-end">
-                      <div className="w-full p-3 sm:p-4">
-                        <div className="bg-black/80 backdrop-blur-sm rounded-lg px-3 py-2">
-                          <span className="text-white text-sm font-medium">
-                            {item.photographer}
-                          </span>
+                    >
+                      <Image
+                        src={item.src || "/placeholder.svg"}
+                        alt={`Photo by ${item.photographer}`}
+                        fill
+                        style={{ 
+                          objectFit: "cover", 
+                          filter: imageData ? undefined : 'blur(12px)',
+                          transition: 'all 0.5s ease-out'
+                        }}
+                        className={`
+                          absolute inset-0 transition-all duration-500 ease-out
+                          ${imageData ? 'group-hover:scale-110' : 'bg-gray-300 animate-pulse'}
+                          ${hoveredImage === item.id ? 'brightness-110' : ''}
+                        `}
+                        onLoad={(e) => handleImageLoad(item.id, e)}
+                        sizes={`
+                          (max-width: 640px) 50vw,
+                          (max-width: 1024px) 33vw,
+                          (max-width: 1280px) 25vw,
+                          20vw
+                        `}
+                        priority={index < 16}
+                        quality={85}
+                      />
+                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-end">
+                        <div className="w-full p-3 sm:p-4">
+                          <div className="bg-black/80 backdrop-blur-sm rounded-lg px-3 py-2">
+                            <span className="text-white text-sm font-medium">
+                              {item.photographer}
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </motion.div>
-              )
-            })}
-          </div>
-        </motion.div>
+                  </motion.div>
+                )
+              })}
+            </div>
+          </motion.div>
+        )}
 
-        {/* Loading Progress Indicator */}
-        {!imagesLoaded && (
+        {/* Loading Progress Indicator (mobile/tablet only) */}
+        {!isDesktop && !imagesLoaded && (
           <motion.div
             className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50"
             initial={{ opacity: 0 }}
