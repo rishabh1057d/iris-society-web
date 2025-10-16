@@ -2,12 +2,13 @@ import { Metadata } from "next"
 import AboutClientPage from "./about-client-page"
 
 export const metadata: Metadata = {
-  title: "About Us | IRIS Society",
+  title: "About IRIS Society | Photography & Videography at IITM BS",
   description:
-    "Learn about IRIS Society, the official Photography and Videography Society of IIT Madras BS Degree program. Discover our mission, activities, and what makes our community of visual storytellers unique.",
+    "Discover IRIS Society — the official Photography & Videography Society of the IIT Madras BS program. Explore our story, activities, workshops, and creative community.",
   openGraph: {
-    title: "About Us | IRIS Society",
-    description: "Learn about IRIS Society, the official Photography and Videography Society of IIT Madras BS Degree program.",
+    title: "About IRIS Society | IITM BS",
+    description:
+      "Discover IRIS Society — the official Photography & Videography Society of the IIT Madras BS program.",
     images: [
       {
         url: "/images/logo-tilted.png",
@@ -18,8 +19,9 @@ export const metadata: Metadata = {
     ],
   },
   twitter: {
-    title: "About Us | IRIS Society",
-    description: "Learn about IRIS Society, the official Photography and Videography Society of IIT Madras BS Degree program.",
+    title: "About IRIS Society",
+    description:
+      "Discover IRIS Society — the official Photography & Videography Society of the IIT Madras BS program.",
     images: ["/images/logo-tilted.png"],
   },
 }
