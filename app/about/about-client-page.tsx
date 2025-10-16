@@ -62,7 +62,7 @@ export default function AboutClientPage() {
               space to learn, explore, and grow your craft.
             </p>
 
-            <div className="mt-6 grid grid-cols-2 gap-4">
+            <div className="mt-6 grid grid-cols-1 xs:grid-cols-2 md:grid-cols-2 gap-3 sm:gap-4 w-full">
               {[
                 { label: "Workshops", icon: "🎓" },
                 { label: "Competitions", icon: "🏆" },
@@ -74,12 +74,12 @@ export default function AboutClientPage() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={isTextInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
                   transition={{ duration: 0.4, delay: 0.15 + idx * 0.08 }}
-                  className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-3 py-2"
+                  className="flex min-w-0 items-center gap-2 sm:gap-3 rounded-xl border border-white/10 bg-white/5 px-2.5 py-2 sm:px-3 sm:py-2.5 md:px-4 md:py-3 overflow-hidden w-full"
                 >
-                  <span className="text-lg" aria-hidden>
+                  <span className="text-base sm:text-lg md:text-xl" aria-hidden>
                     {item.icon}
                   </span>
-                  <span className="text-gray-200">{item.label}</span>
+                  <span className="text-gray-200 text-sm sm:text-base whitespace-pre-line break-words break-all">{item.label}</span>
                 </motion.div>
               ))}
             </div>

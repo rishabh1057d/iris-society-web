@@ -54,7 +54,7 @@ export default function Contact() {
                 alt="A collage of photos taken by IRIS Society members"
                 width={1000}
                 height={800}
-                className="w-full h-full object-cover"
+                className="w-full h-auto object-cover"
                 priority
               />
             </div>
@@ -67,58 +67,58 @@ export default function Contact() {
               <div className="grid gap-4">
                 <a
                   href="mailto:photography.society@study.iitm.ac.in"
-                  className="group flex items-center justify-between rounded-xl border border-white/10 bg-white/5 px-4 py-3 hover:bg-white/10 transition-colors"
+                  className="group w-full max-w-full overflow-hidden flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 rounded-xl border border-white/10 bg-white/5 px-3 md:px-4 py-3 hover:bg-white/10 transition-colors"
                 >
-                  <div className="flex items-center gap-3">
-                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-blue-500/20 text-blue-200">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <span className="inline-flex h-8 w-8 md:h-9 md:w-9 items-center justify-center rounded-lg bg-blue-500/20 text-blue-200 shrink-0">
                       <Mail className="h-5 w-5" />
                     </span>
-                    <div>
-                      <div className="text-white font-medium">Email</div>
-                      <div className="text-gray-300 text-sm">photography.society@study.iitm.ac.in</div>
+                    <div className="min-w-0">
+                      <div className="text-white font-medium text-sm sm:text-base">Email</div>
+                      <div className="text-gray-300 text-sm break-words break-all">photography.society@study.iitm.ac.in</div>
                     </div>
                   </div>
-                  <span className="text-gray-400 text-sm group-hover:text-gray-300">Write to us →</span>
+                  <span className="hidden md:inline text-gray-400 text-sm group-hover:text-gray-300 shrink-0">Write to us →</span>
                 </a>
 
                 <Link
                   href="https://www.linkedin.com/company/iris-camera-society/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center justify-between rounded-xl border border-white/10 bg-white/5 px-4 py-3 hover:bg-white/10 transition-colors"
+                  className="group w-full max-w-full overflow-hidden flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 rounded-xl border border-white/10 bg-white/5 px-3 md:px-4 py-3 hover:bg-white/10 transition-colors"
                 >
-                  <div className="flex items-center gap-3">
-                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-blue-500/20 text-blue-200">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <span className="inline-flex h-8 w-8 md:h-9 md:w-9 items-center justify-center rounded-lg bg-blue-500/20 text-blue-200 shrink-0">
                       <Linkedin className="h-5 w-5" />
                     </span>
-                    <div>
-                      <div className="text-white font-medium">LinkedIn</div>
-                      <div className="text-gray-300 text-sm">IRIS Camera Society</div>
+                    <div className="min-w-0">
+                      <div className="text-white font-medium text-sm sm:text-base">LinkedIn</div>
+                      <div className="text-gray-300 text-sm break-words">IRIS Camera Society</div>
                     </div>
                   </div>
-                  <span className="text-gray-400 text-sm group-hover:text-gray-300">Follow →</span>
+                  <span className="hidden md:inline text-gray-400 text-sm group-hover:text-gray-300 shrink-0">Follow →</span>
                 </Link>
 
                 <Link
                   href="https://www.instagram.com/iris_iitm"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center justify-between rounded-xl border border-white/10 bg-white/5 px-4 py-3 hover:bg-white/10 transition-colors"
+                  className="group w-full max-w-full overflow-hidden flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 rounded-xl border border-white/10 bg-white/5 px-3 md:px-4 py-3 hover:bg-white/10 transition-colors"
                 >
-                  <div className="flex items-center gap-3">
-                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-blue-500/20 text-blue-200">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <span className="inline-flex h-8 w-8 md:h-9 md:w-9 items-center justify-center rounded-lg bg-blue-500/20 text-blue-200 shrink-0">
                       <Instagram className="h-5 w-5" />
                     </span>
-                    <div>
-                      <div className="text-white font-medium">Instagram</div>
-                      <div className="text-gray-300 text-sm">@iris_iitm</div>
+                    <div className="min-w-0">
+                      <div className="text-white font-medium text-sm sm:text-base">Instagram</div>
+                      <div className="text-gray-300 text-sm break-words">@iris_iitm</div>
                     </div>
                   </div>
-                  <span className="text-gray-400 text-sm group-hover:text-gray-300">Connect →</span>
+                  <span className="hidden md:inline text-gray-400 text-sm group-hover:text-gray-300 shrink-0">Connect →</span>
                 </Link>
               </div>
 
-              <div className="mt-8 grid grid-cols-2 gap-4">
+              <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="rounded-xl border border-white/10 bg-white/5 px-4 py-4 text-center">
                   <div className="text-white text-lg font-semibold">Collaborate</div>
                   <div className="text-gray-300 text-sm mt-1">Work with us</div>
