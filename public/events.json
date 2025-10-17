@@ -1,4 +1,19 @@
 [{
+  "id": 17,
+  "title": "Festive Frames: Diwali Edition",
+  "description": "The festival that fills every corner with light. This Diwali, PAUSE for a moment & capture the little moments, like the quiet beauty that shines beyond the diyas!!",
+  "dates": "17th Oct - 28th Oct 2025",
+  "location": "Online",
+  "collab": "IRIS Society",
+  "image": "/images/festive_frames_diwali.jpg",
+  "registrationOpen": true,
+  "registrationLink": "https://forms.gle/ju76WRZGVm1voBk96",
+  "status": "ongoing",
+  "resultLink": "",
+  "liveSessionLink": "",
+  "speakerInstagram": "https://www.instagram.com/srivatsansankaran?igsh=MWt5M2Nycm1qbTRoeA=="
+},
+{
   "id": 16,
   "title": " Lumina Frames 🌸",
   "description": "Capture your favorite Navratri & Dussehra moments in one magical clip. No experience, no limits – just the festive vibe!",
