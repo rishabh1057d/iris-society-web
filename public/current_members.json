@@ -56,7 +56,7 @@
   "recruiting":false, 
   "recruitmentForm": "https://forms.gle/XkNmxfYLzbR6E7Xt8",
   "video_home": {
-    "enabled": true,
+    "enabled": false,
     "src": "/videos/iris_reel__1.mp4",
     "title": "Watch Our Story",
     "description": "Click the speaker icon to unmute",
