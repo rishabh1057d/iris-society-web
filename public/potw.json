@@ -326,5 +326,17 @@
       "description": "In the glow of the flame and the silence of reverence, faith takes form. Navratri isn’t just about celebration — it’s about the quiet moments when devotion speaks louder than words, when every flicker of light becomes a prayer in motion.",
       "image": "/images/potw_36.jpg"
     }
+  ],
+  "October": [
+    {
+      "id": 37,
+      "week": 1,
+      "month": "October",
+      "theme": "Dualities",
+      "photographer": "Vijyansh Pandey",
+      "email": "",
+      "description": "Between fear and focus, there’s balance.A child walking the tightrope, carrying more than just weight, she carries courage, hope, and survival in each careful step.In her calm above the chaos lies the truest form of duality, strength wrapped in innocence. ",
+      "image": "/images/potw_37.jpg"
+    }
   ]
 }
