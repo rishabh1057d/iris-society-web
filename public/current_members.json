@@ -45,13 +45,14 @@
     { "id": 18, "name": "Rishabh Singh", "role": "Web Developer", "description": "Development of the entire website from scratch and continues to maintain and improve its features.", "image": "/images/rishabh.jpg", "linkedin": "https://www.linkedin.com/in/rishabh-singh-514b8628a/" }
   ],
   "popup": {
-    "enabled": false,
-    "title": "Shutter Safari - Saavan Edition",
-    "description": "Shutter Safari: Saavan Edition is IRIS Society's flagship photography competition, continuing the legacy from Paradox and Margazhi. Features two rounds: Street Stories (street photography) and Beyond the Visible (abstract photography), with expert judging celebrating storytelling and technical artistry.",
-    "image": "/images/Shutter_Safari_saavan.png",
-    "registerUrl": "https://saavan.iitmparadox.org/events/culturals/kha1IPT4cFGeiblHYUvh",
-    "rulebookUrl": "https://drive.google.com/file/d/1dI0hiLxjuB9nVXANUEQuDaPqdqhT72xN/view?usp=sharing",
-    "registrationDeadline": "2025-09-18T08:00:00"
+    "enabled": true,
+    "fireworks": true,
+    "title": "Festive Frames: Diwali Edition",
+    "description": "The festival that fills every corner with light. This Diwali, PAUSE for a moment & capture the little moments, like the quiet beauty that shines beyond the diyas!!",
+    "image": "/images/festive_frames_diwali.jpg",
+    "registerUrl": "https://forms.gle/ju76WRZGVm1voBk96",
+    "rulebookUrl": "https://drive.google.com/file/d/1WvI6jITvFWuo9RMePsDHbwVUNk2hKuWO/view?usp=drivesdk",
+    "registrationDeadline": "2025-10-28T23:59:59"
   },
   "recruiting":false, 
   "recruitmentForm": "https://forms.gle/XkNmxfYLzbR6E7Xt8",

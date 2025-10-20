@@ -13,193 +13,132 @@ import ErrorBoundary from "@/components/error-boundary"
 import RedirectHandler from "@/components/redirect-handler"
 import { motion, AnimatePresence, useAnimation, useInView, useScroll, useTransform } from "framer-motion"
 function RainOverlay() {
-  const drops = useMemo(() => {
-    const count = 100 // Optimized count for better performance
+  const palette = [
+    '#fff2b2', // bright gold
+    '#ffd166', // gold
+    '#ff9f1c', // deep orange
+    '#ff3b3b', // bright red
+    '#ff7ae6', // pink
+    '#93c5fd', // blue
+    '#22d3ee', // cyan
+    '#86efac', // green
+    '#f0abfc', // purple
+    '#ffffff', // white core
+  ]
+
+  const bursts = useMemo(() => {
+    const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 640px)').matches
+    const count = isMobile ? 14 : 28
     return Array.from({ length: count }).map((_, i) => {
-      const left = Math.random() * 100
-      const delay = Math.random() * 2.5
-      const duration = 1.2 + Math.random() * 2.0 // More varied timing
-      const scale = 0.4 + Math.random() * 1.2 // More size variation
-      const opacity = 0.15 + Math.random() * 0.45 // More opacity variation
-      const windOffset = (Math.random() - 0.5) * 8 // Wind effect
-      const speed = 0.8 + Math.random() * 0.6 // Speed variation
-      const shimmer = Math.random() > 0.7 // Some drops shimmer
-      const isHeavy = Math.random() > 0.8 // Some heavy drops
-      return { 
-        id: i, 
-        left, 
-        delay, 
-        duration, 
-        scale, 
-        opacity, 
-        windOffset, 
-        speed, 
-        shimmer, 
-        isHeavy 
-      }
+      const left = 8 + Math.random() * 84
+      const top = 18 + Math.random() * 52
+      const delay = Math.random() * 2.2
+      const size = (isMobile ? 60 : 90) + Math.random() * (isMobile ? 80 : 120)
+      const color = palette[Math.floor(Math.random() * palette.length)]
+      const sparks = (isMobile ? 10 : 14) + Math.floor(Math.random() * (isMobile ? 4 : 6))
+      const duration = (isMobile ? 1.0 : 1.2) + Math.random() * (isMobile ? 0.6 : 0.8)
+      return { id: i, left, top, delay, size, color, sparks, duration }
     })
   }, [])
 
   return (
     <div className="pointer-events-none fixed inset-0 z-[60] overflow-hidden">
-      {/* Background mist effect */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-900/5 to-blue-900/10" />
-      
-      {drops.map((d) => (
-        <span
-          key={d.id}
-          className={`rain-drop ${d.shimmer ? 'shimmer' : ''} ${d.isHeavy ? 'heavy' : ''}`}
+
+      {bursts.map((b) => (
+        <div
+          key={b.id}
+          className="firework"
           style={{
-            left: `${d.left}%`,
-            animationDelay: `${d.delay}s`,
-            animationDuration: `${d.duration}s`,
-            opacity: d.opacity,
-            transform: `scale(${d.scale})`,
-            '--wind-offset': `${d.windOffset}px`,
-            '--speed': d.speed,
+            left: `${b.left}%`,
+            top: `${b.top}%`,
+            animationDelay: `${b.delay}s`,
+            // CSS vars for children
+            // @ts-ignore
+            '--size': `${b.size}px`,
+            '--clr': b.color,
+            '--dur': `${b.duration}s`,
           } as React.CSSProperties}
-        />
+        >
+          {Array.from({ length: b.sparks }).map((_, i) => (
+            <span
+              key={i}
+              className="spark"
+              style={{ ['--i' as any]: i, ['--angle' as any]: `${(360 / b.sparks) * i}deg` } as React.CSSProperties}
+            />
+          ))}
+          <span className="core" />
+        </div>
       ))}
-      
-      {/* Additional atmospheric effects */}
-      <div className="absolute inset-0">
-        <div className="rain-mist" />
-        <div className="rain-mist" style={{ animationDelay: '1s' }} />
-        <div className="rain-mist" style={{ animationDelay: '2s' }} />
-      </div>
 
       <style jsx>{`
-        .rain-drop {
+        .firework {
           position: absolute;
-          top: -15vh;
-          width: 1.5px;
-          height: 20vh;
-          background: linear-gradient(
-            to bottom, 
-            rgba(255,255,255,0), 
-            rgba(255,255,255,0.3) 20%,
-            rgba(255,255,255,0.7) 50%,
-            rgba(255,255,255,0.4) 80%,
-            rgba(255,255,255,0)
-          );
-          filter: blur(0.3px);
+          width: 2px;
+          height: 2px;
+          transform: translate(-50%, -50%);
+          filter: drop-shadow(0 0 10px var(--clr)) drop-shadow(0 0 18px var(--clr));
+        }
+
+        .core {
+          position: absolute;
+          inset: -4px;
           border-radius: 9999px;
-          animation-name: rainFall;
-          animation-timing-function: linear;
-          animation-iteration-count: infinite;
-          box-shadow: 0 0 2px rgba(255,255,255,0.3);
-          will-change: transform, opacity;
-          transform: translateZ(0); /* Hardware acceleration */
+          background: radial-gradient(circle, var(--clr), rgba(255,255,255,0.4) 30%, transparent 65%);
+          animation: corePulse var(--dur) ease-out infinite;
+          opacity: 0.95;
         }
-        
-        .rain-drop.heavy {
-          width: 2.5px;
-          height: 25vh;
-          background: linear-gradient(
-            to bottom, 
-            rgba(255,255,255,0), 
-            rgba(255,255,255,0.4) 15%,
-            rgba(255,255,255,0.8) 40%,
-            rgba(255,255,255,0.6) 70%,
-            rgba(255,255,255,0)
-          );
-          filter: blur(0.5px);
-          box-shadow: 0 0 4px rgba(255,255,255,0.4);
-          will-change: transform, opacity;
-          transform: translateZ(0);
-        }
-        
-        .rain-drop.shimmer {
-          background: linear-gradient(
-            to bottom, 
-            rgba(255,255,255,0), 
-            rgba(173,216,230,0.2) 20%,
-            rgba(255,255,255,0.8) 50%,
-            rgba(173,216,230,0.3) 80%,
-            rgba(255,255,255,0)
-          );
-          box-shadow: 0 0 3px rgba(173,216,230,0.5);
-          will-change: transform, opacity;
-          transform: translateZ(0);
-        }
-        
-        .rain-mist {
+
+        .spark {
           position: absolute;
-          top: 0;
           left: 0;
-          right: 0;
-          height: 100%;
-          background: linear-gradient(
-            to bottom,
-            transparent 0%,
-            rgba(135,206,250,0.02) 30%,
-            rgba(135,206,250,0.05) 60%,
-            transparent 100%
-          );
-          animation: mistDrift 8s ease-in-out infinite;
+          top: 0;
+          width: 3px;
+          height: 10px;
+          transform-origin: center calc(var(--size) * 0.1);
+          background: linear-gradient(to bottom, #ffffff, var(--clr), transparent 80%);
+          border-radius: 9999px;
+          box-shadow: 0 0 10px var(--clr), 0 0 18px var(--clr);
+          transform: rotate(var(--angle)) translateY(0);
+          animation: explode var(--dur) ease-out infinite;
         }
-        
-        @keyframes rainFall {
-          0% { 
-            transform: translate3d(0, -15vh, 0) scale(var(--scale, 1)) translateX(0px);
+
+        @keyframes corePulse {
+          0% { opacity: 0; transform: scale(0.2); }
+          12% { opacity: 1; transform: scale(1.05); }
+          60% { opacity: 0.5; transform: scale(0.9); }
+          100% { opacity: 0; transform: scale(0.2); }
+        }
+
+        @keyframes explode {
+          0% {
+            transform: rotate(var(--angle)) translateY(0) scale(0.6);
             opacity: 0;
           }
-          10% {
-            opacity: var(--opacity, 0.5);
-          }
-          90% {
-            opacity: var(--opacity, 0.5);
-          }
-          100% { 
-            transform: translate3d(var(--wind-offset, 0px), 115vh, 0) scale(var(--scale, 1)) translateX(calc(var(--wind-offset, 0px) * 0.5));
-            opacity: 0;
-          }
-        }
-        
-        @keyframes mistDrift {
-          0%, 100% { 
-            transform: translateX(0px) scale(1);
-            opacity: 0.3;
-          }
-          25% { 
-            transform: translateX(10px) scale(1.02);
-            opacity: 0.4;
-          }
-          50% { 
-            transform: translateX(-5px) scale(0.98);
-            opacity: 0.2;
-          }
-          75% { 
-            transform: translateX(8px) scale(1.01);
-            opacity: 0.35;
-          }
-        }
-        
-        /* Add subtle wind effect to the entire rain */
-        .rain-drop:nth-child(odd) {
-          animation-name: rainFallWind;
-        }
-        
-        @keyframes rainFallWind {
-          0% { 
-            transform: translate3d(0, -15vh, 0) scale(var(--scale, 1)) translateX(0px);
-            opacity: 0;
-          }
-          10% {
-            opacity: var(--opacity, 0.5);
-          }
-          30% {
-            transform: translate3d(calc(var(--wind-offset, 0px) * 0.3), -10vh, 0) scale(var(--scale, 1)) translateX(2px);
+          12% {
+            opacity: 1;
           }
           60% {
-            transform: translate3d(calc(var(--wind-offset, 0px) * 0.7), 50vh, 0) scale(var(--scale, 1)) translateX(4px);
+            transform: rotate(var(--angle)) translateY(calc(var(--size) * -0.85)) scale(1.05);
+            opacity: 1;
           }
-          90% {
-            opacity: var(--opacity, 0.5);
-          }
-          100% { 
-            transform: translate3d(var(--wind-offset, 0px), 115vh, 0) scale(var(--scale, 1)) translateX(calc(var(--wind-offset, 0px) * 0.8));
+          100% {
+            transform: rotate(var(--angle)) translateY(calc(var(--size) * -1)) scale(0.95);
             opacity: 0;
+          }
+        }
+
+        /* Mobile: tone down intensity for readability */
+        @media (max-width: 640px) {
+          .firework {
+            filter: drop-shadow(0 0 6px var(--clr)) drop-shadow(0 0 10px var(--clr));
+          }
+          .core {
+            opacity: 0.6;
+          }
+          .spark {
+            height: 8px;
+            box-shadow: 0 0 6px var(--clr), 0 0 10px var(--clr);
+            background: linear-gradient(to bottom, rgba(255,255,255,0.7), var(--clr), transparent 80%);
           }
         }
       `}</style>
@@ -229,6 +168,7 @@ export default function Home() {
   const [showHiringModal, setShowHiringModal] = useState(false)
   const [recruiting, setRecruiting] = useState(false)
   const [showEventPopup, setShowEventPopup] = useState(false)
+  const [showFireworks, setShowFireworks] = useState(false)
   const [popupData, setPopupData] = useState<{ enabled?: boolean; title?: string; description?: string; image?: string; registerUrl?: string; rulebookUrl?: string; registrationDeadline?: string } | null>(null)
   const [imageLoaded, setImageLoaded] = useState(false)
   const [videoMuted, setVideoMuted] = useState(true)
@@ -478,6 +418,14 @@ export default function Home() {
               document.head.appendChild(link)
             }
           }
+          // Fireworks trigger specifically under popup
+          try {
+            setShowFireworks(Boolean(data.popup.fireworks))
+          } catch {
+            setShowFireworks(false)
+          }
+        } else {
+          setShowFireworks(false)
         }
         if (data && data.video_home) {
           setVideoData(data.video_home)
@@ -508,6 +456,18 @@ export default function Home() {
       }, 500)
     }
   }, [showEventPopup, popupData?.enabled, videoData?.enabled])
+
+  // Close event popup on ESC
+  useEffect(() => {
+    if (!showEventPopup) return
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setShowEventPopup(false)
+      }
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [showEventPopup])
 
   // Auto-scroll and autoplay when popup is disabled but video section is enabled
   useEffect(() => {
@@ -574,7 +534,7 @@ export default function Home() {
               exit={{ opacity: 0 }}
               onClick={() => setShowEventPopup(false)}
             >
-              <RainOverlay />
+              {showFireworks && <RainOverlay />}
               <motion.div
                 className="relative z-[55] rounded-2xl overflow-hidden w-full max-w-[1100px] h-[90vh] md:h-[80vh] max-h-[90vh] md:max-h-[85vh] flex flex-col md:flex-row backdrop-blur-xl bg-white/10 border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.3)]"
                 variants={modalVariants}
