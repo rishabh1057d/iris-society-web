@@ -45,8 +45,8 @@
     { "id": 18, "name": "Rishabh Singh", "role": "Web Developer", "description": "Development of the entire website from scratch and continues to maintain and improve its features.", "image": "/images/rishabh.jpg", "linkedin": "https://www.linkedin.com/in/rishabh-singh-514b8628a/" }
   ],
   "popup": {
-    "enabled": true,
-    "fireworks": true,
+    "enabled": false,
+    "fireworks": false,
     "title": "Festive Frames: Diwali Edition",
     "description": "The festival that fills every corner with light. This Diwali, PAUSE for a moment & capture the little moments, like the quiet beauty that shines beyond the diyas!!",
     "image": "/images/festive_frames_diwali.jpg",

@@ -337,6 +337,36 @@
       "email": "",
       "description": "Between fear and focus, there’s balance.A child walking the tightrope, carrying more than just weight, she carries courage, hope, and survival in each careful step.In her calm above the chaos lies the truest form of duality, strength wrapped in innocence. ",
       "image": "/images/potw_37.jpg"
+    },
+    {
+      "id": 38,
+      "week": 2,
+      "month": "October",
+      "theme": "Break",
+      "photographer": "No Winner",
+      "email": "",
+      "description": "Break",
+      "image": "/images/PAradox_break.jpg"
+    },
+    {
+      "id": 39,
+      "week": 3,
+      "month": "October",
+      "theme": "Break",
+      "photographer": "No Winner",
+      "email": "",
+      "description": "Break",
+      "image": "/images/PAradox_break.jpg"
+    },
+    {
+      "id": 40,
+      "week": 4,
+      "month": "October",
+      "theme": "Through the Glow",
+      "photographer": "Amirtheswaran",
+      "email": "",
+      "description": "When the sun starts to sink, everything slows down. The light softens, the sky changes colours, and for a short while, the world feels calm and alive at the same time.",
+      "image": "/images/potw_40.jpg"
     }
   ]
 }
