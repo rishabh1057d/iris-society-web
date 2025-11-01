@@ -57,10 +57,10 @@
   "recruiting":false, 
   "recruitmentForm": "https://forms.gle/XkNmxfYLzbR6E7Xt8",
   "video_home": {
-    "enabled": false,
-    "src": "/videos/iris_reel__1.mp4",
+    "enabled": true,
+    "src": "/videos/Iris_reel__2.mp4",
     "title": "Watch Our Story",
     "description": "Click the speaker icon to unmute",
-    "instagramUrl": "https://www.instagram.com/reel/DOJ6H0CE2Tp/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA=="
+    "instagramUrl": "https://www.instagram.com/reel/DQcGfEvknsO/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA=="
   }
 }

@@ -342,6 +342,9 @@ export default function Gallery() {
                 const isWide = props.size === "wide"
                 const isFeatured = props.size === "featured"
                 
+                // Prioritize only first 4 images for better perceived speed,
+                // lazy load the rest (default in Next.js)
+                const isPriority = index < 4
                 return (
                   <motion.div
                     key={item.id}
@@ -394,8 +397,9 @@ export default function Gallery() {
                           (max-width: 1280px) 25vw,
                           20vw
                         `}
-                        priority={index < 16}
+                        priority={isPriority}
                         quality={85}
+                        loading={isPriority ? undefined : "lazy"}
                       />
                       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-end">
                         <div className="w-full p-3 sm:p-4">
