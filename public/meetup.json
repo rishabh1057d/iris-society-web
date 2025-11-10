@@ -1,4 +1,16 @@
 [{
+  "id": 5,
+  "title": "PhotoWalk - Jaipur",
+  "dates": "10AM | November 16, 2025",
+  "location": "Albert Hall Museum, Jaipur",
+  "collab": "IRIS Society x Corbett House",
+  "image": "/images/Jaipur_meetup.png",
+  "status": "upcoming",
+  "registrationOpen": true,
+  "registrationLink": "https://forms.gle/sNnLXyUgbSfaUMZc7",
+  "locationLink": "https://share.google/0FnGd9oMjvyoWkydB"
+},
+  {
   "id": 4,
   "title": "PhotoWalk - Chennai",
   "dates": "3PM - 6PM | October 19, 2025",
