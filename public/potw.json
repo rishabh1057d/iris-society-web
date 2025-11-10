@@ -368,5 +368,17 @@
       "description": "When the sun starts to sink, everything slows down. The light softens, the sky changes colours, and for a short while, the world feels calm and alive at the same time.",
       "image": "/images/potw_40.jpg"
     }
+  ],
+  "November": [
+    {
+      "id": 41,
+      "week": 1,
+      "month": "November",
+      "theme": "Sky is the Canvas",
+      "photographer": "Niya Shine",
+      "email": "",
+      "description": "Clouds shift, stretch, and twist into shapes that vanish in seconds. This week is about catching those fleeting patterns that feel alive. Finding the clouds that tell a story - maybe a creature, a face, or something only you can see - and capture that brief moment before it drifts away.",
+      "image": "/images/potw_41.png"
+    }
   ]
 }
