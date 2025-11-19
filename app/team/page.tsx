@@ -296,10 +296,11 @@ export default function Team() {
 
         {/* Enhanced Team Sections */}
         {[
+          { key: "Coordinators", title: "Coordinators", description: "Supporting team operations" },
           { key: "OutreachAndSponsor", title: "Outreach and Sponsorship Team", description: "Building connections and partnerships" },
-          { key: "ContentStrategyPR", title: "Content Strategy & PR", description: "Crafting our story and public relations" },
           { key: "CreativeProduction", title: "Creative Production Crew", description: "Bringing ideas to life through media" },
           { key: "MultimediaDesign", title: "Multimedia and Design", description: "Creating stunning visual experiences" },
+          { key: "ContentStrategyPR", title: "Content Strategy & PR", description: "Crafting our story and public relations" },
         ].map(section => (
           (currentMembers[section.key] && currentMembers[section.key].length > 0) ? (
             <div key={section.key} className="mb-20">
