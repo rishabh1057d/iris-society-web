@@ -379,6 +379,16 @@
       "email": "",
       "description": "Clouds shift, stretch, and twist into shapes that vanish in seconds. This week is about catching those fleeting patterns that feel alive. Finding the clouds that tell a story - maybe a creature, a face, or something only you can see - and capture that brief moment before it drifts away.",
       "image": "/images/potw_41.png"
+    },
+    {
+      "id": 42,
+      "week": 2,
+      "month": "November",
+      "theme": "Desk Diaries",
+      "photographer": "Jalaja",
+      "email": "",
+      "description": "A desk holds more truth than it shows. Screens glow, notes pile up, and every object becomes a trace of how someone thinks and works. This frame captures that mix of focus and disorder that builds real progress. A workspace is never just a table. It is a record of effort taking shape.",
+      "image": "/images/potw_42.jpg"
     }
   ]
 }
