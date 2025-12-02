@@ -389,6 +389,26 @@
       "email": "",
       "description": "A desk holds more truth than it shows. Screens glow, notes pile up, and every object becomes a trace of how someone thinks and works. This frame captures that mix of focus and disorder that builds real progress. A workspace is never just a table. It is a record of effort taking shape.",
       "image": "/images/potw_42.jpg"
+    },
+    {
+      "id": 43,
+      "week": 3,
+      "month": "November",
+      "theme": "Break due to Quiz-2",
+      "photographer": "No Winner",
+      "email": "",
+      "description": "Break",
+      "image": "/images/PAradox_break.jpg"
+    },
+    {
+      "id": 44,
+      "week": 4,
+      "month": "November",
+      "theme": "Shadow Play",
+      "photographer": "Manya Kaistha",
+      "email": "",
+      "description": "Light lands where it wants to. Shadows answer by shaping the scene into something sharper. This frame shows how the path, the trees, and the slope change character once the dark edges intervene. The shadow becomes the structure the eye follows.",
+      "image": "/images/potw_44.jpg"
     }
   ]
 }
