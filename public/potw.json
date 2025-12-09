@@ -410,5 +410,17 @@
       "description": "Light lands where it wants to. Shadows answer by shaping the scene into something sharper. This frame shows how the path, the trees, and the slope change character once the dark edges intervene. The shadow becomes the structure the eye follows.",
       "image": "/images/potw_44.jpg"
     }
+  ],
+  "December": [
+    {
+      "id": 45,
+      "week": 1,
+      "month": "December",
+      "theme": "Golden Hour",
+      "photographer": "Amirtheswaran",
+      "email": "",
+      "description": "The gradient moves from calm blues into a dense spread of orange and yellow, and the interior of the car picks up that reflection without competing with the scene. The frame shows how golden hour reshapes even a routine moment into something visually firm and directional.",
+      "image": "/images/potw_45.jpg"
+    }
   ]
 }
