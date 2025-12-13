@@ -29,9 +29,9 @@ export const metadata: Metadata = {
   openGraph: {
     title: "IRIS Society",
     description:
-      "Join IRIS Society, the premier photography club dedicated to capturing moments and creating memories through the art of photography.",
+      "Join IRIS Society, the premier photography and videography society dedicated to capturing moments and creating memories through the art of your camera.",
     type: "website",
-    url: "https://iris-society-web.vercel.app",
+    url: "https://iris-society.iitmbs.org",
     siteName: "IRIS Society",
     images: [
       {
