@@ -11,10 +11,10 @@ import { ContextMenuBlocker } from "@/components/context-menu-blocker"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://iris-society-web.vercel.app"),
+  metadataBase: new URL("https://iris-society.iitmbs.org"),
   title: "IRIS Society",
   description:
-    "Join IRIS Society, the premier photography club dedicated to capturing moments and creating memories through the art of photography.",
+    "Join IRIS Society, the premier photography and videography club dedicated to capturing moments and creating memories through the art of photography and videography.",
   keywords: "photography, club, IRIS, society, camera, photos, community",
   authors: [{ name: "IRIS Society" }],
   icons: {
