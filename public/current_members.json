@@ -61,7 +61,7 @@
   "recruiting":false, 
   "recruitmentForm": "https://forms.gle/XkNmxfYLzbR6E7Xt8",
   "video_home": {
-    "enabled": true,
+    "enabled": false,
     "src": "/videos/Iris_reel__2.mp4",
     "title": "Watch Our Story",
     "description": "Click the speaker icon to unmute",
