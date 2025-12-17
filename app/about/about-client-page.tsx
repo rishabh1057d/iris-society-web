@@ -136,7 +136,7 @@ export default function AboutClientPage() {
           className="mb-8 grid grid-cols-2 md:grid-cols-4 gap-4"
         >
           {[
-            { value: "150+", label: "Active Members" },
+            { value: "1200+", label: "Active Members" },
             { value: "40+", label: "Workshops & Events" },
             { value: "2k+", label: "Photos Shared" },
             { value: "30+", label: "Collaborations" },
