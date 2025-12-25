@@ -421,6 +421,26 @@
       "email": "",
       "description": "The gradient moves from calm blues into a dense spread of orange and yellow, and the interior of the car picks up that reflection without competing with the scene. The frame shows how golden hour reshapes even a routine moment into something visually firm and directional.",
       "image": "/images/potw_45.jpg"
+    },
+    {
+      "id": 46,
+      "week": 2,
+      "month": "December",
+      "theme": "Bloom Stories",
+      "photographer": "Nikitha M",
+      "email": "",
+      "description": "The bloom is sharp and dense, and the reflection doubles its presence without adding clutter. The surface beneath introduces a quiet tension, turning a simple flower into a study of form and balance.",
+      "image": "/images/potw_46.png"
+    },
+    {
+      "id": 47,
+      "week": 3,
+      "month": "December",
+      "theme": "Bloom Stories",
+      "photographer": "Sahil Bind",
+      "email": "",
+      "description": "The petals are muted, letting the water droplets and their weight stand out. Selective color keeps attention on the stem and leaves without overpowering the frame. The dark background removes distractions and makes the bloom feel isolated and deliberate.",
+      "image": "/images/potw_47.jpg"
     }
   ]
 }
