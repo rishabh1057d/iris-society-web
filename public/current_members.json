@@ -51,7 +51,8 @@
   ],
   "popup": {
     "enabled": true,
-    "fireworks": true,
+    "fireworks": false,
+    "retro": true,
     "title": "Shutter Safari Virtual Edition 2.0",
     "description": "Shutter Safari – Virtual Edition 2.0 is a photography competition that celebrates photography as a powerful medium of storytelling, emotion, and cultural expression. The event aims to provide students with a professional and supportive platform to showcase their work while promoting ethical, original, and story-driven photography.",
     "image": "/images/Shutter Safari - Virtual Edition 2.0.png",

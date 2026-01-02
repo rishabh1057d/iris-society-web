@@ -145,6 +145,362 @@ function RainOverlay() {
     </div>
   )
 }
+
+function RetroPixelArtOverlay() {
+  // Warm sunset palette: reds, oranges, yellows, creams (for coins/collectibles)
+  const collectiblePalette = [
+    '#FFD700', // gold
+    '#FFA500', // orange
+    '#FF6347', // tomato red
+    '#FFD700', // gold (more weight)
+    '#FFFFFF', // white
+    '#F5B041', // golden yellow
+    '#E67E22', // deep orange
+  ]
+
+  // Pixel confetti/coins that fall and bounce
+  const pixelConfetti = useMemo(() => {
+    const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 640px)').matches
+    const count = isMobile ? 30 : 60
+    return Array.from({ length: count }).map((_, i) => {
+      const left = Math.random() * 100
+      const startTop = -10 - Math.random() * 20 // Start above viewport
+      const delay = Math.random() * 5
+      const size = 6 + Math.random() * 10 // 6-16px blocks (chunky pixels)
+      const color = collectiblePalette[Math.floor(Math.random() * collectiblePalette.length)]
+      const fallDuration = 3 + Math.random() * 4 // 3-7 seconds to fall
+      const bounceHeight = 20 + Math.random() * 40
+      const horizontalDrift = (Math.random() - 0.5) * 30
+      const rotation = Math.random() * 360
+      return { 
+        id: i, 
+        left, 
+        startTop, 
+        delay, 
+        size, 
+        color, 
+        fallDuration, 
+        bounceHeight,
+        horizontalDrift,
+        rotation
+      }
+    })
+  }, [])
+
+  // Glitch blocks for pixel displacement effect
+  const glitchBlocks = useMemo(() => {
+    return Array.from({ length: 8 }).map((_, i) => ({
+      id: i,
+      delay: i * 0.3,
+      offset: (Math.random() - 0.5) * 15,
+    }))
+  }, [])
+
+  return (
+    <div className="pointer-events-none fixed inset-0 z-[60] overflow-hidden retro-container">
+      {/* Dithering background gradient with warm sunset tones */}
+      <div className="retro-dither-bg" />
+      
+      {/* Enhanced CRT Scanlines - more prominent */}
+      <div className="retro-scanlines" />
+      
+      {/* Vignette - darker corners like old CRT screen */}
+      <div className="retro-vignette" />
+      
+      {/* Screen flicker effect */}
+      <div className="retro-flicker" />
+      
+      {/* RGB Glitch Split Effect */}
+      <div className="retro-glitch-rgb" />
+      
+      {/* Pixel displacement glitch blocks */}
+      {glitchBlocks.map((g) => (
+        <div
+          key={g.id}
+          className="retro-glitch-block"
+          style={{
+            animationDelay: `${g.delay}s`,
+            // @ts-ignore
+            '--glitch-offset': `${g.offset}px`,
+          } as React.CSSProperties}
+        />
+      ))}
+      
+      {/* Pixel Confetti/Coins - collectible style */}
+      {pixelConfetti.map((p) => (
+        <div
+          key={p.id}
+          className="retro-coin"
+          style={{
+            left: `${p.left}%`,
+            top: `${p.startTop}%`,
+            animationDelay: `${p.delay}s`,
+            // @ts-ignore
+            '--coin-size': `${p.size}px`,
+            '--coin-color': p.color,
+            '--coin-dur': `${p.fallDuration}s`,
+            '--bounce-height': `${p.bounceHeight}px`,
+            '--drift-x': `${p.horizontalDrift}px`,
+            '--coin-rotation': `${p.rotation}deg`,
+          } as React.CSSProperties}
+        />
+      ))}
+
+      {/* Static noise overlay */}
+      <div className="retro-static" />
+
+      <style jsx>{`
+        .retro-container {
+          image-rendering: pixelated;
+          image-rendering: -moz-crisp-edges;
+          image-rendering: crisp-edges;
+        }
+
+        .retro-dither-bg {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(180deg, #5C1A0F 0%, #8B2E1F 25%, #C94A1F 50%, #E67E22 75%, #F5B041 100%);
+          opacity: 0.3;
+          /* Dithering pattern - checkerboard for color blending */
+          background-image: 
+            repeating-linear-gradient(
+              0deg,
+              transparent,
+              transparent 3px,
+              rgba(0, 0, 0, 0.15) 3px,
+              rgba(0, 0, 0, 0.15) 6px
+            ),
+            repeating-linear-gradient(
+              90deg,
+              transparent,
+              transparent 3px,
+              rgba(0, 0, 0, 0.15) 3px,
+              rgba(0, 0, 0, 0.15) 6px
+            );
+        }
+
+        /* Enhanced CRT Scanlines - every 2-3 pixels */
+        .retro-scanlines {
+          position: absolute;
+          inset: 0;
+          background: repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 2px,
+            rgba(0, 0, 0, 0.3) 2px,
+            rgba(0, 0, 0, 0.3) 3px
+          );
+          pointer-events: none;
+          animation: scanlineMove 0.08s linear infinite;
+          opacity: 0.7;
+          mix-blend-mode: multiply;
+        }
+
+        @keyframes scanlineMove {
+          0% { transform: translateY(0); }
+          100% { transform: translateY(3px); }
+        }
+
+        /* Vignette - darker corners like curved CRT glass */
+        .retro-vignette {
+          position: absolute;
+          inset: 0;
+          background: radial-gradient(
+            ellipse at center,
+            transparent 0%,
+            transparent 40%,
+            rgba(0, 0, 0, 0.4) 70%,
+            rgba(0, 0, 0, 0.7) 100%
+          );
+          pointer-events: none;
+          opacity: 0.6;
+        }
+
+        /* Screen flicker - subtle brightness pulse */
+        .retro-flicker {
+          position: absolute;
+          inset: 0;
+          background: rgba(255, 255, 255, 0.02);
+          animation: screenFlicker 0.15s infinite;
+          pointer-events: none;
+        }
+
+        @keyframes screenFlicker {
+          0%, 100% { opacity: 0; }
+          48% { opacity: 0; }
+          49% { opacity: 1; }
+          50% { opacity: 0; }
+          51% { opacity: 1; }
+          52% { opacity: 0; }
+        }
+
+        /* RGB Glitch Split - horizontal color separation */
+        .retro-glitch-rgb {
+          position: absolute;
+          inset: 0;
+          background: 
+            linear-gradient(90deg, 
+              rgba(255, 0, 0, 0.1) 0%,
+              transparent 50%,
+              rgba(0, 0, 255, 0.1) 100%
+            );
+          pointer-events: none;
+          animation: rgbGlitch 4s ease-in-out infinite;
+          mix-blend-mode: screen;
+          opacity: 0;
+        }
+
+        @keyframes rgbGlitch {
+          0%, 90%, 100% { 
+            opacity: 0;
+            transform: translateX(0);
+          }
+          2% { 
+            opacity: 0.8;
+            transform: translateX(-3px);
+          }
+          4% { 
+            opacity: 0.6;
+            transform: translateX(3px);
+          }
+          6% { 
+            opacity: 0;
+            transform: translateX(0);
+          }
+        }
+
+        /* Pixel displacement glitch blocks */
+        .retro-glitch-block {
+          position: absolute;
+          width: 40px;
+          height: 40px;
+          background: rgba(0, 255, 0, 0.3);
+          left: calc(20% + var(--glitch-offset));
+          top: 30%;
+          animation: glitchBlock 3s ease-in-out infinite;
+          image-rendering: pixelated;
+          mix-blend-mode: difference;
+        }
+
+        @keyframes glitchBlock {
+          0%, 95%, 100% { 
+            opacity: 0;
+            transform: translate(0, 0);
+          }
+          1% { 
+            opacity: 1;
+            transform: translate(var(--glitch-offset), 5px);
+          }
+          2% { 
+            opacity: 0.5;
+            transform: translate(calc(var(--glitch-offset) * -1), -5px);
+          }
+          3% { 
+            opacity: 0;
+            transform: translate(0, 0);
+          }
+        }
+
+        /* Pixel Confetti/Coins - collectible style with gravity */
+        .retro-coin {
+          position: absolute;
+          width: var(--coin-size);
+          height: var(--coin-size);
+          background-color: var(--coin-color);
+          image-rendering: pixelated;
+          image-rendering: -moz-crisp-edges;
+          image-rendering: crisp-edges;
+          box-shadow: 
+            0 0 4px var(--coin-color),
+            inset 0 0 3px rgba(255, 255, 255, 0.4),
+            inset 0 0 6px rgba(255, 255, 255, 0.2);
+          border: 1px solid rgba(255, 255, 255, 0.3);
+          animation: coinFall var(--coin-dur) ease-in infinite;
+          transform: translate(-50%, -50%) rotate(var(--coin-rotation));
+        }
+
+        @keyframes coinFall {
+          0% {
+            transform: translate(-50%, -50%) translateX(0) translateY(0) rotate(var(--coin-rotation)) scale(1);
+            opacity: 1;
+          }
+          10% {
+            transform: translate(-50%, -50%) translateX(calc(var(--drift-x) * 0.2)) translateY(10vh) rotate(calc(var(--coin-rotation) + 90deg)) scale(1);
+            opacity: 1;
+          }
+          50% {
+            transform: translate(-50%, -50%) translateX(calc(var(--drift-x) * 0.5)) translateY(50vh) rotate(calc(var(--coin-rotation) + 180deg)) scale(1.1);
+            opacity: 0.9;
+          }
+          85% {
+            transform: translate(-50%, -50%) translateX(var(--drift-x)) translateY(calc(100vh + var(--bounce-height))) rotate(calc(var(--coin-rotation) + 270deg)) scale(0.9);
+            opacity: 0.8;
+          }
+          90% {
+            transform: translate(-50%, -50%) translateX(var(--drift-x)) translateY(calc(100vh - var(--bounce-height) * 0.3)) rotate(calc(var(--coin-rotation) + 300deg)) scale(1.05);
+            opacity: 0.9;
+          }
+          95% {
+            transform: translate(-50%, -50%) translateX(var(--drift-x)) translateY(calc(100vh + var(--bounce-height) * 0.1)) rotate(calc(var(--coin-rotation) + 320deg)) scale(0.95);
+            opacity: 0.7;
+          }
+          100% {
+            transform: translate(-50%, -50%) translateX(var(--drift-x)) translateY(calc(100vh + 20px)) rotate(calc(var(--coin-rotation) + 360deg)) scale(0.8);
+            opacity: 0;
+          }
+        }
+
+        /* Static noise overlay */
+        .retro-static {
+          position: absolute;
+          inset: 0;
+          background-image: 
+            repeating-linear-gradient(
+              0deg,
+              transparent,
+              transparent 2px,
+              rgba(255, 255, 255, 0.03) 2px,
+              rgba(255, 255, 255, 0.03) 4px
+            ),
+            repeating-linear-gradient(
+              90deg,
+              transparent,
+              transparent 2px,
+              rgba(0, 0, 0, 0.03) 2px,
+              rgba(0, 0, 0, 0.03) 4px
+            );
+          pointer-events: none;
+          opacity: 0.4;
+          animation: staticNoise 0.1s steps(4) infinite;
+        }
+
+        @keyframes staticNoise {
+          0% { transform: translate(0, 0); }
+          25% { transform: translate(-1px, 1px); }
+          50% { transform: translate(1px, -1px); }
+          75% { transform: translate(-1px, -1px); }
+          100% { transform: translate(1px, 1px); }
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 640px) {
+          .retro-coin {
+            opacity: 0.7;
+          }
+          .retro-scanlines {
+            opacity: 0.5;
+          }
+          .retro-vignette {
+            opacity: 0.4;
+          }
+          .retro-static {
+            opacity: 0.3;
+          }
+        }
+      `}</style>
+    </div>
+  )
+}
 import {
   Dialog,
   DialogContent,
@@ -169,7 +525,8 @@ export default function Home() {
   const [recruiting, setRecruiting] = useState(false)
   const [showEventPopup, setShowEventPopup] = useState(false)
   const [showFireworks, setShowFireworks] = useState(false)
-  const [popupData, setPopupData] = useState<{ enabled?: boolean; title?: string; description?: string; image?: string; registerUrl?: string; rulebookUrl?: string; registrationDeadline?: string } | null>(null)
+  const [showRetroEffect, setShowRetroEffect] = useState(false)
+  const [popupData, setPopupData] = useState<{ enabled?: boolean; title?: string; description?: string; image?: string; registerUrl?: string; rulebookUrl?: string; registrationDeadline?: string; fireworks?: boolean; retro?: boolean } | null>(null)
   const [imageLoaded, setImageLoaded] = useState(false)
   const [videoMuted, setVideoMuted] = useState(true)
   const [videoData, setVideoData] = useState<{ enabled?: boolean; src?: string; title?: string; description?: string; instagramUrl?: string } | null>(null)
@@ -418,14 +775,17 @@ export default function Home() {
               document.head.appendChild(link)
             }
           }
-          // Fireworks trigger specifically under popup
+          // Fireworks and retro effect triggers specifically under popup
           try {
             setShowFireworks(Boolean(data.popup.fireworks))
+            setShowRetroEffect(Boolean(data.popup.retro))
           } catch {
             setShowFireworks(false)
+            setShowRetroEffect(false)
           }
         } else {
           setShowFireworks(false)
+          setShowRetroEffect(false)
         }
         if (data && data.video_home) {
           setVideoData(data.video_home)
@@ -535,8 +895,9 @@ export default function Home() {
               onClick={() => setShowEventPopup(false)}
             >
               {showFireworks && <RainOverlay />}
+              {showRetroEffect && <RetroPixelArtOverlay />}
               <motion.div
-                className="relative z-[55] rounded-2xl overflow-hidden w-full max-w-[1100px] h-[90vh] md:h-[80vh] max-h-[90vh] md:max-h-[85vh] flex flex-col md:flex-row backdrop-blur-xl bg-white/10 border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.3)]"
+                className={`relative z-[55] rounded-2xl overflow-hidden w-full max-w-[1100px] h-[90vh] md:h-[80vh] max-h-[90vh] md:max-h-[85vh] flex flex-col md:flex-row backdrop-blur-xl bg-white/10 border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.3)] ${showRetroEffect ? 'retro-popup-glitch' : ''}`}
                 variants={modalVariants}
                 initial="hidden"
                 animate="visible"
@@ -674,6 +1035,134 @@ export default function Home() {
           )}
         </AnimatePresence>
       </motion.div>
+
+      {/* Global styles for retro popup glitch effect */}
+      {showRetroEffect && (
+        <style jsx global>{`
+          .retro-popup-glitch {
+            position: relative;
+            animation: popupGlitch 5s ease-in-out infinite;
+          }
+
+          .retro-popup-glitch::before,
+          .retro-popup-glitch::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+          }
+
+          .retro-popup-glitch::before {
+            background: linear-gradient(90deg, 
+              transparent 0%,
+              rgba(255, 0, 0, 0.1) 48%,
+              rgba(255, 0, 0, 0.1) 52%,
+              transparent 100%
+            );
+            mix-blend-mode: screen;
+            animation: rgbSplitBefore 4s ease-in-out infinite;
+          }
+
+          .retro-popup-glitch::after {
+            background: linear-gradient(90deg, 
+              transparent 0%,
+              rgba(0, 0, 255, 0.1) 48%,
+              rgba(0, 0, 255, 0.1) 52%,
+              transparent 100%
+            );
+            mix-blend-mode: screen;
+            animation: rgbSplitAfter 4s ease-in-out infinite;
+          }
+
+          @keyframes popupGlitch {
+            0%, 90%, 100% {
+              transform: translateX(0);
+              filter: hue-rotate(0deg);
+            }
+            1% {
+              transform: translateX(-2px);
+              filter: hue-rotate(5deg);
+            }
+            2% {
+              transform: translateX(2px);
+              filter: hue-rotate(-5deg);
+            }
+            3% {
+              transform: translateX(0);
+              filter: hue-rotate(0deg);
+            }
+          }
+
+          @keyframes rgbSplitBefore {
+            0%, 90%, 100% {
+              transform: translateX(0);
+              opacity: 0;
+            }
+            1% {
+              transform: translateX(-4px);
+              opacity: 0.8;
+            }
+            2% {
+              transform: translateX(4px);
+              opacity: 0.6;
+            }
+            3% {
+              transform: translateX(0);
+              opacity: 0;
+            }
+          }
+
+          @keyframes rgbSplitAfter {
+            0%, 90%, 100% {
+              transform: translateX(0);
+              opacity: 0;
+            }
+            1% {
+              transform: translateX(4px);
+              opacity: 0.8;
+            }
+            2% {
+              transform: translateX(-4px);
+              opacity: 0.6;
+            }
+            3% {
+              transform: translateX(0);
+              opacity: 0;
+            }
+          }
+
+          /* Pixel displacement on hover for buttons inside retro popup */
+          .retro-popup-glitch button:hover,
+          .retro-popup-glitch a:hover {
+            animation: buttonGlitch 0.3s ease-in-out;
+          }
+
+          @keyframes buttonGlitch {
+            0%, 100% {
+              transform: translateX(0) translateY(0);
+            }
+            25% {
+              transform: translateX(-1px) translateY(1px);
+            }
+            50% {
+              transform: translateX(1px) translateY(-1px);
+            }
+            75% {
+              transform: translateX(-1px) translateY(-1px);
+            }
+          }
+
+          /* Pixelated image effect */
+          .retro-popup-glitch img {
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+            filter: contrast(1.1) saturate(1.2);
+          }
+        `}</style>
+      )}
+
       {/* Hiring Popup Modal */}
       {recruiting && (
         <Dialog open={showHiringModal} onOpenChange={setShowHiringModal}>
