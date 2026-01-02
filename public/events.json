@@ -1,4 +1,18 @@
 [{
+  "id": 20,
+  "title": "Shutter Safari: Virtual Edition 2.0",
+  "description": "Shutter Safari – Virtual Edition 2.0 is a photography competition that celebrates photography as a powerful medium of storytelling, emotion, and cultural expression. The event aims to provide students with a professional and supportive platform to showcase their work while promoting ethical, original, and story-driven photography.",
+  "dates": "8th Jan 2026 - 12 AM",
+  "location": "Online",
+  "collab": "IRIS Society",
+  "image": "/images/Shutter Safari - Virtual Edition 2.0.png",
+  "registrationOpen": true,
+  "registrationLink": "https://iitmparadox.org/events/30",
+  "status": "ongoing",
+  "resultLink": "",
+  "liveSessionLink": "",
+  "speakerInstagram": ""
+},{
   "id": 19,
   "title": "Workshop on Wildlife Photography by Apoorva Jadon",
   "description": "Join us for an engaging session with Apoorva Jadon, An award-winning wildlife photographer & conservation advocate who uses photography to build awareness, empathy, and respect for the wildlife 🐾 and has been featured by National Geographic India.",
@@ -8,7 +22,7 @@
   "image": "/images/apoorva.png",
   "registrationOpen": true,
   "registrationLink": " https://meet.google.com/pnz-vfsa-pyd",
-  "status": "ongoing",
+  "status": "previous",
   "resultLink": "",
   "liveSessionLink": "https://www.youtube.com/watch?v=gwkrxcINcQM",
   "speakerInstagram": "https://www.instagram.com/apoorva_photography?igsh=MWN1N29oczdvc3Zqdw=="

@@ -37,7 +37,7 @@
     { "id": 12, "name": "Adarsh A V", "role": "Graphic Designer", "description": "Creates visuals and assists with editing.", "image": "/images/adarshav.jpg", "linkedin": "https://www.linkedin.com/in/adarshaevy?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app", "className": "mx-auto" },
     { "id": 19, "name": "Naman Deep Singh", "role": "Video Editor", "description": "Works on videos, reels, and brand creatives.", "image": "/images/Naman_deep_singh.jpg", "linkedin": "https://www.linkedin.com/in/naman-deep-singh-a579ba207?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app", "className": "mx-auto" },
     { "id": 20, "name": "Dhanesh Patwa", "role": "Video Editor", "description": "Works on videos, reels, and brand creatives.", "image": "/images/dhanesh_patwa.png", "linkedin": "https://www.linkedin.com/in/dhaneshpatwa" },
-    { "id": 21, "name": "Keshav Malik", "role": "Graphic Designer", "description": "Designs graphics and social assets.", "image": "/images/keshav_malik.png", "linkedin": "" }
+    { "id": 21, "name": "Keshav Malik", "role": "Graphic Designer", "description": "Designs graphics and social assets.", "image": "/images/keshav_malik.png", "linkedin": "https://www.linkedin.com/in/keshav-malik-6446703a2/" }
   ],
   "ContentStrategyPR": [
     { "id": 13, "name": "Divya Sharma ", "role": "Content Strategist", "description": "Plans and drafts content for campaigns.", "image": "/images/Divya.jpg", "linkedin": "https://www.linkedin.com/in/divya-sharma-2090b82b9?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app", "className": "mx-auto" },
@@ -50,14 +50,14 @@
     { "id": 18, "name": "Rishabh Singh", "role": "Web Developer", "description": "Development of the entire website from scratch and continues to maintain and improve its features.", "image": "/images/rishabh.jpg", "linkedin": "https://www.linkedin.com/in/rishabh-singh-514b8628a/" }
   ],
   "popup": {
-    "enabled": false,
-    "fireworks": false,
-    "title": "Festive Frames: Diwali Edition",
-    "description": "The festival that fills every corner with light. This Diwali, PAUSE for a moment & capture the little moments, like the quiet beauty that shines beyond the diyas!!",
-    "image": "/images/festive_frames_diwali.jpg",
-    "registerUrl": "https://forms.gle/ju76WRZGVm1voBk96",
-    "rulebookUrl": "https://drive.google.com/file/d/1WvI6jITvFWuo9RMePsDHbwVUNk2hKuWO/view?usp=drivesdk",
-    "registrationDeadline": "2025-10-28T23:59:59"
+    "enabled": true,
+    "fireworks": true,
+    "title": "Shutter Safari Virtual Edition 2.0",
+    "description": "Shutter Safari – Virtual Edition 2.0 is a photography competition that celebrates photography as a powerful medium of storytelling, emotion, and cultural expression. The event aims to provide students with a professional and supportive platform to showcase their work while promoting ethical, original, and story-driven photography.",
+    "image": "/images/Shutter Safari - Virtual Edition 2.0.png",
+    "registerUrl": "https://iitmparadox.org/events/30",
+    "rulebookUrl": "https://drive.google.com/file/d/1anM2fjRGJNrCUfYPiFAbUdB8PPXS9nO1/view",
+    "registrationDeadline": "2026-01-08T23:59:59"
   },
   "recruiting":false, 
   "recruitmentForm": "https://forms.gle/XkNmxfYLzbR6E7Xt8",
