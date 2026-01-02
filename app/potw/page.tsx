@@ -21,7 +21,8 @@ type WeeklyPhoto = {
 }
 
 export default function POTW() {
-  const months = [
+  const allMonths = [
+    "January",
     "February",
     "March",
     "April",
@@ -35,14 +36,34 @@ export default function POTW() {
     "December",
   ]
 
-  const getCurrentMonth = () => {
-    const now = new Date()
-    const currentMonthName = now.toLocaleString("default", { month: "long" })
-    // If the current month is not in the list, default to the first month
-    return months.includes(currentMonthName) ? currentMonthName : months[0]
+  // Months available for each year (2025 starts in February, 2026 starts in January)
+  const getAvailableMonths = (year: number) => {
+    if (year === 2025) {
+      return allMonths.slice(1) // February onwards
+    }
+    return allMonths // All months for 2026+
   }
 
-  const [selectedMonth, setSelectedMonth] = useState(getCurrentMonth())
+  const getCurrentYear = () => {
+    return new Date().getFullYear()
+  }
+
+  const getCurrentMonth = (year: number) => {
+    const now = new Date()
+    const currentYear = now.getFullYear()
+    const currentMonthName = now.toLocaleString("default", { month: "long" })
+    const availableMonths = getAvailableMonths(year)
+    
+    // If current year matches and month is available, use it
+    if (currentYear === year && availableMonths.includes(currentMonthName)) {
+      return currentMonthName
+    }
+    // Otherwise return first available month for that year
+    return availableMonths[0]
+  }
+
+  const [selectedYear, setSelectedYear] = useState(getCurrentYear())
+  const [selectedMonth, setSelectedMonth] = useState(() => getCurrentMonth(getCurrentYear()))
   const [selectedPhoto, setSelectedPhoto] = useState<WeeklyPhoto | null>(null)
   const [showModal, setShowModal] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
@@ -58,18 +79,23 @@ export default function POTW() {
   const isDescInView = useInView(descRef, { once: true })
   const isCalendarInView = useInView(calendarRef, { once: true })
 
-  // Fetch weekly photos from JSON
-  const [weeklyPhotos, setWeeklyPhotos] = useState<Record<string, WeeklyPhoto[]>>({})
+  // Fetch weekly photos from JSON - now organized by year
+  const [weeklyPhotos, setWeeklyPhotos] = useState<Record<number, Record<string, WeeklyPhoto[]>>>({})
 
   useEffect(() => {
     setIsLoading(true)
     fetch("/potw.json")
       .then((res) => res.json())
       .then((data) => {
-        setWeeklyPhotos(data)
-        // Preload images for the current month
-        if (data[selectedMonth]) {
-          preloadImages(data[selectedMonth])
+        // Convert year strings to numbers for easier handling
+        const convertedData: Record<number, Record<string, WeeklyPhoto[]>> = {}
+        Object.keys(data).forEach((yearStr) => {
+          convertedData[parseInt(yearStr)] = data[yearStr]
+        })
+        setWeeklyPhotos(convertedData)
+        // Preload images for the current month/year
+        if (convertedData[selectedYear] && convertedData[selectedYear][selectedMonth]) {
+          preloadImages(convertedData[selectedYear][selectedMonth])
         }
         setIsLoading(false)
       })
@@ -80,24 +106,24 @@ export default function POTW() {
       })
   }, [])
 
-  // Preload images whenever selectedMonth changes
+  // Preload images whenever selectedMonth or selectedYear changes
   useEffect(() => {
-    if (weeklyPhotos[selectedMonth] && weeklyPhotos[selectedMonth].length > 0) {
+    if (weeklyPhotos[selectedYear] && weeklyPhotos[selectedYear][selectedMonth] && weeklyPhotos[selectedYear][selectedMonth].length > 0) {
       // Small delay to ensure component is fully rendered
       const timer = setTimeout(() => {
-        preloadImages(weeklyPhotos[selectedMonth])
+        preloadImages(weeklyPhotos[selectedYear][selectedMonth])
       }, 100)
       return () => clearTimeout(timer)
     }
-  }, [selectedMonth, weeklyPhotos])
+  }, [selectedMonth, selectedYear, weeklyPhotos])
 
   // Immediate preloading when data becomes available
   useEffect(() => {
-    if (Object.keys(weeklyPhotos).length > 0 && weeklyPhotos[selectedMonth]) {
-      console.log('Data available, immediately preloading images for:', selectedMonth)
-      preloadImages(weeklyPhotos[selectedMonth])
+    if (Object.keys(weeklyPhotos).length > 0 && weeklyPhotos[selectedYear] && weeklyPhotos[selectedYear][selectedMonth]) {
+      console.log('Data available, immediately preloading images for:', selectedYear, selectedMonth)
+      preloadImages(weeklyPhotos[selectedYear][selectedMonth])
     }
-  }, [weeklyPhotos, selectedMonth])
+  }, [weeklyPhotos, selectedMonth, selectedYear])
 
   // Preload images for a given month
   const preloadImages = (photos: WeeklyPhoto[]) => {
@@ -120,11 +146,15 @@ export default function POTW() {
   }
 
   // Handle month change with image preloading
-  const handleMonthChange = (newMonth: string) => {
+  const handleMonthChange = (newMonth: string, year?: number) => {
+    const targetYear = year !== undefined ? year : selectedYear
     setSelectedMonth(newMonth)
-    // Preload images for the new month
-    if (weeklyPhotos[newMonth]) {
-      preloadImages(weeklyPhotos[newMonth])
+    if (year !== undefined) {
+      setSelectedYear(targetYear)
+    }
+    // Preload images for the new month/year
+    if (weeklyPhotos[targetYear] && weeklyPhotos[targetYear][newMonth]) {
+      preloadImages(weeklyPhotos[targetYear][newMonth])
     }
   }
 
@@ -135,15 +165,56 @@ export default function POTW() {
   }
 
   const handlePrevMonth = () => {
-    const currentIndex = months.indexOf(selectedMonth)
-    const prevIndex = (currentIndex - 1 + months.length) % months.length
-    handleMonthChange(months[prevIndex])
+    const availableMonths = getAvailableMonths(selectedYear)
+    const currentIndex = availableMonths.indexOf(selectedMonth)
+    
+    if (currentIndex > 0) {
+      // Previous month in same year
+      handleMonthChange(availableMonths[currentIndex - 1])
+    } else {
+      // Go to previous year's last month
+      const prevYear = selectedYear - 1
+      const prevYearMonths = getAvailableMonths(prevYear)
+      if (prevYearMonths.length > 0 && weeklyPhotos[prevYear]) {
+        handleMonthChange(prevYearMonths[prevYearMonths.length - 1], prevYear)
+      }
+    }
   }
 
   const handleNextMonth = () => {
-    const currentIndex = months.indexOf(selectedMonth)
-    const nextIndex = (currentIndex + 1) % months.length
-    handleMonthChange(months[nextIndex])
+    const availableMonths = getAvailableMonths(selectedYear)
+    const currentIndex = availableMonths.indexOf(selectedMonth)
+    
+    if (currentIndex < availableMonths.length - 1) {
+      // Next month in same year
+      handleMonthChange(availableMonths[currentIndex + 1])
+    } else {
+      // Go to next year's first month
+      const nextYear = selectedYear + 1
+      const nextYearMonths = getAvailableMonths(nextYear)
+      if (nextYearMonths.length > 0 && (weeklyPhotos[nextYear] || nextYear === getCurrentYear())) {
+        handleMonthChange(nextYearMonths[0], nextYear)
+      }
+    }
+  }
+
+  const handleYearChange = (newYear: number) => {
+    const availableMonths = getAvailableMonths(newYear)
+    // If current month exists in new year, keep it; otherwise use first available
+    const monthToUse = availableMonths.includes(selectedMonth) 
+      ? selectedMonth 
+      : availableMonths[0]
+    handleMonthChange(monthToUse, newYear)
+  }
+
+  const getAvailableYears = () => {
+    const years = Object.keys(weeklyPhotos).map(Number).sort((a, b) => b - a)
+    const currentYear = getCurrentYear()
+    // Include current year even if no data yet
+    if (!years.includes(currentYear)) {
+      years.unshift(currentYear)
+    }
+    return years
   }
 
   // Animation variants
@@ -247,37 +318,84 @@ export default function POTW() {
 
         <motion.div
           ref={calendarRef}
-          className="flex items-center justify-between mb-8"
+          className="mb-8"
           initial={{ opacity: 0 }}
           animate={isCalendarInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
-          <motion.button
-            onClick={handlePrevMonth}
-            className="p-2 rounded-full hover:bg-gray-800 transition-colors"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <ChevronLeft className="w-6 h-6" />
-          </motion.button>
-          <motion.h2
-            className="text-2xl md:text-3xl font-bold text-center"
-            key={selectedMonth}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.3 }}
-          >
-            {selectedMonth}
-          </motion.h2>
-          <motion.button
-            onClick={handleNextMonth}
-            className="p-2 rounded-full hover:bg-gray-800 transition-colors"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <ChevronRight className="w-6 h-6" />
-          </motion.button>
+          {/* Year Selection */}
+          <div className="flex items-center justify-center gap-4 mb-4">
+            <motion.button
+              onClick={() => {
+                const years = getAvailableYears()
+                const currentIndex = years.indexOf(selectedYear)
+                if (currentIndex < years.length - 1) {
+                  handleYearChange(years[currentIndex + 1])
+                }
+              }}
+              className="p-2 rounded-full hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              disabled={getAvailableYears().indexOf(selectedYear) >= getAvailableYears().length - 1}
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </motion.button>
+            <motion.h3
+              className="text-xl md:text-2xl font-bold text-blue-300 min-w-[80px] text-center"
+              key={selectedYear}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.3 }}
+            >
+              {selectedYear}
+            </motion.h3>
+            <motion.button
+              onClick={() => {
+                const years = getAvailableYears()
+                const currentIndex = years.indexOf(selectedYear)
+                if (currentIndex > 0) {
+                  handleYearChange(years[currentIndex - 1])
+                }
+              }}
+              className="p-2 rounded-full hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              disabled={getAvailableYears().indexOf(selectedYear) <= 0}
+            >
+              <ChevronRight className="w-5 h-5" />
+            </motion.button>
+          </div>
+
+          {/* Month Selection */}
+          <div className="flex items-center justify-between">
+            <motion.button
+              onClick={handlePrevMonth}
+              className="p-2 rounded-full hover:bg-gray-800 transition-colors"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </motion.button>
+            <motion.h2
+              className="text-2xl md:text-3xl font-bold text-center"
+              key={`${selectedYear}-${selectedMonth}`}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+            >
+              {selectedMonth}
+            </motion.h2>
+            <motion.button
+              onClick={handleNextMonth}
+              className="p-2 rounded-full hover:bg-gray-800 transition-colors"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <ChevronRight className="w-6 h-6" />
+            </motion.button>
+          </div>
         </motion.div>
 
         {/* Loading state */}
@@ -297,20 +415,20 @@ export default function POTW() {
 
         <AnimatePresence mode="wait">
           <motion.div
-            key={selectedMonth}
+            key={`${selectedYear}-${selectedMonth}`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
-            {!isLoading && weeklyPhotos[selectedMonth] && weeklyPhotos[selectedMonth].length > 0 ? (
+            {!isLoading && weeklyPhotos[selectedYear] && weeklyPhotos[selectedYear][selectedMonth] && weeklyPhotos[selectedYear][selectedMonth].length > 0 ? (
               <motion.div
                 className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4"
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
               >
-                {weeklyPhotos[selectedMonth].map((photo) => (
+                {weeklyPhotos[selectedYear][selectedMonth].map((photo) => (
                   <motion.div
                     key={photo.id}
                     className="potw-card rounded-lg overflow-hidden cursor-pointer"
@@ -351,7 +469,7 @@ export default function POTW() {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5 }}
               >
-                <p className="text-gray-400">No photos available for {selectedMonth}.</p>
+                <p className="text-gray-400">No photos available for {selectedMonth} {selectedYear}.</p>
               </motion.div>
             ) : null}
           </motion.div>
