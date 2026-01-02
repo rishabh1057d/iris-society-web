@@ -1,4 +1,16 @@
 [{
+  "id": 6,
+  "title": "PhotoWalk - Noida",
+  "dates": "12PM - 4PM | January 04, 2026",
+  "location": "Okhla Bird Sanctuary, Noida",
+  "collab": "IRIS Society x NAMDAPHA House",
+  "image": "/images/noida_meetup.jpeg",
+  "status": "ongoing",
+  "registrationOpen": true,
+  "registrationLink": "https://forms.gle/qYGukmWA4vi74BBo7",
+  "locationLink": "https://share.google/HuVideePbDxn1bt7U"
+},
+{
   "id": 5,
   "title": "PhotoWalk - Jaipur",
   "dates": "10AM | November 16, 2025",

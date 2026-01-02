@@ -98,7 +98,7 @@ export default function Meetups() {
   }
 
   // Split meetups into upcoming and previous
-  const upcomingMeetups = meetups.filter(m => m.status === "upcoming")
+  const upcomingMeetups = meetups.filter(m => m.status === "upcoming" || m.status === "ongoing")
   const previousMeetups = meetups.filter(m => m.status === "previous")
 
   return (
