@@ -50,9 +50,9 @@
     { "id": 18, "name": "Rishabh Singh", "role": "Web Developer", "description": "Development of the entire website from scratch and continues to maintain and improve its features.", "image": "/images/rishabh.jpg", "linkedin": "https://www.linkedin.com/in/rishabh-singh-514b8628a/" }
   ],
   "popup": {
-    "enabled": true,
+    "enabled": false,
     "fireworks": false,
-    "retro": true,
+    "retro": false,
     "title": "Shutter Safari Virtual Edition 2.0",
     "description": "Shutter Safari – Virtual Edition 2.0 is a photography competition that celebrates photography as a powerful medium of storytelling, emotion, and cultural expression. The event aims to provide students with a professional and supportive platform to showcase their work while promoting ethical, original, and story-driven photography.",
     "image": "/images/Shutter Safari - Virtual Edition 2.0.png",
@@ -63,10 +63,10 @@
   "recruiting":false, 
   "recruitmentForm": "https://forms.gle/XkNmxfYLzbR6E7Xt8",
   "video_home": {
-    "enabled": false,
-    "src": "/videos/Iris_reel__2.mp4",
+    "enabled": true,
+    "src": "/videos/director.mp4",
     "title": "Watch Our Story ",
     "description": "Click the speaker icon to unmute",
-    "instagramUrl": "https://www.instagram.com/reel/DQcGfEvknsO/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA=="
+    "instagramUrl": "https://www.instagram.com/reel/DTkLFtZEZdS/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA=="
   }
 }
