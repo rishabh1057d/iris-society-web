@@ -512,7 +512,7 @@ import {
 export default function Home() {
   const [scrollY, setScrollY] = useState(0)
   const [isRedirecting, setIsRedirecting] = useState(false)
-  const [potwData, setPotwData] = useState<Record<string, any[]>>({})
+  const [potwData, setPotwData] = useState<Record<string, Record<string, any[]>>>({})
   const [currentPotw, setCurrentPotw] = useState<any | null>(null)
   const [applyModalOpen, setApplyModalOpen] = useState(false)
   const heroRef = useRef<HTMLDivElement>(null)
