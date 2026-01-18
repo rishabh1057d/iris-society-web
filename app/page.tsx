@@ -710,6 +710,7 @@ export default function Home() {
     if (!potwData || Object.keys(potwData).length === 0) return
 
     const now = new Date()
+    const currentYear = now.getFullYear().toString()
     const monthName = now.toLocaleString("default", { month: "long" })
     // Calculate week of month (1-based)
     const firstDay = new Date(now.getFullYear(), now.getMonth(), 1).getDay()
@@ -723,29 +724,38 @@ export default function Home() {
       (typeof p.photographer === "string" && p.photographer.trim().toUpperCase() === "TBA") ||
       (typeof p.image === "string" && p.image.trim().toUpperCase() === "TBA")
 
-    // 1. Try to find the current week's photo (and skip TBA)
-    if (potwData[monthName]) {
-      photo = potwData[monthName].find((p: any) => p.week === weekOfMonth && !isTBA(p))
-      // 2. If not found, fallback to the latest non-TBA photo in the month
+    // 1. Try to find the current week's photo in the current year (and skip TBA)
+    if (potwData[currentYear] && potwData[currentYear][monthName]) {
+      photo = potwData[currentYear][monthName].find((p: any) => p.week === weekOfMonth && !isTBA(p))
+      // 2. If not found, fallback to the latest non-TBA photo in the current month
       if (!photo) {
-        for (let i = potwData[monthName].length - 1; i >= 0; i--) {
-          if (!isTBA(potwData[monthName][i])) {
-            photo = potwData[monthName][i]
+        const monthPhotos = potwData[currentYear][monthName]
+        for (let i = monthPhotos.length - 1; i >= 0; i--) {
+          if (!isTBA(monthPhotos[i])) {
+            photo = monthPhotos[i]
             break
           }
         }
       }
     }
-    // 3. If still not found, fallback to the latest non-TBA photo in any month
+    // 3. If still not found, fallback to the latest non-TBA photo across all years and months
     if (!photo) {
-      const months = Object.keys(potwData)
-      for (let i = months.length - 1; i >= 0; i--) {
-        const arr = potwData[months[i]]
-        for (let j = arr.length - 1; j >= 0; j--) {
-          if (!isTBA(arr[j])) {
-            photo = arr[j]
-            break
+      const years = Object.keys(potwData).sort((a, b) => parseInt(b) - parseInt(a)) // Sort years descending
+      for (const year of years) {
+        const months = Object.keys(potwData[year])
+        // Sort months to check from most recent to oldest (reverse chronological)
+        const monthOrder = ["December", "November", "October", "September", "August", "July", "June", "May", "April", "March", "February", "January"]
+        const sortedMonths = months.sort((a, b) => monthOrder.indexOf(b) - monthOrder.indexOf(a))
+        
+        for (const month of sortedMonths) {
+          const monthPhotos = potwData[year][month]
+          for (let j = monthPhotos.length - 1; j >= 0; j--) {
+            if (!isTBA(monthPhotos[j])) {
+              photo = monthPhotos[j]
+              break
+            }
           }
+          if (photo) break
         }
         if (photo) break
       }

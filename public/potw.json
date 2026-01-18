@@ -444,6 +444,17 @@
     ]
   },
   "2026": {
-    "January": []
+    "January": [
+      {
+        "id": 48,
+        "week": 1,
+        "month": "January",
+        "theme": "Year End Glow",
+        "photographer": "Aritra ghosh",
+        "email": "",
+        "description": "A large, artistically decorated Christmas tree stands indoors under warm lights. The glowing red and gold decorations, along with the surrounding festive ambience, reflect the spirit of the “Year End Glow” theme by capturing the warmth, celebration, and mood of the holiday season.",
+        "image": "/images/potw_48.jpg"
+      }
+    ]
   }
 }
