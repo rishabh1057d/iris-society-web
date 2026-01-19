@@ -1,4 +1,18 @@
 [{
+  "id": 21,
+  "title": "The Directors Spectrum",
+  "description": "The Director’s Spectrum is a team-based videography competition conducted in multiple stages. The event is designed to evaluate participants on storytelling, direction, and collaborative creativity. The competition consists of an Audition Phase, followed by a Main Themed Phase, and concludes with a Live Judging Session.",
+  "dates": "16th Jan 2026 - 23 Jan 2026",
+  "location": "Online",
+  "collab": "IRIS Society x Pixel N Panels",
+  "image": "/images/The Directors spectrum.jpg",
+  "registrationOpen": true,
+  "registrationLink": "https://forms.gle/Y8G7SLy3KDdMuEUbA",
+  "status": "ongoing",
+  "resultLink": "",
+  "liveSessionLink": "",
+  "speakerInstagram": "https://www.instagram.com/prathmeshrangolephotography/?hl=en"
+},{
   "id": 20,
   "title": "Shutter Safari: Virtual Edition 2.0",
   "description": "Shutter Safari – Virtual Edition 2.0 is a photography competition that celebrates photography as a powerful medium of storytelling, emotion, and cultural expression. The event aims to provide students with a professional and supportive platform to showcase their work while promoting ethical, original, and story-driven photography.",
