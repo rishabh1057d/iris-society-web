@@ -454,6 +454,26 @@
         "email": "",
         "description": "A large, artistically decorated Christmas tree stands indoors under warm lights. The glowing red and gold decorations, along with the surrounding festive ambience, reflect the spirit of the “Year End Glow” theme by capturing the warmth, celebration, and mood of the holiday season.",
         "image": "/images/potw_48.jpg"
+      },
+      {
+        "id": 49,
+        "week": 2,
+        "month": "January",
+        "theme": "Break due to Margazhi",
+        "photographer": "No Winner",
+        "email": "",
+        "description": "No winner this week because of Margazhi",
+        "image": "/images/PAradox_break.jpg"
+      },
+      {
+        "id": 50,
+        "week": 3,
+        "month": "January",
+        "theme": "Through My Window",
+        "photographer": "Manya Kaistha",
+        "email": "",
+        "description": "Soft evening colors fill the sky as seen through a window grill, turning an everyday view into a quiet moment of pause. Framed by the window, the scene fits the “Through My Window” theme by showing how light and sky can change the mood of a familiar place.",
+        "image": "/images/potw_50.jpeg"
       }
     ]
   }
