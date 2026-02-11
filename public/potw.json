@@ -474,6 +474,16 @@
         "email": "",
         "description": "Soft evening colors fill the sky as seen through a window grill, turning an everyday view into a quiet moment of pause. Framed by the window, the scene fits the “Through My Window” theme by showing how light and sky can change the mood of a familiar place.",
         "image": "/images/potw_50.jpeg"
+      },
+      {
+        "id": 51,
+        "week": 4,
+        "month": "January",
+        "theme": "A Frame from Tomorrow ",
+        "photographer": "Rajnish Kumar",
+        "email": "",
+        "description": "On a quiet stretch of shore, a father crouches to show his child something small in his hands while the world moves calmly around them. This frame reflects a simple future built on shared moments, patience, and being present for the ones who matter most.",
+        "image": "/images/potw_51.jpeg"
       }
     ]
   }
