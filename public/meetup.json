@@ -1,4 +1,59 @@
 [{
+  "id": 11,
+  "title": "PhotoWalk - Delhi",
+  "dates": "1PM Onwards | January 31, 2026",
+  "location": "Deer Park, Hauz Khas, Delhi",
+  "collab": "IRIS Society x Corbett House",
+  "image": "/images/delhi_meetup.png",
+  "status": "previous",
+  "registrationOpen": false,
+  "registrationLink": "https://forms.gle/9Zt3n1sH8mLhXoVb9",
+  "locationLink": "https://share.google/Fi8lAcJt4lbxQkh7u"
+},{
+  "id": 10,
+  "title": "PhotoWalk - Rishikesh",
+  "dates": "1PM Onwards | January 26, 2026",
+  "location": "Janki Setu, Rishikesh",
+  "collab": "IRIS Society x Corbett House",
+  "image": "/images/rishikesh_meetup.png",
+  "status": "previous",
+  "registrationOpen": false,
+  "registrationLink": "https://forms.gle/9Zt3n1sH8mLhXoVb9",
+  "locationLink": "https://share.google/5sZQtWmL99akgFgF6"
+},{
+  "id": 9,
+  "title": "PhotoWalk - Gorakhpur",
+  "dates": "1PM Onwards | January 25, 2026",
+  "location": "Rail Museum, Gorakhpur",
+  "collab": "IRIS Society x Corbett House",
+  "image": "/images/gorakhpur_meetup.png",
+  "status": "previous",
+  "registrationOpen": false,
+  "registrationLink": "https://forms.gle/9Zt3n1sH8mLhXoVb9",
+  "locationLink": "https://share.google/ZfUgiQjSXCUgYV2Bz"
+},{
+  "id": 8,
+  "title": "PhotoWalk - Jaipur",
+  "dates": "9AM Onwards | January 25, 2026",
+  "location": "Sagar Lake Amer",
+  "collab": "IRIS Society x Corbett House",
+  "image": "/images/Jaipur_meetup_1.png",
+  "status": "previous",
+  "registrationOpen": false,
+  "registrationLink": "https://forms.gle/9Zt3n1sH8mLhXoVb9",
+  "locationLink": "https://share.google/waasPs4WDpkVH1n7K"
+},{
+  "id": 7,
+  "title": "PhotoWalk - Bolpur",
+  "dates": "10AM Onwards | January 18, 2026",
+  "location": "Rabindra Bhavan, Bolpur",
+  "collab": "IRIS Society x Corbett House",
+  "image": "/images/bolpur_meetup.png",
+  "status": "previous",
+  "registrationOpen": false,
+  "registrationLink": "https://forms.gle/9Zt3n1sH8mLhXoVb9",
+  "locationLink": "https://share.google/lwybdWDyLq39o4SuA"
+},{
   "id": 6,
   "title": "PhotoWalk - Noida",
   "dates": "12PM - 4PM | January 04, 2026",
