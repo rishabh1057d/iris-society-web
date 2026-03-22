@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import Image from "next/image"
-import { Calendar, Grid, Home, ImageIcon, Info, LogOut, Mail, Menu, X } from "lucide-react"
+import { Calendar, ClipboardList, Grid, Home, ImageIcon, Info, LogOut, Mail, Menu, X } from "lucide-react"
 
 export default function AdminDashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -83,6 +83,13 @@ export default function AdminDashboard() {
             >
               <Grid className="h-5 w-5 mr-3" />
               Event Management
+            </Link>
+            <Link
+              href="/admin/dashboard/event-registration"
+              className="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-700 rounded-md"
+            >
+              <ClipboardList className="h-5 w-5 mr-3" />
+              Event Registration
             </Link>
             <Link
               href="/admin/dashboard/gallery"
@@ -176,6 +183,17 @@ export default function AdminDashboard() {
               </div>
               <h2 className="text-xl font-semibold mb-2">Contact Details</h2>
               <p className="text-gray-400">Update society contact information.</p>
+            </div>
+          </Link>
+
+          {/* Event Registration Admin Card */}
+          <Link href="/admin/dashboard/event-registration" className="block">
+            <div className="bg-gray-800 rounded-lg p-6 hover:bg-gray-700 transition-colors">
+              <div className="flex items-center justify-center w-12 h-12 bg-amber-600 rounded-lg mb-4">
+                <ClipboardList className="h-6 w-6" />
+              </div>
+              <h2 className="text-xl font-semibold mb-2">Event Registration</h2>
+              <p className="text-gray-400">Manage registration form, download data, upload posters.</p>
             </div>
           </Link>
         </div>

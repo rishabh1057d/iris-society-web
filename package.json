@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "dev": "next dev",
+    "dev": "next dev --hostname 0.0.0.0",
     "lint": "next lint",
     "start": "next start"
   },
@@ -44,6 +44,7 @@
     "clsx": "^2.1.1",
     "cmdk": "1.0.4",
     "date-fns": "4.1.0",
+    "dotenv": "^17.3.1",
     "embla-carousel-react": "8.5.1",
     "framer-motion": "latest",
     "gl-matrix": "^3.4.4",
@@ -63,6 +64,9 @@
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^0.9.6",
     "zod": "^3.24.1"
+  },
+  "optionalDependencies": {
+    "@supabase/supabase-js": "^2.97.0"
   },
   "devDependencies": {
     "@types/node": "^22",

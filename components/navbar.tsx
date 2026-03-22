@@ -37,6 +37,7 @@ export default function Navbar({ onJoinClick }: NavbarProps) {
     { href: "/", label: "Home" },
     { href: "/about", label: "About" },
     { href: "/events", label: "Events" },
+    { href: "/events/register", label: "Event Registration" },
     { href: "/meetups", label: "Photowalks" },
     { href: "/potw", label: "POTW" },
     { href: "/gallery", label: "Gallery" },

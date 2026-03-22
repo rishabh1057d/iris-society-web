@@ -485,6 +485,38 @@
         "description": "On a quiet stretch of shore, a father crouches to show his child something small in his hands while the world moves calmly around them. This frame reflects a simple future built on shared moments, patience, and being present for the ones who matter most.",
         "image": "/images/potw_51.jpeg"
       }
+    ],
+    "February": [
+      {
+        "id": 52,
+        "week": 1,
+        "month": "February",
+        "theme": "Textures of the Earth",
+        "photographer": "Manya Kaistha",
+        "email": "",
+        "description": "A split tree trunk, layered with moss, lichen, and exposed wood, reveals the raw textures shaped by time and decay. The contrast between rough bark, soft growth, and hollow depth reflects the “Textures of the Earth” theme through natural detail and aging surfaces.",
+        "image": "/images/potw_52.jpeg"
+      },
+      {
+        "id": 53,
+        "week": 2,
+        "month": "February",
+        "theme": "City in Motion",
+        "photographer": "Amirtheswaran",
+        "email": "",
+        "description": "Wet roads reflect streetlights as traffic turns into streaks of light, cutting through the frame under a canopy of trees. The motion of passing vehicles and the glow of the city bring out the pace and energy of “City in Motion.”",
+        "image": "/images/potw_53.jpeg"
+      },
+      {
+        "id": 54,
+        "week": 3,
+        "month": "February",
+        "theme": "Street Food Safari",
+        "photographer": "Jalaja Utekar",
+        "email": "",
+        "description": "A soft serve swirls into shape straight from the machine, caught mid-motion in a working hand. The close focus on the process and texture fits “Street Food Safari” by capturing a simple, familiar treat in the act of being made.",
+        "image": "/images/potw_54.jpeg"
+      }
     ]
   }
 }

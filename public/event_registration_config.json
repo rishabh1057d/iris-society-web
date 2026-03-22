@@ -1,0 +1,18 @@
+{
+  "event_name": "The Rishabh's Event",
+  "event_description": "Register for The Director's Spectrum — a team-based videography competition by IRIS Society x Pixel N Panels.",
+  "poster_image": "https://fcsckgoncwylmtdxfofo.supabase.co/storage/v1/object/public/event-posters/event_poster_1772084760751.png",
+  "registration_open": true,
+  "registration_deadline": "2026-03-20T18:29:00.000Z",
+  "deadline_text": "Registration closes on 20th March 2026",
+  "closed_message": "Registration for this event is now closed. Stay tuned for future events!",
+  "success_message": "You have been successfully registered! We'll reach out to you soon with more details.",
+  "already_registered_message": "You are already registered for this event. See you there!",
+  "form_fields": {
+    "full_name": true,
+    "gender": true,
+    "contact_number": true,
+    "current_level": true,
+    "house": true
+  }
+}
