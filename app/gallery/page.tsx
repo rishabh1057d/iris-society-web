@@ -240,7 +240,7 @@ export default function Gallery() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.03,
+        staggerChildren: 0.05,
         delayChildren: 0.1,
       },
     },
@@ -249,28 +249,28 @@ export default function Gallery() {
   const itemVariants = {
     hidden: { 
       opacity: 0, 
-      scale: 0.8,
-      y: 50,
-      rotateX: -15
+      scale: 0.95,
+      y: 30,
     },
     visible: {
       opacity: 1,
       scale: 1,
       y: 0,
-      rotateX: 0,
+      transition: { duration: 0.5, ease: "easeOut" }
     },
   }
 
   const heroVariants = {
     hidden: { 
       opacity: 0, 
-      scale: 0.9,
-      y: 100,
+      scale: 0.95,
+      y: 50,
     },
     visible: {
       opacity: 1,
       scale: 1,
       y: 0,
+      transition: { duration: 0.6, ease: "easeOut" }
     },
   }
 
@@ -285,7 +285,8 @@ export default function Gallery() {
         <div 
           className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-blue-900/20 to-indigo-900/20"
           style={{
-            transform: `translateY(${scrollProgress * 50}px)`,
+            willChange: "transform",
+            transform: `translateY(${scrollProgress * 30}px)`,
           }}
         />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(120,119,198,0.1),transparent_50%)]" />
@@ -299,9 +300,9 @@ export default function Gallery() {
         <motion.div
           ref={titleRef}
           className="text-center mb-16"
-          initial={{ opacity: 0, y: -30 }}
-          animate={isTitleInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -30 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          initial={{ opacity: 0, y: -20 }}
+          animate={isTitleInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
         >
           <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
             Visual Stories
@@ -355,15 +356,14 @@ export default function Gallery() {
                       ${isFeatured ? 'shadow-lg shadow-pink-500/10' : 'shadow-md shadow-gray-500/10'}
                       backdrop-blur-sm bg-white/5 border border-white/10
                       hover:border-white/20 hover:shadow-2xl hover:shadow-purple-500/25
-                      transition-all duration-500 ease-out
+                      transition-all duration-300 ease-out
                     `}
                     variants={isHero ? heroVariants : itemVariants}
-                    transition={{ duration: isHero ? 0.8 : 0.6, ease: "easeOut" }}
+                    transition={{ duration: isHero ? 0.6 : 0.5, ease: "easeOut" }}
                     whileHover={{
-                      scale: 1.03,
-                      y: -8,
-                      rotateY: 2,
-                      transition: { duration: 0.3, ease: "easeOut" }
+                      scale: 1.02,
+                      y: -4,
+                      transition: { duration: 0.2, ease: "easeOut" }
                     }}
                     whileTap={{ scale: 0.98 }}
                     onMouseEnter={() => setHoveredImage(item.id)}
@@ -383,11 +383,10 @@ export default function Gallery() {
                         style={{ 
                           objectFit: "cover", 
                           filter: imageData ? undefined : 'blur(12px)',
-                          transition: 'all 0.5s ease-out'
                         }}
                         className={`
-                          absolute inset-0 transition-all duration-500 ease-out
-                          ${imageData ? 'group-hover:scale-110' : 'bg-gray-300 animate-pulse'}
+                          absolute inset-0 transition-all duration-300 ease-out
+                          ${imageData ? 'group-hover:scale-105' : 'bg-gray-300 animate-pulse'}
                           ${hoveredImage === item.id ? 'brightness-110' : ''}
                         `}
                         onLoad={(e) => handleImageLoad(item.id, e)}
