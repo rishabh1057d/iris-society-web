@@ -256,7 +256,6 @@ export default function Gallery() {
       opacity: 1,
       scale: 1,
       y: 0,
-      transition: { duration: 0.5, ease: "easeOut" }
     },
   }
 
@@ -270,7 +269,6 @@ export default function Gallery() {
       opacity: 1,
       scale: 1,
       y: 0,
-      transition: { duration: 0.6, ease: "easeOut" }
     },
   }
 
@@ -302,7 +300,7 @@ export default function Gallery() {
           className="text-center mb-16"
           initial={{ opacity: 0, y: -20 }}
           animate={isTitleInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          transition={{ duration: 0.6 }}
         >
           <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
             Visual Stories
@@ -359,11 +357,11 @@ export default function Gallery() {
                       transition-all duration-300 ease-out
                     `}
                     variants={isHero ? heroVariants : itemVariants}
-                    transition={{ duration: isHero ? 0.6 : 0.5, ease: "easeOut" }}
+                    transition={{ duration: isHero ? 0.6 : 0.5 }}
                     whileHover={{
                       scale: 1.02,
                       y: -4,
-                      transition: { duration: 0.2, ease: "easeOut" }
+                      transition: { duration: 0.2 }
                     }}
                     whileTap={{ scale: 0.98 }}
                     onMouseEnter={() => setHoveredImage(item.id)}
