@@ -49,15 +49,15 @@
     { "id": 18, "name": "Rishabh Singh", "role": "Web Developer", "description": "Development of the entire website from scratch and continues to maintain and improve its features.", "image": "/images/rishabh.jpg", "linkedin": "https://www.linkedin.com/in/rishabh-singh-514b8628a/" }
   ],
   "popup": {
-    "enabled": false,
+    "enabled": true,
     "fireworks": false,
     "retro": false,
-    "title": "Shutter Safari Virtual Edition 2.0",
-    "description": "Shutter Safari – Virtual Edition 2.0 is a photography competition that celebrates photography as a powerful medium of storytelling, emotion, and cultural expression. The event aims to provide students with a professional and supportive platform to showcase their work while promoting ethical, original, and story-driven photography.",
-    "image": "/images/Shutter Safari - Virtual Edition 2.0.png",
-    "registerUrl": "https://iitmparadox.org/events/30",
-    "rulebookUrl": "https://drive.google.com/file/d/1anM2fjRGJNrCUfYPiFAbUdB8PPXS9nO1/view",
-    "registrationDeadline": "2026-01-08T23:59:59"
+    "title": "Shutter Safari 3.0",
+    "description": "Shutter Safari 3.0 is a flagship photography competition focused on storytelling through visuals. The event includes two photography rounds, where participants capture and submit photos based on given themes. This time, we’ve come up with an exciting Bonus Videography Round, where participants capture their journey to Paradox along with their on-campus experiences. Shortlisted entries will be judged by experts, making the event a perfect blend of creativity, storytelling, and learning.",
+    "image": "/images/Shutter_safar_3.jpeg",
+    "registerUrl": "https://www.iitmparadox.org/events/cultural/56",
+    "rulebookUrl": "https://docs.google.com/document/d/1WtA9Opn53uZKkAKwWWgPtIfbVQ8bB55WtHpMrjoyxXI/edit?tab=t.0#heading=h.nh6axk7u94xz",
+    "registrationDeadline": "2026-06-08T23:59:59"
   },
   "recruiting":false, 
   "recruitmentForm": "https://forms.gle/XkNmxfYLzbR6E7Xt8",
