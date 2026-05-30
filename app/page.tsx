@@ -12,6 +12,7 @@ import ResponsiveImage from "@/components/responsive-image"
 import ErrorBoundary from "@/components/error-boundary"
 import RedirectHandler from "@/components/redirect-handler"
 import { motion, AnimatePresence, useAnimation, useInView, useScroll, useTransform } from "framer-motion"
+import SymphonyOverlay from "@/components/symphony-overlay"
 function RainOverlay() {
   const palette = [
     '#fff2b2', // bright gold
@@ -526,7 +527,8 @@ export default function Home() {
   const [showEventPopup, setShowEventPopup] = useState(false)
   const [showFireworks, setShowFireworks] = useState(false)
   const [showRetroEffect, setShowRetroEffect] = useState(false)
-  const [popupData, setPopupData] = useState<{ enabled?: boolean; title?: string; description?: string; image?: string; registerUrl?: string; rulebookUrl?: string; registrationDeadline?: string; fireworks?: boolean; retro?: boolean } | null>(null)
+  const [showSymphony, setShowSymphony] = useState(false)
+  const [popupData, setPopupData] = useState<{ enabled?: boolean; title?: string; description?: string; image?: string; registerUrl?: string; rulebookUrl?: string; registrationDeadline?: string; fireworks?: boolean; retro?: boolean; symphony?: boolean } | null>(null)
   const [imageLoaded, setImageLoaded] = useState(false)
   const [videoMuted, setVideoMuted] = useState(true)
   const [videoData, setVideoData] = useState<{ enabled?: boolean; src?: string; title?: string; description?: string; instagramUrl?: string } | null>(null)
@@ -789,13 +791,16 @@ export default function Home() {
           try {
             setShowFireworks(Boolean(data.popup.fireworks))
             setShowRetroEffect(Boolean(data.popup.retro))
+            setShowSymphony(Boolean(data.popup.symphony))
           } catch {
             setShowFireworks(false)
             setShowRetroEffect(false)
+            setShowSymphony(false)
           }
         } else {
           setShowFireworks(false)
           setShowRetroEffect(false)
+          setShowSymphony(false)
         }
         if (data && data.video_home) {
           setVideoData(data.video_home)
@@ -906,8 +911,9 @@ export default function Home() {
             >
               {showFireworks && <RainOverlay />}
               {showRetroEffect && <RetroPixelArtOverlay />}
+              {showSymphony && <SymphonyOverlay />}
               <motion.div
-                className={`relative z-[55] rounded-2xl overflow-hidden w-full max-w-[1100px] h-[90vh] md:h-[80vh] max-h-[90vh] md:max-h-[85vh] flex flex-col md:flex-row backdrop-blur-xl bg-white/10 border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.3)] ${showRetroEffect ? 'retro-popup-glitch' : ''}`}
+                className={`relative z-[55] rounded-2xl overflow-hidden w-full max-w-[1100px] h-[90vh] md:h-[80vh] max-h-[90vh] md:max-h-[85vh] flex flex-col md:flex-row backdrop-blur-xl bg-white/10 border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.3)] ${showRetroEffect ? 'retro-popup-glitch' : ''} ${showSymphony ? 'symphony-popup' : ''}`}
                 variants={modalVariants}
                 initial="hidden"
                 animate="visible"
@@ -1169,6 +1175,67 @@ export default function Home() {
             image-rendering: -moz-crisp-edges;
             image-rendering: crisp-edges;
             filter: contrast(1.1) saturate(1.2);
+          }
+        `}</style>
+      )}
+
+      {/* Global styles for Symphony ("Symphony in Shades") popup theme */}
+      {showSymphony && (
+        <style jsx global>{`
+          .symphony-popup {
+            --primary-pink: #f56483;
+            --primary-purple: #703c84;
+            --accent-yellow: #ffb000;
+            --accent-green: #406014;
+            --soft-pink: #fcc4b7;
+            --soft-lav: #ebdbe6;
+          }
+
+          .symphony-popup {
+            background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.04));
+            border-color: rgba(112,60,132,0.18) !important;
+          }
+
+          .symphony-popup h3 {
+            color: var(--primary-purple);
+            background: linear-gradient(90deg, var(--primary-pink), var(--primary-purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-family: 'Roxaine', 'Cormorant Garamond', serif;
+            font-weight: 800;
+            font-size: 1.25rem;
+          }
+
+          .symphony-popup .btn-primary {
+            background: linear-gradient(90deg, var(--primary-pink), var(--primary-purple));
+            color: white !important;
+            border: none !important;
+            box-shadow: 0 10px 30px rgba(117,39,92,0.18);
+          }
+
+          .symphony-popup .btn-secondary {
+            border-color: rgba(112,60,132,0.12) !important;
+          }
+
+          .symphony-popup .rounded-xl.bg-black\/50 {
+            background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+            border: 1px solid rgba(112,60,132,0.06);
+          }
+
+          /* Subtle decorative accents inside popup */
+          .symphony-popup .event-accent {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--accent-yellow);
+            border-radius: 9999px;
+            margin-right: 8px;
+          }
+
+          @media (max-width: 640px) {
+            .symphony-popup h3 { font-size: 1.05rem; }
+            .symphony-popup .btn-primary { padding-top: 0.5rem; padding-bottom: 0.5rem; }
           }
         `}</style>
       )}

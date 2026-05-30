@@ -538,11 +538,13 @@
         "email": "",
         "description": "The absence of color makes every shadow, arch, and silhouette speak louder. In black and white, the moment feels timeless where light and structure carry the entire emotion of the frame.",
         "image": "/images/potw_56.jpeg"
-      },
+      }
+    ],
+    "April": [
       {
         "id": 57,
-        "week": 3,
-        "month": "March",
+        "week": 1,
+        "month": "April",
         "theme": "Traditions Around You",
         "photographer": "Amirtheswaran",
         "email": "",
@@ -551,8 +553,8 @@
       },
       {
         "id": 58,
-        "week": 4,
-        "month": "March",
+        "week": 2,
+        "month": "April",
         "theme": "Photo dump but make it Art",
         "photographer": "Ayushi Patel",
         "email": "",

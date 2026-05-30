@@ -1,4 +1,18 @@
 [{
+  "id": 22,
+  "title": "inFocus Workshop Series — Season 2 | E3",
+  "description": "Join us at 7 PM for InFocus S2 | E3 with Rohit Tandon and discover the photographer within you.",
+  "dates": "21th Feb 2026",
+  "location": "Online",
+  "collab": "IRIS Society",
+  "image": "/images/WhatsApp Image 2026-05-30 at 7.56.10 PM.jpeg",
+  "registrationOpen": true,
+  "registrationLink": "",
+  "status": "previous",
+  "resultLink": "",
+  "liveSessionLink": "https://www.youtube.com/live/RaDS15K0BbE?si=JOJj1gVcDHZW4tmX",
+  "speakerInstagram": ""
+},{
   "id": 21,
   "title": "The Directors Spectrum",
   "description": "The Director’s Spectrum is a team-based videography competition conducted in multiple stages. The event is designed to evaluate participants on storytelling, direction, and collaborative creativity. The competition consists of an Audition Phase, followed by a Main Themed Phase, and concludes with a Live Judging Session.",
@@ -8,7 +22,7 @@
   "image": "/images/The Directors spectrum.jpg",
   "registrationOpen": true,
   "registrationLink": "https://forms.gle/Y8G7SLy3KDdMuEUbA",
-  "status": "ongoing",
+  "status": "previous",
   "resultLink": "",
   "liveSessionLink": "",
   "speakerInstagram": "https://www.instagram.com/prathmeshrangolephotography/?hl=en"
