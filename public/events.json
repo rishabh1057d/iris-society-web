@@ -1,4 +1,18 @@
 [{
+    "id": 23,
+  "title": "Shutter Safari 3.0",
+  "description": "Shutter Safari 3.0 is a flagship photography competition focused on storytelling through visuals. The event includes two photography rounds, where participants capture and submit photos based on given themes. This time, we’ve come up with an exciting Bonus Videography Round, where participants capture their journey to Paradox along with their on-campus experiences. Shortlisted entries will be judged by experts, making the event a perfect blend of creativity, storytelling, and learning.",
+  "dates": "10-13th June 2026",
+  "location": "Offline, IIT Madras",
+  "collab": "IRIS Society",
+  "image": "/images/Shutter_safar_3.jpeg",
+  "registrationOpen": false,
+  "registrationLink": "",
+  "status": "previous",
+  "resultLink": "",
+  "liveSessionLink": "",
+  "speakerInstagram": ""
+},{
   "id": 22,
   "title": "inFocus Workshop Series — Season 2 | E3",
   "description": "Join us at 7 PM for InFocus S2 | E3 with Rohit Tandon and discover the photographer within you.",
@@ -6,7 +20,7 @@
   "location": "Online",
   "collab": "IRIS Society",
   "image": "/images/WhatsApp Image 2026-05-30 at 7.56.10 PM.jpeg",
-  "registrationOpen": true,
+  "registrationOpen": false,
   "registrationLink": "",
   "status": "previous",
   "resultLink": "",
