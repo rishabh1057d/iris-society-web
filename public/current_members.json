@@ -18,8 +18,8 @@
     }
   ],
   "Coordinators": [
-    { "id": 7, "name": "T. Hasini Reddy", "role": "Coordinator", "description": "Coordinates various society events and functioning of society.", "image": "/images/T_hasini.png", "linkedin": "https://www.linkedin.com/in/hasinireddy22?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app", "className": "mx-auto" },
-    { "id": 8, "name": "Pronoy Mukherjee", "role": "Coordinator", "description": "Coordinates outreach efforts and campus relations.", "image": "/images/hasini-reddy.png", "linkedin": "http://www.linkedin.com/in/pronoy-mukherjee-439a052a5" }  ],
+    { "id": 7, "name": "T. Hasini Reddy", "role": "Coordinator", "description": "Coordinates various society events and functioning of society.", "image": "/images/hasini-reddy.png", "linkedin": "https://www.linkedin.com/in/hasinireddy22?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app", "className": "mx-auto" },
+    { "id": 8, "name": "Pronoy Mukherjee", "role": "Coordinator", "description": "Coordinates outreach efforts and campus relations.", "image": "/images/Pronoy_Mukherjee.jpg", "linkedin": "http://www.linkedin.com/in/pronoy-mukherjee-439a052a5" }  ],
   "OutreachAndSponsor": [
     { "id": 3, "name": "Radhika Kumari", "role": "Outreach Team", "description": "Builds partnerships and coordinates outreach.", "image": "/images/radhika.jpg", "linkedin": "https://www.linkedin.com/in/radhika-kumari-0445b1340?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" },
     { "id": 4, "name": "Mohith Maddala", "role": "Outreach & Sponsorship", "description": "Manages sponsor relationships and external collaborations.", "image": "images/Mohit_mada.jpg", "linkedin": "https://www.linkedin.com/in/mohith-maddala-168a21353/" },
