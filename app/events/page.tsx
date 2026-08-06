@@ -1,17 +1,16 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
 import Image from "next/image"
 import { Calendar, MapPin, Users, ChevronLeft, ChevronRight } from "lucide-react"
-import { motion, useInView, useScroll, useTransform } from "framer-motion"
+import { motion, useInView } from "framer-motion"
+import { spring, staggerContainer, staggerItem } from "@/lib/motion"
 
 export default function Events() {
   const titleRef = useRef<HTMLHeadingElement>(null)
-  const ongoingRef = useRef<HTMLHeadingElement>(null)
-  const previousRef = useRef<HTMLHeadingElement>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
+  const ongoingRef = useRef<HTMLElement>(null)
+  const previousRef = useRef<HTMLElement>(null)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
 
   const [canScrollLeft, setCanScrollLeft] = useState(false)
@@ -19,212 +18,205 @@ export default function Events() {
   const [events, setEvents] = useState<any[]>([])
 
   const isTitleInView = useInView(titleRef, { once: true })
-  const isOngoingInView = useInView(ongoingRef, { once: true })
-  const isPreviousInView = useInView(previousRef, { once: true })
+  const isOngoingInView = useInView(ongoingRef, { once: true, margin: "-40px" })
+  const isPreviousInView = useInView(previousRef, { once: true, margin: "-40px" })
 
   useEffect(() => {
     fetch("/events.json")
       .then((res) => res.json())
       .then((data) => {
-        // Sort by id descending
         data.sort((a: { id: number }, b: { id: number }) => b.id - a.id)
         setEvents(data)
       })
       .catch(() => setEvents([]))
   }, [])
 
-  // Scroll animations
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"],
-  })
-
-  // Transform values for parallax effect
-  const y1 = useTransform(scrollYProgress, [0, 1], [0, -100])
-  const y2 = useTransform(scrollYProgress, [0, 1], [100, 0])
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.6, 1, 1, 0.6])
-
-  // Animation variants
-  const sectionVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6 },
-    },
-  }
-
-  const cardContainerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  }
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.5 },
-    },
-  }
-
-  // Horizontal scroll functions
   const scrollLeft = () => {
-    if (scrollContainerRef.current) {
-      const scrollAmount = 320 // Width of one card + gap
-      scrollContainerRef.current.scrollBy({ left: -scrollAmount, behavior: "smooth" })
-    }
+    scrollContainerRef.current?.scrollBy({ left: -320, behavior: "smooth" })
   }
 
   const scrollRight = () => {
-    if (scrollContainerRef.current) {
-      const scrollAmount = 320 // Width of one card + gap
-      scrollContainerRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" })
-    }
+    scrollContainerRef.current?.scrollBy({ left: 320, behavior: "smooth" })
   }
 
-  // Check scroll position
   const handleScroll = () => {
-    if (scrollContainerRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current
-      setCanScrollLeft(scrollLeft > 0)
-      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10)
-    }
+    if (!scrollContainerRef.current) return
+    const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current
+    setCanScrollLeft(scrollLeft > 0)
+    setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10)
   }
 
-  // Split events into ongoing and previous
-  const ongoingEvents = events.filter(e => e.status === "ongoing")
-  const previousEvents = events.filter(e => e.status === "previous")
+  const ongoingEvents = events.filter((e) => e.status === "ongoing")
+  const previousEvents = events.filter((e) => e.status === "previous")
+
+  /** Same card shell as Photowalks — full-width in grids, fixed width in carousels */
+  const EventCard = ({ event }: { event: any }) => (
+    <motion.div
+      className="event-card meetup-card glass-card-event w-full bg-white/[0.04] border border-white/10 rounded-2xl overflow-hidden"
+      variants={staggerItem}
+      whileHover={{ y: -3, transition: spring.snappy }}
+      whileTap={{ scale: 0.99 }}
+    >
+      <div className="aspect-[3/4] bg-slate-800 relative">
+        <Image
+          src={event.image}
+          alt={event.title}
+          width={300}
+          height={400}
+          className="w-full h-full object-cover"
+        />
+      </div>
+      <div className="p-5 md:p-6">
+        <h3 className="text-lg md:text-xl font-semibold mb-3 text-white tracking-tight">
+          {event.title}
+        </h3>
+        {event.description && (
+          <p className="text-slate-300 mb-3 text-sm leading-relaxed">{event.description}</p>
+        )}
+        <div className="space-y-1.5 text-xs text-sky-200/80 mb-4">
+          {event.dates && (
+            <div className="flex items-center gap-2">
+              <Calendar className="w-3.5 h-3.5 shrink-0 opacity-80" />
+              <span>{event.dates}</span>
+            </div>
+          )}
+          {event.location && (
+            <div className="flex items-center gap-2">
+              <MapPin className="w-3.5 h-3.5 shrink-0 opacity-80" />
+              <span>{event.location}</span>
+            </div>
+          )}
+          {event.collab && (
+            <div className="flex items-center gap-2">
+              <Users className="w-3.5 h-3.5 shrink-0 opacity-80" />
+              <span>{event.collab}</span>
+            </div>
+          )}
+        </div>
+        <div className="flex flex-wrap justify-center gap-2">
+          {event.status === "previous" ? (
+            <>
+              {event.resultLink?.trim() && (
+                <a
+                  href={event.resultLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs min-h-[36px] inline-flex items-center px-3 py-1.5 rounded-full bg-blue-600/20 text-blue-100 border border-blue-400/20 hover:bg-blue-600/30 active:scale-95 transition"
+                >
+                  View Results
+                </a>
+              )}
+              {event.liveSessionLink?.trim() && (
+                <a
+                  href={event.liveSessionLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs min-h-[36px] inline-flex items-center px-3 py-1.5 rounded-full bg-emerald-600/20 text-emerald-100 border border-emerald-400/20 hover:bg-emerald-600/30 active:scale-95 transition"
+                >
+                  Live Session
+                </a>
+              )}
+            </>
+          ) : event.registrationOpen ? (
+            <a
+              href={event.registrationLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs min-h-[36px] inline-flex items-center px-3 py-1.5 rounded-full bg-blue-600/20 text-blue-100 border border-blue-400/20 hover:bg-blue-600/30 active:scale-95 transition"
+            >
+              Join Now
+            </a>
+          ) : (
+            <span className="text-xs min-h-[36px] inline-flex items-center px-3 py-1.5 rounded-full bg-white/5 text-slate-400 border border-white/10">
+              Registration Closed
+            </span>
+          )}
+          {event.speakerInstagram?.trim() && (
+            <a
+              href={event.speakerInstagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs min-h-[36px] inline-flex items-center px-3 py-1.5 rounded-full bg-pink-600/20 text-pink-100 border border-pink-400/20 hover:bg-pink-600/30 active:scale-95 transition"
+            >
+              Our Guest
+            </a>
+          )}
+        </div>
+      </div>
+    </motion.div>
+  )
 
   return (
-    <main className="flex min-h-screen flex-col items-center relative">
-      <Navbar />
-      <div ref={containerRef} className="pt-24 pb-12 px-6 w-full max-w-7xl mx-auto relative z-10">
-        <motion.h1
+    <div className="flex min-h-full flex-1 flex-col">
+      <div className="page-shell max-w-7xl flex-1">
+        <motion.header
           ref={titleRef}
-          className="text-3xl md:text-4xl font-bold mb-24 md:mb-12 text-center text-white inline-block border-b-4 border-blue-400/80 pb-2"
-          initial={{ opacity: 0, y: -20 }}
-          animate={isTitleInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
-          transition={{ duration: 0.6 }}
-          style={{ opacity }}
+          className="page-hero"
+          initial={{ opacity: 0, y: 12 }}
+          animate={isTitleInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+          transition={spring.default}
         >
-          Event Calendar
-        </motion.h1>
+          <h1 className="page-hero-title">Event Calendar</h1>
+          <p className="page-hero-sub">Workshops, competitions, and showcases from IRIS.</p>
+        </motion.header>
 
-        {/* Ongoing Events */}
+        {/* Ongoing — same responsive grid as Photowalks (1 col phone → 3 col desktop) */}
         <motion.section
-          className="mb-12 mt-12 md:mt-0"
+          className="mb-14 md:mb-16"
           ref={ongoingRef}
-          variants={sectionVariants}
-          initial="hidden"
-          animate={isOngoingInView ? "visible" : "hidden"}
-          style={{ y: y1 }}
+          initial={{ opacity: 0, y: 12 }}
+          animate={isOngoingInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+          transition={spring.default}
         >
-          <h2 className="text-2xl font-bold mb-4 pb-2 border-b border-blue-400/30 text-white">Ongoing Events</h2>
+          <h2 className="section-title">Ongoing Events</h2>
           {ongoingEvents.length === 0 ? (
-            <p className="text-blue-200">No events are going on right now.</p>
+            <p className="text-slate-400 text-sm">No events are going on right now.</p>
           ) : (
-            <div className="flex flex-wrap gap-6">
-              {ongoingEvents.map((event, idx) => (
-                <motion.div
-                  key={event.id}
-                  className="event-card glass-card-event flex-shrink-0 w-80 backdrop-blur-md bg-white/5 border border-blue-400/20"
-                  variants={cardVariants}
-                  whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
-                >
-                  <div className="aspect-[3/4] bg-gray-700 relative">
-                    <Image
-                      src={event.image}
-                      alt={event.title}
-                      width={300}
-                      height={400}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="p-4">
-                    <h3 className="text-lg font-semibold mb-2 text-white">{event.title}</h3>
-                    <p className="text-blue-200 mb-3 text-sm">{event.description}</p>
-                    <div className="space-y-1 text-xs text-blue-300 mb-3">
-                      <div className="flex items-center">
-                        <Calendar className="w-3 h-3 mr-2" />
-                        <span>{event.dates}</span>
-                      </div>
-                      <div className="flex items-center">
-                        <MapPin className="w-3 h-3 mr-2" />
-                        <span>{event.location}</span>
-                      </div>
-                      <div className="flex items-center">
-                        <Users className="w-3 h-3 mr-2" />
-                        <span>{event.collab}</span>
-                      </div>
-                    </div>
-                    <div className="flex justify-center gap-2">
-                      {event.registrationOpen ? (
-                        <a
-                          href={event.registrationLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-xs px-3 py-1 bg-blue-600/20 text-blue-200 rounded-md border border-blue-400/20 hover:bg-blue-600/30 transition"
-                        >
-                          Join Now
-                        </a>
-                      ) : (
-                        <span className="text-xs px-3 py-1 bg-gray-600/20 text-gray-400 rounded-md border border-gray-500/20">
-                          Registration Closed
-                        </span>
-                      )}
-                      {event.speakerInstagram && event.speakerInstagram.trim() !== "" && (
-                        <a
-                          href={event.speakerInstagram}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-xs px-3 py-1 bg-pink-600/20 text-pink-200 rounded-md border border-pink-400/20 hover:bg-pink-600/30 transition"
-                        >
-                          Our Guest
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                </motion.div>
+            <motion.div
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6"
+              variants={staggerContainer}
+              initial="hidden"
+              animate={isOngoingInView ? "visible" : "hidden"}
+            >
+              {ongoingEvents.map((event) => (
+                <EventCard key={event.id} event={event} />
               ))}
-            </div>
+            </motion.div>
           )}
         </motion.section>
 
-        {/* Previous Events */}
+        {/* Previous — horizontal carousel matching Past Photowalks */}
         <motion.section
           ref={previousRef}
-          variants={sectionVariants}
-          initial="hidden"
-          animate={isPreviousInView ? "visible" : "hidden"}
-          style={{ y: y2 }}
+          initial={{ opacity: 0, y: 12 }}
+          animate={isPreviousInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+          transition={spring.default}
         >
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold pb-2 border-b border-blue-400/30 text-white">Previous Events</h2>
-            <div className="flex space-x-2">
+          <div className="flex items-center justify-between gap-4 mb-6">
+            <h2 className="section-title !mb-0 flex-1">Previous Events</h2>
+            <div className="flex gap-2 shrink-0">
               <button
+                type="button"
                 onClick={scrollLeft}
                 disabled={!canScrollLeft}
-                className={`p-2 rounded-full backdrop-blur-md border transition-all ${
+                aria-label="Scroll previous events left"
+                className={`inline-flex items-center justify-center min-h-[40px] min-w-[40px] rounded-full border backdrop-blur-md transition active:scale-95 ${
                   canScrollLeft
-                    ? "bg-blue-600/20 border-blue-400/30 text-blue-200 hover:bg-blue-600/30"
-                    : "bg-gray-600/10 border-gray-500/20 text-gray-500 cursor-not-allowed"
+                    ? "bg-blue-600/20 border-blue-400/30 text-blue-100 hover:bg-blue-600/30"
+                    : "bg-white/5 border-white/10 text-slate-600 cursor-not-allowed"
                 }`}
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
               <button
+                type="button"
                 onClick={scrollRight}
                 disabled={!canScrollRight}
-                className={`p-2 rounded-full backdrop-blur-md border transition-all ${
+                aria-label="Scroll previous events right"
+                className={`inline-flex items-center justify-center min-h-[40px] min-w-[40px] rounded-full border backdrop-blur-md transition active:scale-95 ${
                   canScrollRight
-                    ? "bg-blue-600/20 border-blue-400/30 text-blue-200 hover:bg-blue-600/30"
-                    : "bg-gray-600/10 border-gray-500/20 text-gray-500 cursor-not-allowed"
+                    ? "bg-blue-600/20 border-blue-400/30 text-blue-100 hover:bg-blue-600/30"
+                    : "bg-white/5 border-white/10 text-slate-600 cursor-not-allowed"
                 }`}
               >
                 <ChevronRight className="w-5 h-5" />
@@ -232,108 +224,23 @@ export default function Events() {
             </div>
           </div>
 
-          <motion.div
+          <div
             ref={scrollContainerRef}
-            className="flex space-x-6 overflow-x-auto scrollbar-hide pb-4"
-            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+            className="flex gap-5 md:gap-6 overflow-x-auto scrollbar-hide pb-4 snap-x snap-mandatory"
             onScroll={handleScroll}
-            variants={cardContainerVariants}
-            initial="hidden"
-            animate={isPreviousInView ? "visible" : "hidden"}
           >
-            {previousEvents.map((event, idx) => (
-              <motion.div
+            {previousEvents.map((event) => (
+              <div
                 key={event.id}
-                className="event-card glass-card-event flex-shrink-0 w-80 backdrop-blur-md bg-white/5 border border-blue-400/20"
-                variants={cardVariants}
-                whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
+                className="snap-start flex-shrink-0 w-[min(100%,18rem)] sm:w-72"
               >
-                <div className="aspect-[3/4] bg-gray-700 relative">
-                  <Image
-                    src={event.image}
-                    alt={event.title}
-                    width={300}
-                    height={400}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="p-4">
-                  <h3 className="text-lg font-semibold mb-2 text-white">{event.title}</h3>
-                  <p className="text-blue-200 mb-3 text-sm">{event.description}</p>
-                  <div className="space-y-1 text-xs text-blue-300 mb-3">
-                    <div className="flex items-center">
-                      <Calendar className="w-3 h-3 mr-2" />
-                      <span>{event.dates}</span>
-                    </div>
-                    <div className="flex items-center">
-                      <MapPin className="w-3 h-3 mr-2" />
-                      <span>{event.location}</span>
-                    </div>
-                    <div className="flex items-center">
-                      <Users className="w-3 h-3 mr-2" />
-                      <span>{event.collab}</span>
-                    </div>
-                  </div>
-                  <div className="flex justify-center">
-                    {event.status === "previous" ? (
-                      <div className="flex items-center justify-center gap-2">
-                        {event.resultLink && event.resultLink.trim() !== "" && (
-                          <a
-                            href={event.resultLink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-xs px-3 py-1 bg-blue-600/20 text-blue-200 rounded-md border border-blue-400/20 hover:bg-blue-600/30 transition"
-                          >
-                            View Results
-                          </a>
-                        )}
-                        {event.liveSessionLink && event.liveSessionLink.trim() !== "" && (
-                          <a
-                            href={event.liveSessionLink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-xs px-3 py-1 bg-green-600/20 text-green-200 rounded-md border border-green-400/20 hover:bg-green-600/30 transition"
-                          >
-                            View Live Session
-                          </a>
-                        )}
-                      </div>
-                    ) : (
-                      <>
-                        {event.registrationOpen ? (
-                          <a
-                            href={event.registrationLink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-xs px-3 py-1 bg-blue-600/20 text-blue-200 rounded-md border border-blue-400/20 hover:bg-blue-600/30 transition"
-                          >
-                            Register Now
-                          </a>
-                        ) : (
-                          <span className="text-xs px-3 py-1 bg-gray-600/20 text-gray-400 rounded-md border border-gray-500/20">
-                            Registration Closed
-                          </span>
-                        )}
-                      </>
-                    )}
-                  </div>
-                </div>
-              </motion.div>
+                <EventCard event={event} />
+              </div>
             ))}
-          </motion.div>
+          </div>
         </motion.section>
       </div>
       <Footer />
-
-      <style jsx>{`
-        .scrollbar-hide {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
-    </main>
+    </div>
   )
 }
