@@ -55,19 +55,18 @@ export default function Page() {
 
   // Default: Show selection screen
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-20">
+    <div className="min-h-full flex-1 flex items-center justify-center px-4 py-24 md:py-28">
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
+        transition={{ type: "spring", bounce: 0, duration: 0.4 }}
         className="w-full max-w-4xl"
       >
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-4">
+        <div className="text-center mb-10 md:mb-12">
+          <h1 className="page-hero-title mb-3">
             {config?.event_name || "Event Registration"}
           </h1>
-          <p className="text-lg text-white/70 max-w-2xl mx-auto">
+          <p className="page-hero-sub">
             {config?.event_description || "Choose your access type to continue"}
           </p>
         </div>
@@ -76,10 +75,12 @@ export default function Page() {
         <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
           {/* Participant Card */}
           <motion.button
+            type="button"
             onClick={() => setUserType("participant")}
-            whileHover={{ scale: 1.02, y: -2 }}
-            whileTap={{ scale: 0.98 }}
-            className="group relative rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-2xl overflow-hidden p-8 text-left transition-all duration-300 hover:border-blue-500/30 hover:bg-white/[0.08]"
+            whileHover={{ y: -3 }}
+            whileTap={{ scale: 0.99 }}
+            transition={{ type: "spring", bounce: 0, duration: 0.3 }}
+            className="group relative rounded-2xl border border-white/10 bg-white/[0.05] backdrop-blur-xl shadow-2xl overflow-hidden p-7 md:p-8 text-left transition-[border-color,background] duration-200 hover:border-blue-500/35 hover:bg-white/[0.08] min-h-[44px]"
           >
             {/* Gradient accent */}
             <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-500/10 via-transparent to-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
@@ -128,10 +129,12 @@ export default function Page() {
 
           {/* Admin Card */}
           <motion.button
+            type="button"
             onClick={() => setUserType("admin")}
-            whileHover={{ scale: 1.02, y: -2 }}
-            whileTap={{ scale: 0.98 }}
-            className="group relative rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-2xl overflow-hidden p-8 text-left transition-all duration-300 hover:border-purple-500/30 hover:bg-white/[0.08]"
+            whileHover={{ y: -3 }}
+            whileTap={{ scale: 0.99 }}
+            transition={{ type: "spring", bounce: 0, duration: 0.3 }}
+            className="group relative rounded-2xl border border-white/10 bg-white/[0.05] backdrop-blur-xl shadow-2xl overflow-hidden p-7 md:p-8 text-left transition-[border-color,background] duration-200 hover:border-purple-500/35 hover:bg-white/[0.08] min-h-[44px]"
           >
             {/* Gradient accent */}
             <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-purple-500/10 via-transparent to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />

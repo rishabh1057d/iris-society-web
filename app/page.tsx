@@ -5,7 +5,6 @@ import type React from "react"
 import { useEffect, useRef, useState, useCallback, useMemo } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
 import ResponsiveContainer from "@/components/responsive-container"
 import ResponsiveImage from "@/components/responsive-image"
@@ -561,7 +560,7 @@ export default function Home() {
     offset: ["start start", "end end"],
   })
 
-  const mainRef = useRef<HTMLElement>(null)
+  const mainRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress: mainScrollProgress } = useScroll({
     target: mainRef,
     offset: ["start start", "end end"],
@@ -930,10 +929,11 @@ export default function Home() {
                   <div className="absolute w-32 h-32 rounded-full bg-gradient-to-r from-purple-400/20 to-blue-400/20 blur-sm top-3/4 right-1/4 animate-pulse" style={{ animationDelay: '1s' }} />
                 </div>
                 <motion.button
+                  type="button"
                   onClick={() => setShowEventPopup(false)}
-                  className="absolute top-3 sm:top-2 right-3 sm:right-2 p-1 rounded-full hover:bg-white/10 transition-colors z-10"
-                  whileHover={{ scale: 1.1 }}
+                  className="absolute top-3 sm:top-2 right-3 sm:right-2 inline-flex items-center justify-center min-h-[44px] min-w-[44px] rounded-full hover:bg-white/10 active:scale-95 transition-colors z-10"
                   whileTap={{ scale: 0.95 }}
+                  aria-label="Close announcement"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path fillRule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clipRule="evenodd"/></svg>
                 </motion.button>
@@ -1288,23 +1288,17 @@ export default function Home() {
         onComplete={() => setIsRedirecting(false)}
       />
 
-      <main ref={mainRef} className="flex min-h-screen flex-col items-center relative overflow-hidden">
-        <Navbar onJoinClick={handleJoinNowClick} />
-
-        {/* Enhanced Hero section with improved visual hierarchy */}
+      <div ref={mainRef} className="flex min-h-full flex-1 flex-col items-center relative overflow-hidden">
+        {/* Hero — calm depth, no heavy looping motion (vestibular-friendly) */}
         <div
           ref={heroRef}
-          className="min-h-screen w-full flex flex-col items-center justify-center text-center safe-area-inset-top relative z-10"
+          className="min-h-[100dvh] w-full flex flex-col items-center justify-center text-center safe-area-inset-top relative z-10 px-4"
         >
-          {/* Enhanced background overlay with gradient mesh */}
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-purple-900/15 to-indigo-900/25 pointer-events-none" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none" />
-          
-          {/* Floating orbs for depth */}
-          <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            <div className="absolute w-96 h-96 rounded-full bg-gradient-to-r from-blue-500/10 to-purple-500/10 blur-3xl top-1/4 left-1/4 animate-pulse" />
-            <div className="absolute w-80 h-80 rounded-full bg-gradient-to-r from-purple-500/8 to-pink-500/8 blur-3xl top-3/4 right-1/4 animate-pulse" style={{ animationDelay: '2s' }} />
-            <div className="absolute w-64 h-64 rounded-full bg-gradient-to-r from-indigo-500/6 to-blue-500/6 blur-3xl top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 animate-pulse" style={{ animationDelay: '4s' }} />
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-900/18 via-purple-900/12 to-indigo-900/20 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent pointer-events-none" />
+          <div className="absolute inset-0 pointer-events-none overflow-hidden motion-reduce:hidden" aria-hidden>
+            <div className="absolute w-96 h-96 rounded-full bg-gradient-to-r from-blue-500/10 to-purple-500/10 blur-3xl top-1/4 left-1/4 opacity-80" />
+            <div className="absolute w-80 h-80 rounded-full bg-gradient-to-r from-purple-500/8 to-pink-500/8 blur-3xl top-3/4 right-1/4 opacity-70" />
           </div>
 
           <ResponsiveContainer size="lg" padding="lg">
@@ -1334,113 +1328,90 @@ export default function Home() {
               </div>
             </motion.div>
 
-            {/* Enhanced title with gradient text */}
             <motion.h1
               variants={textVariants}
               initial="hidden"
               animate="visible"
               style={{ y: titleY, fontSize: "clamp(2.5rem, 6vw, 4rem)" }}
-              className="font-extrabold mb-6 text-white drop-shadow-2xl will-change-transform relative"
+              className="font-bold mb-5 text-white drop-shadow-xl will-change-transform relative tracking-tight"
             >
               <span className="bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent">
                 IRIS Society
               </span>
-              {/* Decorative underline */}
-              <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full" />
+              <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-20 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full" />
             </motion.h1>
 
-            {/* Enhanced subtitle with better typography */}
+            <motion.div
+              variants={textVariants}
+              initial="hidden"
+              animate="visible"
+              transition={{ delay: 0.12 }}
+              className="mb-5 max-w-2xl mx-auto"
+            >
+              <p
+                style={{ fontSize: "clamp(1.05rem, 3vw, 1.35rem)" }}
+                className="text-slate-200 font-medium leading-relaxed"
+              >
+                Photography &amp; Videography Society of IITM BS Degree
+              </p>
+            </motion.div>
+
             <motion.div
               variants={textVariants}
               initial="hidden"
               animate="visible"
               transition={{ delay: 0.2 }}
-              className="mb-6 max-w-2xl mx-auto will-change-transform"
+              className="mb-12 max-w-xl mx-auto"
             >
-              <p 
-                style={{ fontSize: "clamp(1.125rem, 3.5vw, 1.5rem)" }}
-                className="text-gray-200 font-medium leading-relaxed"
+              <p
+                style={{ fontSize: "clamp(0.95rem, 2.2vw, 1.15rem)" }}
+                className="text-slate-300/95 font-light leading-relaxed italic"
               >
-                Photography & Videography Society of IITM BS Degree
+                “Through Our Lenses, Beyond the Ordinary”
               </p>
             </motion.div>
 
-            {/* Enhanced tagline with better styling */}
             <motion.div
-              variants={textVariants}
-              initial="hidden"
-              animate="visible"
-              transition={{ delay: 0.3 }}
-              className="mb-16 max-w-xl mx-auto will-change-transform"
-            >
-              <p 
-                style={{ fontSize: "clamp(1rem, 2.5vw, 1.25rem)" }}
-                className="text-gray-300 italic font-light leading-relaxed relative"
-              >
-                <span className="absolute -left-4 top-1/2 transform -translate-y-1/2 text-blue-400 text-2xl">"</span>
-                Through Our Lenses, Beyond the Ordinary
-                <span className="absolute -right-4 top-1/2 transform -translate-y-1/2 text-blue-400 text-2xl">"</span>
-              </p>
-            </motion.div>
-
-            {/* Enhanced CTA buttons with modern design */}
-            <motion.div
-              className="flex flex-col sm:flex-row gap-6 justify-center items-center w-full max-w-lg mx-auto"
+              className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-stretch sm:items-center w-full max-w-md mx-auto"
               variants={buttonVariants}
               initial="hidden"
               animate="visible"
             >
-              <motion.div 
-                whileHover="hover" 
-                className="will-change-transform w-full sm:w-auto relative group"
+              <button
+                type="button"
+                onClick={handleJoinNowClick}
+                className="btn-primary w-full sm:w-auto px-8 py-3.5 text-base font-semibold"
+                disabled={isRedirecting}
               >
-                {/* Button glow effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg blur-lg opacity-75 group-hover:opacity-100 transition-opacity duration-300 scale-110" />
-                <button 
-                  onClick={handleJoinNowClick} 
-                  className="relative btn-primary w-full sm:w-auto px-8 py-4 text-lg font-bold shadow-2xl group-hover:shadow-blue-500/25 transition-all duration-300" 
-                  disabled={isRedirecting}
-                >
-                  <span className="relative z-10 flex items-center justify-center gap-2">
-                    {isRedirecting ? (
-                      <>
-                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                        Redirecting...
-                      </>
-                    ) : (
-                      <>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-                          <path fillRule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clipRule="evenodd" />
-                        </svg>
-                        Be a Member
-                      </>
-                    )}
-                  </span>
-                </button>
-              </motion.div>
-              
-              <motion.div 
-                whileHover={{ scale: 1.05 }} 
-                className="will-change-transform w-full sm:w-auto relative group"
+                <span className="flex items-center justify-center gap-2">
+                  {isRedirecting ? (
+                    <>
+                      <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      Redirecting…
+                    </>
+                  ) : (
+                    "Be a Member"
+                  )}
+                </span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  if (recruiting) {
+                    window.open(
+                      "https://forms.gle/XkNmxfYLzbR6E7Xt8",
+                      "_blank",
+                      "noopener,noreferrer"
+                    )
+                  } else {
+                    setApplyModalOpen(true)
+                  }
+                }}
+                className="btn-secondary w-full sm:w-auto px-8 py-3.5 text-base font-semibold"
               >
-                <button
-                  onClick={() => {
-                    if (recruiting) {
-                      window.open("https://forms.gle/XkNmxfYLzbR6E7Xt8", "_blank", "noopener,noreferrer")
-                    } else {
-                      setApplyModalOpen(true)
-                    }
-                  }}
-                  className="relative w-full sm:w-auto px-8 py-4 text-lg font-bold rounded-lg border-2 border-blue-400/60 text-blue-300 bg-transparent hover:bg-blue-400/10 hover:border-blue-400 transition-all duration-300 shadow-lg hover:shadow-blue-500/25 backdrop-blur-sm"
-                >
-                  <span className="flex items-center justify-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-                      <path fillRule="evenodd" d="M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.9-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z" clipRule="evenodd" />
-                    </svg>
-                    Join Core Team
-                  </span>
-                </button>
-              </motion.div>
+                Join Core Team
+              </button>
             </motion.div>
 
           </ResponsiveContainer>
@@ -1798,7 +1769,7 @@ export default function Home() {
         </motion.div>
 
         <Footer />
-      </main>
+      </div>
     </ErrorBoundary>
   )
 }

@@ -4,7 +4,6 @@ import { useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import Image from "next/image"
-import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
 import { motion } from "framer-motion"
 import { Calendar, Camera, LogOut, Users } from "lucide-react"
@@ -13,13 +12,12 @@ export default function Dashboard() {
   const router = useRouter()
 
   return (
-    <main className="flex min-h-screen flex-col items-center relative">
-      <Navbar />
-      <div className="pt-24 pb-12 px-6 w-full max-w-6xl mx-auto">
+    <div className="flex min-h-full flex-1 flex-col relative">
+      <div className="page-shell flex-1">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ type: "spring", bounce: 0, duration: 0.4 }}
           className="glass-card mb-8 p-6"
         >
           <div className="flex flex-col md:flex-row items-center gap-6">
@@ -141,6 +139,6 @@ export default function Dashboard() {
         </div>
       </div>
       <Footer />
-    </main>
+    </div>
   )
 }

@@ -23,7 +23,7 @@
       "@/*": ["./*"],
       "@/components/*": ["./components/*"],
       "@/app/*": ["./app/*"],
-      "@/lib/*": ["iitm-iris-website/lib/*"],
+      "@/lib/*": ["./lib/*"],
       "@/types/*": ["./types/*"],
       "@/contexts/*": ["./contexts/*"]
     }

@@ -1,5 +1,5 @@
 import type React from "react"
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import Navbar from "@/components/navbar"
@@ -8,14 +8,21 @@ import { InteractiveBackground } from "@/components/interactive-background"
 import ScrollProgress from "@/components/scroll-progress"
 import { ContextMenuBlocker } from "@/components/context-menu-blocker"
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+})
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://iris-society.iitmbs.org"),
-  title: "IRIS Society",
+  title: {
+    default: "IRIS Society",
+    template: "%s | IRIS Society",
+  },
   description:
     "Join IRIS Society, the premier photography and videography club dedicated to capturing moments and creating memories through the art of photography and videography.",
-  keywords: "photography, club, IRIS, society, camera, photos, community",
+  keywords: "photography, club, IRIS, society, camera, photos, community, IIT Madras BS",
   authors: [{ name: "IRIS Society" }],
   icons: {
     icon: [
@@ -46,9 +53,16 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "IRIS Society",
     description:
-      "Join IRIS Society, the premier photography and Videography society dedicated to capturing moments and creating memories through the art..",
+      "Join IRIS Society, the premier photography and videography society dedicated to capturing moments and creating memories through the art of photography.",
     images: ["/logo.png"],
   },
+}
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#020617",
+  colorScheme: "dark",
 }
 
 export default function RootLayout({
@@ -57,15 +71,17 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} antialiased`}>
-        <div className="relative min-h-screen flex flex-col">
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
+      <body className={`${inter.className} antialiased min-h-dvh`}>
+        <div className="relative min-h-dvh flex flex-col">
           <ContextMenuBlocker />
           <InteractiveBackground />
           <CustomCursor />
           <ScrollProgress />
           <Navbar />
-          <main className="relative z-10 flex-1">{children}</main>
+          <main id="main-content" className="relative z-10 flex-1 flex flex-col">
+            {children}
+          </main>
         </div>
       </body>
     </html>

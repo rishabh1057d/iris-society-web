@@ -294,7 +294,7 @@ export default function EventRegistration() {
   /* ─────────────────────── skeleton / loading ─────────────────────── */
   if (configLoading || loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-full flex-1 flex items-center justify-center py-24">
         <div className="flex flex-col items-center gap-4">
           <div className="w-10 h-10 border-2 border-white/20 border-t-blue-400 rounded-full animate-spin" />
           <p className="text-white/60 text-sm">Loading…</p>
@@ -306,10 +306,11 @@ export default function EventRegistration() {
   /* ─────────────────────── CLOSED STATE ─────────────────────── */
   if (isClosed && !registered) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-4 py-20">
+      <div className="min-h-full flex-1 flex items-center justify-center px-4 py-24">
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ type: "spring", bounce: 0, duration: 0.4 }}
           className="w-full max-w-lg"
         >
           <div className="relative rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-8 shadow-2xl text-center">
@@ -334,11 +335,11 @@ export default function EventRegistration() {
   /* ─────────────────────── SIGN-IN STATE ─────────────────────── */
   if (!session) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-4 py-20">
+      <div className="min-h-full flex-1 flex items-center justify-center px-4 py-24">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ type: "spring", bounce: 0, duration: 0.4 }}
           className="w-full max-w-md"
         >
           <div className="relative rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-2xl overflow-hidden">

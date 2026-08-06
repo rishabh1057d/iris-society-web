@@ -6,8 +6,8 @@ import { ChevronDown, ChevronUp, Linkedin } from "lucide-react"
 import { motion, AnimatePresence, useInView } from "framer-motion"
 import ResponsiveImage from "@/components/responsive-image"
 import Footer from "@/components/footer"
+import { spring, staggerContainer, staggerItem } from "@/lib/motion"
 
-// Team member type
 type TeamMember = {
   id: number
   name: string
@@ -21,7 +21,11 @@ type TeamMember = {
 export default function TeamClientPage() {
   const [showPreviousMembers, setShowPreviousMembers] = useState(false)
   const [showMoreCore, setShowMoreCore] = useState(false)
-  const [currentMembers, setCurrentMembers] = useState<any>({ leadershipTeam: [], coreTeam: [], webDevTeam: [] })
+  const [currentMembers, setCurrentMembers] = useState<any>({
+    leadershipTeam: [],
+    coreTeam: [],
+    webDevTeam: [],
+  })
   const [previousMembers, setPreviousMembers] = useState<any>({})
   const [selectedTenure, setSelectedTenure] = useState<string>("")
 
@@ -32,9 +36,9 @@ export default function TeamClientPage() {
   const buttonRef = useRef<HTMLDivElement>(null)
 
   const isTitleInView = useInView(titleRef, { once: true })
-  const isLeadershipInView = useInView(leadershipRef, { once: true })
-  const isCoreTeamInView = useInView(coreTeamRef, { once: true })
-  const isWebDevInView = useInView(webDevRef, { once: true })
+  const isLeadershipInView = useInView(leadershipRef, { once: true, margin: "-60px" })
+  const isCoreTeamInView = useInView(coreTeamRef, { once: true, margin: "-60px" })
+  const isWebDevInView = useInView(webDevRef, { once: true, margin: "-60px" })
   const isButtonInView = useInView(buttonRef, { once: true })
 
   useEffect(() => {
@@ -46,43 +50,31 @@ export default function TeamClientPage() {
       .then((res) => res.json())
       .then((data) => {
         setPreviousMembers(data)
-        // Set default selectedTenure to the latest (last) key
         const tenures = Object.keys(data)
         if (tenures.length > 0) setSelectedTenure(tenures[tenures.length - 1])
       })
       .catch(() => setPreviousMembers({}))
   }, [])
 
-  // Animation variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  }
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.5 },
-    },
-  }
-
-  // Render team member card
-  const TeamMemberCard = ({ member, isCompact = false }: { member: TeamMember; isCompact?: boolean }) => {
-    const linkedinUrl = member.linkedin && member.linkedin.trim() !== "" ? member.linkedin : "https://www.linkedin.com/company/iris-camera-society/"
+  const TeamMemberCard = ({
+    member,
+    isCompact = false,
+  }: {
+    member: TeamMember
+    isCompact?: boolean
+  }) => {
+    const linkedinUrl =
+      member.linkedin && member.linkedin.trim() !== ""
+        ? member.linkedin
+        : "https://www.linkedin.com/company/iris-camera-society/"
     return (
       <motion.div
-        className={`team-card bg-gray-800 bg-opacity-50 rounded-lg overflow-hidden p-4 flex flex-col items-center ${
+        className={`team-card glass-card-event bg-white/[0.04] p-4 flex flex-col items-center ${
           isCompact ? "max-w-xs mx-auto" : ""
         } ${member.className || ""}`}
-        variants={itemVariants}
-        whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
+        variants={staggerItem}
+        whileHover={{ y: -3, transition: spring.snappy }}
+        whileTap={{ scale: 0.99 }}
       >
         <div className={`w-full mb-3 ${isCompact ? "max-w-[200px]" : ""}`}>
           <ResponsiveImage
@@ -92,24 +84,39 @@ export default function TeamClientPage() {
             height={isCompact ? 200 : 300}
             aspectRatio="1/1"
             isTeamMember={true}
-            className="rounded-lg"
+            className="rounded-xl"
             sizes={
-              isCompact ? "(max-width: 768px) 200px, 200px" : "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 300px"
+              isCompact
+                ? "(max-width: 768px) 200px, 200px"
+                : "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 300px"
             }
             priority={false}
             quality={90}
           />
         </div>
-        <h3 className={`font-bold mb-1 text-center ${isCompact ? "text-lg" : "text-xl"}`}>{member.name}</h3>
-        <p className={`text-blue-300 mb-2 text-center ${isCompact ? "text-sm" : ""}`}>{member.role}</p>
-        <p className={`text-gray-400 text-center mb-3 flex-grow ${isCompact ? "text-xs" : "text-sm"}`}>
+        <h3
+          className={`font-semibold mb-1 text-center text-white tracking-tight ${
+            isCompact ? "text-lg" : "text-xl"
+          }`}
+        >
+          {member.name}
+        </h3>
+        <p className={`text-sky-300/90 mb-2 text-center font-medium ${isCompact ? "text-sm" : ""}`}>
+          {member.role}
+        </p>
+        <p
+          className={`text-slate-400 text-center mb-4 flex-grow leading-relaxed ${
+            isCompact ? "text-xs" : "text-sm"
+          }`}
+        >
           {member.description}
         </p>
         <Link
           href={linkedinUrl}
-          target={linkedinUrl ? "_blank" : "_self"}
+          target="_blank"
+          rel="noopener noreferrer"
           aria-label={`${member.name}'s LinkedIn`}
-          className="text-blue-400 hover:text-blue-300 transition-colors duration-200"
+          className="inline-flex items-center justify-center min-h-[40px] min-w-[40px] rounded-full text-sky-400 hover:text-sky-300 hover:bg-sky-400/10 active:scale-95 transition-colors"
         >
           <Linkedin className={`${isCompact ? "w-4 h-4" : "w-5 h-5"}`} />
         </Link>
@@ -117,33 +124,31 @@ export default function TeamClientPage() {
     )
   }
 
-  return (
-    <section className="flex flex-col h-full">
-      <div className="flex-grow pt-24 pb-12 px-6 w-full max-w-6xl mx-auto">
-        <motion.h1
-          ref={titleRef}
-          className="text-3xl md:text-4xl font-bold mb-12 text-center text-blue-300"
-          initial={{ opacity: 0, y: -20 }}
-          animate={isTitleInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
-          transition={{ duration: 0.6 }}
-        >
-          Our Team
-        </motion.h1>
+  const coreVisible = showMoreCore
+    ? currentMembers.coreTeam
+    : currentMembers.coreTeam?.slice(0, 6) || []
 
-        {/* Current Leadership Team */}
-        <div className="mb-16">
-          <motion.h2
-            ref={leadershipRef}
-            className="text-2xl font-bold mb-8 text-center"
-            initial={{ opacity: 0 }}
-            animate={isLeadershipInView ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            Leadership Team
-          </motion.h2>
+  return (
+    <section className="flex flex-col flex-1 min-h-full">
+      <div className="page-shell flex-1">
+        <motion.header
+          ref={titleRef}
+          className="page-hero"
+          initial={{ opacity: 0, y: 12 }}
+          animate={isTitleInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+          transition={spring.default}
+        >
+          <h1 className="page-hero-title">Our Team</h1>
+          <p className="page-hero-sub">
+            The people who keep IRIS focused, creative, and welcoming.
+          </p>
+        </motion.header>
+
+        <div className="mb-16" ref={leadershipRef}>
+          <h2 className="section-title text-center border-0 pb-0 mb-8">Leadership Team</h2>
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 gap-8"
-            variants={containerVariants}
+            className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-3xl mx-auto"
+            variants={staggerContainer}
             initial="hidden"
             animate={isLeadershipInView ? "visible" : "hidden"}
           >
@@ -153,134 +158,143 @@ export default function TeamClientPage() {
           </motion.div>
         </div>
 
-        {/* Current Core Team */}
-        <motion.h2
-          ref={coreTeamRef}
-          className="text-2xl font-bold mb-8 text-center"
-          initial={{ opacity: 0 }}
-          animate={isCoreTeamInView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          Core Team Members
-        </motion.h2>
-        <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-16"
-          variants={containerVariants}
-          initial="hidden"
-          animate={isCoreTeamInView ? "visible" : "hidden"}
-        >
-          {/* First row: 5 members */}
-          {currentMembers.coreTeam.slice(0, 5).map((member: any) => (
-            <TeamMemberCard key={member.id} member={member} isCompact={false} />
-          ))}
-          {/* View More: show additional members if toggled */}
-          {showMoreCore && currentMembers.coreTeam.slice(5).map((member: any) => (
-            <TeamMemberCard key={member.id} member={member} isCompact={false} />
-          ))}
-        </motion.div>
-        {/* View More Button */}
-        {currentMembers.coreTeam.length > 5 && (
-          <div className="flex justify-center mb-8">
-            <motion.button
-              onClick={() => setShowMoreCore((prev) => !prev)}
-              className="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-white px-6 py-3 rounded-md transition-colors"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+        <div className="mb-16">
+          <h2 ref={coreTeamRef} className="section-title text-center border-0 pb-0 mb-8">
+            Core Team
+          </h2>
+          <motion.div
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6"
+            variants={staggerContainer}
+            initial="hidden"
+            animate={isCoreTeamInView ? "visible" : "hidden"}
+          >
+            {coreVisible.map((member: any) => (
+              <TeamMemberCard key={member.id} member={member} isCompact />
+            ))}
+          </motion.div>
+          {currentMembers.coreTeam?.length > 6 && (
+            <div className="flex justify-center mt-8">
+              <button
+                type="button"
+                onClick={() => setShowMoreCore((v) => !v)}
+                className="btn-secondary !min-h-[44px] !px-5 !py-2.5 !text-sm !w-auto inline-flex gap-2"
+              >
+                {showMoreCore ? (
+                  <>
+                    Show less <ChevronUp className="w-4 h-4" />
+                  </>
+                ) : (
+                  <>
+                    Show more <ChevronDown className="w-4 h-4" />
+                  </>
+                )}
+              </button>
+            </div>
+          )}
+        </div>
+
+        {currentMembers.webDevTeam?.length > 0 && (
+          <div className="mb-16">
+            <h2 ref={webDevRef} className="section-title text-center border-0 pb-0 mb-8">
+              Web Team
+            </h2>
+            <motion.div
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6"
+              variants={staggerContainer}
+              initial="hidden"
+              animate={isWebDevInView ? "visible" : "hidden"}
             >
-              {showMoreCore ? "View Less" : "View More"}
-              {showMoreCore ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
-            </motion.button>
+              {currentMembers.webDevTeam.map((member: any) => (
+                <TeamMemberCard key={member.id} member={member} isCompact />
+              ))}
+            </motion.div>
           </div>
         )}
 
-        {/* Web Dev Team - Compact Version */}
-        <motion.h2
-          ref={webDevRef}
-          className="text-2xl font-bold mb-8 text-center"
-          initial={{ opacity: 0 }}
-          animate={isWebDevInView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          Web Dev Team
-        </motion.h2>
-        <motion.div
-          className="flex flex-wrap justify-center gap-6 mb-16"
-          variants={containerVariants}
-          initial="hidden"
-          animate={isWebDevInView ? "visible" : "hidden"}
-        >
-          {currentMembers.webDevTeam.map((member: any) => (
-            <TeamMemberCard key={member.id} member={member} isCompact={true} />
-          ))}
-        </motion.div>
-
-        {/* Previous Members Toggle Button */}
-        <motion.div
-          ref={buttonRef}
-          className="flex justify-center mb-8"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isButtonInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.6 }}
-        >
+        <div ref={buttonRef} className="flex flex-col items-center mb-8">
           <motion.button
-            onClick={() => setShowPreviousMembers(!showPreviousMembers)}
-            className="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-white px-6 py-3 rounded-md transition-colors"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            type="button"
+            onClick={() => setShowPreviousMembers((v) => !v)}
+            className="btn-secondary !w-auto !min-h-[44px] inline-flex gap-2"
+            initial={{ opacity: 0 }}
+            animate={isButtonInView ? { opacity: 1 } : { opacity: 0 }}
+            transition={spring.default}
+            whileTap={{ scale: 0.97 }}
           >
-            {showPreviousMembers ? "Hide Previous Members" : "Show Previous Members"}
-            {showPreviousMembers ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+            {showPreviousMembers ? "Hide previous members" : "Previous members"}
+            {showPreviousMembers ? (
+              <ChevronUp className="w-4 h-4" />
+            ) : (
+              <ChevronDown className="w-4 h-4" />
+            )}
           </motion.button>
-        </motion.div>
+        </div>
 
-        {/* Previous Members Section */}
         <AnimatePresence>
           {showPreviousMembers && (
             <motion.div
-              className="border-t border-gray-700 pt-8 mt-8"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.4 }}
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={spring.snappy}
+              className="overflow-hidden"
             >
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 gap-4">
-                <motion.h2
-                  className="text-3xl font-bold text-center text-blue-300"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                >
-                  Previous Members
-                </motion.h2>
-
-                {/* Dropdown for selecting tenure */}
-                <div className="relative">
-                  <select
-                    value={selectedTenure}
-                    onChange={(e) => setSelectedTenure(e.target.value)}
-                    className="bg-gray-800 text-white px-4 py-2 rounded-md appearance-none"
-                  >
-                    {Object.keys(previousMembers).map((tenure) => (
-                      <option key={tenure} value={tenure}>
-                        {tenure}
-                      </option>
-                    ))}
-                  </select>
-                  <ChevronDown className="w-5 h-5 absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              {Object.keys(previousMembers).length > 0 && (
+                <div className="mb-6 flex flex-wrap justify-center gap-2">
+                  {Object.keys(previousMembers).map((tenure) => (
+                    <button
+                      key={tenure}
+                      type="button"
+                      onClick={() => setSelectedTenure(tenure)}
+                      className={`min-h-[40px] px-4 py-2 rounded-full text-sm font-medium transition-colors active:scale-95 ${
+                        selectedTenure === tenure
+                          ? "bg-blue-500/25 text-white border border-blue-400/40"
+                          : "bg-white/5 text-slate-300 border border-white/10 hover:bg-white/10"
+                      }`}
+                    >
+                      {tenure}
+                    </button>
+                  ))}
                 </div>
-              </div>
-
-              {/* Grid for the selected tenure's members */}
-              <motion.div
-                className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
-              >
-                {previousMembers[selectedTenure]?.map((member: TeamMember) => (
-                  <TeamMemberCard key={member.id} member={member} isCompact={true} />
-                ))}
-              </motion.div>
+              )}
+              {selectedTenure && previousMembers[selectedTenure] && (
+                <div className="space-y-10">
+                  {(["leadershipTeam", "coreTeam", "webDevTeam"] as const).map((group) => {
+                    const members = previousMembers[selectedTenure]?.[group]
+                    if (!Array.isArray(members) || members.length === 0) return null
+                    const labels: Record<string, string> = {
+                      leadershipTeam: "Leadership",
+                      coreTeam: "Core Team",
+                      webDevTeam: "Web Team",
+                    }
+                    return (
+                      <div key={group}>
+                        <h3 className="text-lg font-semibold text-slate-200 text-center mb-5 tracking-tight">
+                          {labels[group]}
+                        </h3>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                          {members.map((member: any) => (
+                            <TeamMemberCard
+                              key={`${group}-${member.id || member.name}`}
+                              member={member}
+                              isCompact
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    )
+                  })}
+                  {/* Flat array fallback (legacy shape) */}
+                  {Array.isArray(previousMembers[selectedTenure]) &&
+                    previousMembers[selectedTenure].map((member: any) => (
+                      <TeamMemberCard
+                        key={member.id || member.name}
+                        member={member}
+                        isCompact
+                      />
+                    ))}
+                </div>
+              )}
             </motion.div>
           )}
         </AnimatePresence>
@@ -288,4 +302,4 @@ export default function TeamClientPage() {
       <Footer />
     </section>
   )
-} 
+}

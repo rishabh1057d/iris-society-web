@@ -12,7 +12,8 @@ export default function ScrollProgress() {
     const updateScrollProgress = () => {
       if (typeof window !== "undefined") {
         const scrollTop = window.scrollY
-        const docHeight = document.documentElement.scrollHeight - window.innerHeight
+        const docHeight =
+          document.documentElement.scrollHeight - window.innerHeight
         const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0
         setScrollProgress(Math.min(Math.max(scrollPercent, 0), 100))
       }
@@ -26,29 +27,34 @@ export default function ScrollProgress() {
       }
     }
 
-    // Initial calculation
     updateScrollProgress()
-
-    // Add scroll listener
     window.addEventListener("scroll", handleScroll, { passive: true })
 
     return () => {
       window.removeEventListener("scroll", handleScroll)
-      if (rafId !== null) {
-        cancelAnimationFrame(rafId)
-      }
+      if (rafId !== null) cancelAnimationFrame(rafId)
     }
   }, [])
 
   return (
     <div
-      className="fixed top-0 left-0 right-0 h-1 z-50"
-      style={{
-        background: `linear-gradient(to right, #3b82f6, #8b5cf6)`,
-        transform: `scaleX(${scrollProgress / 100})`,
-        transformOrigin: "left",
-        transition: "transform 0.1s ease-out",
-      }}
-    />
+      className="fixed top-0 left-0 right-0 z-[60] h-[2px] pointer-events-none"
+      role="progressbar"
+      aria-valuenow={Math.round(scrollProgress)}
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-label="Reading progress"
+    >
+      <div
+        className="h-full origin-left will-change-transform"
+        style={{
+          width: "100%",
+          background: "linear-gradient(90deg, #3b82f6, #8b5cf6, #a78bfa)",
+          transform: `scaleX(${scrollProgress / 100})`,
+          transition: "transform 80ms linear",
+          boxShadow: "0 0 8px rgba(59, 130, 246, 0.45)",
+        }}
+      />
+    </div>
   )
 }

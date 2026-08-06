@@ -3,7 +3,6 @@
 import { useState, useRef, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
 import { ChevronLeft, ChevronRight, X } from "lucide-react"
 import { motion, AnimatePresence, useInView } from "framer-motion"
@@ -238,16 +237,18 @@ export default function POTW() {
   }
 
   const modalVariants = {
-    hidden: { opacity: 0, scale: 0.9 },
+    hidden: { opacity: 0, scale: 0.98, y: 8 },
     visible: {
       opacity: 1,
       scale: 1,
-      transition: { duration: 0.3 },
+      y: 0,
+      transition: { type: "spring" as const, bounce: 0, duration: 0.35 },
     },
     exit: {
       opacity: 0,
-      scale: 0.9,
-      transition: { duration: 0.2 },
+      scale: 0.98,
+      y: 6,
+      transition: { type: "spring" as const, bounce: 0, duration: 0.25 },
     },
   }
 
@@ -267,42 +268,37 @@ export default function POTW() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center relative" onContextMenu={e => e.preventDefault()}>
-      <Navbar />
-      <div className="pt-24 pb-12 px-6 w-full max-w-6xl mx-auto">
-        <motion.h1
-          ref={titleRef}
-          className="text-3xl md:text-4xl font-bold mb-8 text-center text-blue-300"
-          initial={{ opacity: 0, y: -20 }}
-          animate={isTitleInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
-          transition={{ duration: 0.6 }}
+    <div
+      className="flex min-h-full flex-1 flex-col relative"
+      onContextMenu={(e) => e.preventDefault()}
+    >
+      <div className="page-shell flex-1">
+        <motion.header
+          className="page-hero"
+          initial={{ opacity: 0, y: 12 }}
+          animate={isTitleInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+          transition={{ type: "spring", bounce: 0, duration: 0.4 }}
         >
-          Photo of the Week
-        </motion.h1>
-
-        <motion.p
-          ref={descRef}
-          className="text-gray-300 text-center max-w-3xl mx-auto mb-8"
-          initial={{ opacity: 0 }}
-          animate={isDescInView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          Each week, IRIS Society members submit photos based on a theme. The best submission is featured as our Photo of the Week. 
-          Browse through our calendar to see the winning entries. 
-          To participate, share your photo along with the required details in the designated WhatsApp group or Gspace.
-        </motion.p>
+          <h1 ref={titleRef} className="page-hero-title">
+            Photo of the Week
+          </h1>
+          <p ref={descRef} className="page-hero-sub">
+            Each week, members submit photos on a theme. Browse winners below — share yours in
+            the designated WhatsApp group or Gspace to participate.
+          </p>
+        </motion.header>
 
         <motion.div
-          className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12"
-          initial={{ opacity: 0, y: 20 }}
+          className="flex flex-col sm:flex-row gap-3 justify-center items-center mb-10"
+          initial={{ opacity: 0, y: 10 }}
           animate={isDescInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          transition={{ type: "spring", bounce: 0, duration: 0.4, delay: 0.05 }}
         >
           <Link
-            href="https://docs.google.com/document/d/1pytF-tK4XXgi8r6lLzEMzyEXjD0vAjT63ff6oejznrY/edit?usp=sharing"  
+            href="https://docs.google.com/document/d/1pytF-tK4XXgi8r6lLzEMzyEXjD0vAjT63ff6oejznrY/edit?usp=sharing"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-secondary w-full sm:w-auto py-1 px-3 text-xs min-h-[32px]"
+            className="btn-secondary !min-h-[44px] !px-5 !py-2.5 !text-sm w-full sm:w-auto"
           >
             View Guidelines
           </Link>
@@ -310,7 +306,7 @@ export default function POTW() {
             href="https://docs.google.com/forms/u/1/d/e/1FAIpQLSczSzMGIAd-sE_nxe9wOFSrsYy59lzRBhU9e5uhOjMtmIquLQ/viewform"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-primary w-full sm:w-auto py-1 px-3 text-xs min-h-[32px]"
+            className="btn-primary !min-h-[44px] !px-5 !py-2.5 !text-sm w-full sm:w-auto"
           >
             Submit Now
           </Link>
@@ -333,20 +329,19 @@ export default function POTW() {
                   handleYearChange(years[currentIndex + 1])
                 }
               }}
-              className="p-2 rounded-full hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              whileHover={{ scale: 1.1 }}
+              className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] rounded-full hover:bg-white/10 active:scale-95 transition disabled:opacity-40 disabled:cursor-not-allowed"
               whileTap={{ scale: 0.95 }}
               disabled={getAvailableYears().indexOf(selectedYear) >= getAvailableYears().length - 1}
+              aria-label="Previous year"
             >
               <ChevronLeft className="w-5 h-5" />
             </motion.button>
             <motion.h3
-              className="text-xl md:text-2xl font-bold text-blue-300 min-w-[80px] text-center"
+              className="text-xl md:text-2xl font-semibold text-sky-200 min-w-[5rem] text-center tracking-tight"
               key={selectedYear}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.3 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ type: "spring", bounce: 0, duration: 0.3 }}
             >
               {selectedYear}
             </motion.h3>
@@ -358,40 +353,40 @@ export default function POTW() {
                   handleYearChange(years[currentIndex - 1])
                 }
               }}
-              className="p-2 rounded-full hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              whileHover={{ scale: 1.1 }}
+              className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] rounded-full hover:bg-white/10 active:scale-95 transition disabled:opacity-40 disabled:cursor-not-allowed"
               whileTap={{ scale: 0.95 }}
               disabled={getAvailableYears().indexOf(selectedYear) <= 0}
+              aria-label="Next year"
             >
               <ChevronRight className="w-5 h-5" />
             </motion.button>
           </div>
 
           {/* Month Selection */}
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.04] px-2 py-2 backdrop-blur-md">
             <motion.button
               onClick={handlePrevMonth}
-              className="p-2 rounded-full hover:bg-gray-800 transition-colors"
-              whileHover={{ scale: 1.1 }}
+              className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] rounded-full hover:bg-white/10 active:scale-95 transition"
               whileTap={{ scale: 0.95 }}
+              aria-label="Previous month"
             >
               <ChevronLeft className="w-6 h-6" />
             </motion.button>
             <motion.h2
-              className="text-2xl md:text-3xl font-bold text-center"
+              className="text-xl md:text-2xl font-semibold text-center tracking-tight text-white"
               key={`${selectedYear}-${selectedMonth}`}
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ type: "spring", bounce: 0, duration: 0.3 }}
             >
               {selectedMonth}
             </motion.h2>
             <motion.button
               onClick={handleNextMonth}
-              className="p-2 rounded-full hover:bg-gray-800 transition-colors"
-              whileHover={{ scale: 1.1 }}
+              className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] rounded-full hover:bg-white/10 active:scale-95 transition"
               whileTap={{ scale: 0.95 }}
+              aria-label="Next month"
             >
               <ChevronRight className="w-6 h-6" />
             </motion.button>
@@ -429,17 +424,19 @@ export default function POTW() {
                 animate="visible"
               >
                 {weeklyPhotos[selectedYear][selectedMonth].map((photo) => (
-                  <motion.div
+                  <motion.button
+                    type="button"
                     key={photo.id}
-                    className="potw-card rounded-lg overflow-hidden cursor-pointer"
+                    className="potw-card rounded-2xl overflow-hidden cursor-pointer text-left border border-white/10 bg-white/[0.04] w-full"
                     variants={itemVariants}
-                    whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
+                    whileHover={{ y: -3, transition: { type: "spring", bounce: 0, duration: 0.3 } }}
+                    whileTap={{ scale: 0.99 }}
                     onClick={() => handlePhotoClick(photo)}
                   >
                     <div className="relative h-[400px] md:h-[300px] w-full">
                       {!loadedImages.has(photo.image) && !imageLoadErrors.has(photo.image) && (
-                        <div className="absolute inset-0 flex items-center justify-center bg-gray-800">
-                          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-300"></div>
+                        <div className="absolute inset-0 flex items-center justify-center bg-slate-900/80">
+                          <div className="animate-spin rounded-full h-8 w-8 border-2 border-white/20 border-t-sky-300" />
                         </div>
                       )}
                       <Image
@@ -447,19 +444,21 @@ export default function POTW() {
                         alt={`Week ${photo.week} - ${photo.theme}`}
                         fill
                         className="absolute inset-0 w-full h-full object-cover"
-                        style={{ objectFit: 'cover' }}
+                        style={{ objectFit: "cover" }}
                         onLoad={() => handleImageLoad(photo.image)}
                         onError={() => handleImageError(photo.image)}
                         priority={true}
                         unoptimized={true}
                         sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 25vw"
                       />
-                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
-                        <h3 className="text-xl font-bold text-white">Week {photo.week}</h3>
-                        <p className="text-sm text-gray-300">{photo.theme}</p>
+                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent p-4">
+                        <h3 className="text-lg font-semibold text-white tracking-tight">
+                          Week {photo.week}
+                        </h3>
+                        <p className="text-sm text-slate-300">{photo.theme}</p>
                       </div>
                     </div>
-                  </motion.div>
+                  </motion.button>
                 ))}
               </motion.div>
             ) : !isLoading ? (
@@ -476,32 +475,35 @@ export default function POTW() {
         </AnimatePresence>
       </div>
 
-      {/* Modal for photo details */}
+      {/* Modal — dim to focus, material surface, spring enter/exit same path */}
       <AnimatePresence>
         {showModal && selectedPhoto && (
           <motion.div
-            className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setShowModal(false)}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Photo details"
           >
             <motion.div
-              className="relative rounded-2xl overflow-hidden max-w-5xl w-full max-h-[80vh] flex flex-col backdrop-blur-xl bg-white/10 border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.3)]"
+              className="relative rounded-2xl overflow-hidden max-w-5xl w-full max-h-[min(90dvh,80vh)] flex flex-col backdrop-blur-2xl bg-slate-950/85 border border-white/15 shadow-[0_24px_64px_rgba(0,0,0,0.45),inset_0_1px_0_rgba(255,255,255,0.08)]"
               variants={modalVariants}
               initial="hidden"
               animate="visible"
               exit="exit"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* subtle glass highlight overlay */}
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-white/5" />
-              <div className="flex justify-end p-2">
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/[0.07] via-transparent to-blue-500/5" />
+              <div className="flex justify-end p-2 relative z-10">
                 <motion.button
+                  type="button"
                   onClick={() => setShowModal(false)}
-                  className="p-1 rounded-full hover:bg-white/10 transition-colors"
-                  whileHover={{ scale: 1.1 }}
+                  className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] rounded-full hover:bg-white/10 active:scale-95 transition-colors"
                   whileTap={{ scale: 0.95 }}
+                  aria-label="Close"
                 >
                   <X className="w-5 h-5" />
                 </motion.button>
@@ -569,6 +571,6 @@ export default function POTW() {
       </AnimatePresence>
 
       <Footer />
-    </main>
+    </div>
   )
 }
