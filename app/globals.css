@@ -574,7 +574,7 @@ textarea:focus-visible,
 }
 
 .team-card {
-  min-height: 400px;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -950,23 +950,11 @@ img {
     gap: var(--spacing-md);
   }
 
-  .team-card {
-    min-height: 340px;
-  }
-}
-
-@media (min-width: 641px) and (max-width: 1024px) {
-  .team-card {
-    min-height: 380px;
-  }
 }
 
 @media (min-width: 1025px) {
   .container-responsive {
     padding: 0 var(--spacing-xl);
-  }
-  .team-card {
-    min-height: 400px;
   }
 }
 

@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useState, useEffect, useCallback } from "react"
+import { useRef, useState, useEffect, useCallback, useMemo } from "react"
 import Footer from "@/components/footer"
 import Image from "next/image"
 import { motion, AnimatePresence, useInView } from "framer-motion"
@@ -11,6 +11,7 @@ type GalleryItem = {
   id: number
   src: string
   photographer: string
+  alt?: string
 }
 
 type ImageMeta = {
@@ -19,13 +20,25 @@ type ImageMeta = {
   aspectRatio: number
 }
 
+/** Creative span pattern — builds a photography “spread”, not a flat grid */
+function getTileSpan(index: number, aspectRatio: number | undefined): string {
+  // Wide panoramas claim more columns
+  if (aspectRatio && aspectRatio >= 1.7) return "md:col-span-2 md:row-span-1"
+  // Tall portraits claim more height
+  if (aspectRatio && aspectRatio <= 0.75) return "md:row-span-2"
+  // Rhythmic hero tiles
+  if (index % 11 === 0) return "md:col-span-2 md:row-span-2"
+  if (index % 7 === 3) return "md:col-span-2"
+  if (index % 5 === 2) return "md:row-span-2"
+  return ""
+}
+
 export default function Gallery() {
   const titleRef = useRef<HTMLHeadingElement>(null)
   const isTitleInView = useInView(titleRef, { once: true })
 
   const [galleryItems, setGalleryItems] = useState<GalleryItem[]>([])
   const [loadedImages, setLoadedImages] = useState<Record<number, ImageMeta>>({})
-  const [imagesLoaded, setImagesLoaded] = useState(false)
   const [selected, setSelected] = useState<GalleryItem | null>(null)
   const [lightboxReady, setLightboxReady] = useState(false)
 
@@ -33,26 +46,11 @@ export default function Gallery() {
     fetch("/gallery_photos.json")
       .then((res) => res.json())
       .then((data: GalleryItem[]) => {
-        // Newest first
         setGalleryItems([...data].sort((a, b) => b.id - a.id))
       })
       .catch(() => setGalleryItems([]))
   }, [])
 
-  useEffect(() => {
-    const loadedCount = Object.keys(loadedImages).length
-    const total = galleryItems.length
-    if (!imagesLoaded && total > 0 && loadedCount >= Math.min(10, total)) {
-      setImagesLoaded(true)
-    }
-  }, [loadedImages, imagesLoaded, galleryItems.length])
-
-  useEffect(() => {
-    const t = setTimeout(() => setImagesLoaded(true), 2500)
-    return () => clearTimeout(t)
-  }, [])
-
-  // Escape closes lightbox; lock body scroll while open
   useEffect(() => {
     if (!selected) return
     const prev = document.body.style.overflow
@@ -69,121 +67,142 @@ export default function Gallery() {
 
   const handleImageLoad = useCallback(
     (id: number, e: React.SyntheticEvent<HTMLImageElement>) => {
-      const img = e.currentTarget
-      const { naturalWidth, naturalHeight } = img
+      const { naturalWidth, naturalHeight } = e.currentTarget
       if (!naturalWidth || !naturalHeight) return
-      setLoadedImages((prev) => ({
-        ...prev,
-        [id]: {
-          width: naturalWidth,
-          height: naturalHeight,
-          aspectRatio: naturalWidth / naturalHeight,
-        },
-      }))
+      setLoadedImages((prev) => {
+        if (prev[id]) return prev
+        return {
+          ...prev,
+          [id]: {
+            width: naturalWidth,
+            height: naturalHeight,
+            aspectRatio: naturalWidth / naturalHeight,
+          },
+        }
+      })
     },
     []
   )
 
-  const openLightbox = (item: GalleryItem) => {
-    setLightboxReady(false)
-    setSelected(item)
-  }
+  const tiles = useMemo(
+    () =>
+      galleryItems.map((item, index) => ({
+        item,
+        index,
+        meta: loadedImages[item.id],
+        span: getTileSpan(index, loadedImages[item.id]?.aspectRatio),
+      })),
+    [galleryItems, loadedImages]
+  )
 
   return (
     <div className="flex min-h-full flex-1 flex-col relative">
       <div className="pointer-events-none fixed inset-0 -z-10" aria-hidden>
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-950/40 via-transparent to-violet-950/30" />
-        <div className="absolute top-1/4 left-1/3 w-[28rem] h-[28rem] rounded-full bg-blue-500/10 blur-3xl" />
-        <div className="absolute bottom-1/4 right-1/4 w-[24rem] h-[24rem] rounded-full bg-violet-500/10 blur-3xl" />
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-950/50 via-transparent to-violet-950/40" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[min(90vw,48rem)] h-64 bg-gradient-to-b from-sky-500/15 to-transparent blur-3xl" />
       </div>
 
-      <div className="page-shell max-w-[88rem] flex-1 relative z-10">
+      <div className="page-shell max-w-[90rem] flex-1 relative z-10 pb-4">
         <motion.header
           ref={titleRef}
-          className="page-hero mb-10 md:mb-14"
+          className="page-hero mb-10 md:mb-12"
           initial={{ opacity: 0, y: 12 }}
           animate={isTitleInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
           transition={spring.default}
         >
+          <p className="text-xs uppercase tracking-[0.2em] text-sky-300/80 mb-3 font-medium">
+            Member work
+          </p>
           <h1 className="page-hero-title">Gallery</h1>
           <p className="page-hero-sub">
-            A living collection of work from IRIS members — every frame keeps its natural
-            shape.
+            Frames from competitions, walks, and late-night edits — a living archive of how
+            IRIS sees the world.
           </p>
         </motion.header>
 
         {/*
-          Unified masonry for all viewports (no desktop circular gallery).
-          CSS columns + break-inside: avoid → any aspect ratio sits correctly.
-          Glass frame wraps each photo.
+          Creative bento-style CSS grid:
+          - auto-rows create a modular “film wall”
+          - selected tiles span 2× / 2×2 for visual rhythm
+          - natural object-cover inside the cell; tall/wide get more room
         */}
-        <motion.div
-          className="columns-1 xs:columns-2 md:columns-3 xl:columns-4 gap-3 sm:gap-4 md:gap-5"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={spring.soft}
+        <div
+          className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3 md:gap-4 auto-rows-[140px] sm:auto-rows-[160px] md:auto-rows-[180px] lg:auto-rows-[200px]"
         >
-          {galleryItems.map((item, index) => {
-            const meta = loadedImages[item.id]
-            const isPriority = index < 8
+          {tiles.map(({ item, index, meta, span }) => {
+            const isPriority = index < 10
+            const isHero = index % 11 === 0
 
             return (
               <motion.button
                 type="button"
                 key={item.id}
-                onClick={() => openLightbox(item)}
-                className="gallery-item group mb-3 sm:mb-4 md:mb-5 w-full break-inside-avoid text-left rounded-2xl overflow-hidden border border-white/10 bg-white/[0.04] backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.22),inset_0_1px_0_rgba(255,255,255,0.07)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
-                initial={{ opacity: 0, y: 14 }}
+                onClick={() => {
+                  setLightboxReady(false)
+                  setSelected(item)
+                }}
+                className={`group relative overflow-hidden rounded-2xl border border-white/10 bg-slate-900/40 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/50 ${span} ${
+                  isHero ? "col-span-2 row-span-2" : ""
+                }`}
+                initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "80px" }}
-                transition={{ ...spring.default, delay: Math.min(index * 0.02, 0.24) }}
+                viewport={{ once: true, margin: "60px" }}
+                transition={{ ...spring.default, delay: Math.min(index * 0.015, 0.2) }}
                 whileHover={{ y: -2, transition: spring.snappy }}
-                whileTap={{ scale: 0.995 }}
+                whileTap={{ scale: 0.99 }}
               >
-                {/* Natural aspect box — image never forced into a fixed crop ratio */}
+                {/* Soft vignette always present — GPU-cheap, no blur lag */}
                 <div
-                  className="relative w-full overflow-hidden bg-slate-900/50"
+                  className="absolute inset-0 z-[1] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-150 ease-out"
                   style={{
-                    aspectRatio: meta ? String(meta.aspectRatio) : "4 / 5",
+                    background:
+                      "linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.2) 45%, transparent 70%)",
                   }}
-                >
-                  {!meta && (
-                    <div className="absolute inset-0 loading-skeleton" aria-hidden />
-                  )}
-                  <Image
-                    src={item.src || "/placeholder.svg"}
-                    alt={`Photo by ${item.photographer}`}
-                    fill
-                    className={`object-cover transition-[transform,opacity,filter] duration-500 ease-out ${
-                      meta ? "opacity-100 group-hover:scale-[1.03]" : "opacity-0"
-                    }`}
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
-                    quality={88}
-                    priority={isPriority}
-                    loading={isPriority ? "eager" : "lazy"}
-                    onLoad={(e) => handleImageLoad(item.id, e)}
-                  />
+                />
 
-                  {/* Glass caption bar — materializes on hover / always readable on touch */}
-                  <div className="absolute inset-x-0 bottom-0 p-2.5 sm:p-3 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100 transition-opacity duration-300">
-                    <div className="rounded-xl border border-white/12 bg-black/45 backdrop-blur-xl px-3 py-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
-                      <p className="text-white text-sm font-medium tracking-wide truncate">
-                        {item.photographer}
-                      </p>
-                    </div>
+                {!meta && (
+                  <div className="absolute inset-0 loading-skeleton z-0" aria-hidden />
+                )}
+
+                <Image
+                  src={item.src || "/placeholder.svg"}
+                  alt={item.alt || `Photo by ${item.photographer}`}
+                  fill
+                  className={`object-cover transition-transform duration-500 ease-out will-change-transform ${
+                    meta ? "opacity-100 group-hover:scale-[1.04]" : "opacity-0"
+                  }`}
+                  sizes="(max-width: 768px) 50vw, 25vw"
+                  quality={86}
+                  priority={isPriority}
+                  loading={isPriority ? "eager" : "lazy"}
+                  onLoad={(e) => handleImageLoad(item.id, e)}
+                />
+
+                {/* Caption: solid gradient strip — never backdrop-filter (kills hover lag) */}
+                <div className="absolute inset-x-0 bottom-0 z-[2] p-2.5 sm:p-3 translate-y-1 opacity-100 sm:translate-y-2 sm:opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-[opacity,transform] duration-150 ease-out">
+                  <div className="rounded-lg bg-black/70 px-2.5 py-1.5 border border-white/10">
+                    <p className="text-white text-xs sm:text-sm font-medium tracking-wide truncate">
+                      {item.photographer}
+                    </p>
                   </div>
                 </div>
+
+                {/* Corner accent for hero tiles */}
+                {isHero && (
+                  <div className="absolute top-2.5 left-2.5 z-[2] rounded-full bg-white/10 border border-white/15 px-2 py-0.5 text-[10px] uppercase tracking-wider text-white/80">
+                    Feature
+                  </div>
+                )}
               </motion.button>
             )
           })}
-        </motion.div>
+        </div>
 
-        {galleryItems.length === 0 && imagesLoaded && (
+        {galleryItems.length === 0 && (
           <p className="text-center text-slate-400 py-16">No photos in the gallery yet.</p>
         )}
       </div>
 
-      {/* Lightbox — dim scrim + glass panel, image object-contain for any size */}
       <AnimatePresence>
         {selected && (
           <motion.div
@@ -198,13 +217,13 @@ export default function Gallery() {
           >
             <button
               type="button"
-              className="absolute inset-0 bg-black/65 backdrop-blur-md"
+              className="absolute inset-0 bg-black/70"
               aria-label="Close photo"
               onClick={() => setSelected(null)}
             />
 
             <motion.div
-              className="relative z-10 w-full max-w-5xl max-h-[min(92dvh,900px)] flex flex-col rounded-2xl border border-white/15 bg-slate-950/80 backdrop-blur-2xl shadow-[0_24px_80px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.08)] overflow-hidden"
+              className="relative z-10 w-full max-w-5xl max-h-[min(92dvh,900px)] flex flex-col rounded-2xl border border-white/12 bg-[#020617]/95 shadow-2xl overflow-hidden"
               initial={{ opacity: 0, y: 12, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 8, scale: 0.98 }}
@@ -225,7 +244,7 @@ export default function Gallery() {
                 </button>
               </div>
 
-              <div className="relative flex-1 min-h-0 flex items-center justify-center p-3 sm:p-5 bg-black/30">
+              <div className="relative flex-1 min-h-0 flex items-center justify-center p-3 sm:p-5 bg-black/40">
                 {!lightboxReady && (
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="w-9 h-9 rounded-full border-2 border-white/15 border-t-sky-400 animate-spin" />
@@ -236,7 +255,7 @@ export default function Gallery() {
                     src={selected.src || "/placeholder.svg"}
                     alt={`Photo by ${selected.photographer}`}
                     fill
-                    className={`object-contain transition-opacity duration-300 ${
+                    className={`object-contain transition-opacity duration-200 ${
                       lightboxReady ? "opacity-100" : "opacity-0"
                     }`}
                     sizes="(max-width: 1024px) 100vw, 1024px"
@@ -247,25 +266,6 @@ export default function Gallery() {
                 </div>
               </div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Soft load hint (does not block interaction after timeout) */}
-      <AnimatePresence>
-        {!imagesLoaded && galleryItems.length > 0 && (
-          <motion.div
-            className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 pointer-events-none"
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 8 }}
-            transition={spring.snappy}
-          >
-            <div className="rounded-full border border-white/12 bg-slate-950/80 backdrop-blur-xl px-4 py-2 shadow-lg">
-              <p className="text-xs text-slate-300">
-                Loading photos… {Object.keys(loadedImages).length}/{galleryItems.length}
-              </p>
-            </div>
           </motion.div>
         )}
       </AnimatePresence>

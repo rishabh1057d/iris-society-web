@@ -91,9 +91,9 @@ export default function Team() {
 
     return (
       <div
-        className={`team-card group glass-card-event bg-white/[0.04] p-4 md:p-5 ${
-          isCompact ? "max-w-xs mx-auto" : ""
-        } ${member.className || ""}`}
+        className={`team-card group glass-card-event bg-white/[0.04] p-4 md:p-5 w-full h-full ${
+          member.className || ""
+        }`}
       >
         <div className={`w-full mb-3 ${isCompact ? "max-w-[200px] mx-auto" : ""}`}>
           <ResponsiveImage
@@ -236,9 +236,12 @@ export default function Team() {
           <p className="text-center text-slate-400 text-sm mb-8 max-w-lg mx-auto">
             Guiding IRIS Society&apos;s creative direction
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+          {/* Flex + justify-center so incomplete rows stay centered */}
+          <div className="flex flex-wrap justify-center gap-6">
             {currentMembers.leadershipTeam?.map((member: any) => (
-              <TeamMemberCard key={member.id} member={member} />
+              <div key={member.id} className="w-full max-w-[20rem] sm:w-[calc(50%-0.75rem)] sm:max-w-[22rem]">
+                <TeamMemberCard member={member} />
+              </div>
             ))}
           </div>
         </section>
@@ -248,9 +251,14 @@ export default function Team() {
             <section key={section.key} className="mb-16 md:mb-20">
               <h2 className="section-title text-center border-0 pb-0 mb-2">{section.title}</h2>
               <p className="text-center text-slate-400 text-sm mb-8">{section.description}</p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+              <div className="flex flex-wrap justify-center gap-5">
                 {currentMembers[section.key].map((member: any) => (
-                  <TeamMemberCard key={member.id} member={member} isCompact />
+                  <div
+                    key={member.id}
+                    className="w-full max-w-[17.5rem] sm:w-[calc(50%-0.625rem)] sm:max-w-[18rem] lg:w-[calc(33.333%-0.875rem)] xl:w-[calc(25%-0.95rem)]"
+                  >
+                    <TeamMemberCard member={member} isCompact />
+                  </div>
                 ))}
               </div>
             </section>
@@ -263,9 +271,14 @@ export default function Team() {
             <p className="text-center text-slate-400 text-sm mb-8">
               Building the digital foundation of IRIS
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-4xl mx-auto">
+            <div className="flex flex-wrap justify-center gap-5">
               {currentMembers.webDevTeam.map((member: any) => (
-                <TeamMemberCard key={member.id} member={member} isCompact />
+                <div
+                  key={member.id}
+                  className="w-full max-w-[17.5rem] sm:w-[calc(50%-0.625rem)] sm:max-w-[18rem] lg:w-[calc(33.333%-0.875rem)]"
+                >
+                  <TeamMemberCard member={member} isCompact />
+                </div>
               ))}
             </div>
           </section>
@@ -318,9 +331,14 @@ export default function Team() {
                 <h3 className="text-xl font-semibold text-center text-white tracking-tight mb-6">
                   Leadership
                 </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+                <div className="flex flex-wrap justify-center gap-6">
                   {previousMembers[selectedTenure].leadershipTeam.map((member: any) => (
-                    <TeamMemberCard key={member.id} member={member} />
+                    <div
+                      key={member.id}
+                      className="w-full max-w-[20rem] sm:w-[calc(50%-0.75rem)] sm:max-w-[22rem]"
+                    >
+                      <TeamMemberCard member={member} />
+                    </div>
                   ))}
                 </div>
               </section>
@@ -331,9 +349,14 @@ export default function Team() {
                 <h3 className="text-xl font-semibold text-center text-white tracking-tight mb-6">
                   Core Team
                 </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                <div className="flex flex-wrap justify-center gap-5">
                   {previousMembers[selectedTenure].coreTeam.map((member: any) => (
-                    <TeamMemberCard key={member.id} member={member} isCompact />
+                    <div
+                      key={member.id}
+                      className="w-full max-w-[17.5rem] sm:w-[calc(50%-0.625rem)] sm:max-w-[18rem] lg:w-[calc(33.333%-0.875rem)]"
+                    >
+                      <TeamMemberCard member={member} isCompact />
+                    </div>
                   ))}
                 </div>
               </section>
@@ -344,9 +367,14 @@ export default function Team() {
                 <h3 className="text-xl font-semibold text-center text-white tracking-tight mb-6">
                   Web Team
                 </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-4xl mx-auto">
+                <div className="flex flex-wrap justify-center gap-5">
                   {previousMembers[selectedTenure].webDevTeam.map((member: any) => (
-                    <TeamMemberCard key={member.id} member={member} isCompact />
+                    <div
+                      key={member.id}
+                      className="w-full max-w-[17.5rem] sm:w-[calc(50%-0.625rem)] sm:max-w-[18rem] lg:w-[calc(33.333%-0.875rem)]"
+                    >
+                      <TeamMemberCard member={member} isCompact />
+                    </div>
                   ))}
                 </div>
               </section>

@@ -1289,20 +1289,23 @@ export default function Home() {
       />
 
       <div ref={mainRef} className="flex min-h-full flex-1 flex-col items-center relative overflow-hidden">
-        {/* Hero — calm depth, no heavy looping motion (vestibular-friendly) */}
+        {/* Hero — cinematic first impression */}
         <div
           ref={heroRef}
-          className="min-h-[100dvh] w-full flex flex-col items-center justify-center text-center safe-area-inset-top relative z-10 px-4"
+          className="min-h-[100dvh] w-full flex flex-col items-center justify-center text-center safe-area-inset-top relative z-10 px-4 pt-24 pb-16"
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-900/18 via-purple-900/12 to-indigo-900/20 pointer-events-none" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent pointer-events-none" />
-          <div className="absolute inset-0 pointer-events-none overflow-hidden motion-reduce:hidden" aria-hidden>
-            <div className="absolute w-96 h-96 rounded-full bg-gradient-to-r from-blue-500/10 to-purple-500/10 blur-3xl top-1/4 left-1/4 opacity-80" />
-            <div className="absolute w-80 h-80 rounded-full bg-gradient-to-r from-purple-500/8 to-pink-500/8 blur-3xl top-3/4 right-1/4 opacity-70" />
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-900/25 via-purple-900/15 to-indigo-900/25 pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.12),transparent_55%)] pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/20 pointer-events-none" />
+          <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden>
+            <div className="absolute w-[28rem] h-[28rem] rounded-full bg-blue-500/15 blur-3xl top-[15%] left-[10%] opacity-90" />
+            <div className="absolute w-[24rem] h-[24rem] rounded-full bg-violet-500/12 blur-3xl bottom-[20%] right-[8%] opacity-80" />
+            {/* Soft aperture rings */}
+            <div className="absolute left-1/2 top-[42%] -translate-x-1/2 -translate-y-1/2 w-[min(90vw,34rem)] h-[min(90vw,34rem)] rounded-full border border-white/[0.06]" />
+            <div className="absolute left-1/2 top-[42%] -translate-x-1/2 -translate-y-1/2 w-[min(70vw,26rem)] h-[min(70vw,26rem)] rounded-full border border-white/[0.04]" />
           </div>
 
           <ResponsiveContainer size="lg" padding="lg">
-            {/* Enhanced Logo with better visual impact */}
             <motion.div
               ref={logoRef}
               variants={logoVariants}
@@ -1310,69 +1313,68 @@ export default function Home() {
               animate="animate"
               whileHover="hover"
               style={{ scale: logoScale, opacity: logoOpacity, y: logoY }}
-              className="mb-12 cursor-pointer hardware-accelerated will-change-transform relative"
+              className="mb-8 cursor-pointer hardware-accelerated will-change-transform relative inline-block"
             >
-              {/* Logo glow effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 blur-2xl scale-110 opacity-60" />
-              <div className="relative">
-                <ResponsiveImage
-                  src="/images/logo.png"
-                  alt="IRIS Society Logo"
-                  width={300}
-                  height={300}
-                  priority
-                  className="mx-auto filter drop-shadow-2xl max-w-[220px] sm:max-w-[250px] md:max-w-[300px] relative z-10"
-                />
-                {/* Subtle border glow */}
-                <div className="absolute inset-0 rounded-full border-2 border-white/10 scale-105" />
-              </div>
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/30 to-purple-500/30 blur-3xl scale-125 opacity-70" />
+              <ResponsiveImage
+                src="/images/logo.png"
+                alt="IRIS Society Logo"
+                width={280}
+                height={280}
+                priority
+                className="mx-auto filter drop-shadow-2xl max-w-[160px] sm:max-w-[200px] md:max-w-[240px] relative z-10"
+              />
             </motion.div>
+
+            <motion.p
+              variants={textVariants}
+              initial="hidden"
+              animate="visible"
+              className="text-xs sm:text-sm uppercase tracking-[0.22em] text-sky-300/90 font-medium mb-4"
+            >
+              IIT Madras BS · Est. 2023
+            </motion.p>
 
             <motion.h1
               variants={textVariants}
               initial="hidden"
               animate="visible"
-              style={{ y: titleY, fontSize: "clamp(2.5rem, 6vw, 4rem)" }}
-              className="font-bold mb-5 text-white drop-shadow-xl will-change-transform relative tracking-tight"
+              style={{ y: titleY, fontSize: "clamp(2.75rem, 7vw, 4.5rem)" }}
+              className="font-bold mb-4 text-white drop-shadow-xl will-change-transform relative tracking-tight leading-[1.05]"
             >
-              <span className="bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent">
-                IRIS Society
+              <span className="bg-gradient-to-r from-white via-blue-100 to-violet-200 bg-clip-text text-transparent">
+                See the world
               </span>
-              <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-20 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full" />
+              <br />
+              <span className="bg-gradient-to-r from-sky-200 via-blue-200 to-purple-200 bg-clip-text text-transparent">
+                through IRIS
+              </span>
             </motion.h1>
 
-            <motion.div
+            <motion.p
               variants={textVariants}
               initial="hidden"
               animate="visible"
-              transition={{ delay: 0.12 }}
-              className="mb-5 max-w-2xl mx-auto"
+              transition={{ delay: 0.1 }}
+              className="text-slate-200/95 font-medium leading-relaxed mb-2 max-w-xl mx-auto"
+              style={{ fontSize: "clamp(1.05rem, 2.8vw, 1.3rem)" }}
             >
-              <p
-                style={{ fontSize: "clamp(1.05rem, 3vw, 1.35rem)" }}
-                className="text-slate-200 font-medium leading-relaxed"
-              >
-                Photography &amp; Videography Society of IITM BS Degree
-              </p>
-            </motion.div>
+              Photography &amp; Videography Society of the IITM BS Degree
+            </motion.p>
 
-            <motion.div
+            <motion.p
               variants={textVariants}
               initial="hidden"
               animate="visible"
-              transition={{ delay: 0.2 }}
-              className="mb-12 max-w-xl mx-auto"
+              transition={{ delay: 0.18 }}
+              className="text-slate-400 leading-relaxed mb-10 max-w-lg mx-auto italic"
+              style={{ fontSize: "clamp(0.95rem, 2vw, 1.1rem)" }}
             >
-              <p
-                style={{ fontSize: "clamp(0.95rem, 2.2vw, 1.15rem)" }}
-                className="text-slate-300/95 font-light leading-relaxed italic"
-              >
-                “Through Our Lenses, Beyond the Ordinary”
-              </p>
-            </motion.div>
+              “Through Our Lenses, Beyond the Ordinary”
+            </motion.p>
 
             <motion.div
-              className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-stretch sm:items-center w-full max-w-md mx-auto"
+              className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-stretch sm:items-center w-full max-w-md mx-auto mb-12"
               variants={buttonVariants}
               initial="hidden"
               animate="visible"
@@ -1383,18 +1385,8 @@ export default function Home() {
                 className="btn-primary w-full sm:w-auto px-8 py-3.5 text-base font-semibold"
                 disabled={isRedirecting}
               >
-                <span className="flex items-center justify-center gap-2">
-                  {isRedirecting ? (
-                    <>
-                      <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                      Redirecting…
-                    </>
-                  ) : (
-                    "Be a Member"
-                  )}
-                </span>
+                {isRedirecting ? "Redirecting…" : "Be a Member"}
               </button>
-
               <button
                 type="button"
                 onClick={() => {
@@ -1414,19 +1406,67 @@ export default function Home() {
               </button>
             </motion.div>
 
+            {/* Explore destinations — instant wayfinding */}
+            <motion.div
+              className="grid grid-cols-2 lg:grid-cols-4 gap-3 max-w-3xl mx-auto"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ type: "spring", bounce: 0, duration: 0.45, delay: 0.25 }}
+            >
+              {[
+                { href: "/gallery", label: "Gallery", hint: "Member frames" },
+                { href: "/events", label: "Events", hint: "Workshops & comps" },
+                { href: "/potw", label: "POTW", hint: "Weekly winners" },
+                { href: "/meetups", label: "Photowalks", hint: "Shoot together" },
+              ].map((card) => (
+                <Link
+                  key={card.href}
+                  href={card.href}
+                  className="group rounded-2xl border border-white/10 bg-white/[0.05] px-4 py-4 text-left transition-[background,border-color,transform] duration-150 hover:bg-white/[0.09] hover:border-white/20 active:scale-[0.98]"
+                >
+                  <p className="text-white font-semibold tracking-tight text-sm sm:text-base group-hover:text-sky-100">
+                    {card.label}
+                  </p>
+                  <p className="text-slate-400 text-xs mt-1">{card.hint}</p>
+                </Link>
+              ))}
+            </motion.div>
+
+            {/* Stats strip */}
+            <motion.div
+              className="mt-12 flex flex-wrap justify-center gap-6 sm:gap-10 text-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4, duration: 0.4 }}
+            >
+              {[
+                { v: "1200+", l: "Members" },
+                { v: "40+", l: "Events" },
+                { v: "30+", l: "Collabs" },
+              ].map((s) => (
+                <div key={s.l}>
+                  <p className="text-xl sm:text-2xl font-bold text-white tracking-tight m-0">{s.v}</p>
+                  <p className="text-xs text-slate-400 mt-0.5 m-0 uppercase tracking-wider">{s.l}</p>
+                </div>
+              ))}
+            </motion.div>
+
+            {/* Scroll cue */}
+            <motion.div
+              className="mt-14 flex flex-col items-center gap-2 text-slate-500"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.55 }}
+              aria-hidden
+            >
+              <span className="text-[10px] uppercase tracking-[0.2em]">Scroll</span>
+              <div className="w-px h-8 bg-gradient-to-b from-slate-400/60 to-transparent" />
+            </motion.div>
           </ResponsiveContainer>
         </div>
 
-        {/* Enhanced transition element with better visual flow */}
-        <div className="w-full relative">
-          {/* Multi-layer gradient transition */}
-          <div className="absolute top-0 left-0 w-full h-40 md:h-80 bg-gradient-to-b from-transparent via-blue-900/25 to-blue-900/50 transform -translate-y-40 md:-translate-y-80"></div>
-          <div className="absolute top-0 left-0 w-full h-32 md:h-64 bg-gradient-to-b from-transparent via-purple-900/15 to-purple-900/30 transform -translate-y-32 md:-translate-y-64"></div>
-          <div className="w-full h-20 md:h-40 bg-gradient-to-b from-transparent to-blue-900/40"></div>
-          
-          {/* Decorative wave pattern */}
-          <div className="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-blue-500/20"></div>
-        </div>
+        {/* Soft handoff into content — no harsh band */}
+        <div className="w-full h-16 md:h-24 bg-gradient-to-b from-transparent to-blue-950/30 pointer-events-none" />
 
         {/* Enhanced Video Section with improved design */}
         {videoData?.enabled && (

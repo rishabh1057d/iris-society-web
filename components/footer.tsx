@@ -35,30 +35,30 @@ export default function Footer() {
   return (
     <motion.footer
       ref={footerRef}
-      className="w-full mt-auto relative z-20 safe-area-inset-bottom"
+      className="w-full mt-auto relative z-20"
       initial={{ opacity: 0, y: 12 }}
       animate={isFooterInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
       transition={spring.default}
     >
       {/*
-        Single continuous material — no 1px hairline or hard cut against the mesh.
-        Soft top fade only (mask), solid enough body so no “blank stripe” shows through.
+        Opaque solid footer — no translucent gradient that leaves a purple mesh
+        “stripe” under the copyright block. Safe-area padding uses the same fill.
       */}
       <div
-        className="relative border-t border-white/[0.06]"
+        className="relative w-full border-t border-white/[0.08]"
         style={{
-          background:
-            "linear-gradient(180deg, rgba(2,6,16,0.35) 0%, rgba(2,6,16,0.72) 40%, rgba(2,6,16,0.88) 100%)",
-          backdropFilter: "blur(20px) saturate(160%)",
-          WebkitBackdropFilter: "blur(20px) saturate(160%)",
+          backgroundColor: "#020617",
+          // Extend past the viewport bottom so no mesh peeks through subpixels / safe area
+          boxShadow: "0 1px 0 0 #020617",
+          paddingBottom: "max(1.5rem, env(safe-area-inset-bottom, 0px))",
         }}
       >
         <ResponsiveContainer size="lg" padding="md">
-          <div className="py-8 md:py-10 text-center">
-            <p className="text-sm text-slate-400 tracking-wide">
+          <div className="pt-8 md:pt-10 pb-2 text-center">
+            <p className="text-sm text-slate-400 tracking-wide m-0">
               © {new Date().getFullYear()} IRIS Society. All rights reserved.
             </p>
-            <p className="mt-1 text-xs text-slate-500">
+            <p className="mt-1 mb-0 text-xs text-slate-500">
               Photography &amp; Videography · IIT Madras BS
             </p>
 
