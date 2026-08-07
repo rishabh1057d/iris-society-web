@@ -1067,7 +1067,7 @@ img {
   @apply outline-2 outline-offset-2 outline-blue-500;
 }
 
-/* ─── Card fan carousel (desktop gallery) ─── */
+/* ─── Card fan carousel ─── */
 .fan-layout {
   position: relative;
   height: 38rem;
@@ -1089,51 +1089,44 @@ img {
   -webkit-backface-visibility: hidden;
 }
 
+/* Mobile / tablet fan — larger center card relative to screen, not cramped */
+.fan-layout--mobile {
+  height: min(58dvh, 26rem);
+  min-height: 18rem;
+  max-height: 28rem;
+  perspective: 900px;
+}
+
+.fan-card--mobile {
+  /* ~58% of viewport width, capped so it never overflows or looks tiny */
+  width: min(58vw, 15.5rem);
+  height: min(78vw, 21rem);
+  margin-left: calc(min(58vw, 15.5rem) / -2);
+  margin-top: calc(min(78vw, 21rem) / -2);
+  border-radius: 1rem;
+}
+
+@media (min-width: 480px) and (max-width: 1023px) {
+  .fan-layout--mobile {
+    height: min(56dvh, 28rem);
+  }
+  .fan-card--mobile {
+    width: min(42vw, 16rem);
+    height: min(58vw, 22rem);
+    margin-left: calc(min(42vw, 16rem) / -2);
+    margin-top: calc(min(58vw, 22rem) / -2);
+  }
+}
+
 @media (max-width: 1023px) {
-  .fan-layout {
+  .fan-layout:not(.fan-layout--mobile) {
     height: 34rem;
   }
-  .fan-card {
+  .fan-card:not(.fan-card--mobile) {
     width: 13.5rem;
     height: 18.75rem;
     margin-left: -6.75rem;
     margin-top: -9.375rem;
-  }
-}
-
-@media (max-width: 767px) {
-  .fan-layout {
-    height: 28rem;
-  }
-  .fan-card {
-    width: 11rem;
-    height: 15.25rem;
-    margin-left: -5.5rem;
-    margin-top: -7.625rem;
-  }
-}
-
-@media (max-width: 639px) {
-  .fan-layout {
-    height: 26rem;
-  }
-  .fan-card {
-    width: 9.5rem;
-    height: 13.25rem;
-    margin-left: -4.75rem;
-    margin-top: -6.625rem;
-  }
-}
-
-@media (max-width: 479px) {
-  .fan-layout {
-    height: 22rem;
-  }
-  .fan-card {
-    width: 8rem;
-    height: 11.25rem;
-    margin-left: -4rem;
-    margin-top: -5.625rem;
   }
 }
 

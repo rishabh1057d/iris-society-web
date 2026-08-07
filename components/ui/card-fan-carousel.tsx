@@ -11,25 +11,56 @@ export interface CardItem {
   onClick?: () => void
 }
 
+export type FanLayout = "desktop" | "mobile"
+
 interface SocialCardsProps {
   cards: CardItem[]
   className?: string
+  /**
+   * desktop — wide 7-card fan (lg+)
+   * mobile  — tighter 5-card fan tuned for phone/tablet widths
+   */
+  layout?: FanLayout
 }
 
-const MAX_VISIBLE = 7
-const HALF = 3
+const DESKTOP = {
+  maxVisible: 7,
+  half: 3,
+  positions: [
+    { rot: -21, scale: 0.7756, x: -30, y: 7.3, zIndex: 1 },
+    { rot: -14, scale: 0.8498, x: -22, y: 4.0, zIndex: 2 },
+    { rot: -7, scale: 0.9346, x: -11, y: 1.3, zIndex: 3 },
+    { rot: 0, scale: 1.0, x: 0, y: 0.0, zIndex: 10 },
+    { rot: 7, scale: 0.9346, x: 11, y: 1.3, zIndex: 3 },
+    { rot: 14, scale: 0.8498, x: 22, y: 4.0, zIndex: 2 },
+    { rot: 21, scale: 0.7756, x: 30, y: 7.3, zIndex: 1 },
+  ],
+  enterX: 40,
+} as const
 
-const FAN_POSITIONS = [
-  { rot: -21, scale: 0.7756, x: -30, y: 7.3, zIndex: 1 },
-  { rot: -14, scale: 0.8498, x: -22, y: 4.0, zIndex: 2 },
-  { rot: -7, scale: 0.9346, x: -11, y: 1.3, zIndex: 3 },
-  { rot: 0, scale: 1.0, x: 0, y: 0.0, zIndex: 10 },
-  { rot: 7, scale: 0.9346, x: 11, y: 1.3, zIndex: 3 },
-  { rot: 14, scale: 0.8498, x: 22, y: 4.0, zIndex: 2 },
-  { rot: 21, scale: 0.7756, x: 30, y: 7.3, zIndex: 1 },
-]
+/** Phone/tablet: fewer cards, gentler spread, larger relative center card */
+const MOBILE = {
+  maxVisible: 5,
+  half: 2,
+  positions: [
+    { rot: -12, scale: 0.86, x: -11.5, y: 3.2, zIndex: 1 },
+    { rot: -6, scale: 0.93, x: -5.8, y: 1.1, zIndex: 3 },
+    { rot: 0, scale: 1.0, x: 0, y: 0.0, zIndex: 10 },
+    { rot: 6, scale: 0.93, x: 5.8, y: 1.1, zIndex: 3 },
+    { rot: 12, scale: 0.86, x: 11.5, y: 3.2, zIndex: 1 },
+  ],
+  enterX: 18,
+} as const
 
-function getResponsiveMultiplier(width: number) {
+function getSpreadMultiplier(layout: FanLayout, width: number) {
+  if (layout === "mobile") {
+    // Keep side peeks on-screen without crushing the center card
+    if (width < 360) return 0.72
+    if (width < 400) return 0.82
+    if (width < 480) return 0.9
+    if (width < 640) return 0.95
+    return 1.0 // tablet-ish
+  }
   if (width < 480) return 0.28
   if (width < 640) return 0.38
   if (width < 768) return 0.5
@@ -37,12 +68,15 @@ function getResponsiveMultiplier(width: number) {
   return 1.0
 }
 
-/**
- * Returns a multiplier (0..1] that scales y-offsets and entry animation
- * distances when the viewport is too short for the ideal layout height.
- */
-function getHeightMultiplier(width: number) {
+function getHeightMultiplier(layout: FanLayout, width: number) {
   let idealPx: number
+  if (layout === "mobile") {
+    // Target ~52–58vh of a typical phone
+    idealPx = Math.min(window.innerHeight * 0.55, width < 400 ? 340 : 400)
+    const available = window.innerHeight * 0.58
+    if (available >= idealPx) return 1
+    return Math.max(0.75, available / idealPx)
+  }
   if (width < 480) idealPx = 22 * 16
   else if (width < 640) idealPx = 26 * 16
   else if (width < 768) idealPx = 28 * 16
@@ -54,16 +88,25 @@ function getHeightMultiplier(width: number) {
   return available / idealPx
 }
 
-function getSlotConfig(totalCards: number, slot: number) {
-  if (totalCards >= MAX_VISIBLE) return FAN_POSITIONS[slot]
+function getSlotConfig(
+  layout: FanLayout,
+  totalCards: number,
+  slot: number,
+  maxVisible: number,
+  positions: readonly { rot: number; scale: number; x: number; y: number; zIndex: number }[]
+) {
+  if (totalCards >= maxVisible) return positions[slot]
   const center = totalCards >> 1
   const distance = totalCards > 1 ? (slot - center) / center : 0
   const absDistance = Math.abs(distance)
+  const maxRot = layout === "mobile" ? 12 : 21
+  const maxX = layout === "mobile" ? 11.5 : 30
+  const maxY = layout === "mobile" ? 3.2 : 7.3
   return {
-    rot: distance * 21,
-    scale: 1.0 - 0.2244 * absDistance * absDistance,
-    x: distance * 30,
-    y: absDistance * absDistance * 7.3,
+    rot: distance * maxRot,
+    scale: 1.0 - (layout === "mobile" ? 0.14 : 0.2244) * absDistance * absDistance,
+    x: distance * maxX,
+    y: absDistance * absDistance * maxY,
     zIndex: 10 - Math.abs(slot - center),
   }
 }
@@ -71,16 +114,35 @@ function getSlotConfig(totalCards: number, slot: number) {
 const ARROW_CLASSES =
   "relative flex items-center justify-center rounded-full border-[1.5px] border-white/15 bg-white/5 backdrop-blur-[16px] text-white/60 cursor-pointer shrink-0 z-30 outline-none shadow-[0_4px_20px_rgba(0,0,0,0.4)] hover:border-white/30 hover:text-white/90 active:opacity-70 transition-colors duration-300 before:content-[''] before:absolute before:inset-[3px] before:rounded-full before:border before:border-white/[0.06] before:pointer-events-none min-h-[44px] min-w-[44px]"
 
-export default function SocialCards({ cards, className = "" }: SocialCardsProps) {
+export default function SocialCards({
+  cards,
+  className = "",
+  layout = "desktop",
+}: SocialCardsProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const isAnimating = useRef(false)
   const hasEntered = useRef(false)
   const directionRef = useRef<"left" | "right" | null>(null)
   const prevVisible = useRef<Set<number>>(new Set())
+  const touchStartX = useRef(0)
+  const touchStartY = useRef(0)
+
+  const cfg = layout === "mobile" ? MOBILE : DESKTOP
+  const maxVisible = cfg.maxVisible
+  const half = cfg.half
+  const positions = cfg.positions
+  const enterXBase = cfg.enterX
 
   const totalCards = cards.length
-  const needsPagination = totalCards > MAX_VISIBLE
-  const [centerIndex, setCenterIndex] = useState(needsPagination ? HALF : totalCards >> 1)
+  const needsPagination = totalCards > maxVisible
+  const [centerIndex, setCenterIndex] = useState(needsPagination ? half : totalCards >> 1)
+
+  // Reset entry animation when layout switches
+  useEffect(() => {
+    hasEntered.current = false
+    prevVisible.current = new Set()
+    setCenterIndex(totalCards > maxVisible ? half : totalCards >> 1)
+  }, [layout, totalCards, maxVisible, half])
 
   const getVisibleMap = useCallback(
     (center: number) => {
@@ -89,12 +151,12 @@ export default function SocialCards({ cards, className = "" }: SocialCardsProps)
         cards.forEach((_, i) => map.set(i, i))
         return map
       }
-      for (let slot = 0; slot < MAX_VISIBLE; slot++) {
-        map.set(((center + slot - HALF) % totalCards + totalCards) % totalCards, slot)
+      for (let slot = 0; slot < maxVisible; slot++) {
+        map.set(((center + slot - half) % totalCards + totalCards) % totalCards, slot)
       }
       return map
     },
-    [totalCards, needsPagination, cards]
+    [totalCards, needsPagination, cards, maxVisible, half]
   )
 
   const cycle = useCallback(
@@ -120,10 +182,11 @@ export default function SocialCards({ cards, className = "" }: SocialCardsProps)
     const previouslyVisible = prevVisible.current
     const direction = directionRef.current
     const isFirstMount = !hasEntered.current
-    const multiplier = getResponsiveMultiplier(window.innerWidth)
-    const hMult = getHeightMultiplier(window.innerWidth)
-    const slotCount = needsPagination ? MAX_VISIBLE : totalCards
-    const config = (slot: number) => getSlotConfig(slotCount, slot)
+    const multiplier = getSpreadMultiplier(layout, window.innerWidth)
+    const hMult = getHeightMultiplier(layout, window.innerWidth)
+    const slotCount = needsPagination ? maxVisible : totalCards
+    const config = (slot: number) =>
+      getSlotConfig(layout, slotCount, slot, maxVisible, positions)
 
     if (isFirstMount) isAnimating.current = true
 
@@ -135,6 +198,8 @@ export default function SocialCards({ cards, className = "" }: SocialCardsProps)
         if (isFirstMount) hasEntered.current = true
       }
     }
+
+    const enterX = enterXBase * (layout === "mobile" ? 1 : 1)
 
     cardElements.forEach((card, cardIndex) => {
       const slot = visibleMap.get(cardIndex)
@@ -154,49 +219,49 @@ export default function SocialCards({ cards, className = "" }: SocialCardsProps)
         if (isFirstMount) {
           gsap.set(card, {
             x: 0,
-            y: `${12 * hMult}rem`,
+            y: `${(layout === "mobile" ? 8 : 12) * hMult}rem`,
             rotation: 0,
-            scale: 0.5,
+            scale: 0.55,
             opacity: 0,
           })
           gsap.to(card, {
             ...target,
-            duration: 1.2,
-            ease: "elastic.out(1.05,.78)",
-            delay: 0.2 + slot * 0.06,
+            duration: layout === "mobile" ? 0.85 : 1.2,
+            ease: layout === "mobile" ? "power3.out" : "elastic.out(1.05,.78)",
+            delay: 0.12 + slot * 0.05,
             onComplete: onCardDone,
           })
         } else if (!wasVisible) {
-          const enterX = direction === "right" ? 40 : -40
+          const ex = direction === "right" ? enterX : -enterX
           gsap.set(card, {
-            x: `${enterX}rem`,
+            x: `${ex}rem`,
             y: `${y * hMult}rem`,
-            rotation: direction === "right" ? 30 : -30,
-            scale: 0.5,
+            rotation: direction === "right" ? 22 : -22,
+            scale: 0.55,
             opacity: 0,
           })
-          gsap.to(card, {
-            ...target,
-            duration: 0.6,
-            ease: "power2.out",
-            onComplete: onCardDone,
-          })
-        } else {
           gsap.to(card, {
             ...target,
             duration: 0.5,
             ease: "power2.out",
             onComplete: onCardDone,
           })
+        } else {
+          gsap.to(card, {
+            ...target,
+            duration: 0.45,
+            ease: "power2.out",
+            onComplete: onCardDone,
+          })
         }
       } else if (wasVisible) {
-        const exitX = direction === "right" ? -40 : 40
+        const exitX = direction === "right" ? -enterX : enterX
         gsap.to(card, {
           x: `${exitX}rem`,
           opacity: 0,
-          scale: 0.5,
-          rotation: direction === "right" ? -30 : 30,
-          duration: 0.4,
+          scale: 0.55,
+          rotation: direction === "right" ? -22 : 22,
+          duration: 0.35,
           ease: "power2.in",
           zIndex: 0,
         })
@@ -206,6 +271,31 @@ export default function SocialCards({ cards, className = "" }: SocialCardsProps)
     })
 
     prevVisible.current = new Set(visibleMap.keys())
+
+    // Desktop hover fan expand — skip on mobile (touch)
+    if (layout === "mobile") {
+      const onResize = () => {
+        if (isAnimating.current) return
+        const mult = getSpreadMultiplier(layout, window.innerWidth)
+        const hM = getHeightMultiplier(layout, window.innerWidth)
+        cardElements.forEach((el, i) => {
+          const slot = visibleMap.get(i)
+          if (slot === undefined) return
+          const base = config(slot)
+          gsap.to(el, {
+            x: `${base.x * mult}rem`,
+            y: `${base.y * hM}rem`,
+            rotation: base.rot,
+            scale: base.scale,
+            duration: 0.3,
+            overwrite: "auto",
+          })
+          gsap.set(el, { zIndex: base.zIndex })
+        })
+      }
+      window.addEventListener("resize", onResize)
+      return () => window.removeEventListener("resize", onResize)
+    }
 
     const visibleEntries: { el: HTMLElement; slot: number }[] = []
     cardElements.forEach((el, i) => {
@@ -219,8 +309,8 @@ export default function SocialCards({ cards, className = "" }: SocialCardsProps)
     const centerSlot = visibleEntries.length >> 1
 
     const updateHoverLayout = (hoveredSlot: number | null) => {
-      const mult = getResponsiveMultiplier(window.innerWidth)
-      const hM = getHeightMultiplier(window.innerWidth)
+      const mult = getSpreadMultiplier(layout, window.innerWidth)
+      const hM = getHeightMultiplier(layout, window.innerWidth)
 
       visibleEntries.forEach(({ el, slot }) => {
         const base = config(slot)
@@ -308,9 +398,18 @@ export default function SocialCards({ cards, className = "" }: SocialCardsProps)
       window.removeEventListener("resize", onResize)
       if (leaveTimer) clearTimeout(leaveTimer)
     }
-  }, [centerIndex, totalCards, getVisibleMap, needsPagination])
+  }, [
+    centerIndex,
+    totalCards,
+    getVisibleMap,
+    needsPagination,
+    layout,
+    maxVisible,
+    positions,
+    enterXBase,
+  ])
 
-  // Keyboard arrows for carousel
+  // Keyboard
   useEffect(() => {
     if (!needsPagination) return
     const onKey = (e: KeyboardEvent) => {
@@ -320,6 +419,21 @@ export default function SocialCards({ cards, className = "" }: SocialCardsProps)
     window.addEventListener("keydown", onKey)
     return () => window.removeEventListener("keydown", onKey)
   }, [cycle, needsPagination])
+
+  // Touch swipe (mobile-first, works everywhere)
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX
+    touchStartY.current = e.touches[0].clientY
+  }
+
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (!needsPagination) return
+    const dx = e.changedTouches[0].clientX - touchStartX.current
+    const dy = e.changedTouches[0].clientY - touchStartY.current
+    // Horizontal swipe only
+    if (Math.abs(dx) < 42 || Math.abs(dx) < Math.abs(dy) * 1.2) return
+    cycle(dx < 0 ? "right" : "left")
+  }
 
   if (!totalCards) return null
 
@@ -337,38 +451,43 @@ export default function SocialCards({ cards, className = "" }: SocialCardsProps)
     </svg>
   )
 
+  // Compact progress for many photos (especially mobile)
+  const useCounter = layout === "mobile" || totalCards > 12
+
+  const layoutClass = layout === "mobile" ? "fan-layout fan-layout--mobile" : "fan-layout"
+  const cardExtra = layout === "mobile" ? " fan-card--mobile" : ""
+
   return (
     <section
-      className={`flex flex-col items-center w-full py-4 lg:py-6 px-2 md:px-6 relative z-20 ${className}`}
+      className={`flex flex-col items-center w-full py-2 sm:py-4 lg:py-6 px-1 sm:px-2 md:px-6 relative z-20 ${className}`}
     >
       <div className="flex items-center justify-center w-full max-w-[90rem]">
         <div
           ref={containerRef}
-          className="fan-layout flex relative justify-center items-center w-full max-w-[80rem]"
+          className={`${layoutClass} flex relative justify-center items-center w-full max-w-[80rem] touch-pan-y`}
           role="list"
           aria-label="Photo carousel"
+          onTouchStart={onTouchStart}
+          onTouchEnd={onTouchEnd}
         >
           {cards.map((card, index) => {
-            // object-contain keeps full photo visible for any aspect ratio;
-            // card frame stays a consistent portrait so the fan geometry holds.
             const image = (
               <div className="relative w-full h-full overflow-hidden bg-slate-950">
-                {/* Soft letterbox fill so wide/tall shots still fill the frame */}
                 <div
                   className="absolute inset-0 z-0 opacity-45"
                   style={{
                     backgroundImage: `url(${card.imgUrl})`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
-                    filter: "blur(28px) saturate(1.1)",
-                    transform: "scale(1.15)",
+                    filter: "blur(24px) saturate(1.1)",
+                    transform: "scale(1.12)",
                   }}
                   aria-hidden
                 />
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={card.imgUrl}
-                  loading={index < 7 ? "eager" : "lazy"}
+                  loading={index < maxVisible ? "eager" : "lazy"}
                   alt={card.alt || `Card ${index + 1}`}
                   className="absolute inset-0 w-full h-full object-contain z-10"
                   draggable={false}
@@ -376,8 +495,7 @@ export default function SocialCards({ cards, className = "" }: SocialCardsProps)
               </div>
             )
 
-            const baseClass =
-              "fan-card block select-none rounded-2xl overflow-hidden border border-white/15 shadow-[0_12px_40px_rgba(0,0,0,0.45),inset_0_1px_0_rgba(255,255,255,0.08)] bg-slate-900/80"
+            const baseClass = `fan-card${cardExtra} block select-none rounded-2xl overflow-hidden border border-white/15 shadow-[0_12px_40px_rgba(0,0,0,0.45),inset_0_1px_0_rgba(255,255,255,0.08)] bg-slate-900/80`
 
             if (card.linkUrl) {
               return (
@@ -419,30 +537,43 @@ export default function SocialCards({ cards, className = "" }: SocialCardsProps)
       </div>
 
       {needsPagination && (
-        <div className="flex items-center justify-center gap-4 mt-4 md:mt-6 z-30">
+        <div
+          className={`flex items-center justify-center gap-3 sm:gap-4 z-30 ${
+            layout === "mobile" ? "mt-2 sm:mt-3" : "mt-4 md:mt-6"
+          }`}
+        >
           <button
             type="button"
-            className={`${ARROW_CLASSES} w-10 h-10 md:w-12 md:h-12`}
+            className={`${ARROW_CLASSES} w-11 h-11 md:w-12 md:h-12`}
             onClick={() => cycle("left")}
             aria-label="Previous"
           >
             {chevron("left")}
           </button>
-          <div className="flex items-center gap-1.5 max-w-[12rem] sm:max-w-none overflow-hidden">
-            {cards.map((_, i) => (
-              <span
-                key={i}
-                className={`shrink-0 rounded-full transition-all duration-300 ${
-                  i === centerIndex
-                    ? "w-2 h-2 bg-white/80 scale-[1.25]"
-                    : "w-1.5 h-1.5 bg-white/20"
-                }`}
-              />
-            ))}
-          </div>
+
+          {useCounter ? (
+            <p className="text-sm text-white/70 tabular-nums min-w-[4.5rem] text-center m-0">
+              <span className="text-white font-medium">{centerIndex + 1}</span>
+              <span className="text-white/40"> / {totalCards}</span>
+            </p>
+          ) : (
+            <div className="flex items-center gap-1.5 max-w-[12rem] sm:max-w-none overflow-hidden">
+              {cards.map((_, i) => (
+                <span
+                  key={i}
+                  className={`shrink-0 rounded-full transition-all duration-300 ${
+                    i === centerIndex
+                      ? "w-2 h-2 bg-white/80 scale-[1.25]"
+                      : "w-1.5 h-1.5 bg-white/20"
+                  }`}
+                />
+              ))}
+            </div>
+          )}
+
           <button
             type="button"
-            className={`${ARROW_CLASSES} w-10 h-10 md:w-12 md:h-12`}
+            className={`${ARROW_CLASSES} w-11 h-11 md:w-12 md:h-12`}
             onClick={() => cycle("right")}
             aria-label="Next"
           >

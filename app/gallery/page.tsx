@@ -15,21 +15,18 @@ type GalleryItem = {
   alt?: string
 }
 
-type ImageMeta = {
-  width: number
-  height: number
-  aspectRatio: number
-}
-
+/**
+ * Gallery photos always come from /gallery_photos.json (IRIS member work).
+ * No Unsplash / demo cards are used.
+ */
 export default function Gallery() {
   const titleRef = useRef<HTMLHeadingElement>(null)
   const isTitleInView = useInView(titleRef, { once: true })
 
   const [galleryItems, setGalleryItems] = useState<GalleryItem[]>([])
-  const [loadedImages, setLoadedImages] = useState<Record<number, ImageMeta>>({})
-  const [imagesLoaded, setImagesLoaded] = useState(false)
   const [selected, setSelected] = useState<GalleryItem | null>(null)
   const [lightboxReady, setLightboxReady] = useState(false)
+  /** lg and up → desktop fan; below → mobile fan */
   const [isDesktop, setIsDesktop] = useState(false)
 
   useEffect(() => {
@@ -50,19 +47,6 @@ export default function Gallery() {
   }, [])
 
   useEffect(() => {
-    const loadedCount = Object.keys(loadedImages).length
-    const total = galleryItems.length
-    if (!imagesLoaded && total > 0 && loadedCount >= Math.min(10, total)) {
-      setImagesLoaded(true)
-    }
-  }, [loadedImages, imagesLoaded, galleryItems.length])
-
-  useEffect(() => {
-    const t = setTimeout(() => setImagesLoaded(true), 2500)
-    return () => clearTimeout(t)
-  }, [])
-
-  useEffect(() => {
     if (!selected) return
     const prev = document.body.style.overflow
     document.body.style.overflow = "hidden"
@@ -76,32 +60,12 @@ export default function Gallery() {
     }
   }, [selected])
 
-  const handleImageLoad = useCallback(
-    (id: number, e: React.SyntheticEvent<HTMLImageElement>) => {
-      const img = e.currentTarget
-      const { naturalWidth, naturalHeight } = img
-      if (!naturalWidth || !naturalHeight) return
-      setLoadedImages((prev) => {
-        if (prev[id]) return prev
-        return {
-          ...prev,
-          [id]: {
-            width: naturalWidth,
-            height: naturalHeight,
-            aspectRatio: naturalWidth / naturalHeight,
-          },
-        }
-      })
-    },
-    []
-  )
-
   const openLightbox = useCallback((item: GalleryItem) => {
     setLightboxReady(false)
     setSelected(item)
   }, [])
 
-  /** Fan carousel cards — object-contain + blurred fill handles mixed ratios */
+  /** Real gallery assets only — paths from public/gallery_photos.json */
   const fanCards: CardItem[] = useMemo(
     () =>
       galleryItems.map((item) => ({
@@ -123,7 +87,7 @@ export default function Gallery() {
       <div className="page-shell max-w-[90rem] flex-1 relative z-10">
         <motion.header
           ref={titleRef}
-          className="page-hero mb-6 md:mb-10"
+          className="page-hero mb-4 sm:mb-6 md:mb-10"
           initial={{ opacity: 0, y: 12 }}
           animate={isTitleInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
           transition={spring.default}
@@ -134,85 +98,26 @@ export default function Gallery() {
           </p>
         </motion.header>
 
-        {/* Desktop: card-fan carousel */}
-        {isDesktop && galleryItems.length > 0 && (
+        {galleryItems.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={spring.soft}
-            className="mb-4"
+            className="mb-2 sm:mb-4"
           >
-            <SocialCards cards={fanCards} />
+            <SocialCards
+              key={isDesktop ? "desktop" : "mobile"}
+              cards={fanCards}
+              layout={isDesktop ? "desktop" : "mobile"}
+            />
           </motion.div>
         )}
 
-        {/* Mobile / tablet: masonry grid (natural aspect ratios) */}
-        {!isDesktop && (
-          <motion.div
-            className="columns-2 md:columns-3 gap-3 sm:gap-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={spring.soft}
-          >
-            {galleryItems.map((item, index) => {
-              const meta = loadedImages[item.id]
-              const isPriority = index < 8
-
-              return (
-                <motion.button
-                  type="button"
-                  key={item.id}
-                  onClick={() => openLightbox(item)}
-                  className="gallery-item group mb-3 sm:mb-4 w-full break-inside-avoid text-left rounded-2xl overflow-hidden border border-white/10 bg-white/[0.04] shadow-[0_8px_32px_rgba(0,0,0,0.22)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/50"
-                  initial={{ opacity: 0, y: 14 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "80px" }}
-                  transition={{ ...spring.default, delay: Math.min(index * 0.02, 0.24) }}
-                  whileHover={{ y: -2, transition: spring.snappy }}
-                  whileTap={{ scale: 0.995 }}
-                >
-                  <div
-                    className="relative w-full overflow-hidden bg-slate-900/50"
-                    style={{
-                      aspectRatio: meta ? String(meta.aspectRatio) : "4 / 5",
-                    }}
-                  >
-                    {!meta && (
-                      <div className="absolute inset-0 loading-skeleton" aria-hidden />
-                    )}
-                    <Image
-                      src={item.src || "/placeholder.svg"}
-                      alt={item.alt || `Photo by ${item.photographer}`}
-                      fill
-                      className={`object-cover transition-transform duration-500 ease-out will-change-transform ${
-                        meta ? "opacity-100 group-hover:scale-[1.03]" : "opacity-0"
-                      }`}
-                      sizes="(max-width: 768px) 50vw, 33vw"
-                      quality={88}
-                      priority={isPriority}
-                      loading={isPriority ? "eager" : "lazy"}
-                      onLoad={(e) => handleImageLoad(item.id, e)}
-                    />
-                    <div className="absolute inset-x-0 bottom-0 p-2.5 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-150">
-                      <div className="rounded-xl border border-white/10 bg-black/70 px-3 py-2">
-                        <p className="text-white text-sm font-medium tracking-wide truncate">
-                          {item.photographer}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </motion.button>
-              )
-            })}
-          </motion.div>
-        )}
-
-        {galleryItems.length === 0 && imagesLoaded && (
+        {galleryItems.length === 0 && (
           <p className="text-center text-slate-400 py-16">No photos in the gallery yet.</p>
         )}
       </div>
 
-      {/* Lightbox — object-contain for any ratio */}
       <AnimatePresence>
         {selected && (
           <motion.div
@@ -276,24 +181,6 @@ export default function Gallery() {
                 </div>
               </div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <AnimatePresence>
-        {!imagesLoaded && galleryItems.length > 0 && !isDesktop && (
-          <motion.div
-            className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 pointer-events-none"
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 8 }}
-            transition={spring.snappy}
-          >
-            <div className="rounded-full border border-white/12 bg-slate-950/90 px-4 py-2 shadow-lg">
-              <p className="text-xs text-slate-300">
-                Loading photos… {Object.keys(loadedImages).length}/{galleryItems.length}
-              </p>
-            </div>
           </motion.div>
         )}
       </AnimatePresence>
