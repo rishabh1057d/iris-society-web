@@ -1066,3 +1066,79 @@ img {
 .focus-visible:focus-visible {
   @apply outline-2 outline-offset-2 outline-blue-500;
 }
+
+/* ─── Card fan carousel (desktop gallery) ─── */
+.fan-layout {
+  position: relative;
+  height: 38rem;
+  min-height: 22rem;
+  perspective: 1200px;
+}
+
+.fan-card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 15.5rem;
+  height: 21.5rem;
+  margin-left: -7.75rem;
+  margin-top: -10.75rem;
+  transform-origin: center center;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+@media (max-width: 1023px) {
+  .fan-layout {
+    height: 34rem;
+  }
+  .fan-card {
+    width: 13.5rem;
+    height: 18.75rem;
+    margin-left: -6.75rem;
+    margin-top: -9.375rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .fan-layout {
+    height: 28rem;
+  }
+  .fan-card {
+    width: 11rem;
+    height: 15.25rem;
+    margin-left: -5.5rem;
+    margin-top: -7.625rem;
+  }
+}
+
+@media (max-width: 639px) {
+  .fan-layout {
+    height: 26rem;
+  }
+  .fan-card {
+    width: 9.5rem;
+    height: 13.25rem;
+    margin-left: -4.75rem;
+    margin-top: -6.625rem;
+  }
+}
+
+@media (max-width: 479px) {
+  .fan-layout {
+    height: 22rem;
+  }
+  .fan-card {
+    width: 8rem;
+    height: 11.25rem;
+    margin-left: -4rem;
+    margin-top: -5.625rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fan-card {
+    transition: none !important;
+  }
+}
