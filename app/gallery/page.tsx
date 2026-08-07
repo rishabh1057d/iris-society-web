@@ -142,9 +142,6 @@ export default function Gallery() {
             transition={spring.soft}
             className="mb-4"
           >
-            <p className="text-center text-xs text-slate-400 mb-2 tracking-wide">
-              Hover a card · use arrows or ← → to browse · click to open
-            </p>
             <SocialCards cards={fanCards} />
           </motion.div>
         )}
