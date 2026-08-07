@@ -101,7 +101,7 @@ export default function Navbar({ onJoinClick }: NavbarProps) {
   return (
     <>
       <motion.nav
-        className={`fixed top-0 left-0 right-0 z-40 transition-[padding,background] duration-300 ease-out ${
+        className={`fixed top-0 left-0 right-0 z-[100] w-full max-w-[100vw] transition-[padding,background] duration-300 ease-out ${
           scrolled || isMenuOpen ? "glass-nav scrolled py-2" : "bg-transparent py-3 md:py-4"
         }`}
         initial={{ y: -24, opacity: 0 }}
@@ -173,7 +173,7 @@ export default function Navbar({ onJoinClick }: NavbarProps) {
         {isMenuOpen && (
           <>
             <motion.div
-              className="fixed inset-0 z-30 bg-black/50 lg:hidden"
+              className="fixed inset-0 z-[90] bg-black/50 lg:hidden"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -184,7 +184,7 @@ export default function Navbar({ onJoinClick }: NavbarProps) {
             <motion.div
               id="mobile-nav-panel"
               ref={panelRef}
-              className="fixed top-[3.75rem] left-3 right-3 z-40 lg:hidden rounded-2xl border border-white/10 bg-slate-950/90 backdrop-blur-2xl shadow-2xl overflow-hidden"
+              className="fixed top-[3.75rem] left-3 right-3 z-[110] max-w-[100vw] lg:hidden rounded-2xl border border-white/10 bg-slate-950/90 backdrop-blur-2xl shadow-2xl overflow-hidden"
               initial={{ opacity: 0, y: -12, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -8, scale: 0.98 }}

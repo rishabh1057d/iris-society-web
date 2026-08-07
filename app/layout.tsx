@@ -72,8 +72,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={inter.variable} suppressHydrationWarning>
-      <body className={`${inter.className} antialiased min-h-dvh`}>
-        <div className="relative min-h-dvh flex flex-col">
+      <body className={`${inter.className} antialiased min-h-dvh overflow-x-clip`}>
+        <div className="relative min-h-dvh flex flex-col overflow-x-clip max-w-[100vw]">
           <ContextMenuBlocker />
           <InteractiveBackground />
           <CustomCursor />

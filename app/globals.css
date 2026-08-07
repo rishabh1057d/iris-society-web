@@ -1089,33 +1089,63 @@ img {
   -webkit-backface-visibility: hidden;
 }
 
-/* Mobile / tablet fan — larger center card relative to screen, not cramped */
+/*
+  Mobile fan — compact, fully clipped so side cards never expand
+  document width (which was hiding the hamburger / forcing zoom-out).
+*/
 .fan-layout--mobile {
-  height: min(58dvh, 26rem);
-  min-height: 18rem;
-  max-height: 28rem;
-  perspective: 900px;
+  height: min(42dvh, 20rem);
+  min-height: 15.5rem;
+  max-height: 22rem;
+  perspective: 800px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  /* Contain painted overflow from transforms */
+  contain: layout paint;
 }
 
 .fan-card--mobile {
-  /* ~58% of viewport width, capped so it never overflows or looks tiny */
-  width: min(58vw, 15.5rem);
-  height: min(78vw, 21rem);
-  margin-left: calc(min(58vw, 15.5rem) / -2);
-  margin-top: calc(min(78vw, 21rem) / -2);
-  border-radius: 1rem;
+  /* Center card ~42% of phone width — readable, not full-bleed */
+  width: min(42vw, 11.5rem);
+  height: min(56vw, 15.5rem);
+  margin-left: calc(min(42vw, 11.5rem) / -2);
+  margin-top: calc(min(56vw, 15.5rem) / -2);
+  border-radius: 0.875rem;
 }
 
-@media (min-width: 480px) and (max-width: 1023px) {
+@media (min-width: 400px) and (max-width: 639px) {
   .fan-layout--mobile {
-    height: min(56dvh, 28rem);
+    height: min(44dvh, 21rem);
   }
   .fan-card--mobile {
-    width: min(42vw, 16rem);
-    height: min(58vw, 22rem);
-    margin-left: calc(min(42vw, 16rem) / -2);
-    margin-top: calc(min(58vw, 22rem) / -2);
+    width: min(40vw, 12rem);
+    height: min(54vw, 16rem);
+    margin-left: calc(min(40vw, 12rem) / -2);
+    margin-top: calc(min(54vw, 16rem) / -2);
   }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .fan-layout--mobile {
+    height: min(46dvh, 24rem);
+  }
+  .fan-card--mobile {
+    width: min(34vw, 13.5rem);
+    height: min(46vw, 18rem);
+    margin-left: calc(min(34vw, 13.5rem) / -2);
+    margin-top: calc(min(46vw, 18rem) / -2);
+  }
+}
+
+/* Wrapper clips any residual fan paint / transform bleed */
+.fan-carousel-shell {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  isolation: isolate;
+  position: relative;
+  z-index: 0; /* keep under fixed navbar (z-40) */
 }
 
 @media (max-width: 1023px) {

@@ -77,17 +77,17 @@ export default function Gallery() {
   )
 
   return (
-    <div className="flex min-h-full flex-1 flex-col relative">
+    <div className="flex min-h-full flex-1 flex-col relative overflow-x-clip max-w-[100vw]">
       <div className="pointer-events-none fixed inset-0 -z-10" aria-hidden>
         <div className="absolute inset-0 bg-gradient-to-br from-blue-950/40 via-transparent to-violet-950/30" />
         <div className="absolute top-1/4 left-1/3 w-[28rem] h-[28rem] rounded-full bg-blue-500/10 blur-3xl" />
         <div className="absolute bottom-1/4 right-1/4 w-[24rem] h-[24rem] rounded-full bg-violet-500/10 blur-3xl" />
       </div>
 
-      <div className="page-shell max-w-[90rem] flex-1 relative z-10">
+      <div className="page-shell max-w-[90rem] flex-1 relative z-10 w-full overflow-x-clip">
         <motion.header
           ref={titleRef}
-          className="page-hero mb-4 sm:mb-6 md:mb-10"
+          className="page-hero mb-3 sm:mb-6 md:mb-10"
           initial={{ opacity: 0, y: 12 }}
           animate={isTitleInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
           transition={spring.default}
@@ -103,7 +103,7 @@ export default function Gallery() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={spring.soft}
-            className="mb-2 sm:mb-4"
+            className="mb-6 sm:mb-8 w-full max-w-full overflow-x-clip"
           >
             <SocialCards
               key={isDesktop ? "desktop" : "mobile"}

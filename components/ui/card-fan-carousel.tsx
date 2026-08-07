@@ -38,28 +38,31 @@ const DESKTOP = {
   enterX: 40,
 } as const
 
-/** Phone/tablet: fewer cards, gentler spread, larger relative center card */
+/**
+ * Phone/tablet: 5 cards, tight horizontal spread so nothing paints
+ * outside the viewport (prevents mobile browser zoom / hamburger loss).
+ */
 const MOBILE = {
   maxVisible: 5,
   half: 2,
   positions: [
-    { rot: -12, scale: 0.86, x: -11.5, y: 3.2, zIndex: 1 },
-    { rot: -6, scale: 0.93, x: -5.8, y: 1.1, zIndex: 3 },
+    { rot: -9, scale: 0.88, x: -5.2, y: 2.0, zIndex: 1 },
+    { rot: -4.5, scale: 0.94, x: -2.6, y: 0.7, zIndex: 3 },
     { rot: 0, scale: 1.0, x: 0, y: 0.0, zIndex: 10 },
-    { rot: 6, scale: 0.93, x: 5.8, y: 1.1, zIndex: 3 },
-    { rot: 12, scale: 0.86, x: 11.5, y: 3.2, zIndex: 1 },
+    { rot: 4.5, scale: 0.94, x: 2.6, y: 0.7, zIndex: 3 },
+    { rot: 9, scale: 0.88, x: 5.2, y: 2.0, zIndex: 1 },
   ],
-  enterX: 18,
+  enterX: 10,
 } as const
 
 function getSpreadMultiplier(layout: FanLayout, width: number) {
   if (layout === "mobile") {
-    // Keep side peeks on-screen without crushing the center card
-    if (width < 360) return 0.72
-    if (width < 400) return 0.82
+    // Keep fan well inside the clipped shell
+    if (width < 360) return 0.78
+    if (width < 400) return 0.85
     if (width < 480) return 0.9
     if (width < 640) return 0.95
-    return 1.0 // tablet-ish
+    return 1.0
   }
   if (width < 480) return 0.28
   if (width < 640) return 0.38
@@ -71,11 +74,10 @@ function getSpreadMultiplier(layout: FanLayout, width: number) {
 function getHeightMultiplier(layout: FanLayout, width: number) {
   let idealPx: number
   if (layout === "mobile") {
-    // Target ~52–58vh of a typical phone
-    idealPx = Math.min(window.innerHeight * 0.55, width < 400 ? 340 : 400)
-    const available = window.innerHeight * 0.58
+    idealPx = Math.min(window.innerHeight * 0.4, width < 400 ? 280 : 320)
+    const available = window.innerHeight * 0.45
     if (available >= idealPx) return 1
-    return Math.max(0.75, available / idealPx)
+    return Math.max(0.7, available / idealPx)
   }
   if (width < 480) idealPx = 22 * 16
   else if (width < 640) idealPx = 26 * 16
@@ -99,12 +101,12 @@ function getSlotConfig(
   const center = totalCards >> 1
   const distance = totalCards > 1 ? (slot - center) / center : 0
   const absDistance = Math.abs(distance)
-  const maxRot = layout === "mobile" ? 12 : 21
-  const maxX = layout === "mobile" ? 11.5 : 30
-  const maxY = layout === "mobile" ? 3.2 : 7.3
+  const maxRot = layout === "mobile" ? 9 : 21
+  const maxX = layout === "mobile" ? 5.2 : 30
+  const maxY = layout === "mobile" ? 2.0 : 7.3
   return {
     rot: distance * maxRot,
-    scale: 1.0 - (layout === "mobile" ? 0.14 : 0.2244) * absDistance * absDistance,
+    scale: 1.0 - (layout === "mobile" ? 0.12 : 0.2244) * absDistance * absDistance,
     x: distance * maxX,
     y: absDistance * absDistance * maxY,
     zIndex: 10 - Math.abs(slot - center),
@@ -459,16 +461,17 @@ export default function SocialCards({
 
   return (
     <section
-      className={`flex flex-col items-center w-full py-2 sm:py-4 lg:py-6 px-1 sm:px-2 md:px-6 relative z-20 ${className}`}
+      className={`fan-carousel-shell flex flex-col items-center w-full max-w-full py-1 sm:py-3 lg:py-6 px-0 sm:px-2 md:px-6 ${className}`}
     >
-      <div className="flex items-center justify-center w-full max-w-[90rem]">
+      <div className="flex items-center justify-center w-full max-w-full overflow-hidden">
         <div
           ref={containerRef}
-          className={`${layoutClass} flex relative justify-center items-center w-full max-w-[80rem] touch-pan-y`}
+          className={`${layoutClass} flex relative justify-center items-center w-full max-w-full touch-pan-y`}
           role="list"
           aria-label="Photo carousel"
           onTouchStart={onTouchStart}
           onTouchEnd={onTouchEnd}
+          style={{ touchAction: "pan-y" }}
         >
           {cards.map((card, index) => {
             const image = (
