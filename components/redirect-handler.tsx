@@ -91,13 +91,13 @@ export default function RedirectHandler({ isRedirecting, targetUrl, onComplete }
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-[9999] bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 flex items-center justify-center"
+        className="fixed inset-0 z-[9999] bg-gradient-to-br from-[#0a090c] via-[#141018] to-[#0a090c] flex items-center justify-center"
       >
         {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.3),transparent_50%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(147,51,234,0.2),transparent_50%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,rgba(59,130,246,0.2),transparent_50%)]" />
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(212,165,116,0.25),transparent_50%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(94,158,150,0.18),transparent_50%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,rgba(107,58,74,0.2),transparent_50%)]" />
         </div>
 
         {/* Content */}
@@ -109,7 +109,7 @@ export default function RedirectHandler({ isRedirecting, targetUrl, onComplete }
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="mb-8"
           >
-            <div className="w-20 h-20 mx-auto bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-2xl">
+            <div className="w-20 h-20 mx-auto bg-gradient-to-br from-[#d4a574] to-[#5e9e96] rounded-full flex items-center justify-center shadow-2xl">
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
@@ -143,7 +143,7 @@ export default function RedirectHandler({ isRedirecting, targetUrl, onComplete }
           {/* Progress Bar */}
           <div className="w-full bg-slate-700/50 rounded-full h-3 mb-6 overflow-hidden">
             <motion.div
-              className="h-full bg-gradient-to-r from-blue-500 to-purple-600 rounded-full shadow-lg"
+              className="h-full bg-gradient-to-r from-[#d4a574] to-[#5e9e96] rounded-full shadow-lg"
               initial={{ width: 0 }}
               animate={{ width: `${progress}%` }}
               transition={{ duration: 0.3, ease: "easeOut" }}
@@ -155,7 +155,7 @@ export default function RedirectHandler({ isRedirecting, targetUrl, onComplete }
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
-            className="text-blue-300 font-semibold text-sm"
+            className="text-[#d4a574] font-semibold text-sm"
           >
             {Math.round(progress)}%
           </motion.div>

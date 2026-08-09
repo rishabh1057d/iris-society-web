@@ -921,13 +921,13 @@ export default function Home() {
                 onClick={(e) => e.stopPropagation()}
               >
                 {/* Background matching main website mesh gradient */}
-                <div className="absolute inset-0 pointer-events-none bg-gradient-to-br from-purple-900/30 via-blue-900/25 to-indigo-900/30" />
+                <div className="absolute inset-0 pointer-events-none bg-gradient-to-br from-[#6b3a4a]/25 via-[#141018]/30 to-[#5e9e96]/15" />
                 {/* Additional gradient overlay matching website style */}
-                <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-blue-900/20 via-transparent to-purple-900/15" />
+                <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-[#0a090c]/25 via-transparent to-[#6b3a4a]/12" />
                 {/* Subtle floating orbs effect like main website */}
                 <div className="absolute inset-0 pointer-events-none opacity-20">
-                  <div className="absolute w-24 h-24 rounded-full bg-gradient-to-r from-blue-400/30 to-purple-400/30 blur-sm top-1/4 left-1/4 animate-pulse" />
-                  <div className="absolute w-32 h-32 rounded-full bg-gradient-to-r from-purple-400/20 to-blue-400/20 blur-sm top-3/4 right-1/4 animate-pulse" style={{ animationDelay: '1s' }} />
+                  <div className="absolute w-24 h-24 rounded-full bg-gradient-to-r from-[#d4a574]/25 to-[#5e9e96]/20 blur-sm top-1/4 left-1/4 animate-pulse" />
+                  <div className="absolute w-32 h-32 rounded-full bg-gradient-to-r from-[#6b3a4a]/22 to-[#d4a574]/18 blur-sm top-3/4 right-1/4 animate-pulse" style={{ animationDelay: '1s' }} />
                 </div>
                 <motion.button
                   onClick={() => setShowEventPopup(false)}
@@ -966,13 +966,13 @@ export default function Home() {
 
                   {/* Details section */}
                   <div className="md:w-1/2 p-3 md:p-6 overflow-y-auto">
-                    <div className="rounded-xl bg-black/50 backdrop-blur-md border border-blue-400/20 p-3 md:p-5 ring-1 ring-blue-400/20 shadow-[0_10px_40px_rgba(59,130,246,0.1)]">
+                    <div className="rounded-xl bg-black/50 backdrop-blur-md border border-[#d4a574]/20 p-3 md:p-5 ring-1 ring-[#d4a574]/20 shadow-[0_10px_40px_rgba(59,130,246,0.1)]">
                       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }} className="mb-1 md:mb-2">
                         <h3 className="font-extrabold text-white text-lg md:text-2xl leading-tight md:leading-snug drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]">
                           {popupData?.title || "Special Event"}
                         </h3>
                       </motion.div>
-                      <motion.div initial={{ width: 0 }} animate={{ width: '100%' }} transition={{ duration: 0.6, delay: 0.15 }} className="h-[1px] md:h-[2px] bg-gradient-to-r from-blue-400/60 via-purple-400/40 to-blue-500/60 rounded-full mb-2 md:mb-3" />
+                      <motion.div initial={{ width: 0 }} animate={{ width: '100%' }} transition={{ duration: 0.6, delay: 0.15 }} className="h-[1px] md:h-[2px] bg-gradient-to-r from-[#d4a574]/55 via-[#5e9e96]/35 to-[#d4a574]/50 rounded-full mb-2 md:mb-3" />
                       <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }} className="text-gray-100/95 text-sm md:text-base mb-3 md:mb-4 leading-relaxed">
                         {popupData?.description || "Join us for an exciting upcoming event. Stay tuned for more details!"}
                       </motion.p>
@@ -1269,14 +1269,14 @@ export default function Home() {
       )}
       {/* Apply Modal for when recruiting is false */}
       <Dialog open={applyModalOpen} onOpenChange={setApplyModalOpen}>
-        <DialogContent className="bg-gradient-to-br from-blue-950/95 via-blue-900/90 to-gray-900/95 border border-blue-400/30 shadow-2xl rounded-2xl p-8">
+        <DialogContent className="bg-gradient-to-br from-[#141018]/95 via-[#0e0c10]/92 to-[#0a090c]/95 border border-[#d4a574]/25 shadow-2xl rounded-2xl p-8">
           <DialogHeader>
-            <DialogTitle className="text-blue-300 text-xl font-bold flex items-center gap-2">
+            <DialogTitle className="text-[#d4a574] text-xl font-bold flex items-center gap-2">
               <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#2563eb" fillOpacity="0.15"/><path d="M12 8v4" stroke="#60a5fa" strokeWidth="2" strokeLinecap="round"/><circle cx="12" cy="16" r="1" fill="#60a5fa"/></svg>
               Recruitment Closed
             </DialogTitle>
           </DialogHeader>
-          <div className="py-4 px-2 text-center text-blue-100 text-base font-medium">
+          <div className="py-4 px-2 text-center text-[#f5f0e8] text-base font-medium">
             We aren't recruiting at the moment, but keep an eye out for announcements.
           </div>
         </DialogContent>
@@ -1297,14 +1297,14 @@ export default function Home() {
           className="min-h-screen w-full flex flex-col items-center justify-center text-center safe-area-inset-top relative z-10"
         >
           {/* Enhanced background overlay with gradient mesh */}
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-purple-900/15 to-indigo-900/25 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#6b3a4a]/20 via-transparent to-[#5e9e96]/15 pointer-events-none" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none" />
           
           {/* Floating orbs for depth */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            <div className="absolute w-96 h-96 rounded-full bg-gradient-to-r from-blue-500/10 to-purple-500/10 blur-3xl top-1/4 left-1/4 animate-pulse" />
-            <div className="absolute w-80 h-80 rounded-full bg-gradient-to-r from-purple-500/8 to-pink-500/8 blur-3xl top-3/4 right-1/4 animate-pulse" style={{ animationDelay: '2s' }} />
-            <div className="absolute w-64 h-64 rounded-full bg-gradient-to-r from-indigo-500/6 to-blue-500/6 blur-3xl top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 animate-pulse" style={{ animationDelay: '4s' }} />
+            <div className="absolute w-96 h-96 rounded-full bg-gradient-to-r from-[#d4a574]/10 to-[#5e9e96]/10 blur-3xl top-1/4 left-1/4 animate-pulse" />
+            <div className="absolute w-80 h-80 rounded-full bg-gradient-to-r from-[#6b3a4a]/12 to-[#d4a574]/08 blur-3xl top-3/4 right-1/4 animate-pulse" style={{ animationDelay: '2s' }} />
+            <div className="absolute w-64 h-64 rounded-full bg-gradient-to-r from-[#5e9e96]/08 to-[#d4a574]/06 blur-3xl top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 animate-pulse" style={{ animationDelay: '4s' }} />
           </div>
 
           <ResponsiveContainer size="lg" padding="lg">
@@ -1319,7 +1319,7 @@ export default function Home() {
               className="mb-12 cursor-pointer hardware-accelerated will-change-transform relative"
             >
               {/* Logo glow effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 blur-2xl scale-110 opacity-60" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#d4a574]/20 to-[#5e9e96]/18 blur-2xl scale-110 opacity-60" />
               <div className="relative">
                 <ResponsiveImage
                   src="/images/logo.png"
@@ -1342,11 +1342,11 @@ export default function Home() {
               style={{ y: titleY, fontSize: "clamp(2.5rem, 6vw, 4rem)" }}
               className="font-extrabold mb-6 text-white drop-shadow-2xl will-change-transform relative"
             >
-              <span className="bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-[#f5f0e8] via-[#e8d5b8] to-[#d4a574] bg-clip-text text-transparent">
                 IRIS Society
               </span>
               {/* Decorative underline */}
-              <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full" />
+              <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-[#d4a574] to-[#5e9e96] rounded-full" />
             </motion.h1>
 
             {/* Enhanced subtitle with better typography */}
@@ -1377,9 +1377,9 @@ export default function Home() {
                 style={{ fontSize: "clamp(1rem, 2.5vw, 1.25rem)" }}
                 className="text-gray-300 italic font-light leading-relaxed relative"
               >
-                <span className="absolute -left-4 top-1/2 transform -translate-y-1/2 text-blue-400 text-2xl">"</span>
+                <span className="absolute -left-4 top-1/2 transform -translate-y-1/2 text-[#d4a574] text-2xl">"</span>
                 Through Our Lenses, Beyond the Ordinary
-                <span className="absolute -right-4 top-1/2 transform -translate-y-1/2 text-blue-400 text-2xl">"</span>
+                <span className="absolute -right-4 top-1/2 transform -translate-y-1/2 text-[#d4a574] text-2xl">"</span>
               </p>
             </motion.div>
 
@@ -1395,10 +1395,10 @@ export default function Home() {
                 className="will-change-transform w-full sm:w-auto relative group"
               >
                 {/* Button glow effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg blur-lg opacity-75 group-hover:opacity-100 transition-opacity duration-300 scale-110" />
+                <div className="absolute inset-0 bg-gradient-to-r from-[#d4a574] to-[#5e9e96] rounded-lg blur-lg opacity-75 group-hover:opacity-100 transition-opacity duration-300 scale-110" />
                 <button 
                   onClick={handleJoinNowClick} 
-                  className="relative btn-primary w-full sm:w-auto px-8 py-4 text-lg font-bold shadow-2xl group-hover:shadow-blue-500/25 transition-all duration-300" 
+                  className="relative btn-primary w-full sm:w-auto px-8 py-4 text-lg font-bold shadow-2xl group-hover:shadow-amber-900/25 transition-all duration-300" 
                   disabled={isRedirecting}
                 >
                   <span className="relative z-10 flex items-center justify-center gap-2">
@@ -1431,7 +1431,7 @@ export default function Home() {
                       setApplyModalOpen(true)
                     }
                   }}
-                  className="relative w-full sm:w-auto px-8 py-4 text-lg font-bold rounded-lg border-2 border-blue-400/60 text-blue-300 bg-transparent hover:bg-blue-400/10 hover:border-blue-400 transition-all duration-300 shadow-lg hover:shadow-blue-500/25 backdrop-blur-sm"
+                  className="relative w-full sm:w-auto px-8 py-4 text-lg font-bold rounded-lg border-2 border-[#d4a574]/55 text-[#d4a574] bg-transparent hover:bg-blue-400/10 hover:border-blue-400 transition-all duration-300 shadow-lg hover:shadow-amber-900/25 backdrop-blur-sm"
                 >
                   <span className="flex items-center justify-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
@@ -1449,27 +1449,27 @@ export default function Home() {
         {/* Enhanced transition element with better visual flow */}
         <div className="w-full relative">
           {/* Multi-layer gradient transition */}
-          <div className="absolute top-0 left-0 w-full h-40 md:h-80 bg-gradient-to-b from-transparent via-blue-900/25 to-blue-900/50 transform -translate-y-40 md:-translate-y-80"></div>
-          <div className="absolute top-0 left-0 w-full h-32 md:h-64 bg-gradient-to-b from-transparent via-purple-900/15 to-purple-900/30 transform -translate-y-32 md:-translate-y-64"></div>
-          <div className="w-full h-20 md:h-40 bg-gradient-to-b from-transparent to-blue-900/40"></div>
+          <div className="absolute top-0 left-0 w-full h-40 md:h-80 bg-gradient-to-b from-transparent via-[#141018]/40 to-[#0a090c]/55 transform -translate-y-40 md:-translate-y-80"></div>
+          <div className="absolute top-0 left-0 w-full h-32 md:h-64 bg-gradient-to-b from-transparent via-[#6b3a4a]/12 to-[#6b3a4a]/20 transform -translate-y-32 md:-translate-y-64"></div>
+          <div className="w-full h-20 md:h-40 bg-gradient-to-b from-transparent to-[#0a090c]/45"></div>
           
           {/* Decorative wave pattern */}
-          <div className="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-blue-500/20"></div>
+          <div className="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-r from-[#d4a574]/15 via-[#5e9e96]/12 to-[#d4a574]/15"></div>
         </div>
 
         {/* Enhanced Video Section with improved design */}
         {videoData?.enabled && (
           <motion.div
             ref={videoSectionRef}
-            className="w-full relative z-10 bg-gradient-to-b from-blue-900/40 via-purple-900/20 to-blue-900/30"
+            className="w-full relative z-10 bg-gradient-to-b from-[#141018]/50 via-[#6b3a4a]/12 to-[#0a090c]/40"
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
             {/* Background decorative elements */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
-              <div className="absolute w-72 h-72 rounded-full bg-gradient-to-r from-blue-500/5 to-purple-500/5 blur-3xl top-1/4 left-1/4 animate-pulse" />
-              <div className="absolute w-64 h-64 rounded-full bg-gradient-to-r from-purple-500/5 to-pink-500/5 blur-3xl bottom-1/4 right-1/4 animate-pulse" style={{ animationDelay: '3s' }} />
+              <div className="absolute w-72 h-72 rounded-full bg-gradient-to-r from-[#d4a574]/06 to-[#5e9e96]/05 blur-3xl top-1/4 left-1/4 animate-pulse" />
+              <div className="absolute w-64 h-64 rounded-full bg-gradient-to-r from-[#6b3a4a]/08 to-[#d4a574]/05 blur-3xl bottom-1/4 right-1/4 animate-pulse" style={{ animationDelay: '3s' }} />
             </div>
 
             <ResponsiveContainer size="xl" padding="lg" className="py-12 md:py-24">
@@ -1484,11 +1484,11 @@ export default function Home() {
                   className="font-extrabold mb-4 relative"
                   style={{ fontSize: "clamp(1.75rem, 4.5vw, 3rem)" }}
                 >
-                  <span className="bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent">
+                  <span className="bg-gradient-to-r from-[#f5f0e8] via-[#e8d5b8] to-[#d4a574] bg-clip-text text-transparent">
                     {videoData.title || "Watch Our Story"}
                   </span>
                   {/* Decorative underline */}
-                  <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full" />
+                  <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-gradient-to-r from-[#d4a574] to-[#5e9e96] rounded-full" />
                 </motion.h2>
                 
                 <motion.p
@@ -1511,7 +1511,7 @@ export default function Home() {
                 {/* Enhanced glass card with better styling */}
                 <div className="relative glass-card p-2 md:p-6 overflow-hidden">
                   {/* Decorative border gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-blue-500/20 rounded-xl blur-sm" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#d4a574]/15 via-[#5e9e96]/12 to-[#d4a574]/15 rounded-xl blur-sm" />
                   <div className="relative bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-xl border border-white/20 rounded-xl p-2 md:p-4">
                     {/* 16:9 Aspect Ratio Container */}
                     <div className="relative w-full rounded-lg overflow-hidden shadow-2xl" style={{ aspectRatio: '16/9' }}>
@@ -1598,7 +1598,7 @@ export default function Home() {
                       href={videoData.instagramUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl border border-white/20"
+                      className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-[#d4a574] to-[#5e9e96] hover:from-[#c9a66b] hover:to-[#4f8a83] text-white font-semibold rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl border border-white/20"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >
@@ -1620,12 +1620,12 @@ export default function Home() {
           variants={potwVariants}
           initial="hidden"
           animate={controls}
-          className="w-full relative z-10 bg-gradient-to-b from-blue-900/40 via-purple-900/20 to-transparent"
+          className="w-full relative z-10 bg-gradient-to-b from-[#141018]/45 via-[#5e9e96]/08 to-transparent"
         >
           {/* Background decorative elements */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            <div className="absolute w-80 h-80 rounded-full bg-gradient-to-r from-blue-500/5 to-purple-500/5 blur-3xl top-1/4 right-1/4 animate-pulse" />
-            <div className="absolute w-72 h-72 rounded-full bg-gradient-to-r from-purple-500/5 to-pink-500/5 blur-3xl bottom-1/4 left-1/4 animate-pulse" style={{ animationDelay: '2s' }} />
+            <div className="absolute w-80 h-80 rounded-full bg-gradient-to-r from-[#d4a574]/06 to-[#5e9e96]/05 blur-3xl top-1/4 right-1/4 animate-pulse" />
+            <div className="absolute w-72 h-72 rounded-full bg-gradient-to-r from-[#6b3a4a]/08 to-[#d4a574]/05 blur-3xl bottom-1/4 left-1/4 animate-pulse" style={{ animationDelay: '2s' }} />
           </div>
 
           <ResponsiveContainer size="xl" padding="lg" className="py-12 md:py-24">
@@ -1640,11 +1640,11 @@ export default function Home() {
                 className="font-extrabold mb-4 relative"
                 style={{ fontSize: "clamp(1.75rem, 4.5vw, 3rem)" }}
               >
-                <span className="bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-[#f5f0e8] via-[#e8d5b8] to-[#d4a574] bg-clip-text text-transparent">
                   Photo of the Week
                 </span>
                 {/* Decorative underline */}
-                <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full" />
+                <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-gradient-to-r from-[#d4a574] to-[#5e9e96] rounded-full" />
               </motion.h2>
               
               <motion.p
@@ -1670,7 +1670,7 @@ export default function Home() {
                     {/* Enhanced glass card with better styling */}
                     <div className="relative glass-card p-2 md:p-4 overflow-hidden">
                       {/* Decorative border gradient */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-blue-500/20 rounded-xl blur-sm" />
+                      <div className="absolute inset-0 bg-gradient-to-r from-[#d4a574]/15 via-[#5e9e96]/12 to-[#d4a574]/15 rounded-xl blur-sm" />
                       <div className="relative bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-xl border border-white/20 rounded-xl p-2 md:p-4">
                         <ResponsiveImage
                           src={currentPotw.image || "/placeholder.svg"}
@@ -1695,7 +1695,7 @@ export default function Home() {
                 >
                   <div className="relative glass-card p-6 md:p-8 overflow-hidden">
                     {/* Decorative border gradient */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-blue-500/10 rounded-xl blur-sm" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-[#d4a574]/10 via-[#5e9e96]/08 to-[#d4a574]/10 rounded-xl blur-sm" />
                     <div className="relative bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-xl border border-white/20 rounded-xl p-6 md:p-8">
                       {/* Photographer name */}
                       <motion.div
@@ -1707,11 +1707,11 @@ export default function Home() {
                           className="font-extrabold mb-3 relative"
                           style={{ fontSize: "clamp(1.5rem, 3.5vw, 2rem)" }}
                         >
-                          <span className="bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent">
+                          <span className="bg-gradient-to-r from-[#f5f0e8] via-[#e8d5b8] to-[#d4a574] bg-clip-text text-transparent">
                             {currentPotw.photographer}
                           </span>
                           {/* Decorative underline */}
-                          <div className="absolute -bottom-1 left-0 w-16 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full" />
+                          <div className="absolute -bottom-1 left-0 w-16 h-0.5 bg-gradient-to-r from-[#d4a574] to-[#5e9e96] rounded-full" />
                         </h3>
                       </motion.div>
 
@@ -1723,11 +1723,11 @@ export default function Home() {
                           animate={isPotwInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                           transition={{ duration: 0.6, delay: 0.7 }}
                         >
-                          <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-500/20 border border-blue-400/30 rounded-full">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 text-blue-400">
+                          <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-500/20 border border-[#d4a574]/25 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 text-[#d4a574]">
                               <path fillRule="evenodd" d="M9.53 2.47a.75.75 0 0 1 0 1.06L4.81 8.25H15a6.75 6.75 0 0 1 0 13.5h-3a.75.75 0 0 1 0-1.5h3a5.25 5.25 0 1 0 0-10.5H4.81l4.72 4.72a.75.75 0 1 1-1.06 1.06l-6-6a.75.75 0 0 1 0-1.06l6-6a.75.75 0 0 1 1.06 0Z" clipRule="evenodd" />
                             </svg>
-                            <span className="text-blue-300 font-medium text-sm">
+                            <span className="text-[#d4a574] font-medium text-sm">
                               Theme: "{currentPotw.theme}"
                             </span>
                           </div>
@@ -1759,10 +1759,10 @@ export default function Home() {
                           className="relative group"
                         >
                           {/* Button glow effect */}
-                          <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg blur-lg opacity-75 group-hover:opacity-100 transition-opacity duration-300 scale-110" />
+                          <div className="absolute inset-0 bg-gradient-to-r from-[#d4a574] to-[#5e9e96] rounded-lg blur-lg opacity-75 group-hover:opacity-100 transition-opacity duration-300 scale-110" />
                           <Link 
                             href="/potw" 
-                            className="relative btn-primary inline-block w-full sm:w-auto text-center px-8 py-3 text-lg font-bold shadow-2xl group-hover:shadow-blue-500/25 transition-all duration-300"
+                            className="relative btn-primary inline-block w-full sm:w-auto text-center px-8 py-3 text-lg font-bold shadow-2xl group-hover:shadow-amber-900/25 transition-all duration-300"
                           >
                             <span className="relative z-10 flex items-center justify-center gap-2">
                               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">

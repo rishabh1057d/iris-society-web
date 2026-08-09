@@ -31,8 +31,8 @@ export default function AboutClientPage() {
   return (
     <section className="relative flex min-h-full flex-1 flex-col overflow-hidden">
       <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden>
-        <div className="absolute -top-32 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-blue-500/15 blur-3xl" />
-        <div className="absolute bottom-0 right-0 h-64 w-64 rounded-full bg-purple-500/15 blur-3xl" />
+        <div className="absolute -top-32 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-[#d4a574]/12 blur-3xl" />
+        <div className="absolute bottom-0 right-0 h-64 w-64 rounded-full bg-[#5e9e96]/12 blur-3xl" />
       </div>
 
       <div className="page-shell flex-1">

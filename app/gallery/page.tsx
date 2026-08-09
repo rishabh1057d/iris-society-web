@@ -79,9 +79,9 @@ export default function Gallery() {
   return (
     <div className="flex min-h-full flex-1 flex-col relative overflow-x-clip max-w-[100vw]">
       <div className="pointer-events-none fixed inset-0 -z-10" aria-hidden>
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-950/40 via-transparent to-violet-950/30" />
-        <div className="absolute top-1/4 left-1/3 w-[28rem] h-[28rem] rounded-full bg-blue-500/10 blur-3xl" />
-        <div className="absolute bottom-1/4 right-1/4 w-[24rem] h-[24rem] rounded-full bg-violet-500/10 blur-3xl" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#6b3a4a]/25 via-transparent to-[#5e9e96]/15" />
+        <div className="absolute top-1/4 left-1/3 w-[28rem] h-[28rem] rounded-full bg-[#d4a574]/10 blur-3xl" />
+        <div className="absolute bottom-1/4 right-1/4 w-[24rem] h-[24rem] rounded-full bg-[#5e9e96]/10 blur-3xl" />
       </div>
 
       <div className="page-shell max-w-[90rem] flex-1 relative z-10 w-full overflow-x-clip">
