@@ -1031,18 +1031,21 @@ img {
   .glass-card-event,
   .glass-nav,
   .glass-effect,
+  .event-glass,
+  .event-glass-chip,
   .btn-secondary {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
 
   .glass-card,
-  .glass-card-event {
-    background: rgba(15, 23, 42, 0.95);
+  .glass-card-event,
+  .event-glass {
+    background: rgba(15, 16, 19, 0.96);
   }
 
   .glass-nav {
-    background: rgba(8, 12, 24, 0.98);
+    background: rgba(15, 16, 19, 0.98);
   }
 }
 
