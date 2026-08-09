@@ -1,20 +1,32 @@
 "use client"
 
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useMemo, useRef, useState, useCallback } from "react"
+import Image from "next/image"
 import Link from "next/link"
-import { ChevronDown, ChevronUp, Linkedin } from "lucide-react"
-import { motion, useInView } from "framer-motion"
-import ResponsiveImage from "@/components/responsive-image"
-import { Button } from "@/components/ui/button"
+import {
+  ChevronDown,
+  ChevronUp,
+  Linkedin,
+  Users,
+  Sparkles,
+  Camera,
+  Megaphone,
+  Palette,
+  PenLine,
+  Code2,
+  Handshake,
+} from "lucide-react"
+import { motion, AnimatePresence, useInView } from "framer-motion"
+import Footer from "@/components/footer"
+import { spring, staggerContainer, staggerItem } from "@/lib/motion"
+import { cn } from "@/lib/utils"
 import {
   Dialog,
-  DialogTrigger,
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
 } from "@/components/ui/dialog"
-import Footer from "@/components/footer"
-import { spring } from "@/lib/motion"
 
 type TeamMember = {
   id: number
@@ -26,362 +38,733 @@ type TeamMember = {
   className?: string
 }
 
+type CurrentMembers = {
+  leadershipTeam: TeamMember[]
+  Coordinators?: TeamMember[]
+  OutreachAndSponsor?: TeamMember[]
+  CreativeProduction?: TeamMember[]
+  MultimediaDesign?: TeamMember[]
+  ContentStrategyPR?: TeamMember[]
+  webDevTeam?: TeamMember[]
+  recruiting?: boolean
+  recruitmentForm?: string
+}
+
+type TeamSection = {
+  key: keyof CurrentMembers
+  title: string
+  description: string
+  icon: typeof Users
+}
+
+const SECTIONS: TeamSection[] = [
+  {
+    key: "Coordinators",
+    title: "Coordinators",
+    description: "Keeping operations and events on track",
+    icon: Handshake,
+  },
+  {
+    key: "OutreachAndSponsor",
+    title: "Outreach & Sponsorship",
+    description: "Partnerships, campus reach, and collabs",
+    icon: Megaphone,
+  },
+  {
+    key: "CreativeProduction",
+    title: "Creative Production",
+    description: "Stories, edits, and production craft",
+    icon: Camera,
+  },
+  {
+    key: "MultimediaDesign",
+    title: "Multimedia & Design",
+    description: "Visuals, reels, and brand graphics",
+    icon: Palette,
+  },
+  {
+    key: "ContentStrategyPR",
+    title: "Content Strategy & PR",
+    description: "Voice, copy, and public presence",
+    icon: PenLine,
+  },
+  {
+    key: "webDevTeam",
+    title: "Web Development",
+    description: "Building and maintaining iris.society online",
+    icon: Code2,
+  },
+]
+
+const COMPANY_LINKEDIN = "https://www.linkedin.com/company/iris-camera-society/"
+
+function normalizeImage(src?: string) {
+  if (!src || !src.trim()) return "/placeholder.svg"
+  const raw = src.trim()
+  const withSlash =
+    raw.startsWith("/") || raw.startsWith("http") || raw.startsWith("data:")
+      ? raw
+      : `/${raw}`
+  return encodeURI(withSlash)
+}
+
+function memberLinkedIn(member: TeamMember) {
+  return member.linkedin?.trim() ? member.linkedin.trim() : COMPANY_LINKEDIN
+}
+
+function LinkedInButton({
+  member,
+  size = "md",
+}: {
+  member: TeamMember
+  size?: "sm" | "md"
+}) {
+  return (
+    <Link
+      href={memberLinkedIn(member)}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`${member.name} on LinkedIn`}
+      onClick={(e) => e.stopPropagation()}
+      className={cn(
+        "inline-flex items-center justify-center rounded-full text-sky-300 transition",
+        "hover:bg-sky-400/15 hover:text-sky-200 active:scale-95",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3230e0]/50",
+        size === "sm" ? "h-9 w-9" : "h-10 w-10"
+      )}
+    >
+      <Linkedin className={size === "sm" ? "h-4 w-4" : "h-5 w-5"} />
+    </Link>
+  )
+}
+
+/** Featured leadership — larger presence, introduces the people at the helm */
+function LeadershipCard({
+  member,
+  onOpen,
+  featured,
+}: {
+  member: TeamMember
+  onOpen: (m: TeamMember) => void
+  featured?: boolean
+}) {
+  return (
+    <motion.article
+      variants={staggerItem}
+      whileHover={{ y: -3, transition: spring.snappy }}
+      whileTap={{ scale: 0.99 }}
+      className={cn(
+        "team-card glass-card-event group relative flex h-full w-full overflow-hidden rounded-2xl",
+        "flex-col sm:flex-row"
+      )}
+    >
+      <button
+        type="button"
+        onClick={() => onOpen(member)}
+        className="flex h-full w-full flex-col text-left sm:flex-row focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#3230e0]/50"
+      >
+        <div
+          className={cn(
+            "relative shrink-0 overflow-hidden bg-slate-900/70",
+            "aspect-[4/5] w-full sm:aspect-auto sm:h-auto sm:w-[42%] sm:min-h-[240px]"
+          )}
+        >
+          <Image
+            src={normalizeImage(member.image)}
+            alt={member.name}
+            fill
+            sizes="(max-width: 640px) 100vw, 280px"
+            className="object-cover transition duration-500 group-hover:scale-[1.03]"
+          />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent sm:bg-gradient-to-r sm:from-transparent sm:to-black/20" />
+          {featured && (
+            <span className="event-glass-chip absolute left-3 top-3 rounded-full px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-[#c8c7ff]">
+              Leadership
+            </span>
+          )}
+        </div>
+
+        <div className="flex min-w-0 flex-1 flex-col justify-center p-4 sm:p-5 md:p-6">
+          <h3 className="text-lg font-semibold tracking-tight text-white md:text-xl">
+            {member.name}
+          </h3>
+          {member.role && (
+            <p className="mt-1 text-sm font-medium text-sky-300/90">{member.role}</p>
+          )}
+          {member.description && (
+            <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-slate-300">
+              {member.description}
+            </p>
+          )}
+          <span className="mt-3 text-xs font-medium text-sky-200/60 opacity-0 transition group-hover:opacity-100 sm:mt-4">
+            View profile
+          </span>
+        </div>
+      </button>
+
+      <div className="absolute bottom-3 right-3 z-10 sm:bottom-4 sm:right-4">
+        <LinkedInButton member={member} />
+      </div>
+    </motion.article>
+  )
+}
+
+/** Squad member — photo-first, equal height; mobile stays compact */
+function MemberCard({
+  member,
+  onOpen,
+}: {
+  member: TeamMember
+  onOpen: (m: TeamMember) => void
+}) {
+  return (
+    <motion.article
+      variants={staggerItem}
+      whileHover={{ y: -3, transition: spring.snappy }}
+      whileTap={{ scale: 0.985 }}
+      className="team-card glass-card-event group flex h-full flex-col overflow-hidden rounded-2xl"
+    >
+      <button
+        type="button"
+        onClick={() => onOpen(member)}
+        className="flex h-full flex-col text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#3230e0]/50"
+      >
+        <div className="relative aspect-[4/5] w-full overflow-hidden bg-slate-900/70">
+          <Image
+            src={normalizeImage(member.image)}
+            alt={member.name}
+            fill
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            className="object-cover transition duration-500 group-hover:scale-[1.04]"
+          />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 p-2.5 sm:p-3">
+            <h3 className="line-clamp-1 text-sm font-semibold tracking-tight text-white sm:text-base">
+              {member.name}
+            </h3>
+            {member.role && (
+              <p className="mt-0.5 line-clamp-1 text-xs text-sky-200/85 sm:text-[13px]">
+                {member.role}
+              </p>
+            )}
+          </div>
+        </div>
+
+        {member.description && (
+          <div className="hidden flex-1 flex-col p-3.5 sm:flex sm:p-4">
+            <p className="line-clamp-2 text-sm leading-relaxed text-slate-300">
+              {member.description}
+            </p>
+            <div className="mt-auto flex items-center justify-between pt-3">
+              <span className="text-xs text-sky-200/50 opacity-0 transition group-hover:opacity-100">
+                More
+              </span>
+              <span
+                className="inline-flex"
+                onClick={(e) => e.stopPropagation()}
+                onKeyDown={(e) => e.stopPropagation()}
+              >
+                <LinkedInButton member={member} size="sm" />
+              </span>
+            </div>
+          </div>
+        )}
+      </button>
+
+      {/* Mobile: LinkedIn under card without opening detail */}
+      <div className="flex items-center justify-center border-t border-white/10 py-1.5 sm:hidden">
+        <LinkedInButton member={member} size="sm" />
+      </div>
+    </motion.article>
+  )
+}
+
+/** Detail sheet — full bio + LinkedIn; mobile-friendly full height feel */
+function MemberDetail({
+  member,
+  open,
+  onOpenChange,
+}: {
+  member: TeamMember | null
+  open: boolean
+  onOpenChange: (v: boolean) => void
+}) {
+  if (!member) return null
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-h-[min(90dvh,720px)] max-w-lg gap-0 overflow-y-auto overflow-x-hidden border-white/15 bg-[#0F1013]/95 p-0 backdrop-blur-2xl sm:rounded-2xl">
+        <div className="relative aspect-[16/11] w-full overflow-hidden bg-slate-900 sm:aspect-[16/10]">
+          <Image
+            src={normalizeImage(member.image)}
+            alt={member.name}
+            fill
+            sizes="(max-width: 640px) 100vw, 512px"
+            className="object-cover"
+            priority
+          />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0F1013] via-black/20 to-black/30" />
+        </div>
+
+        <div className="space-y-3 px-5 pb-6 pt-4 sm:px-6">
+          <DialogHeader className="space-y-1.5 text-left !pr-2">
+            <DialogTitle className="text-xl font-semibold tracking-tight text-white">
+              {member.name}
+            </DialogTitle>
+            {member.role && (
+              <p className="text-sm font-medium text-sky-300/90">{member.role}</p>
+            )}
+            {member.description && (
+              <DialogDescription className="pt-1 text-sm leading-relaxed text-slate-300">
+                {member.description}
+              </DialogDescription>
+            )}
+          </DialogHeader>
+
+          <div className="flex items-center gap-2 pt-1">
+            <Link
+              href={memberLinkedIn(member)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="event-glass-chip inline-flex min-h-[40px] items-center gap-2 rounded-full px-4 text-sm font-medium text-sky-100 transition hover:bg-white/10 active:scale-95"
+            >
+              <Linkedin className="h-4 w-4" />
+              LinkedIn
+            </Link>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
+function SectionHeader({
+  title,
+  description,
+  count,
+  icon: Icon,
+}: {
+  title: string
+  description: string
+  count?: number
+  icon?: typeof Users
+}) {
+  return (
+    <div className="mb-5 flex flex-col items-start gap-2 sm:mb-6 sm:flex-row sm:items-end sm:justify-between">
+      <div className="min-w-0">
+        <div className="mb-1 flex items-center gap-2">
+          {Icon && (
+            <span className="event-glass-chip inline-flex h-8 w-8 items-center justify-center rounded-full text-sky-200">
+              <Icon className="h-3.5 w-3.5" />
+            </span>
+          )}
+          <h2 className="section-title !mb-0 border-0 pb-0">{title}</h2>
+        </div>
+        <p className="text-sm text-slate-400 sm:pl-10">{description}</p>
+      </div>
+      {typeof count === "number" && count > 0 && (
+        <span className="event-glass-chip shrink-0 rounded-full px-2.5 py-1 text-xs tabular-nums text-slate-300">
+          {count} {count === 1 ? "member" : "members"}
+        </span>
+      )}
+    </div>
+  )
+}
+
+function SkeletonGrid({ n = 4 }: { n?: number }) {
+  return (
+    <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
+      {Array.from({ length: n }).map((_, i) => (
+        <div
+          key={i}
+          className="aspect-[4/5] animate-pulse rounded-2xl bg-white/[0.05]"
+        />
+      ))}
+    </div>
+  )
+}
+
 export default function Team() {
   const [showPreviousMembers, setShowPreviousMembers] = useState(false)
-  const [currentMembers, setCurrentMembers] = useState<any>({
+  const [currentMembers, setCurrentMembers] = useState<CurrentMembers>({
     leadershipTeam: [],
-    OutreachAndSponsor: [],
-    CreativeProduction: [],
-    MultimediaDesign: [],
-    ContentStrategyPR: [],
   })
-  const [previousMembers, setPreviousMembers] = useState<any>({})
-  const [selectedTenure, setSelectedTenure] = useState<string>("")
-  const [open, setOpen] = useState(false)
+  const [previousMembers, setPreviousMembers] = useState<
+    Record<string, { leadershipTeam?: TeamMember[]; coreTeam?: TeamMember[]; webDevTeam?: TeamMember[] }>
+  >({})
+  const [selectedTenure, setSelectedTenure] = useState("")
+  const [loading, setLoading] = useState(true)
+  const [selected, setSelected] = useState<TeamMember | null>(null)
+  const [detailOpen, setDetailOpen] = useState(false)
+  const [recruitClosedOpen, setRecruitClosedOpen] = useState(false)
 
   const titleRef = useRef<HTMLHeadingElement>(null)
-  const buttonRef = useRef<HTMLDivElement>(null)
-
+  const leadershipRef = useRef<HTMLElement>(null)
   const isTitleInView = useInView(titleRef, { once: true })
-  const isButtonInView = useInView(buttonRef, { once: true })
+  const isLeadershipInView = useInView(leadershipRef, { once: true, margin: "-40px" })
 
   useEffect(() => {
-    fetch("/current_members.json")
-      .then((res) => res.json())
-      .then((data) => setCurrentMembers(data))
-      .catch(() =>
-        setCurrentMembers({
-          leadershipTeam: [],
-          OutreachAndSponsor: [],
-          CreativeProduction: [],
-          MultimediaDesign: [],
-          ContentStrategyPR: [],
-          recruiting: false,
-          recruitmentForm: "",
-        })
-      )
-    fetch("/previous_members.json")
-      .then((res) => res.json())
-      .then((data) => {
-        setPreviousMembers(data)
-        const tenures = Object.keys(data).sort()
-        if (tenures.length > 0) {
-          setSelectedTenure(tenures[tenures.length - 1])
+    let cancelled = false
+    Promise.all([
+      fetch("/current_members.json").then((r) => r.json()),
+      fetch("/previous_members.json").then((r) => r.json()),
+    ])
+      .then(([current, previous]) => {
+        if (cancelled) return
+        setCurrentMembers(current)
+        setPreviousMembers(previous)
+        const tenures = Object.keys(previous).sort()
+        if (tenures.length) setSelectedTenure(tenures[tenures.length - 1])
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setCurrentMembers({ leadershipTeam: [] })
+          setPreviousMembers({})
         }
       })
-      .catch(() => setPreviousMembers({}))
+      .finally(() => {
+        if (!cancelled) setLoading(false)
+      })
+    return () => {
+      cancelled = true
+    }
   }, [])
 
   const recruiting = Boolean(currentMembers.recruiting)
   const recruitmentForm = currentMembers.recruitmentForm
 
-  const TeamMemberCard = ({
-    member,
-    isCompact = false,
-  }: {
-    member: TeamMember
-    isCompact?: boolean
-  }) => {
-    const linkedinUrl =
-      member.linkedin && member.linkedin.trim() !== ""
-        ? member.linkedin
-        : "https://www.linkedin.com/company/iris-camera-society/"
-    const hasRole = Boolean(member.role && member.role.trim() !== "")
-    const hasDescription = Boolean(member.description && member.description.trim() !== "")
+  const openMember = useCallback((m: TeamMember) => {
+    setSelected(m)
+    setDetailOpen(true)
+  }, [])
 
-    return (
-      <div
-        className={`team-card group glass-card-event bg-white/[0.04] p-4 md:p-5 w-full h-full ${
-          member.className || ""
-        }`}
-      >
-        <div className={`w-full mb-3 ${isCompact ? "max-w-[200px] mx-auto" : ""}`}>
-          <ResponsiveImage
-            src={member.image || "/placeholder.svg"}
-            alt={`${member.name}${hasRole ? ` - ${member.role}` : ""}`}
-            width={isCompact ? 200 : 300}
-            height={isCompact ? 200 : 300}
-            aspectRatio="1/1"
-            isTeamMember={true}
-            className="rounded-xl"
-            sizes={
-              isCompact
-                ? "(max-width: 768px) 200px, 200px"
-                : "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 300px"
-            }
-            priority={false}
-            quality={90}
-          />
-        </div>
+  const teamCount = useMemo(() => {
+    let n = currentMembers.leadershipTeam?.length ?? 0
+    for (const s of SECTIONS) {
+      const list = currentMembers[s.key]
+      if (Array.isArray(list)) n += list.length
+    }
+    return n
+  }, [currentMembers])
 
-        <div className="text-center space-y-2 flex-1 flex flex-col">
-          <h3
-            className={`font-semibold text-white tracking-tight ${
-              isCompact ? "text-lg" : "text-xl"
-            }`}
-          >
-            {member.name}
-          </h3>
+  const activeSections = useMemo(
+    () =>
+      SECTIONS.filter((s) => {
+        const list = currentMembers[s.key]
+        return Array.isArray(list) && list.length > 0
+      }),
+    [currentMembers]
+  )
 
-          {hasRole && (
-            <p className={`text-sky-300/90 font-medium ${isCompact ? "text-sm" : "text-base"}`}>
-              {member.role}
-            </p>
-          )}
+  const tenureKeys = useMemo(
+    () => Object.keys(previousMembers).sort().reverse(),
+    [previousMembers]
+  )
 
-          {hasDescription && (
-            <p
-              className={`text-slate-400 leading-relaxed flex-grow ${
-                isCompact ? "text-xs" : "text-sm"
-              }`}
-            >
-              {member.description}
-            </p>
-          )}
-
-          <div className="pt-2">
-            <Link
-              href={linkedinUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`${member.name}'s LinkedIn`}
-              className="inline-flex items-center justify-center min-h-[40px] min-w-[40px] rounded-full text-sky-400 hover:text-sky-300 hover:bg-sky-400/10 active:scale-95 transition-colors"
-            >
-              <Linkedin className={isCompact ? "w-4 h-4" : "w-5 h-5"} />
-            </Link>
-          </div>
-        </div>
-      </div>
-    )
+  const handleApply = () => {
+    if (recruiting && recruitmentForm) {
+      window.open(recruitmentForm, "_blank", "noopener,noreferrer")
+    } else {
+      setRecruitClosedOpen(true)
+    }
   }
 
-  const sections = [
-    { key: "Coordinators", title: "Coordinators", description: "Supporting team operations" },
-    {
-      key: "OutreachAndSponsor",
-      title: "Outreach and Sponsorship",
-      description: "Building connections and partnerships",
-    },
-    {
-      key: "CreativeProduction",
-      title: "Creative Production",
-      description: "Bringing ideas to life through media",
-    },
-    {
-      key: "MultimediaDesign",
-      title: "Multimedia and Design",
-      description: "Creating visual experiences",
-    },
-    {
-      key: "ContentStrategyPR",
-      title: "Content Strategy & PR",
-      description: "Story and public relations",
-    },
-  ]
-
   return (
-    <div className="flex min-h-full flex-1 flex-col relative overflow-hidden">
+    <div className="relative flex min-h-full flex-1 flex-col overflow-hidden">
       <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden>
-        <div className="absolute w-96 h-96 rounded-full bg-[#3230e0]/12 blur-3xl top-1/4 left-1/4" />
-        <div className="absolute w-80 h-80 rounded-full bg-[#5b59f0]/10 blur-3xl top-3/4 right-1/4" />
+        <div className="absolute left-1/4 top-1/4 h-96 w-96 rounded-full bg-[#3230e0]/12 blur-3xl" />
+        <div className="absolute bottom-1/4 right-1/4 h-80 w-80 rounded-full bg-[#5b59f0]/10 blur-3xl" />
       </div>
 
-      <div className="page-shell max-w-7xl flex-1 relative z-10">
+      <div className="page-shell relative z-10 max-w-6xl flex-1">
+        {/* Hero — introduce the collective */}
         <motion.header
-          className="page-hero"
+          ref={titleRef}
+          className="page-hero mb-8 md:mb-10"
           initial={{ opacity: 0, y: 12 }}
           animate={isTitleInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
           transition={spring.default}
         >
-          <h1 ref={titleRef} className="page-hero-title">
-            Our Team
-          </h1>
+          <div className="mb-3 flex justify-center">
+            <span className="event-glass-chip inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium text-sky-100">
+              <Sparkles className="h-3.5 w-3.5 text-[#a8a6ff]" />
+              Behind the lens
+            </span>
+          </div>
+          <h1 className="page-hero-title">Meet the Team</h1>
           <p className="page-hero-sub">
-            The people who keep IRIS focused, creative, and welcoming.
+            Photographers, designers, writers, and builders who plan shoots, run
+            events, and keep IRIS creative, focused, and welcoming.
           </p>
 
-          <div className="mt-8 flex justify-center">
-            <Dialog open={open} onOpenChange={setOpen}>
-              <DialogTrigger asChild>
-                <Button
-                  size="lg"
-                  className="min-h-[48px]"
-                  onClick={(e) => {
-                    if (recruiting) {
-                      e.preventDefault()
-                      window.open(recruitmentForm, "_blank", "noopener,noreferrer")
-                    } else {
-                      e.preventDefault()
-                      setOpen(true)
-                    }
-                  }}
-                >
-                  Apply to core team
-                </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Recruitment closed</DialogTitle>
-                </DialogHeader>
-                <p className="text-slate-300 text-center text-sm leading-relaxed py-2">
-                  We aren&apos;t recruiting at the moment — keep an eye out for announcements.
-                </p>
-              </DialogContent>
-            </Dialog>
+          <div className="mt-6 flex flex-col items-stretch justify-center gap-2.5 sm:mt-8 sm:flex-row sm:items-center sm:gap-3">
+            <button
+              type="button"
+              onClick={handleApply}
+              className="btn-primary !min-h-[44px] !px-5 !py-2.5 !text-sm"
+            >
+              <Users className="mr-2 h-4 w-4" />
+              {recruiting ? "Apply to core team" : "Join the core team"}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setShowPreviousMembers(true)
+                requestAnimationFrame(() => {
+                  document
+                    .getElementById("previous-members")
+                    ?.scrollIntoView({ behavior: "smooth", block: "start" })
+                })
+              }}
+              className="btn-secondary !min-h-[44px] !px-5 !py-2.5 !text-sm"
+            >
+              Previous members
+            </button>
           </div>
+
+          {!loading && teamCount > 0 && (
+            <p className="mt-5 text-xs tabular-nums text-slate-500">
+              {teamCount} people · {activeSections.length + 1} groups this tenure
+            </p>
+          )}
         </motion.header>
 
-        <section className="mb-16 md:mb-20">
-          <h2 className="section-title text-center border-0 pb-0 mb-3">Leadership</h2>
-          <p className="text-center text-slate-400 text-sm mb-8 max-w-lg mx-auto">
-            Guiding IRIS Society&apos;s creative direction
-          </p>
-          {/* Flex + justify-center so incomplete rows stay centered */}
-          <div className="flex flex-wrap justify-center gap-6">
-            {currentMembers.leadershipTeam?.map((member: any) => (
-              <div key={member.id} className="w-full max-w-[20rem] sm:w-[calc(50%-0.75rem)] sm:max-w-[22rem]">
-                <TeamMemberCard member={member} />
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {sections.map((section) =>
-          currentMembers[section.key]?.length > 0 ? (
-            <section key={section.key} className="mb-16 md:mb-20">
-              <h2 className="section-title text-center border-0 pb-0 mb-2">{section.title}</h2>
-              <p className="text-center text-slate-400 text-sm mb-8">{section.description}</p>
-              <div className="flex flex-wrap justify-center gap-5">
-                {currentMembers[section.key].map((member: any) => (
-                  <div
-                    key={member.id}
-                    className="w-full max-w-[17.5rem] sm:w-[calc(50%-0.625rem)] sm:max-w-[18rem] lg:w-[calc(33.333%-0.875rem)] xl:w-[calc(25%-0.95rem)]"
-                  >
-                    <TeamMemberCard member={member} isCompact />
-                  </div>
-                ))}
-              </div>
-            </section>
-          ) : null
-        )}
-
-        {currentMembers.webDevTeam?.length > 0 && (
-          <section className="mb-16 md:mb-20">
-            <h2 className="section-title text-center border-0 pb-0 mb-2">Web Development</h2>
-            <p className="text-center text-slate-400 text-sm mb-8">
-              Building the digital foundation of IRIS
-            </p>
-            <div className="flex flex-wrap justify-center gap-5">
-              {currentMembers.webDevTeam.map((member: any) => (
-                <div
-                  key={member.id}
-                  className="w-full max-w-[17.5rem] sm:w-[calc(50%-0.625rem)] sm:max-w-[18rem] lg:w-[calc(33.333%-0.875rem)]"
-                >
-                  <TeamMemberCard member={member} isCompact />
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        <motion.div
-          ref={buttonRef}
-          className="flex justify-center mb-10"
-          initial={{ opacity: 0 }}
-          animate={isButtonInView ? { opacity: 1 } : { opacity: 0 }}
+        {/* Leadership */}
+        <motion.section
+          ref={leadershipRef}
+          className="mb-12 md:mb-16"
+          initial={{ opacity: 0, y: 12 }}
+          animate={
+            isLeadershipInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }
+          }
           transition={spring.default}
         >
+          <SectionHeader
+            title="Leadership"
+            description="Guiding IRIS’s creative direction and culture"
+            count={currentMembers.leadershipTeam?.length}
+            icon={Users}
+          />
+
+          {loading ? (
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
+              {[0, 1].map((i) => (
+                <div
+                  key={i}
+                  className="h-48 animate-pulse rounded-2xl bg-white/[0.05] sm:h-56"
+                />
+              ))}
+            </div>
+          ) : (
+            <motion.div
+              className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:gap-5"
+              variants={staggerContainer}
+              initial="hidden"
+              animate={isLeadershipInView ? "visible" : "hidden"}
+            >
+              {currentMembers.leadershipTeam?.map((member) => (
+                <LeadershipCard
+                  key={member.id}
+                  member={member}
+                  onOpen={openMember}
+                  featured
+                />
+              ))}
+            </motion.div>
+          )}
+        </motion.section>
+
+        {/* Departments */}
+        {loading ? (
+          <div className="mb-12 space-y-10">
+            <SkeletonGrid />
+          </div>
+        ) : (
+          activeSections.map((section) => {
+            const members = currentMembers[section.key] as TeamMember[]
+            return (
+              <section key={section.key} className="mb-12 md:mb-16">
+                <SectionHeader
+                  title={section.title}
+                  description={section.description}
+                  count={members.length}
+                  icon={section.icon}
+                />
+                <motion.div
+                  className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 lg:gap-5"
+                  variants={staggerContainer}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: "-40px" }}
+                >
+                  {members.map((member) => (
+                    <MemberCard
+                      key={`${section.key}-${member.id}-${member.name}`}
+                      member={member}
+                      onOpen={openMember}
+                    />
+                  ))}
+                </motion.div>
+              </section>
+            )
+          })
+        )}
+
+        {/* Alumni toggle */}
+        <div className="mb-8 flex justify-center md:mb-10">
           <button
             type="button"
             onClick={() => setShowPreviousMembers((v) => !v)}
-            className="btn-secondary !w-auto inline-flex gap-2"
+            className="btn-secondary !w-auto inline-flex gap-2 !min-h-[44px] !px-5 !py-2.5 !text-sm"
+            aria-expanded={showPreviousMembers}
           >
             {showPreviousMembers ? "Hide previous members" : "Previous members"}
             {showPreviousMembers ? (
-              <ChevronUp className="w-4 h-4" />
+              <ChevronUp className="h-4 w-4" />
             ) : (
-              <ChevronDown className="w-4 h-4" />
+              <ChevronDown className="h-4 w-4" />
             )}
           </button>
-        </motion.div>
+        </div>
 
-        {showPreviousMembers && (
-          <div className="border-t border-white/10 pt-12 mt-4">
-            <div className="text-center mb-10">
-              <h2 className="page-hero-title !text-3xl mb-3">Previous Members</h2>
-              <p className="page-hero-sub mb-6">Alumni who helped shape IRIS</p>
-              <div className="relative inline-block">
-                <select
-                  className="appearance-none min-h-[44px] bg-white/[0.06] backdrop-blur-md text-white border border-white/15 rounded-full pl-5 pr-10 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-400/40"
-                  value={selectedTenure}
-                  onChange={(e) => setSelectedTenure(e.target.value)}
-                >
-                  {Object.keys(previousMembers).map((tenure) => (
-                    <option key={tenure} value={tenure} className="bg-slate-900">
-                      {tenure}
-                    </option>
-                  ))}
-                </select>
-                <ChevronDown className="w-4 h-4 absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+        <AnimatePresence initial={false}>
+          {showPreviousMembers && (
+            <motion.div
+              id="previous-members"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={spring.default}
+              className="overflow-hidden"
+            >
+              <div className="border-t border-white/10 pb-4 pt-10">
+                <div className="mb-8 text-center">
+                  <h2 className="mb-2 text-2xl font-semibold tracking-tight text-white md:text-3xl">
+                    Previous members
+                  </h2>
+                  <p className="mx-auto mb-5 max-w-md text-sm text-slate-400">
+                    Alumni who helped shape IRIS across tenures
+                  </p>
+
+                  {/* Tenure chips — better than a bare select on mobile */}
+                  <div className="flex flex-wrap items-center justify-center gap-2">
+                    {tenureKeys.map((tenure) => (
+                      <button
+                        key={tenure}
+                        type="button"
+                        onClick={() => setSelectedTenure(tenure)}
+                        className={cn(
+                          "event-glass-chip min-h-[36px] rounded-full px-3.5 py-1.5 text-xs font-medium transition active:scale-95",
+                          selectedTenure === tenure
+                            ? "border-[#3230e0]/45 bg-[#3230e0]/25 text-white"
+                            : "text-slate-300 hover:bg-white/10"
+                        )}
+                      >
+                        {tenure}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {selectedTenure &&
+                  previousMembers[selectedTenure]?.leadershipTeam &&
+                  previousMembers[selectedTenure]!.leadershipTeam!.length > 0 && (
+                    <section className="mb-12">
+                      <SectionHeader
+                        title="Leadership"
+                        description={`Tenure ${selectedTenure}`}
+                        count={
+                          previousMembers[selectedTenure]!.leadershipTeam!.length
+                        }
+                        icon={Users}
+                      />
+                      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
+                        {previousMembers[selectedTenure]!.leadershipTeam!.map(
+                          (member) => (
+                            <LeadershipCard
+                              key={`prev-lead-${selectedTenure}-${member.id}`}
+                              member={member}
+                              onOpen={openMember}
+                            />
+                          )
+                        )}
+                      </div>
+                    </section>
+                  )}
+
+                {selectedTenure &&
+                  previousMembers[selectedTenure]?.coreTeam &&
+                  previousMembers[selectedTenure]!.coreTeam!.length > 0 && (
+                    <section className="mb-12">
+                      <SectionHeader
+                        title="Core team"
+                        description="Squad from that tenure"
+                        count={previousMembers[selectedTenure]!.coreTeam!.length}
+                        icon={Sparkles}
+                      />
+                      <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
+                        {previousMembers[selectedTenure]!.coreTeam!.map(
+                          (member) => (
+                            <MemberCard
+                              key={`prev-core-${selectedTenure}-${member.id}-${member.name}`}
+                              member={member}
+                              onOpen={openMember}
+                            />
+                          )
+                        )}
+                      </div>
+                    </section>
+                  )}
+
+                {selectedTenure &&
+                  previousMembers[selectedTenure]?.webDevTeam &&
+                  previousMembers[selectedTenure]!.webDevTeam!.length > 0 && (
+                    <section className="mb-8">
+                      <SectionHeader
+                        title="Web team"
+                        description="Digital foundation"
+                        count={
+                          previousMembers[selectedTenure]!.webDevTeam!.length
+                        }
+                        icon={Code2}
+                      />
+                      <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
+                        {previousMembers[selectedTenure]!.webDevTeam!.map(
+                          (member) => (
+                            <MemberCard
+                              key={`prev-web-${selectedTenure}-${member.id}-${member.name}`}
+                              member={member}
+                              onOpen={openMember}
+                            />
+                          )
+                        )}
+                      </div>
+                    </section>
+                  )}
               </div>
-            </div>
-
-            {selectedTenure && previousMembers[selectedTenure]?.leadershipTeam?.length > 0 && (
-              <section className="mb-14">
-                <h3 className="text-xl font-semibold text-center text-white tracking-tight mb-6">
-                  Leadership
-                </h3>
-                <div className="flex flex-wrap justify-center gap-6">
-                  {previousMembers[selectedTenure].leadershipTeam.map((member: any) => (
-                    <div
-                      key={member.id}
-                      className="w-full max-w-[20rem] sm:w-[calc(50%-0.75rem)] sm:max-w-[22rem]"
-                    >
-                      <TeamMemberCard member={member} />
-                    </div>
-                  ))}
-                </div>
-              </section>
-            )}
-
-            {selectedTenure && previousMembers[selectedTenure]?.coreTeam?.length > 0 && (
-              <section className="mb-14">
-                <h3 className="text-xl font-semibold text-center text-white tracking-tight mb-6">
-                  Core Team
-                </h3>
-                <div className="flex flex-wrap justify-center gap-5">
-                  {previousMembers[selectedTenure].coreTeam.map((member: any) => (
-                    <div
-                      key={member.id}
-                      className="w-full max-w-[17.5rem] sm:w-[calc(50%-0.625rem)] sm:max-w-[18rem] lg:w-[calc(33.333%-0.875rem)]"
-                    >
-                      <TeamMemberCard member={member} isCompact />
-                    </div>
-                  ))}
-                </div>
-              </section>
-            )}
-
-            {selectedTenure && previousMembers[selectedTenure]?.webDevTeam?.length > 0 && (
-              <section className="mb-8">
-                <h3 className="text-xl font-semibold text-center text-white tracking-tight mb-6">
-                  Web Team
-                </h3>
-                <div className="flex flex-wrap justify-center gap-5">
-                  {previousMembers[selectedTenure].webDevTeam.map((member: any) => (
-                    <div
-                      key={member.id}
-                      className="w-full max-w-[17.5rem] sm:w-[calc(50%-0.625rem)] sm:max-w-[18rem] lg:w-[calc(33.333%-0.875rem)]"
-                    >
-                      <TeamMemberCard member={member} isCompact />
-                    </div>
-                  ))}
-                </div>
-              </section>
-            )}
-          </div>
-        )}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
+
+      <MemberDetail
+        member={selected}
+        open={detailOpen}
+        onOpenChange={setDetailOpen}
+      />
+
+      <Dialog open={recruitClosedOpen} onOpenChange={setRecruitClosedOpen}>
+        <DialogContent className="border-white/15 bg-[#0F1013]/95 backdrop-blur-2xl sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-white">Recruitment closed</DialogTitle>
+            <DialogDescription className="text-slate-300">
+              We aren&apos;t recruiting at the moment — keep an eye out for
+              announcements on Instagram and campus channels.
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
+
       <Footer />
     </div>
   )
