@@ -1,13 +1,23 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect, useCallback, useMemo } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import Footer from "@/components/footer"
-import { ChevronLeft, ChevronRight, X } from "lucide-react"
+import {
+  ChevronLeft,
+  ChevronRight,
+  X,
+  Camera,
+  User,
+  BookOpen,
+  Send,
+  CalendarDays,
+} from "lucide-react"
 import { motion, AnimatePresence, useInView } from "framer-motion"
+import { spring, staggerContainer, staggerItem } from "@/lib/motion"
+import { cn } from "@/lib/utils"
 
-// Weekly photo type
 type WeeklyPhoto = {
   id: number
   week: number
@@ -19,554 +29,557 @@ type WeeklyPhoto = {
   image: string
 }
 
+const ALL_MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+] as const
+
+const GUIDELINES_URL =
+  "https://docs.google.com/document/d/1pytF-tK4XXgi8r6lLzEMzyEXjD0vAjT63ff6oejznrY/edit?usp=sharing"
+const SUBMIT_URL =
+  "https://docs.google.com/forms/u/1/d/e/1FAIpQLSczSzMGIAd-sE_nxe9wOFSrsYy59lzRBhU9e5uhOjMtmIquLQ/viewform"
+
+function getAvailableMonths(year: number) {
+  if (year === 2025) return ALL_MONTHS.slice(1) // February onwards
+  return [...ALL_MONTHS]
+}
+
+function getCurrentYear() {
+  return new Date().getFullYear()
+}
+
+function getDefaultMonth(year: number) {
+  const now = new Date()
+  const currentYear = now.getFullYear()
+  const currentMonthName = now.toLocaleString("default", { month: "long" })
+  const available = getAvailableMonths(year)
+  if (currentYear === year && available.includes(currentMonthName as (typeof ALL_MONTHS)[number])) {
+    return currentMonthName
+  }
+  return available[0]
+}
+
+function isBreakOrEmpty(photo: WeeklyPhoto) {
+  const photographer = photo.photographer?.trim().toLowerCase() ?? ""
+  const theme = photo.theme?.trim().toLowerCase() ?? ""
+  return (
+    photographer === "no winner" ||
+    photographer === "tba" ||
+    theme === "tba" ||
+    theme.includes("break due")
+  )
+}
+
+/** Compact grid card — photo-first, equal aspect, glass rim */
+function PotwCard({
+  photo,
+  onOpen,
+}: {
+  photo: WeeklyPhoto
+  onOpen: (p: WeeklyPhoto) => void
+}) {
+  const isBreak = isBreakOrEmpty(photo)
+
+  return (
+    <motion.button
+      type="button"
+      variants={staggerItem}
+      whileHover={{ y: -3, transition: spring.snappy }}
+      whileTap={{ scale: 0.985 }}
+      onClick={() => onOpen(photo)}
+      className={cn(
+        "potw-card glass-card-event group relative flex w-full flex-col overflow-hidden rounded-2xl text-left",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3230e0]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0F1013]"
+      )}
+    >
+      <div className="relative aspect-[3/4] w-full overflow-hidden bg-slate-900/80 sm:aspect-[4/5]">
+        <Image
+          src={photo.image || "/placeholder.svg"}
+          alt={
+            isBreak
+              ? `${photo.theme} — Week ${photo.week}`
+              : `${photo.theme} by ${photo.photographer}`
+          }
+          fill
+          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+          className={cn(
+            "object-cover transition duration-500 ease-out group-hover:scale-[1.04]",
+            isBreak && "opacity-80 grayscale-[0.25]"
+          )}
+          unoptimized
+        />
+
+        {/* Soft bottom wash so text stays legible */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
+
+        {/* Week chip */}
+        <span className="event-glass-chip absolute left-2.5 top-2.5 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-sky-100 sm:left-3 sm:top-3 sm:px-2.5 sm:text-xs">
+          Week {photo.week}
+        </span>
+
+        <div className="absolute inset-x-0 bottom-0 p-2.5 sm:p-3.5">
+          <p className="line-clamp-2 text-sm font-semibold leading-snug tracking-tight text-white sm:text-base">
+            {photo.theme}
+          </p>
+          <p className="mt-1 flex items-center gap-1 truncate text-xs text-slate-300">
+            <User className="h-3 w-3 shrink-0 opacity-70" />
+            <span className="truncate">
+              {isBreak ? "No winner" : photo.photographer}
+            </span>
+          </p>
+        </div>
+      </div>
+    </motion.button>
+  )
+}
+
+/** Full-screen / desktop lightbox — image + caption both in view on phone */
+function PotwViewer({
+  photo,
+  onClose,
+}: {
+  photo: WeeklyPhoto
+  onClose: () => void
+}) {
+  const isBreak = isBreakOrEmpty(photo)
+
+  useEffect(() => {
+    const prev = document.body.style.overflow
+    document.body.style.overflow = "hidden"
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose()
+    }
+    window.addEventListener("keydown", onKey)
+    return () => {
+      document.body.style.overflow = prev
+      window.removeEventListener("keydown", onKey)
+    }
+  }, [onClose])
+
+  return (
+    <motion.div
+      className="fixed inset-0 z-50 flex items-end justify-center sm:items-center sm:p-4 md:p-6"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      role="dialog"
+      aria-modal="true"
+      aria-label={`Week ${photo.week}: ${photo.theme}`}
+    >
+      {/* Scrim */}
+      <button
+        type="button"
+        className="absolute inset-0 bg-black/70 backdrop-blur-md"
+        aria-label="Close photo"
+        onClick={onClose}
+      />
+
+      <motion.div
+        className={cn(
+          "relative z-10 flex w-full flex-col overflow-hidden",
+          /* Mobile: full-height sheet so image + meta share the viewport */
+          "h-[100dvh] max-h-[100dvh] rounded-none",
+          /* Tablet+: floating glass panel */
+          "sm:h-auto sm:max-h-[min(92dvh,880px)] sm:max-w-5xl sm:rounded-3xl",
+          "border border-white/12 bg-[#0F1013]/92 shadow-[0_24px_80px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.1)]",
+          "backdrop-blur-2xl"
+        )}
+        initial={{ opacity: 0, y: 28, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 16, scale: 0.98 }}
+        transition={spring.snappy}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Top chrome — safe area for notched phones */}
+        <div className="flex shrink-0 items-center justify-between gap-3 border-b border-white/10 px-3 py-2.5 pt-[max(0.625rem,env(safe-area-inset-top))] sm:px-4 sm:py-3 sm:pt-3">
+          <div className="flex min-w-0 items-center gap-2">
+            <span className="event-glass-chip shrink-0 rounded-full px-2.5 py-0.5 text-xs font-semibold text-sky-100">
+              Week {photo.week}
+            </span>
+            <span className="hidden truncate text-xs text-slate-400 sm:inline">
+              {photo.month}
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-slate-200 transition hover:bg-white/10 active:scale-95"
+            aria-label="Close"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        </div>
+
+        {/* Body: column on phone, row on desktop — both panes always visible */}
+        <div className="flex min-h-0 flex-1 flex-col md:flex-row">
+          {/* Image pane — fixed share of viewport on mobile so meta is never below the fold */}
+          <div
+            className={cn(
+              "relative flex min-h-0 items-center justify-center bg-black/40",
+              "h-[min(46dvh,420px)] max-h-[46dvh] w-full shrink-0",
+              "sm:h-[min(52dvh,520px)] sm:max-h-[min(52dvh,520px)]",
+              "md:h-auto md:max-h-none md:min-h-[420px] md:w-[58%] md:flex-1"
+            )}
+          >
+            <div className="relative h-full w-full">
+              <Image
+                src={photo.image || "/placeholder.svg"}
+                alt={photo.theme}
+                fill
+                sizes="(max-width: 768px) 100vw, 60vw"
+                className="object-contain p-2 sm:p-3 md:p-4"
+                priority
+                unoptimized
+              />
+            </div>
+          </div>
+
+          {/* Meta pane — always in view on mobile; scroll only if copy is long */}
+          <div
+            className={cn(
+              "flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain",
+              "border-t border-white/10 md:border-l md:border-t-0",
+              "bg-white/[0.03] px-4 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] sm:px-5 sm:py-5 sm:pb-5 md:w-[42%] md:max-w-md md:px-6 md:py-6"
+            )}
+          >
+            <div className="mb-3 flex items-start gap-2.5">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#3230e0]/25 ring-1 ring-[#3230e0]/40">
+                <Camera className="h-4 w-4 text-[#c8c7ff]" />
+              </div>
+              <div className="min-w-0">
+                <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+                  Photographer
+                </p>
+                <h2 className="text-lg font-semibold tracking-tight text-white md:text-xl">
+                  {isBreak ? "No winner this week" : photo.photographer}
+                </h2>
+              </div>
+            </div>
+
+            <div className="mb-4">
+              <p className="mb-1.5 text-xs font-medium uppercase tracking-wide text-slate-400">
+                Theme
+              </p>
+              <p className="text-sm font-medium leading-snug text-sky-200/90 md:text-base">
+                {photo.theme}
+              </p>
+            </div>
+
+            {photo.description?.trim() && (
+              <div className="min-h-0 flex-1">
+                <p className="mb-1.5 text-xs font-medium uppercase tracking-wide text-slate-400">
+                  About the shot
+                </p>
+                <p className="text-sm leading-relaxed text-slate-300">
+                  {photo.description}
+                </p>
+              </div>
+            )}
+
+            <p className="mt-5 text-xs text-slate-500 md:mt-auto md:pt-6">
+              {photo.month} · Photo of the Week
+            </p>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  )
+}
+
 export default function POTW() {
-  const allMonths = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ]
-
-  // Months available for each year (2025 starts in February, 2026 starts in January)
-  const getAvailableMonths = (year: number) => {
-    if (year === 2025) {
-      return allMonths.slice(1) // February onwards
-    }
-    return allMonths // All months for 2026+
-  }
-
-  const getCurrentYear = () => {
-    return new Date().getFullYear()
-  }
-
-  const getCurrentMonth = (year: number) => {
-    const now = new Date()
-    const currentYear = now.getFullYear()
-    const currentMonthName = now.toLocaleString("default", { month: "long" })
-    const availableMonths = getAvailableMonths(year)
-    
-    // If current year matches and month is available, use it
-    if (currentYear === year && availableMonths.includes(currentMonthName)) {
-      return currentMonthName
-    }
-    // Otherwise return first available month for that year
-    return availableMonths[0]
-  }
-
-  const [selectedYear, setSelectedYear] = useState(getCurrentYear())
-  const [selectedMonth, setSelectedMonth] = useState(() => getCurrentMonth(getCurrentYear()))
+  const [selectedYear, setSelectedYear] = useState(getCurrentYear)
+  const [selectedMonth, setSelectedMonth] = useState(() =>
+    getDefaultMonth(getCurrentYear())
+  )
   const [selectedPhoto, setSelectedPhoto] = useState<WeeklyPhoto | null>(null)
-  const [showModal, setShowModal] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
-  const [imageLoadErrors, setImageLoadErrors] = useState<Set<string>>(new Set())
-  const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set())
-  // Removed click tracking functionality - will be re-added with database later
+  const [weeklyPhotos, setWeeklyPhotos] = useState<
+    Record<number, Record<string, WeeklyPhoto[]>>
+  >({})
 
   const titleRef = useRef<HTMLHeadingElement>(null)
-  const descRef = useRef<HTMLParagraphElement>(null)
-  const calendarRef = useRef<HTMLDivElement>(null)
-
   const isTitleInView = useInView(titleRef, { once: true })
-  const isDescInView = useInView(descRef, { once: true })
-  const isCalendarInView = useInView(calendarRef, { once: true })
-
-  // Fetch weekly photos from JSON - now organized by year
-  const [weeklyPhotos, setWeeklyPhotos] = useState<Record<number, Record<string, WeeklyPhoto[]>>>({})
 
   useEffect(() => {
     setIsLoading(true)
     fetch("/potw.json")
       .then((res) => res.json())
       .then((data) => {
-        // Convert year strings to numbers for easier handling
-        const convertedData: Record<number, Record<string, WeeklyPhoto[]>> = {}
+        const converted: Record<number, Record<string, WeeklyPhoto[]>> = {}
         Object.keys(data).forEach((yearStr) => {
-          convertedData[parseInt(yearStr)] = data[yearStr]
+          converted[parseInt(yearStr, 10)] = data[yearStr]
         })
-        setWeeklyPhotos(convertedData)
-        // Preload images for the current month/year
-        if (convertedData[selectedYear] && convertedData[selectedYear][selectedMonth]) {
-          preloadImages(convertedData[selectedYear][selectedMonth])
-        }
-        setIsLoading(false)
+        setWeeklyPhotos(converted)
       })
       .catch((err) => {
         console.error("Failed to load POTW data:", err)
         setWeeklyPhotos({})
-        setIsLoading(false)
       })
+      .finally(() => setIsLoading(false))
   }, [])
 
-  // Preload images whenever selectedMonth or selectedYear changes
-  useEffect(() => {
-    if (weeklyPhotos[selectedYear] && weeklyPhotos[selectedYear][selectedMonth] && weeklyPhotos[selectedYear][selectedMonth].length > 0) {
-      // Small delay to ensure component is fully rendered
-      const timer = setTimeout(() => {
-        preloadImages(weeklyPhotos[selectedYear][selectedMonth])
-      }, 100)
-      return () => clearTimeout(timer)
-    }
-  }, [selectedMonth, selectedYear, weeklyPhotos])
+  const availableYears = useMemo(() => {
+    const years = Object.keys(weeklyPhotos)
+      .map(Number)
+      .sort((a, b) => b - a)
+    const current = getCurrentYear()
+    if (!years.includes(current)) years.unshift(current)
+    return years
+  }, [weeklyPhotos])
 
-  // Immediate preloading when data becomes available
-  useEffect(() => {
-    if (Object.keys(weeklyPhotos).length > 0 && weeklyPhotos[selectedYear] && weeklyPhotos[selectedYear][selectedMonth]) {
-      console.log('Data available, immediately preloading images for:', selectedYear, selectedMonth)
-      preloadImages(weeklyPhotos[selectedYear][selectedMonth])
-    }
-  }, [weeklyPhotos, selectedMonth, selectedYear])
+  const monthPhotos = useMemo(() => {
+    const list = weeklyPhotos[selectedYear]?.[selectedMonth] ?? []
+    return [...list].sort((a, b) => a.week - b.week)
+  }, [weeklyPhotos, selectedYear, selectedMonth])
 
-  // Preload images for a given month
-  const preloadImages = (photos: WeeklyPhoto[]) => {
-    console.log(`Preloading images for ${selectedMonth}:`, photos.length, 'photos')
-    photos.forEach((photo) => {
-      if (photo.image && !photo.image.startsWith('data:')) {
-        const img = new window.Image()
-        img.src = photo.image
-        img.onload = () => {
-          // Image loaded successfully
-          console.log(`Image loaded: ${photo.image}`)
-          setLoadedImages(prev => new Set(prev).add(photo.image))
-        }
-        img.onerror = () => {
-          console.error(`Failed to load image: ${photo.image}`)
-          setImageLoadErrors(prev => new Set(prev).add(photo.image))
-        }
-      }
-    })
-  }
+  const canGoPrevYear = availableYears.indexOf(selectedYear) < availableYears.length - 1
+  const canGoNextYear = availableYears.indexOf(selectedYear) > 0
 
-  // Handle month change with image preloading
-  const handleMonthChange = (newMonth: string, year?: number) => {
-    const targetYear = year !== undefined ? year : selectedYear
-    setSelectedMonth(newMonth)
-    if (year !== undefined) {
-      setSelectedYear(targetYear)
-    }
-    // Preload images for the new month/year
-    if (weeklyPhotos[targetYear] && weeklyPhotos[targetYear][newMonth]) {
-      preloadImages(weeklyPhotos[targetYear][newMonth])
-    }
-  }
-
-  const handlePhotoClick = async (photo: WeeklyPhoto) => {
-    setSelectedPhoto(photo)
-    setShowModal(true)
-    // Removed database click tracking - will be re-added later
-  }
+  const handleMonthChange = useCallback(
+    (newMonth: string, year?: number) => {
+      const targetYear = year !== undefined ? year : selectedYear
+      setSelectedMonth(newMonth)
+      if (year !== undefined) setSelectedYear(targetYear)
+    },
+    [selectedYear]
+  )
 
   const handlePrevMonth = () => {
-    const availableMonths = getAvailableMonths(selectedYear)
-    const currentIndex = availableMonths.indexOf(selectedMonth)
-    
-    if (currentIndex > 0) {
-      // Previous month in same year
-      handleMonthChange(availableMonths[currentIndex - 1])
-    } else {
-      // Go to previous year's last month
-      const prevYear = selectedYear - 1
-      const prevYearMonths = getAvailableMonths(prevYear)
-      if (prevYearMonths.length > 0 && weeklyPhotos[prevYear]) {
-        handleMonthChange(prevYearMonths[prevYearMonths.length - 1], prevYear)
-      }
+    const available = getAvailableMonths(selectedYear)
+    const idx = available.indexOf(selectedMonth as (typeof ALL_MONTHS)[number])
+    if (idx > 0) {
+      handleMonthChange(available[idx - 1])
+      return
+    }
+    const prevYear = selectedYear - 1
+    if (weeklyPhotos[prevYear]) {
+      const prevMonths = getAvailableMonths(prevYear)
+      handleMonthChange(prevMonths[prevMonths.length - 1], prevYear)
     }
   }
 
   const handleNextMonth = () => {
-    const availableMonths = getAvailableMonths(selectedYear)
-    const currentIndex = availableMonths.indexOf(selectedMonth)
-    
-    if (currentIndex < availableMonths.length - 1) {
-      // Next month in same year
-      handleMonthChange(availableMonths[currentIndex + 1])
-    } else {
-      // Go to next year's first month
-      const nextYear = selectedYear + 1
-      const nextYearMonths = getAvailableMonths(nextYear)
-      if (nextYearMonths.length > 0 && (weeklyPhotos[nextYear] || nextYear === getCurrentYear())) {
-        handleMonthChange(nextYearMonths[0], nextYear)
-      }
+    const available = getAvailableMonths(selectedYear)
+    const idx = available.indexOf(selectedMonth as (typeof ALL_MONTHS)[number])
+    if (idx < available.length - 1) {
+      handleMonthChange(available[idx + 1])
+      return
+    }
+    const nextYear = selectedYear + 1
+    if (weeklyPhotos[nextYear] || nextYear === getCurrentYear()) {
+      const nextMonths = getAvailableMonths(nextYear)
+      handleMonthChange(nextMonths[0], nextYear)
     }
   }
 
   const handleYearChange = (newYear: number) => {
-    const availableMonths = getAvailableMonths(newYear)
-    // If current month exists in new year, keep it; otherwise use first available
-    const monthToUse = availableMonths.includes(selectedMonth) 
-      ? selectedMonth 
-      : availableMonths[0]
+    const available = getAvailableMonths(newYear)
+    const monthToUse = available.includes(selectedMonth as (typeof ALL_MONTHS)[number])
+      ? selectedMonth
+      : available[0]
     handleMonthChange(monthToUse, newYear)
   }
 
-  const getAvailableYears = () => {
-    const years = Object.keys(weeklyPhotos).map(Number).sort((a, b) => b - a)
-    const currentYear = getCurrentYear()
-    // Include current year even if no data yet
-    if (!years.includes(currentYear)) {
-      years.unshift(currentYear)
-    }
-    return years
-  }
-
-  // Animation variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  }
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.5 },
-    },
-  }
-
-  const modalVariants = {
-    hidden: { opacity: 0, scale: 0.98, y: 8 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      y: 0,
-      transition: { type: "spring" as const, bounce: 0, duration: 0.35 },
-    },
-    exit: {
-      opacity: 0,
-      scale: 0.98,
-      y: 6,
-      transition: { type: "spring" as const, bounce: 0, duration: 0.25 },
-    },
-  }
-
-  // Handle image load error
-  const handleImageError = (imageSrc: string) => {
-    setImageLoadErrors(prev => new Set(prev).add(imageSrc))
-  }
-
-  // Handle image load success
-  const handleImageLoad = (imageSrc: string) => {
-    setLoadedImages(prev => new Set(prev).add(imageSrc))
-    setImageLoadErrors(prev => {
-      const newSet = new Set(prev)
-      newSet.delete(imageSrc)
-      return newSet
-    })
-  }
+  const closeViewer = useCallback(() => setSelectedPhoto(null), [])
 
   return (
     <div
-      className="flex min-h-full flex-1 flex-col relative"
+      className="relative flex min-h-full flex-1 flex-col"
       onContextMenu={(e) => e.preventDefault()}
     >
-      <div className="page-shell flex-1">
+      <div className="page-shell max-w-6xl flex-1">
+        {/* Hero */}
         <motion.header
-          className="page-hero"
+          ref={titleRef}
+          className="page-hero mb-6 md:mb-8"
           initial={{ opacity: 0, y: 12 }}
           animate={isTitleInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-          transition={{ type: "spring", bounce: 0, duration: 0.4 }}
+          transition={spring.default}
         >
-          <h1 ref={titleRef} className="page-hero-title">
-            Photo of the Week
-          </h1>
-          <p ref={descRef} className="page-hero-sub">
-            Each week, members submit photos on a theme. Browse winners below — share yours in
-            the designated WhatsApp group or Gspace to participate.
+          <h1 className="page-hero-title">Photo of the Week</h1>
+          <p className="page-hero-sub">
+            Members shoot a weekly theme. Browse winners, open a frame for the story —
+            share yours in the WhatsApp group or Gspace to enter.
           </p>
         </motion.header>
 
+        {/* CTAs */}
         <motion.div
-          className="flex flex-col sm:flex-row gap-3 justify-center items-center mb-10"
+          className="mb-8 flex flex-col items-stretch justify-center gap-2.5 sm:mb-10 sm:flex-row sm:items-center sm:gap-3"
           initial={{ opacity: 0, y: 10 }}
-          animate={isDescInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ type: "spring", bounce: 0, duration: 0.4, delay: 0.05 }}
+          animate={isTitleInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ ...spring.default, delay: 0.05 }}
         >
           <Link
-            href="https://docs.google.com/document/d/1pytF-tK4XXgi8r6lLzEMzyEXjD0vAjT63ff6oejznrY/edit?usp=sharing"
+            href={GUIDELINES_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-secondary !min-h-[44px] !px-5 !py-2.5 !text-sm w-full sm:w-auto"
+            className="btn-secondary !min-h-[44px] !px-5 !py-2.5 !text-sm"
           >
+            <BookOpen className="mr-2 h-4 w-4 opacity-80" />
             View Guidelines
           </Link>
           <Link
-            href="https://docs.google.com/forms/u/1/d/e/1FAIpQLSczSzMGIAd-sE_nxe9wOFSrsYy59lzRBhU9e5uhOjMtmIquLQ/viewform"
+            href={SUBMIT_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-primary !min-h-[44px] !px-5 !py-2.5 !text-sm w-full sm:w-auto"
+            className="btn-primary !min-h-[44px] !px-5 !py-2.5 !text-sm"
           >
+            <Send className="mr-2 h-4 w-4" />
             Submit Now
           </Link>
         </motion.div>
 
+        {/* Period navigator */}
         <motion.div
-          ref={calendarRef}
-          className="mb-8"
-          initial={{ opacity: 0 }}
-          animate={isCalendarInView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          className="mb-6 md:mb-8"
+          initial={{ opacity: 0, y: 8 }}
+          animate={isTitleInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ ...spring.default, delay: 0.08 }}
         >
-          {/* Year Selection */}
-          <div className="flex items-center justify-center gap-4 mb-4">
-            <motion.button
+          {/* Year */}
+          <div className="mb-3 flex items-center justify-center gap-2">
+            <button
+              type="button"
               onClick={() => {
-                const years = getAvailableYears()
-                const currentIndex = years.indexOf(selectedYear)
-                if (currentIndex < years.length - 1) {
-                  handleYearChange(years[currentIndex + 1])
-                }
+                const i = availableYears.indexOf(selectedYear)
+                if (i < availableYears.length - 1) handleYearChange(availableYears[i + 1])
               }}
-              className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] rounded-full hover:bg-white/10 active:scale-95 transition disabled:opacity-40 disabled:cursor-not-allowed"
-              whileTap={{ scale: 0.95 }}
-              disabled={getAvailableYears().indexOf(selectedYear) >= getAvailableYears().length - 1}
+              disabled={!canGoPrevYear}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full text-slate-200 transition hover:bg-white/10 active:scale-95 disabled:cursor-not-allowed disabled:opacity-35"
               aria-label="Previous year"
             >
-              <ChevronLeft className="w-5 h-5" />
-            </motion.button>
-            <motion.h3
-              className="text-xl md:text-2xl font-semibold text-sky-200 min-w-[5rem] text-center tracking-tight"
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <motion.span
               key={selectedYear}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ type: "spring", bounce: 0, duration: 0.3 }}
+              initial={{ opacity: 0, y: 4 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={spring.snappy}
+              className="min-w-[4.5rem] text-center text-lg font-semibold tracking-tight text-sky-200 tabular-nums md:text-xl"
             >
               {selectedYear}
-            </motion.h3>
-            <motion.button
+            </motion.span>
+            <button
+              type="button"
               onClick={() => {
-                const years = getAvailableYears()
-                const currentIndex = years.indexOf(selectedYear)
-                if (currentIndex > 0) {
-                  handleYearChange(years[currentIndex - 1])
-                }
+                const i = availableYears.indexOf(selectedYear)
+                if (i > 0) handleYearChange(availableYears[i - 1])
               }}
-              className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] rounded-full hover:bg-white/10 active:scale-95 transition disabled:opacity-40 disabled:cursor-not-allowed"
-              whileTap={{ scale: 0.95 }}
-              disabled={getAvailableYears().indexOf(selectedYear) <= 0}
+              disabled={!canGoNextYear}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full text-slate-200 transition hover:bg-white/10 active:scale-95 disabled:cursor-not-allowed disabled:opacity-35"
               aria-label="Next year"
             >
-              <ChevronRight className="w-5 h-5" />
-            </motion.button>
+              <ChevronRight className="h-5 w-5" />
+            </button>
           </div>
 
-          {/* Month Selection */}
-          <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.04] px-2 py-2 backdrop-blur-md">
-            <motion.button
+          {/* Month bar */}
+          <div className="event-glass flex items-center justify-between gap-2 rounded-2xl px-1.5 py-1.5 sm:px-2 sm:py-2">
+            <button
+              type="button"
               onClick={handlePrevMonth}
-              className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] rounded-full hover:bg-white/10 active:scale-95 transition"
-              whileTap={{ scale: 0.95 }}
+              className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-slate-200 transition hover:bg-white/10 active:scale-95"
               aria-label="Previous month"
             >
-              <ChevronLeft className="w-6 h-6" />
-            </motion.button>
-            <motion.h2
-              className="text-xl md:text-2xl font-semibold text-center tracking-tight text-white"
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <motion.div
               key={`${selectedYear}-${selectedMonth}`}
               initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ type: "spring", bounce: 0, duration: 0.3 }}
+              transition={spring.snappy}
+              className="flex min-w-0 flex-col items-center"
             >
-              {selectedMonth}
-            </motion.h2>
-            <motion.button
+              <span className="flex items-center gap-1.5 text-lg font-semibold tracking-tight text-white md:text-xl">
+                <CalendarDays className="hidden h-4 w-4 text-sky-300/80 sm:inline" />
+                {selectedMonth}
+              </span>
+              {!isLoading && (
+                <span className="text-xs text-slate-400 tabular-nums">
+                  {monthPhotos.length}{" "}
+                  {monthPhotos.length === 1 ? "photo" : "photos"}
+                </span>
+              )}
+            </motion.div>
+            <button
+              type="button"
               onClick={handleNextMonth}
-              className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] rounded-full hover:bg-white/10 active:scale-95 transition"
-              whileTap={{ scale: 0.95 }}
+              className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-slate-200 transition hover:bg-white/10 active:scale-95"
               aria-label="Next month"
             >
-              <ChevronRight className="w-6 h-6" />
-            </motion.button>
+              <ChevronRight className="h-5 w-5" />
+            </button>
           </div>
         </motion.div>
 
-        {/* Loading state */}
+        {/* Loading */}
         {isLoading && (
-          <motion.div
-            className="text-center py-12"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-300"></div>
-            <p className="text-gray-400 mt-4">Loading photos...</p>
-          </motion.div>
+          <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 lg:gap-5">
+            {[0, 1, 2, 3].map((i) => (
+              <div
+                key={i}
+                className="aspect-[3/4] animate-pulse rounded-2xl bg-white/[0.05] sm:aspect-[4/5]"
+              />
+            ))}
+          </div>
         )}
 
-        {/* Removed click count display - will be re-added with database */}
-
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={`${selectedYear}-${selectedMonth}`}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            {!isLoading && weeklyPhotos[selectedYear] && weeklyPhotos[selectedYear][selectedMonth] && weeklyPhotos[selectedYear][selectedMonth].length > 0 ? (
-              <motion.div
-                className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4"
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
-              >
-                {weeklyPhotos[selectedYear][selectedMonth].map((photo) => (
-                  <motion.button
-                    type="button"
-                    key={photo.id}
-                    className="potw-card rounded-2xl overflow-hidden cursor-pointer text-left border border-white/10 bg-white/[0.04] w-full"
-                    variants={itemVariants}
-                    whileHover={{ y: -3, transition: { type: "spring", bounce: 0, duration: 0.3 } }}
-                    whileTap={{ scale: 0.99 }}
-                    onClick={() => handlePhotoClick(photo)}
-                  >
-                    <div className="relative h-[400px] md:h-[300px] w-full">
-                      {!loadedImages.has(photo.image) && !imageLoadErrors.has(photo.image) && (
-                        <div className="absolute inset-0 flex items-center justify-center bg-slate-900/80">
-                          <div className="animate-spin rounded-full h-8 w-8 border-2 border-white/20 border-t-sky-300" />
-                        </div>
-                      )}
-                      <Image
-                        src={photo.image || "/placeholder.svg"}
-                        alt={`Week ${photo.week} - ${photo.theme}`}
-                        fill
-                        className="absolute inset-0 w-full h-full object-cover"
-                        style={{ objectFit: "cover" }}
-                        onLoad={() => handleImageLoad(photo.image)}
-                        onError={() => handleImageError(photo.image)}
-                        priority={true}
-                        unoptimized={true}
-                        sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 25vw"
-                      />
-                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent p-4">
-                        <h3 className="text-lg font-semibold text-white tracking-tight">
-                          Week {photo.week}
-                        </h3>
-                        <p className="text-sm text-slate-300">{photo.theme}</p>
-                      </div>
-                    </div>
-                  </motion.button>
-                ))}
-              </motion.div>
-            ) : !isLoading ? (
-              <motion.div
-                className="text-center py-12"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5 }}
-              >
-                <p className="text-gray-400">No photos available for {selectedMonth} {selectedYear}.</p>
-              </motion.div>
-            ) : null}
-          </motion.div>
-        </AnimatePresence>
+        {/* Grid */}
+        {!isLoading && (
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={`${selectedYear}-${selectedMonth}`}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={spring.snappy}
+            >
+              {monthPhotos.length > 0 ? (
+                <motion.div
+                  className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 lg:gap-5"
+                  variants={staggerContainer}
+                  initial="hidden"
+                  animate="visible"
+                >
+                  {monthPhotos.map((photo) => (
+                    <PotwCard
+                      key={photo.id}
+                      photo={photo}
+                      onOpen={setSelectedPhoto}
+                    />
+                  ))}
+                </motion.div>
+              ) : (
+                <div className="event-glass rounded-2xl border border-dashed border-white/15 px-4 py-12 text-center">
+                  <Camera className="mx-auto mb-3 h-8 w-8 text-slate-500" />
+                  <p className="text-sm text-slate-300">
+                    No photos for {selectedMonth} {selectedYear}.
+                  </p>
+                  <p className="mt-1 text-xs text-slate-500">
+                    Try another month, or submit this week&apos;s theme.
+                  </p>
+                </div>
+              )}
+            </motion.div>
+          </AnimatePresence>
+        )}
       </div>
 
-      {/* Modal — dim to focus, material surface, spring enter/exit same path */}
       <AnimatePresence>
-        {showModal && selectedPhoto && (
-          <motion.div
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setShowModal(false)}
-            role="dialog"
-            aria-modal="true"
-            aria-label="Photo details"
-          >
-            <motion.div
-              className="relative rounded-2xl overflow-hidden max-w-5xl w-full max-h-[min(90dvh,80vh)] flex flex-col backdrop-blur-2xl bg-slate-950/85 border border-white/15 shadow-[0_24px_64px_rgba(0,0,0,0.45),inset_0_1px_0_rgba(255,255,255,0.08)]"
-              variants={modalVariants}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/[0.07] via-transparent to-blue-500/5" />
-              <div className="flex justify-end p-2 relative z-10">
-                <motion.button
-                  type="button"
-                  onClick={() => setShowModal(false)}
-                  className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] rounded-full hover:bg-white/10 active:scale-95 transition-colors"
-                  whileTap={{ scale: 0.95 }}
-                  aria-label="Close"
-                >
-                  <X className="w-5 h-5" />
-                </motion.button>
-              </div>
-
-              <div className="flex flex-col md:flex-row overflow-hidden">
-                {/* Image container with natural aspect ratio */}
-                <div className="md:w-3/5 flex items-center justify-center p-2">
-                  <div className="flex items-center justify-center w-full h-[40vh] md:h-[60vh]">
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.5 }}
-                      className="flex items-center justify-center w-full h-full"
-                    >
-                      <Image
-                        src={selectedPhoto.image || "/placeholder.svg"}
-                        alt={selectedPhoto.theme}
-                        width={800}
-                        height={600}
-                        className="object-contain max-h-full max-w-full mx-auto"
-                        style={{ display: 'block' }}
-                        priority={true}
-                        unoptimized={true}
-                        onLoad={() => handleImageLoad(selectedPhoto.image)}
-                        onError={() => handleImageError(selectedPhoto.image)}
-                      />
-                    </motion.div>
-                  </div>
-                </div>
-
-                {/* Details section */}
-                <div className="md:w-2/5 p-6 overflow-y-auto">
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.2 }}
-                    className="mb-4"
-                  >
-                    <h3 className="text-xl font-bold">{selectedPhoto.photographer}</h3>
-                  </motion.div>
-
-                  <motion.h4
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.3 }}
-                    className="text-lg font-semibold text-blue-300 mb-2"
-                  >
-                    Theme of the week: {selectedPhoto.theme}
-                  </motion.h4>
-
-                  <motion.p
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.4 }}
-                    className="text-gray-300 mb-6"
-                  >
-                    {selectedPhoto.description}
-                  </motion.p>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
+        {selectedPhoto && (
+          <PotwViewer photo={selectedPhoto} onClose={closeViewer} />
         )}
       </AnimatePresence>
 
