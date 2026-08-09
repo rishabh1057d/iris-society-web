@@ -101,7 +101,7 @@ export default function Events() {
                   href={event.resultLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs min-h-[36px] inline-flex items-center px-3 py-1.5 rounded-full bg-[#d4a574]/15 text-[#f5f0e8] border border-[#d4a574]/25 hover:bg-[#d4a574]/25 active:scale-95 transition"
+                  className="text-xs min-h-[36px] inline-flex items-center px-3 py-1.5 rounded-full bg-blue-600/20 text-blue-100 border border-blue-400/20 hover:bg-blue-600/30 active:scale-95 transition"
                 >
                   View Results
                 </a>
@@ -122,7 +122,7 @@ export default function Events() {
               href={event.registrationLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs min-h-[36px] inline-flex items-center px-3 py-1.5 rounded-full bg-[#d4a574]/15 text-[#f5f0e8] border border-[#d4a574]/25 hover:bg-[#d4a574]/25 active:scale-95 transition"
+              className="text-xs min-h-[36px] inline-flex items-center px-3 py-1.5 rounded-full bg-blue-600/20 text-blue-100 border border-blue-400/20 hover:bg-blue-600/30 active:scale-95 transition"
             >
               Join Now
             </a>
@@ -202,7 +202,7 @@ export default function Events() {
                 aria-label="Scroll previous events left"
                 className={`inline-flex items-center justify-center min-h-[40px] min-w-[40px] rounded-full border backdrop-blur-md transition active:scale-95 ${
                   canScrollLeft
-                    ? "bg-[#d4a574]/15 border-[#d4a574]/30 text-[#f5f0e8] hover:bg-[#d4a574]/25"
+                    ? "bg-blue-600/20 border-blue-400/30 text-blue-100 hover:bg-blue-600/30"
                     : "bg-white/5 border-white/10 text-slate-600 cursor-not-allowed"
                 }`}
               >
@@ -215,7 +215,7 @@ export default function Events() {
                 aria-label="Scroll previous events right"
                 className={`inline-flex items-center justify-center min-h-[40px] min-w-[40px] rounded-full border backdrop-blur-md transition active:scale-95 ${
                   canScrollRight
-                    ? "bg-[#d4a574]/15 border-[#d4a574]/30 text-[#f5f0e8] hover:bg-[#d4a574]/25"
+                    ? "bg-blue-600/20 border-blue-400/30 text-blue-100 hover:bg-blue-600/30"
                     : "bg-white/5 border-white/10 text-slate-600 cursor-not-allowed"
                 }`}
               >

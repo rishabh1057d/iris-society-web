@@ -401,7 +401,7 @@ export default function POTW() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
-            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#d4a574]"></div>
+            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-300"></div>
             <p className="text-gray-400 mt-4">Loading photos...</p>
           </motion.div>
         )}
@@ -496,7 +496,7 @@ export default function POTW() {
               exit="exit"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/[0.07] via-transparent to-[#d4a574]/06" />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/[0.07] via-transparent to-blue-500/5" />
               <div className="flex justify-end p-2 relative z-10">
                 <motion.button
                   type="button"
@@ -550,7 +550,7 @@ export default function POTW() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.3 }}
-                    className="text-lg font-semibold text-[#d4a574] mb-2"
+                    className="text-lg font-semibold text-blue-300 mb-2"
                   >
                     Theme of the week: {selectedPhoto.theme}
                   </motion.h4>

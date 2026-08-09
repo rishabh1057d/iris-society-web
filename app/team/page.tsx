@@ -182,8 +182,8 @@ export default function Team() {
   return (
     <div className="flex min-h-full flex-1 flex-col relative overflow-hidden">
       <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden>
-        <div className="absolute w-96 h-96 rounded-full bg-[#d4a574]/10 blur-3xl top-1/4 left-1/4" />
-        <div className="absolute w-80 h-80 rounded-full bg-[#5e9e96]/10 blur-3xl top-3/4 right-1/4" />
+        <div className="absolute w-96 h-96 rounded-full bg-[#3230e0]/12 blur-3xl top-1/4 left-1/4" />
+        <div className="absolute w-80 h-80 rounded-full bg-[#5b59f0]/10 blur-3xl top-3/4 right-1/4" />
       </div>
 
       <div className="page-shell max-w-7xl flex-1 relative z-10">

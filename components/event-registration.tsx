@@ -275,7 +275,7 @@ export default function EventRegistration() {
     const colors = {
       success: "bg-emerald-500/20 border-emerald-500/40 text-emerald-300",
       error: "bg-red-500/20 border-red-500/40 text-red-300",
-      info: "bg-[#d4a574]/15 border-[#d4a574]/35 text-[#e8d5b8]",
+      info: "bg-blue-500/20 border-blue-500/40 text-blue-300",
     }
     return (
       <motion.div
@@ -296,7 +296,7 @@ export default function EventRegistration() {
     return (
       <div className="min-h-full flex-1 flex items-center justify-center py-24">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-10 h-10 border-2 border-white/20 border-t-[#d4a574] rounded-full animate-spin" />
+          <div className="w-10 h-10 border-2 border-white/20 border-t-blue-400 rounded-full animate-spin" />
           <p className="text-white/60 text-sm">Loading…</p>
         </div>
       </div>
@@ -314,7 +314,7 @@ export default function EventRegistration() {
           className="w-full max-w-lg"
         >
           <div className="relative rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-8 shadow-2xl text-center">
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#d4a574]/10 via-transparent to-[#5e9e96]/08 pointer-events-none" />
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-500/10 via-transparent to-purple-500/10 pointer-events-none" />
             <div className="relative z-10">
               <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-red-500/10 border border-red-500/20">
                 <svg className="h-8 w-8 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -344,7 +344,7 @@ export default function EventRegistration() {
         >
           <div className="relative rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-2xl overflow-hidden">
             {/* Gradient accent */}
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#d4a574]/10 via-transparent to-[#5e9e96]/08 pointer-events-none" />
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-500/10 via-transparent to-purple-500/10 pointer-events-none" />
 
             {/* Poster image */}
             {config?.poster_image && (
@@ -379,7 +379,7 @@ export default function EventRegistration() {
 
               <button
                 onClick={signInWithGoogle}
-                className="mt-4 w-full flex items-center justify-center gap-3 rounded-xl border border-white/10 bg-white/5 px-6 py-3.5 text-white font-medium transition-all duration-300 hover:bg-white/10 hover:border-white/20 hover:shadow-lg hover:shadow-amber-900/15 active:scale-[0.98]"
+                className="mt-4 w-full flex items-center justify-center gap-3 rounded-xl border border-white/10 bg-white/5 px-6 py-3.5 text-white font-medium transition-all duration-300 hover:bg-white/10 hover:border-white/20 hover:shadow-lg hover:shadow-blue-500/10 active:scale-[0.98]"
               >
                 <svg className="h-5 w-5" viewBox="0 0 24 24">
                   <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" />
@@ -391,8 +391,8 @@ export default function EventRegistration() {
               </button>
 
               <p className="mt-5 text-center text-xs text-white/40">
-                Only <span className="text-[#d4a574]/80">@ds.study.iitm.ac.in</span> and{" "}
-                <span className="text-[#d4a574]/80">@es.study.iitm.ac.in</span> emails are allowed.
+                Only <span className="text-blue-400/70">@ds.study.iitm.ac.in</span> and{" "}
+                <span className="text-blue-400/70">@es.study.iitm.ac.in</span> emails are allowed.
               </p>
             </div>
           </div>
@@ -411,7 +411,7 @@ export default function EventRegistration() {
           className="w-full max-w-lg"
         >
           <div className="relative rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-8 shadow-2xl">
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-emerald-500/10 via-transparent to-[#5e9e96]/10 pointer-events-none" />
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-emerald-500/10 via-transparent to-blue-500/10 pointer-events-none" />
             <div className="relative z-10 text-center">
               <motion.div
                 initial={{ scale: 0 }}
@@ -473,11 +473,11 @@ export default function EventRegistration() {
           className="w-full max-w-lg"
         >
           <div className="relative rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-8 shadow-2xl">
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-emerald-500/10 via-transparent to-[#5e9e96]/10 pointer-events-none" />
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-emerald-500/10 via-transparent to-blue-500/10 pointer-events-none" />
 
             {/* Decorative dots */}
-            <div className="absolute top-4 left-6 w-2 h-2 rounded-full bg-[#d4a574]/30 animate-pulse" />
-            <div className="absolute top-8 right-10 w-1.5 h-1.5 rounded-full bg-[#5e9e96]/30 animate-pulse" style={{ animationDelay: "0.5s" }} />
+            <div className="absolute top-4 left-6 w-2 h-2 rounded-full bg-blue-400/30 animate-pulse" />
+            <div className="absolute top-8 right-10 w-1.5 h-1.5 rounded-full bg-purple-400/30 animate-pulse" style={{ animationDelay: "0.5s" }} />
             <div className="absolute bottom-12 left-10 w-1 h-1 rounded-full bg-emerald-400/30 animate-pulse" style={{ animationDelay: "1s" }} />
 
             <div className="relative z-10 text-center">
@@ -522,7 +522,7 @@ export default function EventRegistration() {
       >
         <div className="relative rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-2xl overflow-hidden">
           {/* Gradient accent */}
-          <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#d4a574]/10 via-transparent to-[#5e9e96]/08 pointer-events-none" />
+          <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-500/10 via-transparent to-purple-500/10 pointer-events-none" />
 
           {/* Poster */}
           {config?.poster_image && (
@@ -545,7 +545,7 @@ export default function EventRegistration() {
               </h1>
               <p className="text-white/50 text-sm">
                 Signed in as{" "}
-                <span className="text-[#d4a574]/85">{session.user.email}</span>
+                <span className="text-blue-400/80">{session.user.email}</span>
                 <button
                   onClick={signOut}
                   className="ml-2 text-white/30 hover:text-white/60 transition-colors underline underline-offset-2 text-xs"
@@ -572,7 +572,7 @@ export default function EventRegistration() {
                     onChange={(e) => setForm({ ...form, full_name: e.target.value })}
                     required
                     placeholder="Enter your full name"
-                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder:text-white/30 focus:border-[#d4a574]/50 focus:bg-white/[0.07] focus:outline-none focus:ring-1 focus:ring-[#d4a574]/30 transition-all duration-300"
+                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder:text-white/30 focus:border-blue-500/50 focus:bg-white/[0.07] focus:outline-none focus:ring-1 focus:ring-blue-500/30 transition-all duration-300"
                   />
                 </div>
               )}
@@ -587,7 +587,7 @@ export default function EventRegistration() {
                     value={form.gender}
                     onChange={(e) => setForm({ ...form, gender: e.target.value })}
                     required
-                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white focus:border-[#d4a574]/50 focus:bg-white/[0.07] focus:outline-none focus:ring-1 focus:ring-[#d4a574]/30 transition-all duration-300 appearance-none cursor-pointer"
+                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white focus:border-blue-500/50 focus:bg-white/[0.07] focus:outline-none focus:ring-1 focus:ring-blue-500/30 transition-all duration-300 appearance-none cursor-pointer"
                     style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='rgba(255,255,255,0.4)'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center', backgroundSize: '20px' }}
                   >
                     <option value="male" className="bg-slate-800">Male</option>
@@ -609,7 +609,7 @@ export default function EventRegistration() {
                     required
                     placeholder="e.g. 9876543210"
                     type="tel"
-                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder:text-white/30 focus:border-[#d4a574]/50 focus:bg-white/[0.07] focus:outline-none focus:ring-1 focus:ring-[#d4a574]/30 transition-all duration-300"
+                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder:text-white/30 focus:border-blue-500/50 focus:bg-white/[0.07] focus:outline-none focus:ring-1 focus:ring-blue-500/30 transition-all duration-300"
                   />
                 </div>
               )}
@@ -624,7 +624,7 @@ export default function EventRegistration() {
                     value={form.current_level}
                     onChange={(e) => setForm({ ...form, current_level: e.target.value })}
                     required
-                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white focus:border-[#d4a574]/50 focus:bg-white/[0.07] focus:outline-none focus:ring-1 focus:ring-[#d4a574]/30 transition-all duration-300 appearance-none cursor-pointer"
+                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white focus:border-blue-500/50 focus:bg-white/[0.07] focus:outline-none focus:ring-1 focus:ring-blue-500/30 transition-all duration-300 appearance-none cursor-pointer"
                     style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='rgba(255,255,255,0.4)'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center', backgroundSize: '20px' }}
                   >
                     <option value="Foundation" className="bg-slate-800">Foundation</option>
@@ -644,7 +644,7 @@ export default function EventRegistration() {
                     value={form.house}
                     onChange={(e) => setForm({ ...form, house: e.target.value })}
                     required
-                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white focus:border-[#d4a574]/50 focus:bg-white/[0.07] focus:outline-none focus:ring-1 focus:ring-[#d4a574]/30 transition-all duration-300 appearance-none cursor-pointer"
+                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white focus:border-blue-500/50 focus:bg-white/[0.07] focus:outline-none focus:ring-1 focus:ring-blue-500/30 transition-all duration-300 appearance-none cursor-pointer"
                     style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='rgba(255,255,255,0.4)'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center', backgroundSize: '20px' }}
                   >
                     {houses.map((h) => (
@@ -662,7 +662,7 @@ export default function EventRegistration() {
                 disabled={submitting}
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full rounded-xl bg-gradient-to-r from-[#d4a574] to-[#5e9e96] px-6 py-3.5 font-semibold text-[#0a090c] shadow-lg shadow-amber-900/20 transition-all duration-300 hover:shadow-xl hover:shadow-amber-800/30 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none"
+                className="w-full rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-3.5 font-semibold text-white shadow-lg shadow-blue-500/20 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/30 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none"
               >
                 {submitting ? (
                   <span className="flex items-center justify-center gap-2">

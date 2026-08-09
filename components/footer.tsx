@@ -47,9 +47,9 @@ export default function Footer() {
       <div
         className="relative w-full border-t border-white/[0.08]"
         style={{
-          backgroundColor: "#020617",
+          backgroundColor: "#0F1013",
           // Extend past the viewport bottom so no mesh peeks through subpixels / safe area
-          boxShadow: "0 1px 0 0 #020617",
+          boxShadow: "0 1px 0 0 #0F1013",
           paddingBottom: "max(1.5rem, env(safe-area-inset-bottom, 0px))",
         }}
       >

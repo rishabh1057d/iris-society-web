@@ -154,7 +154,7 @@ export default function Meetups() {
                 aria-label="Scroll past photowalks left"
                 className={`inline-flex items-center justify-center min-h-[40px] min-w-[40px] rounded-full border backdrop-blur-md transition active:scale-95 ${
                   canScrollLeft
-                    ? "bg-[#d4a574]/15 border-[#d4a574]/30 text-[#f5f0e8] hover:bg-[#d4a574]/25"
+                    ? "bg-blue-600/20 border-blue-400/30 text-blue-100 hover:bg-blue-600/30"
                     : "bg-white/5 border-white/10 text-slate-600 cursor-not-allowed"
                 }`}
               >
@@ -167,7 +167,7 @@ export default function Meetups() {
                 aria-label="Scroll past photowalks right"
                 className={`inline-flex items-center justify-center min-h-[40px] min-w-[40px] rounded-full border backdrop-blur-md transition active:scale-95 ${
                   canScrollRight
-                    ? "bg-[#d4a574]/15 border-[#d4a574]/30 text-[#f5f0e8] hover:bg-[#d4a574]/25"
+                    ? "bg-blue-600/20 border-blue-400/30 text-blue-100 hover:bg-blue-600/30"
                     : "bg-white/5 border-white/10 text-slate-600 cursor-not-allowed"
                 }`}
               >
