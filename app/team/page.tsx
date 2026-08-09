@@ -790,7 +790,7 @@ export default function Team() {
           <DialogHeader>
             <DialogTitle className="text-white">Recruitment closed</DialogTitle>
             <DialogDescription className="text-slate-300">
-              We aren&apos;t recruiting at the moment — keep an eye out for
+              We aren&apos;t recruiting at the moment. Keep an eye out for
               announcements on Instagram and campus channels.
             </DialogDescription>
           </DialogHeader>

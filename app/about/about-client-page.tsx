@@ -26,7 +26,7 @@ import { cn } from "@/lib/utils"
 const pillars = [
   {
     title: "Workshops",
-    copy: "Hands-on sessions on light, composition, editing, and storytelling — for beginners and regulars alike.",
+    copy: "Hands-on sessions on light, composition, editing, and storytelling, for beginners and regulars alike.",
     icon: GraduationCap,
     tone: "from-[#3230e0]/30 to-transparent",
   },
@@ -89,7 +89,7 @@ const timeline = [
   {
     when: "Now",
     title: "Still & motion",
-    copy: "Photography, videography, design, and web — one society telling stories in light and motion.",
+    copy: "Photography, videography, design, and web: one society telling stories in light and motion.",
   },
 ]
 
