@@ -11,10 +11,10 @@ export const metadata: Metadata = {
       "Discover IRIS Society — the official Photography & Videography Society of the IIT Madras BS program.",
     images: [
       {
-        url: "/images/logo-tilted.png",
-        width: 500,
-        height: 400,
-        alt: "IRIS Society tilted logo",
+        url: "/images/logo.png",
+        width: 512,
+        height: 512,
+        alt: "IRIS Society logo",
       },
     ],
   },
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     title: "About IRIS Society",
     description:
       "Discover IRIS Society — the official Photography & Videography Society of the IIT Madras BS program.",
-    images: ["/images/logo-tilted.png"],
+    images: ["/images/logo.png"],
   },
 }
 

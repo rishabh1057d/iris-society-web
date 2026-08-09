@@ -299,10 +299,10 @@ function InteractiveBackground() {
 
   return (
     <div className="fixed inset-0 pointer-events-none z-0">
-      {/* Mesh gradient background (from floating-notification) */}
+      {/* Mesh field — stay close to brand ink so hero VelvetSweep blends cleanly */}
       <MeshGradientComponent
         id="gradient-canvas"
-        colors={["#0F1013", "#12141f", "#1a1840", "#0a0b14"]}
+        colors={["#0F1013", "#11131a", "#15182e", "#0a0b12"]}
         style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
       />
       {/* Canvas for particles */}
@@ -375,8 +375,8 @@ function InteractiveBackground() {
         </div>
       )}
 
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-blue-900/5 to-purple-900/10 pointer-events-none" />
+      {/* Subtle depth overlay — keep near brand ink, avoid blue banding */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0F1013]/20 via-transparent to-[#0F1013]/35 pointer-events-none" />
     </div>
   )
 }

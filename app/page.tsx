@@ -1297,8 +1297,20 @@ export default function Home() {
           ref={heroRef}
           className="min-h-screen min-h-[100dvh] w-full flex flex-col items-center justify-center text-center safe-area-inset-top relative z-10 overflow-hidden"
         >
-          {/* Velvet Sweep sits behind hero content (mobile + desktop) */}
-          <div className="absolute inset-0 pointer-events-none" aria-hidden>
+          {/*
+            Velvet fades into the global InteractiveBackground mesh via mask
+            (no solid #0F1013 band — that was causing the hard horizontal seam).
+          */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            aria-hidden
+            style={{
+              WebkitMaskImage:
+                "linear-gradient(to bottom, #000 0%, #000 52%, rgba(0,0,0,0.85) 68%, rgba(0,0,0,0.45) 82%, transparent 100%)",
+              maskImage:
+                "linear-gradient(to bottom, #000 0%, #000 52%, rgba(0,0,0,0.85) 68%, rgba(0,0,0,0.45) 82%, transparent 100%)",
+            }}
+          >
             <VelvetSweep
               color="#3230e0"
               background="#0F1013"
@@ -1306,10 +1318,12 @@ export default function Home() {
               intensity={0.95}
               className="absolute inset-0 h-full w-full"
             />
-            {/* Soft bottom fade so lower sections meet site mesh cleanly */}
-            <div className="absolute inset-x-0 bottom-0 h-28 md:h-40 bg-gradient-to-t from-[#0F1013] via-[#0F1013]/70 to-transparent" />
-            <div className="absolute inset-x-0 top-0 h-20 md:h-28 bg-gradient-to-b from-[#0F1013]/50 to-transparent" />
           </div>
+          {/* Gentle top vignette only — navbar readability */}
+          <div
+            className="pointer-events-none absolute inset-x-0 top-0 h-24 md:h-32 bg-gradient-to-b from-[#0F1013]/55 to-transparent"
+            aria-hidden
+          />
 
           <ResponsiveContainer size="lg" padding="lg" className="relative z-10">
             {/* Enhanced Logo with better visual impact */}
@@ -1450,22 +1464,11 @@ export default function Home() {
           </ResponsiveContainer>
         </div>
 
-        {/* Enhanced transition element with better visual flow */}
-        <div className="w-full relative">
-          {/* Multi-layer gradient transition */}
-          <div className="absolute top-0 left-0 w-full h-40 md:h-80 bg-gradient-to-b from-transparent via-[#0F1013]/45 to-[#0F1013]/65 transform -translate-y-40 md:-translate-y-80"></div>
-          <div className="absolute top-0 left-0 w-full h-32 md:h-64 bg-gradient-to-b from-transparent via-[#3230e0]/12 to-[#3230e0]/18 transform -translate-y-32 md:-translate-y-64"></div>
-          <div className="w-full h-20 md:h-40 bg-gradient-to-b from-transparent to-[#0F1013]/50"></div>
-          
-          {/* Decorative wave pattern */}
-          <div className="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-r from-[#3230e0]/15 via-[#5b59f0]/12 to-[#3230e0]/15"></div>
-        </div>
-
         {/* Enhanced Video Section with improved design */}
         {videoData?.enabled && (
           <motion.div
             ref={videoSectionRef}
-            className="w-full relative z-10 bg-gradient-to-b from-[#0F1013]/60 via-[#3230e0]/12 to-[#0F1013]/40"
+            className="w-full relative z-10 bg-transparent"
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
@@ -1624,12 +1627,12 @@ export default function Home() {
           variants={potwVariants}
           initial="hidden"
           animate={controls}
-          className="w-full relative z-10 bg-gradient-to-b from-[#0F1013]/55 via-[#3230e0]/10 to-transparent"
+          className="w-full relative z-10 bg-transparent"
         >
-          {/* Background decorative elements */}
-          <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            <div className="absolute w-80 h-80 rounded-full bg-gradient-to-r from-[#3230e0]/08 to-[#5b59f0]/06 blur-3xl top-1/4 right-1/4 animate-pulse" />
-            <div className="absolute w-72 h-72 rounded-full bg-gradient-to-r from-[#3230e0]/07 to-[#5b59f0]/05 blur-3xl bottom-1/4 left-1/4 animate-pulse" style={{ animationDelay: '2s' }} />
+          {/* Soft depth only — no solid wash that severs the global mesh */}
+          <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden>
+            <div className="absolute w-80 h-80 rounded-full bg-[#3230e0]/[0.07] blur-3xl top-1/4 right-1/4" />
+            <div className="absolute w-72 h-72 rounded-full bg-[#5b59f0]/[0.05] blur-3xl bottom-1/4 left-1/4" />
           </div>
 
           <ResponsiveContainer size="xl" padding="lg" className="py-12 md:py-24">

@@ -1,6 +1,13 @@
 "use client"
 
-import { useEffect, useMemo, useRef, useState, useCallback } from "react"
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useCallback,
+  type ReactNode,
+} from "react"
 import Image from "next/image"
 import Link from "next/link"
 import {
@@ -209,7 +216,11 @@ function LeadershipCard({
   )
 }
 
-/** Squad member — photo-first, equal height; mobile stays compact */
+/** Fixed card width so flex rows can center incomplete last rows */
+const MEMBER_CARD_WIDTH =
+  "w-[calc((100%-0.625rem)/2)] sm:w-[calc((100%-2rem)/3)] lg:w-[calc((100%-3.75rem)/4)]"
+
+/** Squad member — photo-first; centered text + centered incomplete rows via parent flex */
 function MemberCard({
   member,
   onOpen,
@@ -222,12 +233,15 @@ function MemberCard({
       variants={staggerItem}
       whileHover={{ y: -3, transition: spring.snappy }}
       whileTap={{ scale: 0.985 }}
-      className="team-card glass-card-event group flex h-full flex-col overflow-hidden rounded-2xl"
+      className={cn(
+        "team-card glass-card-event group flex h-full flex-col overflow-hidden rounded-2xl",
+        MEMBER_CARD_WIDTH
+      )}
     >
       <button
         type="button"
         onClick={() => onOpen(member)}
-        className="flex h-full flex-col text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#3230e0]/50"
+        className="flex h-full flex-col text-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#3230e0]/50"
       >
         <div className="relative aspect-[4/5] w-full overflow-hidden bg-slate-900/70">
           <Image
@@ -237,13 +251,13 @@ function MemberCard({
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
             className="object-cover transition duration-500 group-hover:scale-[1.04]"
           />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 p-2.5 sm:p-3">
-            <h3 className="line-clamp-1 text-sm font-semibold tracking-tight text-white sm:text-base">
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 px-2 py-2.5 sm:px-3 sm:py-3">
+            <h3 className="line-clamp-2 text-center text-sm font-semibold leading-snug tracking-tight text-white sm:text-base">
               {member.name}
             </h3>
             {member.role && (
-              <p className="mt-0.5 line-clamp-1 text-xs text-sky-200/85 sm:text-[13px]">
+              <p className="mt-0.5 line-clamp-2 text-center text-xs leading-snug text-sky-200/85 sm:text-[13px]">
                 {member.role}
               </p>
             )}
@@ -251,14 +265,11 @@ function MemberCard({
         </div>
 
         {member.description && (
-          <div className="hidden flex-1 flex-col p-3.5 sm:flex sm:p-4">
-            <p className="line-clamp-2 text-sm leading-relaxed text-slate-300">
+          <div className="hidden flex-1 flex-col items-center p-3.5 text-center sm:flex sm:p-4">
+            <p className="line-clamp-2 w-full text-center text-sm leading-relaxed text-slate-300">
               {member.description}
             </p>
-            <div className="mt-auto flex items-center justify-between pt-3">
-              <span className="text-xs text-sky-200/50 opacity-0 transition group-hover:opacity-100">
-                More
-              </span>
+            <div className="mt-auto flex w-full items-center justify-center pt-3">
               <span
                 className="inline-flex"
                 onClick={(e) => e.stopPropagation()}
@@ -276,6 +287,30 @@ function MemberCard({
         <LinkedInButton member={member} size="sm" />
       </div>
     </motion.article>
+  )
+}
+
+/** Flex wrap + justify-center so partial last rows sit in the middle */
+function MemberGrid({
+  children,
+  className,
+}: {
+  children: ReactNode
+  className?: string
+}) {
+  return (
+    <motion.div
+      className={cn(
+        "flex flex-wrap justify-center gap-2.5 sm:gap-4 lg:gap-5",
+        className
+      )}
+      variants={staggerContainer}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-40px" }}
+    >
+      {children}
+    </motion.div>
   )
 }
 
@@ -373,11 +408,14 @@ function SectionHeader({
 
 function SkeletonGrid({ n = 4 }: { n?: number }) {
   return (
-    <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
+    <div className="flex flex-wrap justify-center gap-2.5 sm:gap-4 lg:gap-5">
       {Array.from({ length: n }).map((_, i) => (
         <div
           key={i}
-          className="aspect-[4/5] animate-pulse rounded-2xl bg-white/[0.05]"
+          className={cn(
+            "aspect-[4/5] animate-pulse rounded-2xl bg-white/[0.05]",
+            MEMBER_CARD_WIDTH
+          )}
         />
       ))}
     </div>
@@ -590,13 +628,7 @@ export default function Team() {
                   count={members.length}
                   icon={section.icon}
                 />
-                <motion.div
-                  className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 lg:gap-5"
-                  variants={staggerContainer}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, margin: "-40px" }}
-                >
+                <MemberGrid>
                   {members.map((member) => (
                     <MemberCard
                       key={`${section.key}-${member.id}-${member.name}`}
@@ -604,7 +636,7 @@ export default function Team() {
                       onOpen={openMember}
                     />
                   ))}
-                </motion.div>
+                </MemberGrid>
               </section>
             )
           })
@@ -702,7 +734,7 @@ export default function Team() {
                         count={previousMembers[selectedTenure]!.coreTeam!.length}
                         icon={Sparkles}
                       />
-                      <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
+                      <MemberGrid>
                         {previousMembers[selectedTenure]!.coreTeam!.map(
                           (member) => (
                             <MemberCard
@@ -712,7 +744,7 @@ export default function Team() {
                             />
                           )
                         )}
-                      </div>
+                      </MemberGrid>
                     </section>
                   )}
 
@@ -728,7 +760,7 @@ export default function Team() {
                         }
                         icon={Code2}
                       />
-                      <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
+                      <MemberGrid>
                         {previousMembers[selectedTenure]!.webDevTeam!.map(
                           (member) => (
                             <MemberCard
@@ -738,7 +770,7 @@ export default function Team() {
                             />
                           )
                         )}
-                      </div>
+                      </MemberGrid>
                     </section>
                   )}
               </div>
