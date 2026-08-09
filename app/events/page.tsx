@@ -1,11 +1,327 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react"
 import Footer from "@/components/footer"
 import Image from "next/image"
-import { Calendar, MapPin, Users, ChevronLeft, ChevronRight } from "lucide-react"
-import { motion, useInView } from "framer-motion"
+import {
+  Calendar,
+  MapPin,
+  Users,
+  ChevronLeft,
+  ChevronRight,
+  ExternalLink,
+  Instagram,
+  PlayCircle,
+  Trophy,
+  ArrowUpRight,
+} from "lucide-react"
+import { motion, useInView, AnimatePresence } from "framer-motion"
 import { spring, staggerContainer, staggerItem } from "@/lib/motion"
+import { cn } from "@/lib/utils"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog"
+
+type IrisEvent = {
+  id: number
+  title: string
+  description?: string
+  dates?: string
+  location?: string
+  collab?: string
+  image: string
+  registrationOpen?: boolean
+  registrationLink?: string
+  status: "ongoing" | "previous" | string
+  resultLink?: string
+  liveSessionLink?: string
+  speakerInstagram?: string
+}
+
+function ActionChip({
+  href,
+  children,
+  tone = "brand",
+}: {
+  href?: string
+  children: ReactNode
+  tone?: "brand" | "emerald" | "pink" | "muted"
+}) {
+  const tones = {
+    brand:
+      "bg-[#3230e0]/18 text-[#c8c7ff] border-[#3230e0]/30 hover:bg-[#3230e0]/28",
+    emerald:
+      "bg-emerald-500/15 text-emerald-100 border-emerald-400/25 hover:bg-emerald-500/25",
+    pink: "bg-pink-500/15 text-pink-100 border-pink-400/25 hover:bg-pink-500/25",
+    muted: "bg-white/5 text-slate-400 border-white/10 cursor-default",
+  }
+
+  const className = cn(
+    "inline-flex items-center justify-center gap-1.5 min-h-[36px] px-3 py-1.5 rounded-full text-xs font-medium border transition active:scale-95",
+    tones[tone]
+  )
+
+  if (!href || tone === "muted") {
+    return <span className={className}>{children}</span>
+  }
+
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={className}
+      onClick={(e) => e.stopPropagation()}
+    >
+      {children}
+    </a>
+  )
+}
+
+function EventActions({ event }: { event: IrisEvent }) {
+  const isPrevious = event.status === "previous"
+  return (
+    <div className="flex flex-wrap gap-1.5">
+      {isPrevious ? (
+        <>
+          {event.resultLink?.trim() && (
+            <ActionChip href={event.resultLink} tone="brand">
+              <Trophy className="w-3 h-3" />
+              Results
+            </ActionChip>
+          )}
+          {event.liveSessionLink?.trim() && (
+            <ActionChip href={event.liveSessionLink} tone="emerald">
+              <PlayCircle className="w-3 h-3" />
+              Session
+            </ActionChip>
+          )}
+        </>
+      ) : event.registrationOpen && event.registrationLink?.trim() ? (
+        <ActionChip href={event.registrationLink} tone="brand">
+          Join Now
+          <ArrowUpRight className="w-3 h-3" />
+        </ActionChip>
+      ) : (
+        <ActionChip tone="muted">Registration Closed</ActionChip>
+      )}
+      {event.speakerInstagram?.trim() && (
+        <ActionChip href={event.speakerInstagram} tone="pink">
+          <Instagram className="w-3 h-3" />
+          Guest
+        </ActionChip>
+      )}
+    </div>
+  )
+}
+
+function MetaRow({ event, compact }: { event: IrisEvent; compact?: boolean }) {
+  const items = [
+    event.dates && { icon: Calendar, text: event.dates },
+    event.location && { icon: MapPin, text: event.location },
+    !compact && event.collab && { icon: Users, text: event.collab },
+  ].filter(Boolean) as { icon: typeof Calendar; text: string }[]
+
+  if (!items.length) return null
+
+  return (
+    <div
+      className={cn(
+        "flex flex-wrap gap-x-3 gap-y-1 text-[11px] sm:text-xs text-slate-400",
+        compact && "gap-x-2"
+      )}
+    >
+      {items.map(({ icon: Icon, text }) => (
+        <span key={text} className="inline-flex items-center gap-1 min-w-0 max-w-full">
+          <Icon className="w-3 h-3 shrink-0 text-[#7c7af5]/80" />
+          <span className="truncate">{text}</span>
+        </span>
+      ))}
+    </div>
+  )
+}
+
+/** Desktop / tablet equal-height grid card — image fixed, copy clamped */
+function EventGridCard({
+  event,
+  onOpen,
+}: {
+  event: IrisEvent
+  onOpen: (e: IrisEvent) => void
+}) {
+  return (
+    <motion.article
+      variants={staggerItem}
+      whileHover={{ y: -3, transition: spring.snappy }}
+      whileTap={{ scale: 0.99 }}
+      className="event-card group flex h-full min-h-0 flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-md"
+    >
+      <button
+        type="button"
+        onClick={() => onOpen(event)}
+        className="flex h-full min-h-0 flex-col text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3230e0]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0F1013]"
+      >
+        {/* Fixed media ratio — same for every card */}
+        <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden bg-[#16182a]">
+          <Image
+            src={event.image}
+            alt=""
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="object-cover transition duration-300 group-hover:scale-[1.03]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0F1013]/80 via-transparent to-transparent" />
+          <span
+            className={cn(
+              "absolute left-3 top-3 rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide backdrop-blur-md",
+              event.status === "ongoing"
+                ? "border-emerald-400/30 bg-emerald-500/20 text-emerald-100"
+                : "border-white/15 bg-black/40 text-slate-200"
+            )}
+          >
+            {event.status === "ongoing" ? "Live" : "Past"}
+          </span>
+        </div>
+
+        <div className="flex min-h-0 flex-1 flex-col gap-2.5 p-4 md:p-5">
+          <h3 className="line-clamp-2 min-h-[2.6em] text-base font-semibold leading-snug tracking-tight text-white md:text-[1.05rem]">
+            {event.title}
+          </h3>
+
+          {event.description ? (
+            <p className="line-clamp-2 min-h-[2.6em] text-sm leading-relaxed text-slate-400">
+              {event.description}
+            </p>
+          ) : (
+            <p className="min-h-[2.6em] text-sm text-transparent select-none">—</p>
+          )}
+
+          <MetaRow event={event} />
+
+          <div className="mt-auto flex items-center justify-between gap-2 pt-1">
+            <span className="text-[11px] font-medium text-[#a8a6ff] opacity-0 transition group-hover:opacity-100">
+              View details
+            </span>
+            <ExternalLink className="h-3.5 w-3.5 text-slate-500 transition group-hover:text-[#a8a6ff]" />
+          </div>
+        </div>
+      </button>
+
+      <div className="border-t border-white/5 px-4 pb-4 pt-3 md:px-5 md:pb-5">
+        <EventActions event={event} />
+      </div>
+    </motion.article>
+  )
+}
+
+/** Phone: dense horizontal row — fits ~2–3 per viewport without giant posters */
+function EventListRow({
+  event,
+  onOpen,
+}: {
+  event: IrisEvent
+  onOpen: (e: IrisEvent) => void
+}) {
+  return (
+    <motion.article
+      variants={staggerItem}
+      whileTap={{ scale: 0.99 }}
+      className="event-card overflow-hidden rounded-xl border border-white/10 bg-white/[0.04]"
+    >
+      <button
+        type="button"
+        onClick={() => onOpen(event)}
+        className="flex w-full gap-3 p-2.5 text-left active:bg-white/[0.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#3230e0]/50"
+      >
+        <div className="relative h-[4.75rem] w-[4.75rem] shrink-0 overflow-hidden rounded-lg bg-[#16182a] sm:h-20 sm:w-20">
+          <Image
+            src={event.image}
+            alt=""
+            fill
+            sizes="80px"
+            className="object-cover"
+          />
+        </div>
+
+        <div className="min-w-0 flex-1 py-0.5">
+          <div className="mb-1 flex items-start justify-between gap-2">
+            <h3 className="line-clamp-2 text-[0.9375rem] font-semibold leading-snug tracking-tight text-white">
+              {event.title}
+            </h3>
+            <ChevronRight className="mt-0.5 h-4 w-4 shrink-0 text-slate-500" />
+          </div>
+          <MetaRow event={event} compact />
+          {event.description && (
+            <p className="mt-1 line-clamp-1 text-xs leading-relaxed text-slate-500">
+              {event.description}
+            </p>
+          )}
+        </div>
+      </button>
+
+      {/* Actions sit under row but compact — only if any exist */}
+      {(event.resultLink?.trim() ||
+        event.liveSessionLink?.trim() ||
+        event.speakerInstagram?.trim() ||
+        event.status !== "previous" ||
+        event.registrationOpen) && (
+        <div className="border-t border-white/5 px-2.5 py-2">
+          <EventActions event={event} />
+        </div>
+      )}
+    </motion.article>
+  )
+}
+
+/** Fixed-height carousel card for previous events on desktop */
+function EventCarouselCard({
+  event,
+  onOpen,
+}: {
+  event: IrisEvent
+  onOpen: (e: IrisEvent) => void
+}) {
+  return (
+    <motion.article
+      whileHover={{ y: -2, transition: spring.snappy }}
+      whileTap={{ scale: 0.99 }}
+      className="event-card flex h-full w-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04]"
+    >
+      <button
+        type="button"
+        onClick={() => onOpen(event)}
+        className="flex h-full flex-col text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3230e0]/50"
+      >
+        <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden bg-[#16182a]">
+          <Image
+            src={event.image}
+            alt=""
+            fill
+            sizes="280px"
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0F1013]/85 via-transparent to-transparent" />
+        </div>
+        <div className="flex flex-1 flex-col gap-2 p-3.5">
+          <h3 className="line-clamp-2 min-h-[2.5em] text-sm font-semibold leading-snug text-white">
+            {event.title}
+          </h3>
+          <p className="line-clamp-2 min-h-[2.5em] text-xs leading-relaxed text-slate-400">
+            {event.description || "\u00A0"}
+          </p>
+          <MetaRow event={event} compact />
+        </div>
+      </button>
+      <div className="mt-auto border-t border-white/5 px-3.5 py-2.5">
+        <EventActions event={event} />
+      </div>
+    </motion.article>
+  )
+}
 
 export default function Events() {
   const titleRef = useRef<HTMLHeadingElement>(null)
@@ -15,7 +331,9 @@ export default function Events() {
 
   const [canScrollLeft, setCanScrollLeft] = useState(false)
   const [canScrollRight, setCanScrollRight] = useState(true)
-  const [events, setEvents] = useState<any[]>([])
+  const [events, setEvents] = useState<IrisEvent[]>([])
+  const [selected, setSelected] = useState<IrisEvent | null>(null)
+  const [loading, setLoading] = useState(true)
 
   const isTitleInView = useInView(titleRef, { once: true })
   const isOngoingInView = useInView(ongoingRef, { once: true, margin: "-40px" })
@@ -24,21 +342,20 @@ export default function Events() {
   useEffect(() => {
     fetch("/events.json")
       .then((res) => res.json())
-      .then((data) => {
-        data.sort((a: { id: number }, b: { id: number }) => b.id - a.id)
+      .then((data: IrisEvent[]) => {
+        data.sort((a, b) => b.id - a.id)
         setEvents(data)
       })
       .catch(() => setEvents([]))
+      .finally(() => setLoading(false))
   }, [])
 
   const scrollLeft = () => {
-    scrollContainerRef.current?.scrollBy({ left: -320, behavior: "smooth" })
+    scrollContainerRef.current?.scrollBy({ left: -300, behavior: "smooth" })
   }
-
   const scrollRight = () => {
-    scrollContainerRef.current?.scrollBy({ left: 320, behavior: "smooth" })
+    scrollContainerRef.current?.scrollBy({ left: 300, behavior: "smooth" })
   }
-
   const handleScroll = () => {
     if (!scrollContainerRef.current) return
     const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current
@@ -46,200 +363,222 @@ export default function Events() {
     setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10)
   }
 
-  const ongoingEvents = events.filter((e) => e.status === "ongoing")
-  const previousEvents = events.filter((e) => e.status === "previous")
-
-  /** Same card shell as Photowalks — full-width in grids, fixed width in carousels */
-  const EventCard = ({ event }: { event: any }) => (
-    <motion.div
-      className="event-card meetup-card glass-card-event w-full bg-white/[0.04] border border-white/10 rounded-2xl overflow-hidden"
-      variants={staggerItem}
-      whileHover={{ y: -3, transition: spring.snappy }}
-      whileTap={{ scale: 0.99 }}
-    >
-      <div className="aspect-[3/4] bg-slate-800 relative">
-        <Image
-          src={event.image}
-          alt={event.title}
-          width={300}
-          height={400}
-          className="w-full h-full object-cover"
-        />
-      </div>
-      <div className="p-5 md:p-6">
-        <h3 className="text-lg md:text-xl font-semibold mb-3 text-white tracking-tight">
-          {event.title}
-        </h3>
-        {event.description && (
-          <p className="text-slate-300 mb-3 text-sm leading-relaxed">{event.description}</p>
-        )}
-        <div className="space-y-1.5 text-xs text-sky-200/80 mb-4">
-          {event.dates && (
-            <div className="flex items-center gap-2">
-              <Calendar className="w-3.5 h-3.5 shrink-0 opacity-80" />
-              <span>{event.dates}</span>
-            </div>
-          )}
-          {event.location && (
-            <div className="flex items-center gap-2">
-              <MapPin className="w-3.5 h-3.5 shrink-0 opacity-80" />
-              <span>{event.location}</span>
-            </div>
-          )}
-          {event.collab && (
-            <div className="flex items-center gap-2">
-              <Users className="w-3.5 h-3.5 shrink-0 opacity-80" />
-              <span>{event.collab}</span>
-            </div>
-          )}
-        </div>
-        <div className="flex flex-wrap justify-center gap-2">
-          {event.status === "previous" ? (
-            <>
-              {event.resultLink?.trim() && (
-                <a
-                  href={event.resultLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs min-h-[36px] inline-flex items-center px-3 py-1.5 rounded-full bg-blue-600/20 text-blue-100 border border-blue-400/20 hover:bg-blue-600/30 active:scale-95 transition"
-                >
-                  View Results
-                </a>
-              )}
-              {event.liveSessionLink?.trim() && (
-                <a
-                  href={event.liveSessionLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs min-h-[36px] inline-flex items-center px-3 py-1.5 rounded-full bg-emerald-600/20 text-emerald-100 border border-emerald-400/20 hover:bg-emerald-600/30 active:scale-95 transition"
-                >
-                  Live Session
-                </a>
-              )}
-            </>
-          ) : event.registrationOpen ? (
-            <a
-              href={event.registrationLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs min-h-[36px] inline-flex items-center px-3 py-1.5 rounded-full bg-blue-600/20 text-blue-100 border border-blue-400/20 hover:bg-blue-600/30 active:scale-95 transition"
-            >
-              Join Now
-            </a>
-          ) : (
-            <span className="text-xs min-h-[36px] inline-flex items-center px-3 py-1.5 rounded-full bg-white/5 text-slate-400 border border-white/10">
-              Registration Closed
-            </span>
-          )}
-          {event.speakerInstagram?.trim() && (
-            <a
-              href={event.speakerInstagram}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs min-h-[36px] inline-flex items-center px-3 py-1.5 rounded-full bg-pink-600/20 text-pink-100 border border-pink-400/20 hover:bg-pink-600/30 active:scale-95 transition"
-            >
-              Our Guest
-            </a>
-          )}
-        </div>
-      </div>
-    </motion.div>
+  const ongoingEvents = useMemo(
+    () => events.filter((e) => e.status === "ongoing"),
+    [events]
+  )
+  const previousEvents = useMemo(
+    () => events.filter((e) => e.status === "previous"),
+    [events]
   )
 
   return (
     <div className="flex min-h-full flex-1 flex-col">
-      <div className="page-shell max-w-7xl flex-1">
+      <div className="page-shell max-w-6xl flex-1">
         <motion.header
           ref={titleRef}
-          className="page-hero"
+          className="page-hero mb-8 md:mb-10"
           initial={{ opacity: 0, y: 12 }}
           animate={isTitleInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
           transition={spring.default}
         >
           <h1 className="page-hero-title">Event Calendar</h1>
-          <p className="page-hero-sub">Workshops, competitions, and showcases from IRIS.</p>
+          <p className="page-hero-sub">
+            Workshops, competitions, and showcases from IRIS — tap a card for the full story.
+          </p>
         </motion.header>
 
-        {/* Ongoing — same responsive grid as Photowalks (1 col phone → 3 col desktop) */}
+        {/* ── Ongoing ── */}
         <motion.section
-          className="mb-14 md:mb-16"
+          className="mb-10 md:mb-14"
           ref={ongoingRef}
           initial={{ opacity: 0, y: 12 }}
           animate={isOngoingInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
           transition={spring.default}
         >
-          <h2 className="section-title">Ongoing Events</h2>
-          {ongoingEvents.length === 0 ? (
-            <p className="text-slate-400 text-sm">No events are going on right now.</p>
-          ) : (
-            <motion.div
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6"
-              variants={staggerContainer}
-              initial="hidden"
-              animate={isOngoingInView ? "visible" : "hidden"}
-            >
-              {ongoingEvents.map((event) => (
-                <EventCard key={event.id} event={event} />
+          <div className="mb-4 flex items-end justify-between gap-3 md:mb-5">
+            <h2 className="section-title !mb-0">Ongoing</h2>
+            {!loading && (
+              <span className="text-xs text-slate-500 tabular-nums">
+                {ongoingEvents.length} live
+              </span>
+            )}
+          </div>
+
+          {loading ? (
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
+              {[0, 1].map((i) => (
+                <div
+                  key={i}
+                  className="h-48 animate-pulse rounded-2xl bg-white/[0.04] sm:h-64"
+                />
               ))}
-            </motion.div>
+            </div>
+          ) : ongoingEvents.length === 0 ? (
+            <div className="rounded-2xl border border-dashed border-white/10 bg-white/[0.02] px-4 py-8 text-center">
+              <p className="text-sm text-slate-400">No events are live right now.</p>
+              <p className="mt-1 text-xs text-slate-500">
+                Check Previous for past workshops and competitions.
+              </p>
+            </div>
+          ) : (
+            <>
+              {/* Mobile: compact rows */}
+              <motion.div
+                className="flex flex-col gap-2.5 sm:hidden"
+                variants={staggerContainer}
+                initial="hidden"
+                animate={isOngoingInView ? "visible" : "hidden"}
+              >
+                {ongoingEvents.map((event) => (
+                  <EventListRow
+                    key={event.id}
+                    event={event}
+                    onOpen={setSelected}
+                  />
+                ))}
+              </motion.div>
+              {/* Tablet+ : equal grid */}
+              <motion.div
+                className="hidden grid-cols-2 gap-4 sm:grid lg:grid-cols-3 lg:gap-5"
+                variants={staggerContainer}
+                initial="hidden"
+                animate={isOngoingInView ? "visible" : "hidden"}
+              >
+                {ongoingEvents.map((event) => (
+                  <EventGridCard
+                    key={event.id}
+                    event={event}
+                    onOpen={setSelected}
+                  />
+                ))}
+              </motion.div>
+            </>
           )}
         </motion.section>
 
-        {/* Previous — horizontal carousel matching Past Photowalks */}
+        {/* ── Previous ── */}
         <motion.section
           ref={previousRef}
           initial={{ opacity: 0, y: 12 }}
           animate={isPreviousInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
           transition={spring.default}
+          className="mb-4"
         >
-          <div className="flex items-center justify-between gap-4 mb-6">
-            <h2 className="section-title !mb-0 flex-1">Previous Events</h2>
-            <div className="flex gap-2 shrink-0">
+          <div className="mb-4 flex items-center justify-between gap-3 md:mb-5">
+            <div className="min-w-0">
+              <h2 className="section-title !mb-0">Previous</h2>
+              <p className="mt-1 text-xs text-slate-500 sm:text-sm">
+                {previousEvents.length} past events
+              </p>
+            </div>
+            {/* Carousel controls — desktop only (mobile uses vertical list) */}
+            <div className="hidden gap-2 sm:flex">
               <button
                 type="button"
                 onClick={scrollLeft}
                 disabled={!canScrollLeft}
                 aria-label="Scroll previous events left"
-                className={`inline-flex items-center justify-center min-h-[40px] min-w-[40px] rounded-full border backdrop-blur-md transition active:scale-95 ${
+                className={cn(
+                  "inline-flex min-h-[40px] min-w-[40px] items-center justify-center rounded-full border backdrop-blur-md transition active:scale-95",
                   canScrollLeft
-                    ? "bg-blue-600/20 border-blue-400/30 text-blue-100 hover:bg-blue-600/30"
-                    : "bg-white/5 border-white/10 text-slate-600 cursor-not-allowed"
-                }`}
+                    ? "border-[#3230e0]/30 bg-[#3230e0]/15 text-[#c8c7ff] hover:bg-[#3230e0]/25"
+                    : "cursor-not-allowed border-white/10 bg-white/5 text-slate-600"
+                )}
               >
-                <ChevronLeft className="w-5 h-5" />
+                <ChevronLeft className="h-5 w-5" />
               </button>
               <button
                 type="button"
                 onClick={scrollRight}
                 disabled={!canScrollRight}
                 aria-label="Scroll previous events right"
-                className={`inline-flex items-center justify-center min-h-[40px] min-w-[40px] rounded-full border backdrop-blur-md transition active:scale-95 ${
+                className={cn(
+                  "inline-flex min-h-[40px] min-w-[40px] items-center justify-center rounded-full border backdrop-blur-md transition active:scale-95",
                   canScrollRight
-                    ? "bg-blue-600/20 border-blue-400/30 text-blue-100 hover:bg-blue-600/30"
-                    : "bg-white/5 border-white/10 text-slate-600 cursor-not-allowed"
-                }`}
+                    ? "border-[#3230e0]/30 bg-[#3230e0]/15 text-[#c8c7ff] hover:bg-[#3230e0]/25"
+                    : "cursor-not-allowed border-white/10 bg-white/5 text-slate-600"
+                )}
               >
-                <ChevronRight className="w-5 h-5" />
+                <ChevronRight className="h-5 w-5" />
               </button>
             </div>
           </div>
 
+          {/* Mobile: dense vertical list (no huge cards) */}
+          <motion.div
+            className="flex flex-col gap-2.5 sm:hidden"
+            variants={staggerContainer}
+            initial="hidden"
+            animate={isPreviousInView ? "visible" : "hidden"}
+          >
+            {previousEvents.map((event) => (
+              <EventListRow key={event.id} event={event} onOpen={setSelected} />
+            ))}
+          </motion.div>
+
+          {/* Tablet+ : horizontal snap carousel with fixed card size */}
           <div
             ref={scrollContainerRef}
-            className="flex gap-5 md:gap-6 overflow-x-auto scrollbar-hide pb-4 snap-x snap-mandatory"
             onScroll={handleScroll}
+            className="hidden gap-4 overflow-x-auto pb-3 scrollbar-hide snap-x snap-mandatory sm:flex md:gap-5"
           >
             {previousEvents.map((event) => (
               <div
                 key={event.id}
-                className="snap-start flex-shrink-0 w-[min(100%,18rem)] sm:w-72"
+                className="w-[min(72vw,17.5rem)] shrink-0 snap-start md:w-[18.5rem]"
               >
-                <EventCard event={event} />
+                <div className="h-full min-h-[20.5rem]">
+                  <EventCarouselCard event={event} onOpen={setSelected} />
+                </div>
               </div>
             ))}
           </div>
         </motion.section>
       </div>
+
+      {/* Detail sheet — full description without stretching cards */}
+      <AnimatePresence>
+        <Dialog open={!!selected} onOpenChange={(open) => !open && setSelected(null)}>
+          <DialogContent className="max-h-[min(90dvh,40rem)] w-[min(92vw,32rem)] overflow-y-auto border border-white/10 bg-[#0F1013]/95 p-0 text-white shadow-2xl backdrop-blur-xl sm:rounded-2xl">
+            {selected && (
+              <>
+                <div className="relative aspect-[16/9] w-full overflow-hidden bg-[#16182a]">
+                  <Image
+                    src={selected.image}
+                    alt=""
+                    fill
+                    sizes="512px"
+                    className="object-cover"
+                    priority
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0F1013] via-[#0F1013]/20 to-transparent" />
+                </div>
+                <div className="space-y-4 px-5 pb-6 pt-4 sm:px-6">
+                  <DialogHeader className="space-y-2 text-left">
+                    <DialogTitle className="text-left text-xl font-semibold tracking-tight text-white">
+                      {selected.title}
+                    </DialogTitle>
+                    <DialogDescription className="sr-only">
+                      Event details for {selected.title}
+                    </DialogDescription>
+                  </DialogHeader>
+                  <MetaRow event={selected} />
+                  {selected.description && (
+                    <p className="text-sm leading-relaxed text-slate-300">
+                      {selected.description}
+                    </p>
+                  )}
+                  <div className="pt-1">
+                    <EventActions event={selected} />
+                  </div>
+                </div>
+              </>
+            )}
+          </DialogContent>
+        </Dialog>
+      </AnimatePresence>
+
       <Footer />
     </div>
   )
