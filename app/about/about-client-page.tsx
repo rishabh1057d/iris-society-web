@@ -110,7 +110,7 @@ function LogoMark({ className }: { className?: string }) {
         className="pointer-events-none absolute inset-[8%] rounded-full border border-white/10 shadow-[0_0_60px_rgba(50,48,224,0.25)]"
         aria-hidden
       />
-      {/* Full logo — never cropped */}
+      {/* Full logo, never cropped */}
       <div className="relative aspect-square w-full max-w-[240px] sm:max-w-[280px] md:max-w-[320px]">
         <Image
           src="/images/logo.png"
@@ -280,7 +280,7 @@ export default function AboutClientPage() {
               </div>
             </div>
 
-            {/* Bento moments — logo fully visible in glass stage */}
+            {/* Bento moments: logo fully visible in glass stage */}
             <div className="flex flex-col gap-3 md:col-span-5 md:gap-4">
               <div className="glass-card-event relative flex flex-1 flex-col items-center justify-center overflow-hidden rounded-2xl p-5 sm:p-6">
                 <div
@@ -442,7 +442,7 @@ export default function AboutClientPage() {
               </div>
             ))}
 
-            {/* Logo tile — fully visible, never cropped */}
+            {/* Logo tile: fully visible, never cropped */}
             <div className="glass-card-event relative col-span-2 flex min-h-[140px] items-center justify-center overflow-hidden rounded-2xl sm:col-span-1 sm:min-h-[136px] md:min-h-[152px]">
               <div
                 className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(50,48,224,0.35),transparent_70%)]"
