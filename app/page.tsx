@@ -11,6 +11,7 @@ import RedirectHandler from "@/components/redirect-handler"
 import { motion, AnimatePresence, useAnimation, useInView, useScroll, useTransform } from "framer-motion"
 import SymphonyOverlay from "@/components/symphony-overlay"
 import HomeLanding from "@/components/home/home-landing"
+import { selectFeaturedPotw } from "@/lib/potw"
 function RainOverlay() {
   const palette = [
     '#fff2b2', // bright gold
@@ -705,62 +706,13 @@ export default function Home() {
       })
   }, [])
 
-  // Determine current month and week, and select the photo
+  // Feature current week if present; otherwise always the latest real winner in the archive
   useEffect(() => {
-    if (!potwData || Object.keys(potwData).length === 0) return
-
-    const now = new Date()
-    const currentYear = now.getFullYear().toString()
-    const monthName = now.toLocaleString("default", { month: "long" })
-    // Calculate week of month (1-based)
-    const firstDay = new Date(now.getFullYear(), now.getMonth(), 1).getDay()
-    const weekOfMonth = Math.ceil((now.getDate() + firstDay) / 7)
-
-    let photo = null
-
-    // Helper to check if a photo is TBA (by theme or photographer or image)
-    const isTBA = (p: any) =>
-      (typeof p.theme === "string" && p.theme.trim().toUpperCase() === "TBA") ||
-      (typeof p.photographer === "string" && p.photographer.trim().toUpperCase() === "TBA") ||
-      (typeof p.image === "string" && p.image.trim().toUpperCase() === "TBA")
-
-    // 1. Try to find the current week's photo in the current year (and skip TBA)
-    if (potwData[currentYear] && potwData[currentYear][monthName]) {
-      photo = potwData[currentYear][monthName].find((p: any) => p.week === weekOfMonth && !isTBA(p))
-      // 2. If not found, fallback to the latest non-TBA photo in the current month
-      if (!photo) {
-        const monthPhotos = potwData[currentYear][monthName]
-        for (let i = monthPhotos.length - 1; i >= 0; i--) {
-          if (!isTBA(monthPhotos[i])) {
-            photo = monthPhotos[i]
-            break
-          }
-        }
-      }
+    if (!potwData || Object.keys(potwData).length === 0) {
+      setCurrentPotw(null)
+      return
     }
-    // 3. If still not found, fallback to the latest non-TBA photo across all years and months
-    if (!photo) {
-      const years = Object.keys(potwData).sort((a, b) => parseInt(b) - parseInt(a)) // Sort years descending
-      for (const year of years) {
-        const months = Object.keys(potwData[year])
-        // Sort months to check from most recent to oldest (reverse chronological)
-        const monthOrder = ["December", "November", "October", "September", "August", "July", "June", "May", "April", "March", "February", "January"]
-        const sortedMonths = months.sort((a, b) => monthOrder.indexOf(b) - monthOrder.indexOf(a))
-        
-        for (const month of sortedMonths) {
-          const monthPhotos = potwData[year][month]
-          for (let j = monthPhotos.length - 1; j >= 0; j--) {
-            if (!isTBA(monthPhotos[j])) {
-              photo = monthPhotos[j]
-              break
-            }
-          }
-          if (photo) break
-        }
-        if (photo) break
-      }
-    }
-    setCurrentPotw(photo)
+    setCurrentPotw(selectFeaturedPotw(potwData))
   }, [potwData])
 
   // Fetch recruiting status and popup config from current_members.json

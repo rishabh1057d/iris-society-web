@@ -23,6 +23,7 @@ type PotwPhoto = {
   description?: string
   week?: number
   month?: string
+  year?: string | number
 }
 
 type VideoData = {
@@ -260,7 +261,7 @@ export default function HomeLanding({
           <div className="mb-4 flex items-end justify-between gap-4 px-5 sm:mb-5 sm:px-0">
             <div>
               <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-sky-200/70">
-                This week
+                Featured
               </p>
               <h2 className="mt-1 text-2xl font-semibold tracking-tight text-white sm:text-3xl">
                 Photo of the Week
@@ -278,9 +279,13 @@ export default function HomeLanding({
           {currentPotw?.image ? (
             <Link
               href="/potw"
-              className="group relative block overflow-hidden sm:rounded-2xl"
+              className="group relative block overflow-hidden bg-[#0a0a0c] sm:rounded-2xl"
             >
-              <div className="relative aspect-[3/4] w-full sm:aspect-[16/10] md:aspect-[21/10]">
+              {/*
+                Stage that fits any aspect ratio: image uses object-contain
+                so portrait, landscape, and square all stay fully visible.
+              */}
+              <div className="relative flex w-full items-center justify-center min-h-[min(58dvh,420px)] max-h-[min(78dvh,760px)]">
                 <Image
                   src={currentPotw.image}
                   alt={
@@ -288,19 +293,23 @@ export default function HomeLanding({
                       ? `Photo of the Week: ${currentPotw.theme}`
                       : "Photo of the Week"
                   }
-                  fill
-                  sizes="100vw"
-                  className="object-cover transition duration-700 ease-out group-hover:scale-[1.02]"
+                  width={1600}
+                  height={1200}
+                  sizes="(max-width: 768px) 100vw, 1152px"
+                  className="h-auto max-h-[min(78dvh,760px)] w-full object-contain transition duration-700 ease-out group-hover:scale-[1.01]"
                   priority
+                  unoptimized
                 />
-                {/* Long gradient only: no glass panel floating on top */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-black/10" />
-                <div className="absolute inset-x-0 bottom-0 p-5 sm:p-7 md:p-9">
-                  <div className="flex max-w-2xl flex-col gap-2">
+                {/* Caption sits on a fade so text stays readable over any ratio */}
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/95 via-black/55 to-transparent pt-24 sm:pt-32">
+                  <div className="pointer-events-auto flex max-w-2xl flex-col gap-2 p-5 sm:p-7 md:p-9">
                     {currentPotw.week != null && (
                       <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#c8c7ff]">
                         Week {currentPotw.week}
                         {currentPotw.month ? ` · ${currentPotw.month}` : ""}
+                        {currentPotw.year != null
+                          ? ` · ${currentPotw.year}`
+                          : ""}
                       </span>
                     )}
                     {currentPotw.theme && (
