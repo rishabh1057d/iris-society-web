@@ -53,11 +53,11 @@ function ActionChip({
 }) {
   const tones = {
     brand:
-      "bg-[#3230e0]/18 text-[#c8c7ff] border-[#3230e0]/30 hover:bg-[#3230e0]/28",
+      "event-glass-chip text-[#c8c7ff] border-[#3230e0]/35 bg-[#3230e0]/20 hover:bg-[#3230e0]/30",
     emerald:
-      "bg-emerald-500/15 text-emerald-100 border-emerald-400/25 hover:bg-emerald-500/25",
-    pink: "bg-pink-500/15 text-pink-100 border-pink-400/25 hover:bg-pink-500/25",
-    muted: "bg-white/5 text-slate-400 border-white/10 cursor-default",
+      "event-glass-chip text-emerald-100 border-emerald-400/30 bg-emerald-500/15 hover:bg-emerald-500/25",
+    pink: "event-glass-chip text-pink-100 border-pink-400/30 bg-pink-500/15 hover:bg-pink-500/25",
+    muted: "event-glass-chip text-slate-400 border-white/10 bg-white/5 cursor-default",
   }
 
   const className = cn(
@@ -131,15 +131,15 @@ function MetaRow({ event, compact }: { event: IrisEvent; compact?: boolean }) {
   return (
     <div
       className={cn(
-        "flex flex-wrap gap-x-3 gap-y-1 text-[11px] sm:text-xs text-slate-400",
-        compact && "gap-x-2"
+        "space-y-1.5 text-xs text-sky-200/80",
+        compact && "space-y-1"
       )}
     >
       {items.map(({ icon: Icon, text }) => (
-        <span key={text} className="inline-flex items-center gap-1 min-w-0 max-w-full">
-          <Icon className="w-3 h-3 shrink-0 text-[#7c7af5]/80" />
+        <div key={text} className="flex items-center gap-2 min-w-0">
+          <Icon className="w-3.5 h-3.5 shrink-0 opacity-80" />
           <span className="truncate">{text}</span>
-        </span>
+        </div>
       ))}
     </div>
   )
@@ -158,7 +158,7 @@ function EventGridCard({
       variants={staggerItem}
       whileHover={{ y: -3, transition: spring.snappy }}
       whileTap={{ scale: 0.99 }}
-      className="event-card group flex h-full min-h-0 flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-md"
+      className="event-card meetup-card glass-card-event group flex h-full min-h-0 flex-col overflow-hidden rounded-2xl"
     >
       <button
         type="button"
@@ -166,7 +166,7 @@ function EventGridCard({
         className="flex h-full min-h-0 flex-col text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3230e0]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0F1013]"
       >
         {/* Fixed media ratio — same for every card */}
-        <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden bg-[#16182a]">
+        <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden bg-slate-800/80">
           <Image
             src={event.image}
             alt=""
@@ -174,44 +174,46 @@ function EventGridCard({
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className="object-cover transition duration-300 group-hover:scale-[1.03]"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0F1013]/80 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
           <span
             className={cn(
-              "absolute left-3 top-3 rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide backdrop-blur-md",
+              "event-glass-chip absolute left-3 top-3 rounded-full px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide",
               event.status === "ongoing"
-                ? "border-emerald-400/30 bg-emerald-500/20 text-emerald-100"
-                : "border-white/15 bg-black/40 text-slate-200"
+                ? "text-emerald-100 border-emerald-400/30 bg-emerald-500/20"
+                : "text-slate-100 border-white/20"
             )}
           >
             {event.status === "ongoing" ? "Live" : "Past"}
           </span>
         </div>
 
-        <div className="flex min-h-0 flex-1 flex-col gap-2.5 p-4 md:p-5">
-          <h3 className="line-clamp-2 min-h-[2.6em] text-base font-semibold leading-snug tracking-tight text-white md:text-[1.05rem]">
+        <div className="flex min-h-0 flex-1 flex-col p-5 md:p-6">
+          <h3 className="line-clamp-2 mb-3 min-h-[2.75em] text-lg md:text-xl font-semibold text-white tracking-tight">
             {event.title}
           </h3>
 
           {event.description ? (
-            <p className="line-clamp-2 min-h-[2.6em] text-sm leading-relaxed text-slate-400">
+            <p className="line-clamp-2 mb-3 min-h-[2.75em] text-sm leading-relaxed text-slate-300">
               {event.description}
             </p>
           ) : (
-            <p className="min-h-[2.6em] text-sm text-transparent select-none">—</p>
+            <p className="mb-3 min-h-[2.75em] text-sm text-transparent select-none">—</p>
           )}
 
-          <MetaRow event={event} />
+          <div className="mb-4">
+            <MetaRow event={event} />
+          </div>
 
           <div className="mt-auto flex items-center justify-between gap-2 pt-1">
-            <span className="text-[11px] font-medium text-[#a8a6ff] opacity-0 transition group-hover:opacity-100">
+            <span className="text-xs font-medium text-sky-200/70 opacity-0 transition group-hover:opacity-100">
               View details
             </span>
-            <ExternalLink className="h-3.5 w-3.5 text-slate-500 transition group-hover:text-[#a8a6ff]" />
+            <ExternalLink className="h-3.5 w-3.5 text-slate-400 transition group-hover:text-sky-200" />
           </div>
         </div>
       </button>
 
-      <div className="border-t border-white/5 px-4 pb-4 pt-3 md:px-5 md:pb-5">
+      <div className="border-t border-white/10 bg-white/[0.03] px-5 pb-5 pt-3 md:px-6">
         <EventActions event={event} />
       </div>
     </motion.article>
@@ -230,33 +232,33 @@ function EventListRow({
     <motion.article
       variants={staggerItem}
       whileTap={{ scale: 0.99 }}
-      className="event-card overflow-hidden rounded-xl border border-white/10 bg-white/[0.04]"
+      className="event-card meetup-card glass-card-event overflow-hidden rounded-2xl"
     >
       <button
         type="button"
         onClick={() => onOpen(event)}
-        className="flex w-full gap-3 p-2.5 text-left active:bg-white/[0.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#3230e0]/50"
+        className="flex w-full gap-3 p-3 text-left active:bg-white/[0.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#3230e0]/50"
       >
-        <div className="relative h-[4.75rem] w-[4.75rem] shrink-0 overflow-hidden rounded-lg bg-[#16182a] sm:h-20 sm:w-20">
+        <div className="relative h-[5rem] w-[5rem] shrink-0 overflow-hidden rounded-xl bg-slate-800/80 sm:h-[5.25rem] sm:w-[5.25rem]">
           <Image
             src={event.image}
             alt=""
             fill
-            sizes="80px"
+            sizes="84px"
             className="object-cover"
           />
         </div>
 
         <div className="min-w-0 flex-1 py-0.5">
-          <div className="mb-1 flex items-start justify-between gap-2">
-            <h3 className="line-clamp-2 text-[0.9375rem] font-semibold leading-snug tracking-tight text-white">
+          <div className="mb-2 flex items-start justify-between gap-2">
+            <h3 className="line-clamp-2 text-lg font-semibold tracking-tight text-white">
               {event.title}
             </h3>
-            <ChevronRight className="mt-0.5 h-4 w-4 shrink-0 text-slate-500" />
+            <ChevronRight className="mt-1 h-4 w-4 shrink-0 text-slate-400" />
           </div>
           <MetaRow event={event} compact />
           {event.description && (
-            <p className="mt-1 line-clamp-1 text-xs leading-relaxed text-slate-500">
+            <p className="mt-2 line-clamp-1 text-sm leading-relaxed text-slate-300">
               {event.description}
             </p>
           )}
@@ -269,7 +271,7 @@ function EventListRow({
         event.speakerInstagram?.trim() ||
         event.status !== "previous" ||
         event.registrationOpen) && (
-        <div className="border-t border-white/5 px-2.5 py-2">
+        <div className="border-t border-white/10 bg-white/[0.03] px-3 py-2.5">
           <EventActions event={event} />
         </div>
       )}
@@ -289,14 +291,14 @@ function EventCarouselCard({
     <motion.article
       whileHover={{ y: -2, transition: spring.snappy }}
       whileTap={{ scale: 0.99 }}
-      className="event-card flex h-full w-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04]"
+      className="event-card meetup-card glass-card-event flex h-full w-full flex-col overflow-hidden rounded-2xl"
     >
       <button
         type="button"
         onClick={() => onOpen(event)}
         className="flex h-full flex-col text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3230e0]/50"
       >
-        <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden bg-[#16182a]">
+        <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden bg-slate-800/80">
           <Image
             src={event.image}
             alt=""
@@ -304,19 +306,21 @@ function EventCarouselCard({
             sizes="280px"
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0F1013]/85 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
         </div>
-        <div className="flex flex-1 flex-col gap-2 p-3.5">
-          <h3 className="line-clamp-2 min-h-[2.5em] text-sm font-semibold leading-snug text-white">
+        <div className="flex flex-1 flex-col p-5">
+          <h3 className="line-clamp-2 mb-3 min-h-[2.75em] text-lg font-semibold tracking-tight text-white">
             {event.title}
           </h3>
-          <p className="line-clamp-2 min-h-[2.5em] text-xs leading-relaxed text-slate-400">
+          <p className="line-clamp-2 mb-3 min-h-[2.75em] text-sm leading-relaxed text-slate-300">
             {event.description || "\u00A0"}
           </p>
-          <MetaRow event={event} compact />
+          <div className="mb-1">
+            <MetaRow event={event} compact />
+          </div>
         </div>
       </button>
-      <div className="mt-auto border-t border-white/5 px-3.5 py-2.5">
+      <div className="mt-auto border-t border-white/10 bg-white/[0.03] px-5 py-3">
         <EventActions event={event} />
       </div>
     </motion.article>
@@ -415,9 +419,9 @@ export default function Events() {
               ))}
             </div>
           ) : ongoingEvents.length === 0 ? (
-            <div className="rounded-2xl border border-dashed border-white/10 bg-white/[0.02] px-4 py-8 text-center">
-              <p className="text-sm text-slate-400">No events are live right now.</p>
-              <p className="mt-1 text-xs text-slate-500">
+            <div className="event-glass rounded-2xl border border-dashed border-white/15 px-4 py-8 text-center">
+              <p className="text-sm text-slate-300">No events are live right now.</p>
+              <p className="mt-1 text-xs text-slate-400">
                 Check Previous for past workshops and competitions.
               </p>
             </div>
@@ -540,10 +544,10 @@ export default function Events() {
       {/* Detail sheet — full description without stretching cards */}
       <AnimatePresence>
         <Dialog open={!!selected} onOpenChange={(open) => !open && setSelected(null)}>
-          <DialogContent className="max-h-[min(90dvh,40rem)] w-[min(92vw,32rem)] overflow-y-auto border border-white/10 bg-[#0F1013]/95 p-0 text-white shadow-2xl backdrop-blur-xl sm:rounded-2xl">
+          <DialogContent className="event-glass max-h-[min(90dvh,40rem)] w-[min(92vw,32rem)] overflow-y-auto border-white/15 bg-[#0F1013]/55 p-0 text-white shadow-2xl sm:rounded-2xl">
             {selected && (
               <>
-                <div className="relative aspect-[16/9] w-full overflow-hidden bg-[#16182a]">
+                <div className="relative aspect-[16/9] w-full overflow-hidden bg-slate-800/80">
                   <Image
                     src={selected.image}
                     alt=""
@@ -552,11 +556,11 @@ export default function Events() {
                     className="object-cover"
                     priority
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0F1013] via-[#0F1013]/20 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0F1013]/90 via-transparent to-transparent" />
                 </div>
                 <div className="space-y-4 px-5 pb-6 pt-4 sm:px-6">
                   <DialogHeader className="space-y-2 text-left">
-                    <DialogTitle className="text-left text-xl font-semibold tracking-tight text-white">
+                    <DialogTitle className="text-left text-lg md:text-xl font-semibold tracking-tight text-white">
                       {selected.title}
                     </DialogTitle>
                     <DialogDescription className="sr-only">
