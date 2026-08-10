@@ -2,6 +2,9 @@
 
 const nextConfig = {
   images: {
+    // Skip Vercel/Next Image Optimization (/_next/image). Quota was exhausted and
+    // optimized URLs were breaking on previews. next/image still lazy-loads.
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
