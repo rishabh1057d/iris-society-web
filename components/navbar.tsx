@@ -114,20 +114,24 @@ export default function Navbar({ onJoinClick }: NavbarProps) {
           {/* Logo — always top-left wayfinding */}
           <Link
             href="/"
-            className="flex items-center gap-2.5 min-h-[44px] rounded-full pr-2 -ml-1 hover:bg-white/5 active:scale-[0.98] transition-transform"
+            className="flex items-center gap-2.5 min-h-[48px] rounded-full pr-2 -ml-1 hover:bg-white/5 active:scale-[0.98] transition-transform"
             onClick={closeMenu}
           >
             <Image
               src="/images/logo.png"
               alt="IRIS Society"
-              width={scrolled ? 32 : 40}
-              height={scrolled ? 32 : 40}
-              className="transition-all duration-300 shrink-0"
+              width={64}
+              height={64}
+              className={`shrink-0 transition-all duration-300 object-contain ${
+                scrolled
+                  ? "h-11 w-11 sm:h-12 sm:w-12"
+                  : "h-12 w-12 sm:h-14 sm:w-14 md:h-16 md:w-16"
+              }`}
               priority
             />
             <span
               className={`font-semibold text-white tracking-tight transition-all duration-300 ${
-                scrolled ? "text-base" : "text-lg"
+                scrolled ? "text-base sm:text-lg" : "text-lg sm:text-xl"
               }`}
             >
               IRIS Society

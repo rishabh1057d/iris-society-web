@@ -111,14 +111,14 @@ function LogoMark({ className }: { className?: string }) {
         aria-hidden
       />
       {/* Full logo, never cropped */}
-      <div className="relative aspect-square w-full max-w-[240px] sm:max-w-[280px] md:max-w-[320px]">
+      <div className="relative aspect-square w-full max-w-[280px] sm:max-w-[340px] md:max-w-[400px]">
         <Image
           src="/images/logo.png"
           alt="IRIS Society logo"
           fill
           priority
-          sizes="(max-width: 640px) 240px, (max-width: 768px) 280px, 320px"
-          className="object-contain drop-shadow-[0_12px_40px_rgba(0,0,0,0.45)] p-3 sm:p-4"
+          sizes="(max-width: 640px) 280px, (max-width: 768px) 340px, 400px"
+          className="object-contain drop-shadow-[0_12px_40px_rgba(0,0,0,0.45)] p-2 sm:p-3"
         />
       </div>
     </div>

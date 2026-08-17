@@ -139,14 +139,14 @@ export default function HomeLanding({
                 className="pointer-events-none absolute inset-[-20%] rounded-full bg-[radial-gradient(circle,rgba(50,48,224,0.45)_0%,transparent_68%)] blur-2xl"
                 aria-hidden
               />
-              <div className="relative h-[148px] w-[148px] sm:h-[180px] sm:w-[180px] md:h-[200px] md:w-[200px]">
+              <div className="relative h-[200px] w-[200px] sm:h-[240px] sm:w-[240px] md:h-[280px] md:w-[280px]">
                 <Image
                   src="/images/logo.png"
                   alt="IRIS Society logo"
                   fill
                   priority
-                  sizes="200px"
-                  className="object-contain p-1"
+                  sizes="(max-width: 640px) 200px, (max-width: 768px) 240px, 280px"
+                  className="object-contain p-0.5"
                 />
               </div>
             </motion.div>
