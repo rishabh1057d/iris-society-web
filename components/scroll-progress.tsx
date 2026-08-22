@@ -1,11 +1,14 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { usePathname } from "next/navigation"
 
 export default function ScrollProgress() {
+  const pathname = usePathname()
   const [scrollProgress, setScrollProgress] = useState(0)
 
   useEffect(() => {
+    if (pathname.startsWith("/beginner")) return
     let rafId: number | null = null
     let ticking = false
 
@@ -34,7 +37,9 @@ export default function ScrollProgress() {
       window.removeEventListener("scroll", handleScroll)
       if (rafId !== null) cancelAnimationFrame(rafId)
     }
-  }, [])
+  }, [pathname])
+
+  if (pathname.startsWith("/beginner")) return null
 
   return (
     <div

@@ -3,13 +3,13 @@
  * Default: critically damped (no bounce). Use bounce only for momentum gestures.
  */
 export const spring = {
-  /** Default UI motion — damping 1.0 / response ~0.4s */
+  /** Default UI motion - damping 1.0 / response ~0.4s */
   default: { type: "spring" as const, bounce: 0, duration: 0.4 },
-  /** Snappier UI (sheets, menus) — response ~0.3s */
+  /** Snappier UI (sheets, menus) - response ~0.3s */
   snappy: { type: "spring" as const, bounce: 0, duration: 0.3 },
   /** Soft settle for large surfaces */
   soft: { type: "spring" as const, bounce: 0, duration: 0.5 },
-  /** Momentum / flick only — slight overshoot */
+  /** Momentum / flick only - slight overshoot */
   momentum: { type: "spring" as const, bounce: 0.2, duration: 0.4 },
 }
 

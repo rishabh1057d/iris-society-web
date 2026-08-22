@@ -4,7 +4,6 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 import Navbar from "@/components/navbar"
 import { CustomCursor } from "@/components/custom-cursor"
-import { InteractiveBackground } from "@/components/interactive-background"
 import ScrollProgress from "@/components/scroll-progress"
 import { ContextMenuBlocker } from "@/components/context-menu-blocker"
 
@@ -75,7 +74,6 @@ export default function RootLayout({
       <body className={`${inter.className} antialiased min-h-dvh overflow-x-clip`}>
         <div className="relative min-h-dvh flex flex-col overflow-x-clip max-w-[100vw]">
           <ContextMenuBlocker />
-          <InteractiveBackground />
           <CustomCursor />
           <ScrollProgress />
           <Navbar />

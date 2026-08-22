@@ -18,6 +18,7 @@ const JOIN_URL =
 const navItems = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
+  { href: "/beginner", label: "Beginner" },
   { href: "/events", label: "Events" },
   { href: "/events/register", label: "Register" },
   { href: "/meetups", label: "Photowalks" },
@@ -98,6 +99,9 @@ export default function Navbar({ onJoinClick }: NavbarProps) {
       </Link>
     )
 
+  // Immersive Beginner Mode: no site navbar chrome
+  if (pathname.startsWith("/beginner")) return null
+
   return (
     <>
       <motion.nav
@@ -111,7 +115,7 @@ export default function Navbar({ onJoinClick }: NavbarProps) {
         aria-label="Main"
       >
         <div className="container mx-auto px-4 sm:px-5 flex items-center justify-between gap-3">
-          {/* Logo — always top-left wayfinding */}
+          {/* Logo - always top-left wayfinding */}
           <Link
             href="/"
             className="flex items-center gap-2.5 min-h-[48px] rounded-full pr-2 -ml-1 hover:bg-white/5 active:scale-[0.98] transition-transform"
@@ -157,7 +161,7 @@ export default function Navbar({ onJoinClick }: NavbarProps) {
             {joinButton(`btn-nav-cta ${scrolled ? "btn-nav-cta-scrolled" : ""}`)}
           </div>
 
-          {/* Mobile menu control — feedback on press */}
+          {/* Mobile menu control - feedback on press */}
           <button
             ref={menuButtonRef}
             type="button"
@@ -172,7 +176,7 @@ export default function Navbar({ onJoinClick }: NavbarProps) {
         </div>
       </motion.nav>
 
-      {/* Mobile sheet — slides from top (same path enter/exit), spring, interruptible */}
+      {/* Mobile sheet - slides from top (same path enter/exit), spring, interruptible */}
       <AnimatePresence>
         {isMenuOpen && (
           <>

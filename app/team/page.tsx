@@ -53,6 +53,7 @@ type CurrentMembers = {
   MultimediaDesign?: TeamMember[]
   ContentStrategyPR?: TeamMember[]
   webDevTeam?: TeamMember[]
+  tenure?: string
   recruiting?: boolean
   recruitmentForm?: string
 }
@@ -145,7 +146,7 @@ function LinkedInButton({
   )
 }
 
-/** Featured leadership — larger presence, introduces the people at the helm */
+/** Featured leadership - larger presence, introduces the people at the helm */
 function LeadershipCard({
   member,
   onOpen,
@@ -220,7 +221,7 @@ function LeadershipCard({
 const MEMBER_CARD_WIDTH =
   "w-[calc((100%-0.625rem)/2)] sm:w-[calc((100%-2rem)/3)] lg:w-[calc((100%-3.75rem)/4)]"
 
-/** Squad member — photo-first; centered text + centered incomplete rows via parent flex */
+/** Squad member - photo-first; centered text + centered incomplete rows via parent flex */
 function MemberCard({
   member,
   onOpen,
@@ -314,7 +315,7 @@ function MemberGrid({
   )
 }
 
-/** Detail sheet — full bio + LinkedIn; mobile-friendly full height feel */
+/** Detail sheet - full bio + LinkedIn; mobile-friendly full height feel */
 function MemberDetail({
   member,
   open,
@@ -451,8 +452,16 @@ export default function Team() {
         if (cancelled) return
         setCurrentMembers(current)
         setPreviousMembers(previous)
-        const tenures = Object.keys(previous).sort()
-        if (tenures.length) setSelectedTenure(tenures[tenures.length - 1])
+        const tenures = Object.keys(previous).sort().reverse()
+        if (tenures.length) setSelectedTenure(tenures[0])
+        // When the live roster is empty (recruiting window), surface alumni by default
+        const liveCount =
+          (current.leadershipTeam?.length ?? 0) +
+          ["Coordinators", "OutreachAndSponsor", "CreativeProduction", "MultimediaDesign", "ContentStrategyPR", "webDevTeam"].reduce(
+            (n, k) => n + (Array.isArray(current[k]) ? current[k].length : 0),
+            0,
+          )
+        if (liveCount === 0) setShowPreviousMembers(true)
       })
       .catch(() => {
         if (!cancelled) {
@@ -515,7 +524,7 @@ export default function Team() {
       </div>
 
       <div className="page-shell relative z-10 max-w-6xl flex-1">
-        {/* Hero — introduce the collective */}
+        {/* Hero - introduce the collective */}
         <motion.header
           ref={titleRef}
           className="page-hero mb-8 md:mb-10"
@@ -531,8 +540,9 @@ export default function Team() {
           </div>
           <h1 className="page-hero-title">Meet the Team</h1>
           <p className="page-hero-sub">
-            Photographers, designers, writers, and builders who plan shoots, run
-            events, and keep IRIS creative, focused, and welcoming.
+            {recruiting && teamCount === 0
+              ? "A new tenure is taking shape. Help build the next IRIS core team."
+              : "Photographers, designers, writers, and builders who plan shoots, run events, and keep IRIS creative, focused, and welcoming."}
           </p>
 
           <div className="mt-6 flex flex-col items-stretch justify-center gap-2.5 sm:mt-8 sm:flex-row sm:items-center sm:gap-3">
@@ -565,52 +575,107 @@ export default function Team() {
               {teamCount} people · {activeSections.length + 1} groups this tenure
             </p>
           )}
+          {!loading && recruiting && teamCount === 0 && currentMembers.tenure && (
+            <p className="mt-5 text-xs uppercase tracking-[0.18em] text-slate-500">
+              Tenure {currentMembers.tenure} · recruiting now
+            </p>
+          )}
         </motion.header>
 
-        {/* Leadership */}
-        <motion.section
-          ref={leadershipRef}
-          className="mb-12 md:mb-16"
-          initial={{ opacity: 0, y: 12 }}
-          animate={
-            isLeadershipInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }
-          }
-          transition={spring.default}
-        >
-          <SectionHeader
-            title="Leadership"
-            description="Guiding IRIS’s creative direction and culture"
-            count={currentMembers.leadershipTeam?.length}
-            icon={Users}
-          />
-
-          {loading ? (
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
-              {[0, 1].map((i) => (
-                <div
-                  key={i}
-                  className="h-48 animate-pulse rounded-2xl bg-white/[0.05] sm:h-56"
-                />
-              ))}
+        {/* Empty roster while recruiting */}
+        {!loading && recruiting && teamCount === 0 && (
+          <motion.section
+            ref={leadershipRef}
+            className="mb-12 md:mb-16"
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={spring.soft}
+          >
+            <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.04] px-6 py-10 text-center shadow-[0_20px_60px_rgba(0,0,0,0.25)] backdrop-blur-xl sm:px-10 sm:py-14">
+              <div
+                className="pointer-events-none absolute inset-0 opacity-80"
+                aria-hidden
+                style={{
+                  background:
+                    "radial-gradient(ellipse 70% 60% at 50% 0%, rgba(50,48,224,0.28), transparent 70%)",
+                }}
+              />
+              <div className="relative z-10 mx-auto max-w-lg">
+                <span className="event-glass-chip inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium text-sky-100">
+                  <Sparkles className="h-3.5 w-3.5 text-[#a8a6ff]" />
+                  Open roles
+                </span>
+                <h2 className="mt-4 text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+                  We are building the next team
+                </h2>
+                <p className="mt-3 text-[15px] leading-relaxed text-slate-300 sm:text-base">
+                  The {currentMembers.tenure || "2026-2027"} core team is not
+                  announced yet. If you love photography, videography, design,
+                  writing, outreach, or web, apply and help shape IRIS this
+                  year.
+                </p>
+                <button
+                  type="button"
+                  onClick={handleApply}
+                  className="btn-primary mt-7 !min-h-[48px] !px-7 !text-sm"
+                >
+                  <Users className="mr-2 h-4 w-4" />
+                  Apply on Google Form
+                </button>
+                <p className="mt-4 text-xs text-slate-500">
+                  Opens in a new tab · Takes a few minutes
+                </p>
+              </div>
             </div>
-          ) : (
-            <motion.div
-              className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:gap-5"
-              variants={staggerContainer}
-              initial="hidden"
-              animate={isLeadershipInView ? "visible" : "hidden"}
-            >
-              {currentMembers.leadershipTeam?.map((member) => (
-                <LeadershipCard
-                  key={member.id}
-                  member={member}
-                  onOpen={openMember}
-                  featured
-                />
-              ))}
-            </motion.div>
-          )}
-        </motion.section>
+          </motion.section>
+        )}
+
+        {/* Leadership (only when roster exists) */}
+        {(loading || teamCount > 0) && (
+          <motion.section
+            ref={leadershipRef}
+            className="mb-12 md:mb-16"
+            initial={{ opacity: 0, y: 12 }}
+            animate={
+              isLeadershipInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }
+            }
+            transition={spring.default}
+          >
+            <SectionHeader
+              title="Leadership"
+              description="Guiding IRIS creative direction and culture"
+              count={currentMembers.leadershipTeam?.length}
+              icon={Users}
+            />
+
+            {loading ? (
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
+                {[0, 1].map((i) => (
+                  <div
+                    key={i}
+                    className="h-48 animate-pulse rounded-2xl bg-white/[0.05] sm:h-56"
+                  />
+                ))}
+              </div>
+            ) : (
+              <motion.div
+                className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:gap-5"
+                variants={staggerContainer}
+                initial="hidden"
+                animate={isLeadershipInView ? "visible" : "hidden"}
+              >
+                {currentMembers.leadershipTeam?.map((member) => (
+                  <LeadershipCard
+                    key={member.id}
+                    member={member}
+                    onOpen={openMember}
+                    featured
+                  />
+                ))}
+              </motion.div>
+            )}
+          </motion.section>
+        )}
 
         {/* Departments */}
         {loading ? (
@@ -678,7 +743,7 @@ export default function Team() {
                     Alumni who helped shape IRIS across tenures
                   </p>
 
-                  {/* Tenure chips — better than a bare select on mobile */}
+                  {/* Tenure chips - better than a bare select on mobile */}
                   <div className="flex flex-wrap items-center justify-center gap-2">
                     {tenureKeys.map((tenure) => (
                       <button

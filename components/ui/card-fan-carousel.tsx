@@ -17,8 +17,8 @@ interface SocialCardsProps {
   cards: CardItem[]
   className?: string
   /**
-   * desktop — wide 7-card fan (lg+)
-   * mobile  — tighter 5-card fan tuned for phone/tablet widths
+   * desktop - wide 7-card fan (lg+)
+   * mobile - tighter 5-card fan tuned for phone/tablet widths
    */
   layout?: FanLayout
 }
@@ -274,7 +274,7 @@ export default function SocialCards({
 
     prevVisible.current = new Set(visibleMap.keys())
 
-    // Desktop hover fan expand — skip on mobile (touch)
+    // Desktop hover fan expand - skip on mobile (touch)
     if (layout === "mobile") {
       const onResize = () => {
         if (isAnimating.current) return

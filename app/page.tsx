@@ -523,6 +523,9 @@ export default function Home() {
   const [isReducedMotion, setIsReducedMotion] = useState(false)
   const [showHiringModal, setShowHiringModal] = useState(false)
   const [recruiting, setRecruiting] = useState(false)
+  const [recruitmentForm, setRecruitmentForm] = useState(
+    "https://forms.gle/9EDxsz9hQM7pRf7x7",
+  )
   const [showEventPopup, setShowEventPopup] = useState(false)
   const [showFireworks, setShowFireworks] = useState(false)
   const [showRetroEffect, setShowRetroEffect] = useState(false)
@@ -723,6 +726,9 @@ export default function Home() {
         if (data && typeof data.recruiting === "boolean") {
           setRecruiting(data.recruiting)
           setShowHiringModal(data.recruiting)
+        }
+        if (data?.recruitmentForm && typeof data.recruitmentForm === "string") {
+          setRecruitmentForm(data.recruitmentForm)
         }
         if (data && data.popup) {
           setPopupData(data.popup)
@@ -1190,45 +1196,65 @@ export default function Home() {
         `}</style>
       )}
 
-      {/* Hiring Popup Modal */}
+      {/* Hiring Popup Modal - matches site glass / brand language */}
       {recruiting && (
         <Dialog open={showHiringModal} onOpenChange={setShowHiringModal}>
-          <DialogContent className="backdrop-blur-md max-w-[90vw] sm:max-w-lg p-8 rounded-xl shadow-2xl border-0 bg-neutral-900 text-white">
-            <DialogHeader>
-              <DialogTitle className="text-2xl sm:text-3xl font-bold text-center mb-2 text-white">We are Hiring</DialogTitle>
-              <DialogDescription className="text-center text-base sm:text-lg mb-6 text-gray-300">
-                We are looking for people to join our core team.<br />If you are interested, join now!
-              </DialogDescription>
-            </DialogHeader>
-            <div className="flex justify-center">
-              <button
-                onClick={() => {
-                  if (recruiting) {
-                    window.open("https://forms.gle/XkNmxfYLzbR6E7Xt8", "_blank", "noopener,noreferrer")
-                  } else {
-                    setApplyModalOpen(true)
-                  }
-                }}
-                className="btn-primary px-6 py-2 text-lg rounded shadow w-full sm:w-auto text-center"
-              >
-                Join the core team
-              </button>
+          <DialogContent className="max-w-[92vw] overflow-hidden border border-white/10 bg-[#0F1013]/95 p-0 shadow-[0_24px_80px_rgba(0,0,0,0.55)] backdrop-blur-2xl sm:max-w-md sm:rounded-3xl">
+            <div
+              className="pointer-events-none absolute inset-0"
+              aria-hidden
+              style={{
+                background:
+                  "radial-gradient(ellipse 80% 55% at 50% -10%, rgba(50,48,224,0.35), transparent 65%)",
+              }}
+            />
+            <div className="relative z-10 px-6 py-8 sm:px-8 sm:py-9">
+              <DialogHeader className="space-y-3 text-center sm:text-center">
+                <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-sky-200/75">
+                  Core team · 2026-2027
+                </p>
+                <DialogTitle className="text-2xl font-semibold tracking-tight text-white sm:text-[1.75rem]">
+                  We are hiring
+                </DialogTitle>
+                <DialogDescription className="text-[15px] leading-relaxed text-slate-300 sm:text-base">
+                  Help build the next IRIS core team. Photography, videography,
+                  design, writing, outreach, and web are all open.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="mt-7 flex flex-col gap-2.5">
+                <button
+                  type="button"
+                  onClick={() => {
+                    window.open(recruitmentForm, "_blank", "noopener,noreferrer")
+                  }}
+                  className="btn-primary w-full !min-h-[48px] !text-sm"
+                >
+                  Apply on Google Form
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowHiringModal(false)}
+                  className="w-full py-2.5 text-sm text-slate-500 transition hover:text-slate-200"
+                >
+                  Maybe later
+                </button>
+              </div>
             </div>
           </DialogContent>
         </Dialog>
       )}
       {/* Apply Modal for when recruiting is false */}
       <Dialog open={applyModalOpen} onOpenChange={setApplyModalOpen}>
-        <DialogContent className="bg-gradient-to-br from-blue-950/95 via-blue-900/90 to-gray-900/95 border border-blue-400/30 shadow-2xl rounded-2xl p-8">
+        <DialogContent className="border border-white/10 bg-[#0F1013]/95 shadow-2xl backdrop-blur-2xl sm:max-w-md sm:rounded-3xl">
           <DialogHeader>
-            <DialogTitle className="text-blue-300 text-xl font-bold flex items-center gap-2">
-              <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#2563eb" fillOpacity="0.15"/><path d="M12 8v4" stroke="#60a5fa" strokeWidth="2" strokeLinecap="round"/><circle cx="12" cy="16" r="1" fill="#60a5fa"/></svg>
-              Recruitment Closed
+            <DialogTitle className="text-xl font-semibold tracking-tight text-white">
+              Recruitment closed
             </DialogTitle>
+            <DialogDescription className="text-slate-300">
+              We are not recruiting at the moment. Keep an eye out for
+              announcements on Instagram and campus channels.
+            </DialogDescription>
           </DialogHeader>
-          <div className="py-4 px-2 text-center text-blue-100 text-base font-medium">
-            We aren't recruiting at the moment, but keep an eye out for announcements.
-          </div>
         </DialogContent>
       </Dialog>
       {/* Redirect Handler */}
@@ -1246,7 +1272,7 @@ export default function Home() {
           onJoin={handleJoinNowClick}
           onApplyCore={() => {
             if (recruiting) {
-              window.open("https://forms.gle/XkNmxfYLzbR6E7Xt8", "_blank", "noopener,noreferrer")
+              window.open(recruitmentForm, "_blank", "noopener,noreferrer")
             } else {
               setApplyModalOpen(true)
             }

@@ -65,7 +65,7 @@ export default function Gallery() {
     setSelected(item)
   }, [])
 
-  /** Real gallery assets only — paths from public/gallery_photos.json */
+  /** Real gallery assets only - paths from public/gallery_photos.json */
   const fanCards: CardItem[] = useMemo(
     () =>
       galleryItems.map((item) => ({

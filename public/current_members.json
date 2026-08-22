@@ -1,53 +1,12 @@
 {
-  "leadershipTeam": [
-    {
-      "id": 1,
-      "name": "Varchaswa Shukla",
-      "role": "Secretary",
-      "description": "Leads the society with a vision for creative excellence.",
-      "image": "/images/varchaswa.JPG",
-      "linkedin": "https://www.linkedin.com/in/varchaswa-shukla-0a6418348/"
-    },
-    {
-      "id": 2,
-      "name": "Khadija Hussain",
-      "role": "Deputy Secretary",
-      "description": "Assists in managing events and member engagements.",
-      "image": "/images/khadija.jpg",
-      "linkedin": ""
-    }
-  ],
-  "Coordinators": [
-    { "id": 7, "name": "T. Hasini Reddy", "role": "Coordinator", "description": "Coordinates various society events and functioning of society.", "image": "/images/hasini-reddy.png", "linkedin": "https://www.linkedin.com/in/hasinireddy22?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app", "className": "mx-auto" },
-    { "id": 8, "name": "Pronoy Mukherjee", "role": "Coordinator", "description": "Coordinates outreach efforts and campus relations.", "image": "/images/Pronoy_Mukherjee.jpg", "linkedin": "http://www.linkedin.com/in/pronoy-mukherjee-439a052a5" }  ],
-  "OutreachAndSponsor": [
-    { "id": 3, "name": "Radhika Kumari", "role": "Outreach Team", "description": "Builds partnerships and coordinates outreach.", "image": "/images/radhika.jpg", "linkedin": "https://www.linkedin.com/in/radhika-kumari-0445b1340?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" },
-    { "id": 4, "name": "Mohith Maddala", "role": "Outreach & Sponsorship", "description": "Manages sponsor relationships and external collaborations.", "image": "images/Mohit_mada.jpg", "linkedin": "https://www.linkedin.com/in/mohith-maddala-168a21353/" },
-    { "id": 5, "name": "Mayank Agarwal", "role": "Sponsorships", "description": "Drives partnerships and brand collaborations.", "image": "/images/mayank.jpg", "linkedin": "https://www.linkedin.com/in/mayank-agarwal-842872324/", "className": "mx-auto" },
-    { "id": 6, "name": "Pronoy Mukherjee", "role": "Outreach Team", "description": "Supports outreach drives and communication.", "image": "/images/Pronoy_Mukherjee.jpg", "linkedin": "http://www.linkedin.com/in/pronoy-mukherjee-439a052a5", "className": "mx-auto" }
-  ],
-  "CreativeProduction": [
-    { "id": 8, "name": "Shreya", "role": "Creative Producer", "description": "Leads content creation and post-production.", "image": "/images/shreya.jpg", "linkedin": "https://www.linkedin.com/in/shreya-b130362a5?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" },
-    { "id": 9, "name": "Shreyaskar Srivastava", "role": "Creative Producer", "description": "Designs visual assets and edits media.", "image": "/images/shreyaskar.jpg", "linkedin": "https://www.linkedin.com/in/shreyaskar-srivastava-510168315", "className": "mx-auto" },
-    { "id": 22, "name": "Susheel Soni", "role": "Creative Producer", "description": "Designs visual assets and edits media.", "image": "/images/susheel_soni.jpeg", "linkedin": "https://www.linkedin.com/in/susheel-soni-019b90331?utm_source=share_via&utm_content=profile&utm_medium=member_android" }
-  ],
-  "MultimediaDesign": [
-    { "id": 10, "name": "Dhanesh Patwa", "role": "Video Editor", "description": "Works on videos, reels, and brand creatives.", "image": "/images/dhanesh_patwa.png", "linkedin": "https://www.linkedin.com/in/dhaneshpatwa" },
-    { "id": 11, "name": "Tanushree Dey", "role": "Graphic Designer", "description": "Designs graphics and social assets.", "image": "/images/Tanushree_dey.jpg", "linkedin": "https://www.linkedin.com/in/tanushree-dey-614397259" },
-    { "id": 12, "name": "Adarsh A V", "role": "Graphic Designer", "description": "Creates visuals and assists with editing.", "image": "/images/adarshav.jpg", "linkedin": "https://www.linkedin.com/in/adarshaevy?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app", "className": "mx-auto" },
-    { "id": 19, "name": "Naman Deep Singh", "role": "Video Editor", "description": "Works on videos, reels, and brand creatives.", "image": "/images/Naman_deep_singh.jpg", "linkedin": "https://www.linkedin.com/in/naman-deep-singh-a579ba207?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app", "className": "mx-auto" },
-    { "id": 21, "name": "Keshav Malik", "role": "Graphic Designer", "description": "Designs graphics and social assets.", "image": "/images/keshav_malik.png", "linkedin": "https://www.linkedin.com/in/keshav-malik-6446703a2/" }
-  ],
-  "ContentStrategyPR": [
-    { "id": 13, "name": "Divya Sharma ", "role": "Content Strategist", "description": "Plans and drafts content for campaigns.", "image": "/images/Divya.jpg", "linkedin": "https://www.linkedin.com/in/divya-sharma-2090b82b9?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app", "className": "mx-auto" },
-    { "id": 14, "name": "T. Hasini Reddy", "role": "Content Strategist", "description": "Writes and edits copy for social media.", "image": "/images/hasini-reddy.png", "linkedin": "https://www.linkedin.com/in/hasinireddy22?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app", "className": "mx-auto" },
-    { "id": 15, "name": "Mounasri Mondal", "role": "Content Writer", "description": "Creates long-form and event copy.", "image": "/images/Mounasri_mondal.jpg", "linkedin": "https://www.linkedin.com/in/mounasri-mondal-2aa693321/", "className": "mx-auto" },
-    { "id": 16, "name": "Piyush Kumar", "role": "PR", "description": "Supports PR initiatives and communications.", "image": "/images/piyush_kumar.jpg", "linkedin": "https://www.linkedin.com/in/piyush-kumar-466029293?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app", "className": "mx-auto" },
-    { "id": 23, "name": "Swarit Sharma", "role": "Content Strategy and PR", "description": "Supports PR initiatives and communications.", "image": "/images/swarit_sharma.jpeg", "linkedin": "https://www.linkedin.com/in/swarit-sharma-333a1634a", "className": "mx-auto" }
-  ],
-  "webDevTeam": [
-    { "id": 18, "name": "Rishabh Singh", "role": "Web Developer", "description": "Development of the entire website from scratch and continues to maintain and improve its features.", "image": "/images/rishabh.jpg", "linkedin": "https://www.linkedin.com/in/rishabh-singh-514b8628a/" }
-  ],
+  "leadershipTeam": [],
+  "Coordinators": [],
+  "OutreachAndSponsor": [],
+  "CreativeProduction": [],
+  "MultimediaDesign": [],
+  "ContentStrategyPR": [],
+  "webDevTeam": [],
+  "tenure": "2026-2027",
   "popup": {
     "enabled": false,
     "fireworks": false,
@@ -59,8 +18,8 @@
     "rulebookUrl": "https://docs.google.com/document/d/1WtA9Opn53uZKkAKwWWgPtIfbVQ8bB55WtHpMrjoyxXI/edit?tab=t.0#heading=h.nh6axk7u94xz",
     "registrationDeadline": "2026-06-08T23:59:59"
   },
-  "recruiting":false, 
-  "recruitmentForm": "https://forms.gle/XkNmxfYLzbR6E7Xt8",
+  "recruiting": true,
+  "recruitmentForm": "https://forms.gle/9EDxsz9hQM7pRf7x7",
   "video_home": {
     "enabled": false,
     "src": "/videos/director.mp4",

@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* ─────────────────────────────────────────────────────────────
-   IRIS Design System — Apple-inspired fluid UI for the web
+   IRIS Design System - Apple-inspired fluid UI for the web
    Materials · Springs · Typography · Reduced motion · Touch
    ───────────────────────────────────────────────────────────── */
 
@@ -58,7 +58,7 @@
     --text-muted: rgba(148, 163, 184, 0.95);
     --text-vibrant: rgba(255, 255, 255, 0.95);
 
-    /* Spacing scale (rem — scales with user text size) */
+    /* Spacing scale (rem - scales with user text size) */
     --spacing-xs: 0.25rem;
     --spacing-sm: 0.5rem;
     --spacing-md: 1rem;
@@ -67,7 +67,7 @@
     --spacing-2xl: 3rem;
     --spacing-3xl: 4.5rem;
 
-    /* Fluid type — size-specific tracking applied on headings */
+    /* Fluid type - size-specific tracking applied on headings */
     --text-xs: clamp(0.75rem, 0.72rem + 0.15vw, 0.8125rem);
     --text-sm: clamp(0.875rem, 0.84rem + 0.2vw, 0.9375rem);
     --text-base: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
@@ -149,7 +149,7 @@
     letter-spacing: 0;
   }
 
-  /* Typography — size-specific tracking & leading (Apple optical sizing) */
+  /* Typography - size-specific tracking & leading (Apple optical sizing) */
   h1,
   h2,
   h3,
@@ -322,7 +322,7 @@
 }
 
 .glass-card-event {
-  /* Stronger glassmorphism — lighter frost, deeper blur */
+  /* Stronger glassmorphism - lighter frost, deeper blur */
   background: rgba(255, 255, 255, 0.07);
   backdrop-filter: blur(28px) saturate(180%);
   -webkit-backdrop-filter: blur(28px) saturate(180%);
@@ -388,7 +388,7 @@
   border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
-/* ─── Buttons — feedback on press, not only release ─── */
+/* ─── Buttons - feedback on press, not only release ─── */
 .btn-primary {
   position: relative;
   display: inline-flex;
@@ -544,7 +544,7 @@
   transform: scale(0.97);
 }
 
-/* Focus — continuous, visible, not only on release */
+/* Focus - continuous, visible, not only on release */
 button:focus-visible,
 a:focus-visible,
 input:focus-visible,
@@ -588,7 +588,7 @@ textarea:focus-visible,
   transition-duration: var(--duration-fast);
 }
 
-/* Soft edge highlight — material edge, not flashy sweep */
+/* Soft edge highlight - material edge, not flashy sweep */
 .gallery-item::before,
 .event-card::before,
 .team-card::before,
@@ -916,7 +916,7 @@ img {
   animation: spin 0.85s linear infinite;
 }
 
-/* Scrollbar — quiet chrome */
+/* Scrollbar - quiet chrome */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -1124,7 +1124,7 @@ img {
 }
 
 /*
-  Mobile fan — compact, fully clipped so side cards never expand
+  Mobile fan - compact, fully clipped so side cards never expand
   document width (which was hiding the hamburger / forcing zoom-out).
 */
 .fan-layout--mobile {
@@ -1140,7 +1140,7 @@ img {
 }
 
 .fan-card--mobile {
-  /* Center card ~42% of phone width — readable, not full-bleed */
+  /* Center card ~42% of phone width - readable, not full-bleed */
   width: min(42vw, 11.5rem);
   height: min(56vw, 15.5rem);
   margin-left: calc(min(42vw, 11.5rem) / -2);

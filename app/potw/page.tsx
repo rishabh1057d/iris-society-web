@@ -80,7 +80,7 @@ function isBreakOrEmpty(photo: WeeklyPhoto) {
   )
 }
 
-/** Compact grid card — photo-first, equal aspect, glass rim */
+/** Compact grid card - photo-first, equal aspect, glass rim */
 function PotwCard({
   photo,
   onOpen,
@@ -107,7 +107,7 @@ function PotwCard({
           src={photo.image || "/placeholder.svg"}
           alt={
             isBreak
-              ? `${photo.theme} — Week ${photo.week}`
+              ? `${photo.theme} - Week ${photo.week}`
               : `${photo.theme} by ${photo.photographer}`
           }
           fill
@@ -143,7 +143,7 @@ function PotwCard({
   )
 }
 
-/** Full-screen / desktop lightbox — image + caption both in view on phone */
+/** Full-screen / desktop lightbox - image + caption both in view on phone */
 function PotwViewer({
   photo,
   onClose,
@@ -201,7 +201,7 @@ function PotwViewer({
         transition={spring.snappy}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Top chrome — safe area for notched phones */}
+        {/* Top chrome - safe area for notched phones */}
         <div className="flex shrink-0 items-center justify-between gap-3 border-b border-white/10 px-3 py-2.5 pt-[max(0.625rem,env(safe-area-inset-top))] sm:px-4 sm:py-3 sm:pt-3">
           <div className="flex min-w-0 items-center gap-2">
             <span className="event-glass-chip shrink-0 rounded-full px-2.5 py-0.5 text-xs font-semibold text-sky-100">
@@ -221,9 +221,9 @@ function PotwViewer({
           </button>
         </div>
 
-        {/* Body: column on phone, row on desktop — both panes always visible */}
+        {/* Body: column on phone, row on desktop - both panes always visible */}
         <div className="flex min-h-0 flex-1 flex-col md:flex-row">
-          {/* Image pane — fixed share of viewport on mobile so meta is never below the fold */}
+          {/* Image pane - fixed share of viewport on mobile so meta is never below the fold */}
           <div
             className={cn(
               "relative flex min-h-0 items-center justify-center bg-black/40",
@@ -245,7 +245,7 @@ function PotwViewer({
             </div>
           </div>
 
-          {/* Meta pane — always in view on mobile; scroll only if copy is long */}
+          {/* Meta pane - always in view on mobile; scroll only if copy is long */}
           <div
             className={cn(
               "flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain",
@@ -409,8 +409,8 @@ export default function POTW() {
         >
           <h1 className="page-hero-title">Photo of the Week</h1>
           <p className="page-hero-sub">
-            Members shoot a weekly theme. Browse winners, open a frame for the story —
-            share yours in the WhatsApp group or Gspace to enter.
+            Members shoot a weekly theme. Browse winners, open a frame for the story.
+            Share yours in the WhatsApp group or Gspace to enter.
           </p>
         </motion.header>
 

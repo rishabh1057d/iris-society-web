@@ -4,7 +4,7 @@ import { useEffect, useRef, type CSSProperties } from "react"
 import { cn } from "@/lib/utils"
 
 /**
- * Velvet Sweep — soft sweeping brand light on a deep velvet field.
+ * Velvet Sweep - soft sweeping brand light on a deep velvet field.
  * Path mirrors getdesign Animated Backgrounds convention:
  *   app/components/backgrounds/effects/velvet-sweep.tsx
  *
@@ -17,7 +17,7 @@ export type VelvetSweepProps = {
   background?: string
   /** Animation speed multiplier (1 = default) */
   speed?: number
-  /** Overall glow strength 0–1 */
+  /** Overall glow strength 0-1 */
   intensity?: number
   className?: string
   style?: CSSProperties
@@ -103,7 +103,7 @@ void main() {
   sweep *= mix(0.75, 1.15, n);
   sweep += (n2 - 0.5) * 0.12;
 
-  // radial falloff — keep center readable for hero content
+  // radial falloff - keep center readable for hero content
   float vignette = 1.0 - smoothstep(0.15, 0.95, length(p) * 1.15);
   float glow = max(sweep, 0.0) * vignette * u_intensity;
 

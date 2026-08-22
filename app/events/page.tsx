@@ -145,7 +145,7 @@ function MetaRow({ event, compact }: { event: IrisEvent; compact?: boolean }) {
   )
 }
 
-/** Desktop / tablet equal-height grid card — image fixed, copy clamped */
+/** Desktop / tablet equal-height grid card - image fixed, copy clamped */
 function EventGridCard({
   event,
   onOpen,
@@ -165,7 +165,7 @@ function EventGridCard({
         onClick={() => onOpen(event)}
         className="flex h-full min-h-0 flex-col text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3230e0]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0F1013]"
       >
-        {/* Fixed media ratio — same for every card */}
+        {/* Fixed media ratio - same for every card */}
         <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden bg-slate-800/80">
           <Image
             src={event.image}
@@ -197,7 +197,7 @@ function EventGridCard({
               {event.description}
             </p>
           ) : (
-            <p className="mb-3 min-h-[2.75em] text-sm text-transparent select-none">—</p>
+            <p className="mb-3 min-h-[2.75em] text-sm text-transparent select-none">&nbsp;</p>
           )}
 
           <div className="mb-4">
@@ -220,7 +220,7 @@ function EventGridCard({
   )
 }
 
-/** Phone: dense horizontal row — fits ~2–3 per viewport without giant posters */
+/** Phone: dense horizontal row - fits ~2-3 per viewport without giant posters */
 function EventListRow({
   event,
   onOpen,
@@ -265,7 +265,7 @@ function EventListRow({
         </div>
       </button>
 
-      {/* Actions sit under row but compact — only if any exist */}
+      {/* Actions sit under row but compact - only if any exist */}
       {(event.resultLink?.trim() ||
         event.liveSessionLink?.trim() ||
         event.speakerInstagram?.trim() ||
@@ -388,7 +388,7 @@ export default function Events() {
         >
           <h1 className="page-hero-title">Event Calendar</h1>
           <p className="page-hero-sub">
-            Workshops, competitions, and showcases from IRIS — tap a card for the full story.
+            Workshops, competitions, and showcases from IRIS. Tap a card for the full story.
           </p>
         </motion.header>
 
@@ -476,7 +476,7 @@ export default function Events() {
                 {previousEvents.length} past events
               </p>
             </div>
-            {/* Carousel controls — desktop only (mobile uses vertical list) */}
+            {/* Carousel controls - desktop only (mobile uses vertical list) */}
             <div className="hidden gap-2 sm:flex">
               <button
                 type="button"
@@ -541,7 +541,7 @@ export default function Events() {
         </motion.section>
       </div>
 
-      {/* Detail sheet — full description without stretching cards */}
+      {/* Detail sheet - full description without stretching cards */}
       <AnimatePresence>
         <Dialog open={!!selected} onOpenChange={(open) => !open && setSelected(null)}>
           <DialogContent className="event-glass max-h-[min(90dvh,40rem)] w-[min(92vw,32rem)] overflow-y-auto border-white/15 bg-[#0F1013]/55 p-0 text-white shadow-2xl sm:rounded-2xl">

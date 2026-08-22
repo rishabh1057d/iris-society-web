@@ -48,6 +48,7 @@ export type HomeLandingProps = {
 
 /** Quiet site index: not a card grid, just a typed map of the society */
 const INDEX = [
+  { href: "/beginner", label: "Beginner Mode", hint: "Coming soon" },
   { href: "/events", label: "Events", hint: "Workshops and competitions" },
   { href: "/potw", label: "Photo of the Week", hint: "Weekly winners" },
   { href: "/gallery", label: "Gallery", hint: "Member work" },
@@ -221,7 +222,24 @@ export default function HomeLanding({
                     </>
                   )}
                 </button>
+                <Link
+                  href="/beginner"
+                  className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-6 text-sm font-medium text-slate-200 transition hover:border-[#5b59f0]/40 hover:bg-[#3230e0]/15 hover:text-white"
+                >
+                  <Camera className="h-4 w-4 opacity-90" />
+                  Beginner Mode
+                </Link>
               </motion.div>
+
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ ...spring.default, delay: 0.3 }}
+                className="mt-3 max-w-sm text-center text-xs leading-relaxed text-slate-500 md:text-left"
+              >
+                New to photography or videography? Beginner Mode is on the way.
+                Preview the page while we finish building it.
+              </motion.p>
             </div>
           </div>
 

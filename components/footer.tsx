@@ -10,19 +10,19 @@ import { spring } from "@/lib/motion"
 const socials = [
   {
     href: "https://linktr.ee/iris_iitm",
-    label: "Linktree — all IRIS Society links",
+    label: "Linktree - all IRIS Society links",
     icon: ExternalLink,
     hover: "hover:text-emerald-400 hover:bg-emerald-400/10",
   },
   {
     href: "https://www.instagram.com/iris_iitm",
-    label: "Instagram — IRIS Society",
+    label: "Instagram - IRIS Society",
     icon: Instagram,
     hover: "hover:text-pink-400 hover:bg-pink-400/10",
   },
   {
     href: "https://www.linkedin.com/company/iris-camera-society/",
-    label: "LinkedIn — IRIS Camera Society",
+    label: "LinkedIn - IRIS Camera Society",
     icon: Linkedin,
     hover: "hover:text-sky-400 hover:bg-sky-400/10",
   },
@@ -41,7 +41,7 @@ export default function Footer() {
       transition={spring.default}
     >
       {/*
-        Opaque solid footer — no translucent gradient that leaves a purple mesh
+        Opaque solid footer - no translucent gradient that leaves a purple mesh
         “stripe” under the copyright block. Safe-area padding uses the same fill.
       */}
       <div
