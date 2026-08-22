@@ -1,8 +1,8 @@
 "use client"
 
-import Image from "next/image"
 import { useState } from "react"
 import { motion } from "framer-motion"
+import StaticImage from "@/components/static-image"
 
 interface ResponsiveImageProps {
   src: string
@@ -101,19 +101,13 @@ export default function ResponsiveImage({
         transition={{ duration: 0.3 }}
         className="w-full h-full"
       >
-        <Image
+        <StaticImage
           src={normalizedSrc}
           alt={alt}
           width={width}
           height={height}
           priority={priority}
-          sizes={sizes}
-          {...(!priority ? { loading } : {})}
-          quality={quality}
-          placeholder={placeholder}
-          blurDataURL={blurDataURL}
           onLoad={handleLoad}
-          onLoadingComplete={() => setIsLoading(false)}
           onError={handleError}
           className={`w-full h-full image-responsive`}
           style={{ objectFit: finalObjectFit }}

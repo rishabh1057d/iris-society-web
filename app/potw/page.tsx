@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useRef, useEffect, useCallback, useMemo } from "react"
-import Image from "next/image"
+import StaticImage from "@/components/static-image"
 import Link from "next/link"
 import Footer from "@/components/footer"
 import {
@@ -103,7 +103,7 @@ function PotwCard({
       )}
     >
       <div className="relative aspect-[3/4] w-full overflow-hidden bg-slate-900/80 sm:aspect-[4/5]">
-        <Image
+        <StaticImage
           src={photo.image || "/placeholder.svg"}
           alt={
             isBreak
@@ -111,12 +111,10 @@ function PotwCard({
               : `${photo.theme} by ${photo.photographer}`
           }
           fill
-          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
           className={cn(
             "object-cover transition duration-500 ease-out group-hover:scale-[1.04]",
             isBreak && "opacity-80 grayscale-[0.25]"
           )}
-          unoptimized
         />
 
         {/* Soft bottom wash so text stays legible */}
@@ -233,14 +231,12 @@ function PotwViewer({
             )}
           >
             <div className="relative h-full w-full">
-              <Image
+              <StaticImage
                 src={photo.image || "/placeholder.svg"}
                 alt={photo.theme}
                 fill
-                sizes="(max-width: 768px) 100vw, 60vw"
                 className="object-contain p-2 sm:p-3 md:p-4"
                 priority
-                unoptimized
               />
             </div>
           </div>

@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react"
 import Footer from "@/components/footer"
-import Image from "next/image"
+import StaticImage from "@/components/static-image"
 import {
   Calendar,
   MapPin,
@@ -167,11 +167,10 @@ function EventGridCard({
       >
         {/* Fixed media ratio - same for every card */}
         <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden bg-slate-800/80">
-          <Image
+          <StaticImage
             src={event.image}
             alt=""
             fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className="object-cover transition duration-300 group-hover:scale-[1.03]"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
@@ -240,11 +239,10 @@ function EventListRow({
         className="flex w-full gap-3 p-3 text-left active:bg-white/[0.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#3230e0]/50"
       >
         <div className="relative h-[5rem] w-[5rem] shrink-0 overflow-hidden rounded-xl bg-slate-800/80 sm:h-[5.25rem] sm:w-[5.25rem]">
-          <Image
+          <StaticImage
             src={event.image}
             alt=""
             fill
-            sizes="84px"
             className="object-cover"
           />
         </div>
@@ -299,11 +297,10 @@ function EventCarouselCard({
         className="flex h-full flex-col text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3230e0]/50"
       >
         <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden bg-slate-800/80">
-          <Image
+          <StaticImage
             src={event.image}
             alt=""
             fill
-            sizes="280px"
             className="object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
@@ -548,11 +545,10 @@ export default function Events() {
             {selected && (
               <>
                 <div className="relative aspect-[16/9] w-full overflow-hidden bg-slate-800/80">
-                  <Image
+                  <StaticImage
                     src={selected.image}
                     alt=""
                     fill
-                    sizes="512px"
                     className="object-cover"
                     priority
                   />

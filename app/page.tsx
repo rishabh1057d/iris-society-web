@@ -1218,7 +1218,7 @@ export default function Home() {
                 </DialogTitle>
                 <DialogDescription className="text-[15px] leading-relaxed text-slate-300 sm:text-base">
                   Help build the next IRIS core team. Photography, videography,
-                  design, writing, outreach, and web are all open.
+                  design, writing, and outreach are open.
                 </DialogDescription>
               </DialogHeader>
               <div className="mt-7 flex flex-col gap-2.5">

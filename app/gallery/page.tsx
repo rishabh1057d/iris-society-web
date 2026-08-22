@@ -2,7 +2,7 @@
 
 import { useRef, useState, useEffect, useCallback, useMemo } from "react"
 import Footer from "@/components/footer"
-import Image from "next/image"
+import StaticImage from "@/components/static-image"
 import { motion, AnimatePresence, useInView } from "framer-motion"
 import { X } from "lucide-react"
 import { spring } from "@/lib/motion"
@@ -166,15 +166,13 @@ export default function Gallery() {
                   </div>
                 )}
                 <div className="relative w-full h-[min(70dvh,720px)]">
-                  <Image
+                  <StaticImage
                     src={selected.src || "/placeholder.svg"}
                     alt={selected.alt || `Photo by ${selected.photographer}`}
                     fill
                     className={`object-contain transition-opacity duration-200 ${
                       lightboxReady ? "opacity-100" : "opacity-0"
                     }`}
-                    sizes="(max-width: 1024px) 100vw, 1024px"
-                    quality={92}
                     priority
                     onLoad={() => setLightboxReady(true)}
                   />

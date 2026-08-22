@@ -8,8 +8,8 @@ import {
   useCallback,
   type ReactNode,
 } from "react"
-import Image from "next/image"
 import Link from "next/link"
+import StaticImage from "@/components/static-image"
 import {
   ChevronDown,
   ChevronUp,
@@ -177,11 +177,10 @@ function LeadershipCard({
             "aspect-[4/5] w-full sm:aspect-auto sm:h-auto sm:w-[42%] sm:min-h-[240px]"
           )}
         >
-          <Image
+          <StaticImage
             src={normalizeImage(member.image)}
             alt={member.name}
             fill
-            sizes="(max-width: 640px) 100vw, 280px"
             className="object-cover transition duration-500 group-hover:scale-[1.03]"
           />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent sm:bg-gradient-to-r sm:from-transparent sm:to-black/20" />
@@ -245,11 +244,10 @@ function MemberCard({
         className="flex h-full flex-col text-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#3230e0]/50"
       >
         <div className="relative aspect-[4/5] w-full overflow-hidden bg-slate-900/70">
-          <Image
+          <StaticImage
             src={normalizeImage(member.image)}
             alt={member.name}
             fill
-            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
             className="object-cover transition duration-500 group-hover:scale-[1.04]"
           />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
@@ -331,11 +329,10 @@ function MemberDetail({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[min(90dvh,720px)] max-w-lg gap-0 overflow-y-auto overflow-x-hidden border-white/15 bg-[#0F1013]/95 p-0 backdrop-blur-2xl sm:rounded-2xl">
         <div className="relative aspect-[16/11] w-full overflow-hidden bg-slate-900 sm:aspect-[16/10]">
-          <Image
+          <StaticImage
             src={normalizeImage(member.image)}
             alt={member.name}
             fill
-            sizes="(max-width: 640px) 100vw, 512px"
             className="object-cover"
             priority
           />
@@ -611,8 +608,7 @@ export default function Team() {
                 <p className="mt-3 text-[15px] leading-relaxed text-slate-300 sm:text-base">
                   The {currentMembers.tenure || "2026-2027"} core team is not
                   announced yet. If you love photography, videography, design,
-                  writing, outreach, or web, apply and help shape IRIS this
-                  year.
+                  writing, or outreach, apply and help shape IRIS this year.
                 </p>
                 <button
                   type="button"
