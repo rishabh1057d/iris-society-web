@@ -293,9 +293,12 @@ function MemberCard({
 function MemberGrid({
   children,
   className,
+  /** `mount` = animate when rendered (needed inside height/overflow panels). `inView` for long scroll pages. */
+  reveal = "inView",
 }: {
   children: ReactNode
   className?: string
+  reveal?: "inView" | "mount"
 }) {
   return (
     <motion.div
@@ -305,8 +308,12 @@ function MemberGrid({
       )}
       variants={staggerContainer}
       initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-40px" }}
+      {...(reveal === "mount"
+        ? { animate: "visible" as const }
+        : {
+            whileInView: "visible" as const,
+            viewport: { once: true, margin: "-40px" },
+          })}
     >
       {children}
     </motion.div>
@@ -543,14 +550,17 @@ export default function Team() {
           </p>
 
           <div className="mt-6 flex flex-col items-stretch justify-center gap-2.5 sm:mt-8 sm:flex-row sm:items-center sm:gap-3">
-            <button
-              type="button"
-              onClick={handleApply}
-              className="btn-primary !min-h-[44px] !px-5 !py-2.5 !text-sm"
-            >
-              <Users className="mr-2 h-4 w-4" />
-              {recruiting ? "Apply to core team" : "Join the core team"}
-            </button>
+            {/* When recruiting with empty roster, Apply lives only inside the box below */}
+            {!(recruiting && teamCount === 0) && (
+              <button
+                type="button"
+                onClick={handleApply}
+                className="btn-primary !min-h-[44px] !px-5 !py-2.5 !text-sm"
+              >
+                <Users className="mr-2 h-4 w-4" />
+                {recruiting ? "Apply to core team" : "Join the core team"}
+              </button>
+            )}
             <button
               type="button"
               onClick={() => {
@@ -724,11 +734,11 @@ export default function Team() {
           {showPreviousMembers && (
             <motion.div
               id="previous-members"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
+              key="previous-members-panel"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 8 }}
               transition={spring.default}
-              className="overflow-hidden"
             >
               <div className="border-t border-white/10 pb-4 pt-10">
                 <div className="mb-8 text-center">
@@ -771,7 +781,13 @@ export default function Team() {
                         }
                         icon={Users}
                       />
-                      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
+                      <motion.div
+                        key={`prev-lead-grid-${selectedTenure}`}
+                        className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4"
+                        variants={staggerContainer}
+                        initial="hidden"
+                        animate="visible"
+                      >
                         {previousMembers[selectedTenure]!.leadershipTeam!.map(
                           (member) => (
                             <LeadershipCard
@@ -781,7 +797,7 @@ export default function Team() {
                             />
                           )
                         )}
-                      </div>
+                      </motion.div>
                     </section>
                   )}
 
@@ -795,7 +811,10 @@ export default function Team() {
                         count={previousMembers[selectedTenure]!.coreTeam!.length}
                         icon={Sparkles}
                       />
-                      <MemberGrid>
+                      <MemberGrid
+                        key={`prev-core-grid-${selectedTenure}`}
+                        reveal="mount"
+                      >
                         {previousMembers[selectedTenure]!.coreTeam!.map(
                           (member) => (
                             <MemberCard
@@ -821,7 +840,10 @@ export default function Team() {
                         }
                         icon={Code2}
                       />
-                      <MemberGrid>
+                      <MemberGrid
+                        key={`prev-web-grid-${selectedTenure}`}
+                        reveal="mount"
+                      >
                         {previousMembers[selectedTenure]!.webDevTeam!.map(
                           (member) => (
                             <MemberCard
