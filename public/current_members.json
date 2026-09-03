@@ -18,7 +18,7 @@
     "rulebookUrl": "https://docs.google.com/document/d/1WtA9Opn53uZKkAKwWWgPtIfbVQ8bB55WtHpMrjoyxXI/edit?tab=t.0#heading=h.nh6axk7u94xz",
     "registrationDeadline": "2026-06-08T23:59:59"
   },
-  "recruiting": true,
+  "recruiting": false,
   "recruitmentForm": "https://forms.gle/9EDxsz9hQM7pRf7x7",
   "video_home": {
     "enabled": false,
