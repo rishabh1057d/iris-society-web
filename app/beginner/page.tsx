@@ -4,7 +4,7 @@ import BeginnerClient from "./beginner-client"
 export const metadata: Metadata = {
   title: "Beginner Mode",
   description:
-    "IRIS Beginner Mode is still in progress. Guides and tutorials for learning photography and videography are coming soon.",
+    "Learn photography and videography from first principles with guided courses, practical field guides, and trusted resources from IRIS Society.",
 }
 
 export default function BeginnerPage() {

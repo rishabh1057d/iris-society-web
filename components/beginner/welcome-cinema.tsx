@@ -21,8 +21,7 @@ export default function WelcomeCinema({
   const rise = isPhone ? 48 : 36
   const wordStagger = isPhone ? 0.16 : 0.13
   const wordDur = isPhone ? 0.95 : 0.85
-  // "Welcome to Beginner Mode" = 4 words → last lands ~ delay + 3*stagger + dur
-  const heroDone = reducedMotion ? 0.4 : 0.35 + 3 * wordStagger + wordDur * 0.55
+  const heroDone = reducedMotion ? 0.4 : 0.35 + 6 * wordStagger + wordDur * 0.55
   const leadDelay = heroDone + (isPhone ? 0.2 : 0.15)
   const ctaDelay = leadDelay + (isPhone ? 1.1 : 0.95)
 
@@ -50,8 +49,8 @@ export default function WelcomeCinema({
       >
         <RisingWords
           as="h1"
-          text="Welcome to Beginner Mode"
-          className="bm-hero-display max-w-[11ch] text-white sm:max-w-[14ch] md:max-w-[16ch]"
+          text="Learn to see. Then learn the camera."
+          className="bm-hero-display max-w-[10ch] text-white"
           delay={0.28}
           stagger={wordStagger}
           rise={rise}
@@ -65,7 +64,7 @@ export default function WelcomeCinema({
         >
           <RisingWords
             as="p"
-            text="Learn photography and videography one clear step at a time."
+            text="A patient path into photography and filmmaking, built for your first frame."
             className="bm-lead text-slate-300/90"
             delay={leadDelay}
             stagger={isPhone ? 0.07 : 0.055}

@@ -16,7 +16,7 @@ import BeginnerWip from "@/components/beginner/beginner-wip"
 import WelcomeCinema from "@/components/beginner/welcome-cinema"
 import IntentChecklist from "@/components/beginner/intent-checklist"
 import TitleRollHub from "@/components/beginner/title-roll-hub"
-import SectionStub from "@/components/beginner/section-stub"
+import SectionView from "@/components/beginner/section-stub"
 import "@/components/beginner/beginner.css"
 
 export default function BeginnerClient() {
@@ -75,10 +75,10 @@ function BeginnerExperience() {
     <div className="beginner-root relative flex h-dvh max-h-dvh w-full flex-col overflow-hidden bg-[#0F1013]">
       <BeginnerField />
 
-      <div className="bm-safe-top absolute left-0 top-0 z-30 px-4 md:px-6">
+      <div className="bm-safe-top absolute right-0 top-0 z-30 px-4 md:px-6">
         <Link
           href="/"
-          className="inline-flex h-11 w-11 items-center justify-center rounded-full text-white/70 transition hover:bg-white/10 hover:text-white active:scale-95"
+          className="inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-full text-white/70 transition hover:bg-white/10 hover:text-white active:scale-95"
           aria-label="Exit Beginner Mode"
         >
           <X className="h-5 w-5" strokeWidth={1.75} />
@@ -86,7 +86,7 @@ function BeginnerExperience() {
       </div>
 
       <div className="relative z-10 flex min-h-0 flex-1 flex-col pt-12 md:pt-14">
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="sync">
           {phase === "welcome" && (
             <motion.div
               key="welcome"
@@ -141,7 +141,7 @@ function BeginnerExperience() {
               className="flex min-h-0 flex-1 flex-col overflow-y-auto"
               {...phaseMotion}
             >
-              <SectionStub sectionId={sectionId} onBack={goHub} />
+              <SectionView sectionId={sectionId} onBack={goHub} />
             </motion.div>
           )}
         </AnimatePresence>

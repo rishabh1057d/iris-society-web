@@ -1,5 +1,5 @@
 /** Flip to true when Beginner Mode is ready to ship publicly. */
-export const BEGINNER_MODE_LIVE = false
+export const BEGINNER_MODE_LIVE = true
 
 export const CHECKLIST = [
   { id: "exposure", label: "Exposure and light" },
@@ -15,22 +15,20 @@ export const SECTIONS = [
   {
     id: "tutorials",
     label: "Tutorials",
+    image: "/images/golden_hour.png",
     blurb: "Step by step lessons you can follow along",
   },
   {
     id: "guides",
     label: "Guides",
-    blurb: "Practical how-tos for real shoots",
-  },
-  {
-    id: "basics",
-    label: "Basics",
-    blurb: "Foundations that stick",
+    image: "/images/macro_magiv.png",
+    blurb: "Quick answers for the questions you meet on a shoot",
   },
   {
     id: "best",
     label: "Learn from the best",
-    blurb: "Inspiration and craft from strong work",
+    image: "/images/shutter_safari_winner.jpg",
+    blurb: "Trusted photographers, filmmakers, essays, and channels",
   },
 ] as const
 

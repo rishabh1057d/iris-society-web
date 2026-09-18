@@ -26,8 +26,8 @@ export default function BeginnerField() {
     }
   }, [])
 
-  const intensity = reduced ? 0.35 : isMobile ? 0.55 : 0.78
-  const speed = reduced ? 0.35 : isMobile ? 0.55 : 0.7
+  const intensity = reduced ? 0.18 : isMobile ? 0.32 : 0.42
+  const speed = reduced ? 0.2 : isMobile ? 0.35 : 0.45
 
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
@@ -39,7 +39,9 @@ export default function BeginnerField() {
         speed={speed}
         className="absolute inset-0 h-full w-full"
       />
-      {/* Soft depth blooms */}
+      <div className="bm-optical-grid absolute inset-0 opacity-60" />
+      <div className="bm-lens-ring absolute left-1/2 top-1/2 aspect-square w-[min(78vw,720px)] -translate-x-1/2 -translate-y-1/2 opacity-70" />
+      <div className="bm-lens-ring absolute left-1/2 top-1/2 aspect-square w-[min(48vw,430px)] -translate-x-1/2 -translate-y-1/2 opacity-50" />
       <div
         className="absolute -left-1/4 top-1/4 h-[55vmax] w-[55vmax] rounded-full opacity-40 blur-3xl"
         style={{
@@ -54,7 +56,7 @@ export default function BeginnerField() {
             "radial-gradient(circle, rgba(91,89,240,0.28) 0%, transparent 70%)",
         }}
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-[#0F1013]/30 via-transparent to-[#0F1013]/55" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0F1013]/45 via-transparent to-[#0F1013]/70" />
     </div>
   )
 }

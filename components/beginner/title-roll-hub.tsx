@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import Image from "next/image"
 import { AnimatePresence, motion } from "framer-motion"
 import { ArrowRight } from "lucide-react"
 import { SECTIONS, type SectionId } from "@/lib/beginner/content"
@@ -52,7 +53,7 @@ export default function TitleRollHub({
       >
         <RisingWords
           as="h2"
-          text="Where do you want to start?"
+          text="Choose your way in"
           className="bm-display-md text-white"
           delay={0.1}
           stagger={isPhone ? 0.09 : 0.07}
@@ -62,7 +63,7 @@ export default function TitleRollHub({
         />
 
         {isPhone ? (
-          <nav className="mt-10 flex flex-col gap-2.5" aria-label="Beginner sections">
+          <nav className="mt-10 flex flex-col gap-3" aria-label="Beginner sections">
             {SECTIONS.map((s, i) => (
               <motion.button
                 key={s.id}
@@ -75,21 +76,25 @@ export default function TitleRollHub({
                   ease: bmEaseOut,
                   delay: 0.55 + i * 0.1,
                 }}
-                className="flex min-h-[72px] items-center justify-between gap-3 rounded-2xl bg-white/[0.04] px-4 py-4 text-left transition active:scale-[0.99]"
+                className="group flex min-h-[112px] items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.035] p-2.5 pr-4 text-left transition hover:border-[#a8a6ff]/30 hover:bg-[#3230e0]/10 active:scale-[0.99]"
               >
-                <span>
-                  <span className="bm-body-strong block text-lg text-white">
-                    {s.label}
-                  </span>
-                  <span className="mt-1 block text-sm text-slate-500">{s.blurb}</span>
+                <span className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl bg-white/5">
+                  <Image src={s.image} alt="" fill sizes="80px" className="object-cover" />
                 </span>
-                <ArrowRight className="h-4 w-4 shrink-0 text-slate-600" />
+                <span className="min-w-0 flex-1">
+                  <span className="text-xs tabular-nums text-[#8b89ff]">0{i + 1}</span>
+                  <span>
+                    <span className="mt-1 block font-[family-name:var(--font-bm-display)] text-[1.4rem] font-semibold leading-none text-white">{s.label}</span>
+                    <span className="mt-1 block text-xs leading-4 text-slate-400">{s.blurb}</span>
+                  </span>
+                </span>
+                <ArrowRight aria-hidden className="h-4 w-4 shrink-0 text-slate-400 transition-transform group-hover:translate-x-1" />
               </motion.button>
             ))}
           </nav>
         ) : (
           <nav
-            className="mt-14 grid grid-cols-2 gap-5"
+            className="mt-14 grid grid-cols-3 gap-4"
             aria-label="Beginner sections"
           >
             {SECTIONS.map((s, i) => (
@@ -104,12 +109,17 @@ export default function TitleRollHub({
                   ease: bmEaseOut,
                   delay: 0.5 + i * 0.09,
                 }}
-                className="group flex min-h-[150px] flex-col justify-end rounded-3xl border border-white/[0.06] bg-white/[0.03] p-7 text-left transition hover:border-[#5b59f0]/30 hover:bg-[#3230e0]/10"
+                className="group flex min-h-[300px] flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/[0.025] text-left transition hover:-translate-y-1 hover:border-[#a8a6ff]/30 hover:bg-[#3230e0]/10"
               >
-                <span className="bm-display-md block text-[1.65rem] text-white transition group-hover:text-[#c8c7ff]">
-                  {s.label}
+                <span className="relative block h-36 w-full overflow-hidden bg-white/5">
+                  <Image src={s.image} alt="" fill sizes="(max-width: 1024px) 50vw, 25vw" className="object-cover transition duration-500 group-hover:scale-105" />
+                  <span className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-[#0F1013]/75 to-transparent" />
                 </span>
-                <span className="bm-body mt-2 block text-slate-500">{s.blurb}</span>
+                <span className="flex flex-1 flex-col p-6">
+                  <span className="text-xs tabular-nums text-[#aaa8ff]">0{i + 1}</span>
+                  <span className="mt-auto block font-[family-name:var(--font-bm-display)] text-[2.1rem] font-semibold leading-none text-white transition group-hover:text-[#c8c7ff]">{s.label}</span>
+                  <span className="mt-3 block text-sm leading-6 text-slate-400">{s.blurb}</span>
+                </span>
               </motion.button>
             ))}
           </nav>
@@ -179,5 +189,5 @@ export default function TitleRollHub({
 function cnHub(isPhone: boolean) {
   return isPhone
     ? "mx-auto flex h-full w-full max-w-lg flex-col px-5 pb-10 pt-2"
-    : "mx-auto flex h-full w-full max-w-3xl flex-col justify-center px-10 pb-12"
+    : "mx-auto flex h-full w-full max-w-5xl flex-col justify-center px-10 pb-12"
 }

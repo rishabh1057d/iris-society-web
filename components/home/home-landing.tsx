@@ -48,7 +48,7 @@ export type HomeLandingProps = {
 
 /** Quiet site index: not a card grid, just a typed map of the society */
 const INDEX = [
-  { href: "/beginner", label: "Beginner Mode", hint: "Coming soon" },
+  { href: "/beginner", label: "Beginner Mode", hint: "Learn the craft" },
   { href: "/events", label: "Events", hint: "Workshops and competitions" },
   { href: "/potw", label: "Photo of the Week", hint: "Weekly winners" },
   { href: "/gallery", label: "Gallery", hint: "Member work" },
@@ -237,8 +237,8 @@ export default function HomeLanding({
                 transition={{ ...spring.default, delay: 0.3 }}
                 className="mt-3 max-w-sm text-center text-xs leading-relaxed text-slate-500 md:text-left"
               >
-                New to photography or videography? Beginner Mode is on the way.
-                Preview the page while we finish building it.
+                New to photography or videography? Start with a clear path from
+                camera basics to your first finished story.
               </motion.p>
             </div>
           </div>
