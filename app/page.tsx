@@ -3,6 +3,7 @@
 import type React from "react"
 
 import { useEffect, useRef, useState, useCallback, useMemo } from "react"
+import { createPortal } from "react-dom"
 import Image from "next/image"
 import Link from "next/link"
 import Footer from "@/components/footer"
@@ -11,6 +12,7 @@ import RedirectHandler from "@/components/redirect-handler"
 import { motion, AnimatePresence, useAnimation, useInView, useScroll, useTransform } from "framer-motion"
 import SymphonyOverlay from "@/components/symphony-overlay"
 import HomeLanding from "@/components/home/home-landing"
+import "@/components/shutter-safari-popup.css"
 import { selectFeaturedPotw } from "@/lib/potw"
 function RainOverlay() {
   const palette = [
@@ -531,7 +533,7 @@ export default function Home() {
   const [showRetroEffect, setShowRetroEffect] = useState(false)
   const [showSymphony, setShowSymphony] = useState(false)
   const [popupData, setPopupData] = useState<{ enabled?: boolean; title?: string; description?: string; image?: string; registerUrl?: string; rulebookUrl?: string; registrationDeadline?: string; fireworks?: boolean; retro?: boolean; symphony?: boolean } | null>(null)
-  const [imageLoaded, setImageLoaded] = useState(false)
+  const eventPopupRef = useRef<HTMLElement>(null)
   const [videoMuted, setVideoMuted] = useState(true)
   const [videoData, setVideoData] = useState<{ enabled?: boolean; src?: string; title?: string; description?: string; instagramUrl?: string } | null>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -788,16 +790,32 @@ export default function Home() {
     }
   }, [showEventPopup, popupData?.enabled, videoData?.enabled])
 
-  // Close event popup on ESC
+  // Keep keyboard focus inside the open announcement and restore it on close.
   useEffect(() => {
     if (!showEventPopup) return
+    const previousFocus = document.activeElement as HTMLElement | null
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = "hidden"
+    const frame = requestAnimationFrame(() => eventPopupRef.current?.querySelector<HTMLButtonElement>(".ss-close")?.focus())
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         setShowEventPopup(false)
+      } else if (e.key === 'Tab') {
+        const focusable = eventPopupRef.current?.querySelectorAll<HTMLElement>('button, a[href]')
+        if (!focusable?.length) return
+        const first = focusable[0]
+        const last = focusable[focusable.length - 1]
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus() }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus() }
       }
     }
     window.addEventListener('keydown', onKeyDown)
-    return () => window.removeEventListener('keydown', onKeyDown)
+    return () => {
+      cancelAnimationFrame(frame)
+      window.removeEventListener('keydown', onKeyDown)
+      document.body.style.overflow = previousOverflow
+      previousFocus?.focus()
+    }
   }, [showEventPopup])
 
   // Auto-scroll and autoplay when popup is disabled but video section is enabled
@@ -854,160 +872,72 @@ export default function Home() {
 
   return (
     <ErrorBoundary>
-      {/* Event Announcement Popup (glass-morphism, like POTW modal) */}
-      <motion.div>
-        <AnimatePresence>
-          {showEventPopup && popupData?.enabled && (
-            <motion.div
-              className="fixed inset-0 bg-black/80 z-50 flex items-start sm:items-center justify-center p-3 sm:p-4 pt-16 sm:pt-4"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setShowEventPopup(false)}
+      {/* Saavan's ticket-style event announcement */}
+      {typeof document !== "undefined" && createPortal(<AnimatePresence>
+        {showEventPopup && popupData?.enabled && (
+          <motion.div
+            className="ss-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowEventPopup(false)}
+          >
+            {showFireworks && <RainOverlay />}
+            {showRetroEffect && <RetroPixelArtOverlay />}
+            {showSymphony && <SymphonyOverlay />}
+            <motion.section
+              ref={eventPopupRef}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="ss-title"
+              aria-describedby="ss-description"
+              className="ss-popup"
+              variants={isReducedMotion ? { hidden: { opacity: 1 }, visible: { opacity: 1 }, exit: { opacity: 1 } } : modalVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              onClick={(event) => event.stopPropagation()}
             >
-              {showFireworks && <RainOverlay />}
-              {showRetroEffect && <RetroPixelArtOverlay />}
-              {showSymphony && <SymphonyOverlay />}
-              <motion.div
-                className={`relative z-[55] rounded-2xl overflow-hidden w-full max-w-[1100px] h-[90vh] md:h-[80vh] max-h-[90vh] md:max-h-[85vh] flex flex-col md:flex-row backdrop-blur-xl bg-white/10 border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.3)] ${showRetroEffect ? 'retro-popup-glitch' : ''} ${showSymphony ? 'symphony-popup' : ''}`}
-                variants={modalVariants}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-                onClick={(e) => e.stopPropagation()}
-              >
-                {/* Background matching main website mesh gradient */}
-                <div className="absolute inset-0 pointer-events-none bg-gradient-to-br from-purple-900/30 via-blue-900/25 to-indigo-900/30" />
-                {/* Additional gradient overlay matching website style */}
-                <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-blue-900/20 via-transparent to-purple-900/15" />
-                {/* Subtle floating orbs effect like main website */}
-                <div className="absolute inset-0 pointer-events-none opacity-20">
-                  <div className="absolute w-24 h-24 rounded-full bg-gradient-to-r from-blue-400/30 to-purple-400/30 blur-sm top-1/4 left-1/4 animate-pulse" />
-                  <div className="absolute w-32 h-32 rounded-full bg-gradient-to-r from-purple-400/20 to-blue-400/20 blur-sm top-3/4 right-1/4 animate-pulse" style={{ animationDelay: '1s' }} />
-                </div>
-                <motion.button
-                  onClick={() => setShowEventPopup(false)}
-                  className="absolute top-3 sm:top-2 right-3 sm:right-2 p-1 rounded-full hover:bg-white/10 transition-colors z-10"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path fillRule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clipRule="evenodd"/></svg>
-                </motion.button>
-
-                <div className="flex flex-col md:flex-row overflow-hidden w-full">
-                  {/* Image section */}
-                  <div className="md:w-1/2 p-3 md:p-4 md:px-6 flex items-center justify-center">
-                    <div className="relative w-full max-w-[320px] md:max-w-[460px] h-[30vh] md:h-full rounded-xl overflow-hidden">
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0.98 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.45 }}
-                        className="relative w-full h-full"
-                      >
-                        <Image
-                          src={popupData?.image || "/placeholder.svg"}
-                          alt={popupData?.title || "Event"}
-                          fill
-                          className={`object-contain transition-opacity duration-300 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
-                          priority
-                          quality={90}
-                          sizes="(max-width: 768px) 100vw, 50vw"
-                          placeholder="blur"
-                          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
-                          onLoad={() => setImageLoaded(true)}
-                        />
-                      </motion.div>
-                    </div>
+              <div className="ss-ticket">
+                <div className="ss-diamonds" aria-hidden="true" />
+                <div className="ss-paper">
+                  <button className="ss-close" type="button" aria-label="Close event announcement" onClick={() => setShowEventPopup(false)}>×</button>
+                  <div className="ss-head">
+                    <span className="ss-eyebrow">THE IRIS SOCIETY PRESENTS</span>
+                    <span className="ss-edition">SAAVAN EDITION 2.0</span>
+                    <h2 id="ss-title">{popupData.title || "Shutter Safari"}</h2>
+                    <p className="ss-deck">See the world. Tell its story.</p>
                   </div>
-
-                  {/* Details section */}
-                  <div className="md:w-1/2 p-3 md:p-6 overflow-y-auto">
-                    <div className="rounded-xl bg-black/50 backdrop-blur-md border border-blue-400/20 p-3 md:p-5 ring-1 ring-blue-400/20 shadow-[0_10px_40px_rgba(59,130,246,0.1)]">
-                      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }} className="mb-1 md:mb-2">
-                        <h3 className="font-extrabold text-white text-lg md:text-2xl leading-tight md:leading-snug drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]">
-                          {popupData?.title || "Special Event"}
-                        </h3>
-                      </motion.div>
-                      <motion.div initial={{ width: 0 }} animate={{ width: '100%' }} transition={{ duration: 0.6, delay: 0.15 }} className="h-[1px] md:h-[2px] bg-gradient-to-r from-blue-400/60 via-purple-400/40 to-blue-500/60 rounded-full mb-2 md:mb-3" />
-                      <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }} className="text-gray-100/95 text-sm md:text-base mb-3 md:mb-4 leading-relaxed">
-                        {popupData?.description || "Join us for an exciting upcoming event. Stay tuned for more details!"}
-                      </motion.p>
-                      
-                      {/* Registration Deadline Section */}
-                      {popupData?.registrationDeadline && (
-                        <motion.div 
-                          initial={{ opacity: 0, y: 20 }} 
-                          animate={{ opacity: 1, y: 0 }} 
-                          transition={{ duration: 0.5, delay: 0.25 }}
-                          className="mb-3 md:mb-4 p-2 md:p-3 rounded-lg bg-gradient-to-r from-red-500/20 to-orange-500/20 border border-red-400/30"
-                        >
-                          <div className="flex items-center gap-1 md:gap-2 mb-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-3 h-3 md:w-4 md:h-4 text-red-400">
-                              <path fillRule="evenodd" d="M6.75 2.25A.75.75 0 0 1 7.5 3v1.5h9V3A.75.75 0 0 1 18 3v1.5h.75a3 3 0 0 1 3 3v11.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V7.5a3 3 0 0 1 3-3H6V3a.75.75 0 0 1 .75-.75ZM6 6h-.75a1.5 1.5 0 0 0-1.5 1.5v11.25a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5V7.5a1.5 1.5 0 0 0-1.5-1.5H18v1.5a.75.75 0 0 1-1.5 0V6h-9v1.5a.75.75 0 0 1-1.5 0V6Z" clipRule="evenodd"/>
-                            </svg>
-                            <span className="text-red-300 font-semibold text-xs md:text-sm">Registration Deadline</span>
-                          </div>
-                          <p className="text-red-200 text-xs md:text-sm font-medium">
-                            <span className="md:hidden">
-                              {new Date(popupData.registrationDeadline).toLocaleDateString('en-US', {
-                                weekday: 'short',
-                                month: 'short',
-                                day: 'numeric',
-                                hour: '2-digit',
-                                minute: '2-digit'
-                              })}
-                            </span>
-                            <span className="hidden md:inline">
-                              {new Date(popupData.registrationDeadline).toLocaleDateString('en-US', {
-                                weekday: 'long',
-                                year: 'numeric',
-                                month: 'long',
-                                day: 'numeric',
-                                hour: '2-digit',
-                                minute: '2-digit'
-                              })}
-                            </span>
-                          </p>
-                        </motion.div>
+                  <div className="ss-content">
+                    <div className="ss-copy">
+                      <div className="ss-rule" aria-hidden="true"><span>✦</span></div>
+                      <p id="ss-description">{popupData.description}</p>
+                      <div className="ss-facts" aria-label="Event details">
+                        <span>INDIVIDUAL EVENT</span><span>3 ROUNDS</span><span>FREE ENTRY</span>
+                      </div>
+                      {popupData.registrationDeadline && (
+                        <p className="ss-deadline"><span>REGISTRATION CLOSES</span><strong>{new Date(popupData.registrationDeadline).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" })}</strong></p>
                       )}
-                      
-                      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 pt-1">
-                        {popupData?.registerUrl && (
-                          <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: 0.3 }}
-                            className="relative"
-                          >
-                            <motion.div
-                              initial={{ boxShadow: '0 0 0 rgba(16,185,129,0)' }}
-                              animate={{ boxShadow: ['0 0 0 rgba(16,185,129,0)', '0 0 30px rgba(16,185,129,0.35)', '0 0 0 rgba(16,185,129,0)'] }}
-                              transition={{ duration: 2.2, repeat: Infinity, repeatDelay: 1.2 }}
-                              className="rounded-md"
-                            >
-                              <Link href={popupData.registerUrl} target="_blank" rel="noopener noreferrer" className="btn-primary inline-block w-full sm:w-auto text-center py-2 md:py-1.5 px-4 md:px-5 text-sm font-semibold">
-                                Register Now
-                              </Link>
-                            </motion.div>
-                          </motion.div>
-                        )}
-                        {popupData?.rulebookUrl && (
-                          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.35 }}>
-                            <Link href={popupData.rulebookUrl} target="_blank" rel="noopener noreferrer" className="btn-secondary inline-block w-full sm:w-auto text-center py-2 md:py-1.5 px-3 md:px-4 text-sm">
-                              View Rulebook
-                            </Link>
-                          </motion.div>
-                        )}
+                      <div className="ss-actions">
+                        {popupData.registerUrl && <Link href={popupData.registerUrl} target="_blank" rel="noopener noreferrer" className="ss-register">EXPLORE EVENT <span aria-hidden="true">↗</span></Link>}
+                        {popupData.rulebookUrl && <Link href={popupData.rulebookUrl} target="_blank" rel="noopener noreferrer" className="ss-rulebook">VIEW RULEBOOK <span aria-hidden="true">↗</span></Link>}
                       </div>
                     </div>
+                    <div className="ss-poster-frame">
+                      <div className="ss-poster">
+                        <Image src={popupData.image || "/images/shutter-safari-saavan-2026.webp"} alt="Shutter Safari Saavan Edition 2.0 event poster" fill sizes="(max-width: 640px) 44vw, 300px" priority />
+                      </div>
+                      <span className="ss-poster-caption">CAPTURE WHAT YOU FEEL</span>
+                    </div>
                   </div>
+                  <div className="ss-bottom" aria-hidden="true">SHUTTER SAFARI <span>✦</span> SAAVAN 2026 <span>✦</span> SHUTTER SAFARI</div>
                 </div>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.div>
-
+                <div className="ss-diamonds" aria-hidden="true" />
+              </div>
+            </motion.section>
+          </motion.div>
+        )}
+      </AnimatePresence>, document.body)}
       {/* Global styles for retro popup glitch effect */}
       {showRetroEffect && (
         <style jsx global>{`

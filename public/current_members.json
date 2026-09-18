@@ -8,15 +8,15 @@
   "webDevTeam": [],
   "tenure": "2026-2027",
   "popup": {
-    "enabled": false,
+    "enabled": true,
     "fireworks": false,
     "retro": false,
-    "title": "Shutter Safari 3.0",
-    "description": "Shutter Safari 3.0 is a flagship photography competition focused on storytelling through visuals. The event includes two photography rounds, where participants capture and submit photos based on given themes. This time, we’ve come up with an exciting Bonus Videography Round, where participants capture their journey to Paradox along with their on-campus experiences. Shortlisted entries will be judged by experts, making the event a perfect blend of creativity, storytelling, and learning.",
-    "image": "/images/Shutter_safar_3.jpeg",
-    "registerUrl": "https://www.iitmparadox.org/events/cultural/56",
-    "rulebookUrl": "https://docs.google.com/document/d/1WtA9Opn53uZKkAKwWWgPtIfbVQ8bB55WtHpMrjoyxXI/edit?tab=t.0#heading=h.nh6axk7u94xz",
-    "registrationDeadline": "2026-06-08T23:59:59"
+    "title": "Shutter Safari",
+    "description": "Frame the world as you see it. Saavan Edition 2.0 invites IITM BS students to tell stories through photography across three creative rounds: Fragments of Life, Duality, and the final Judgement Day. Enter individually for free and let your perspective lead the way.",
+    "image": "/images/shutter-safari-saavan-2026.webp",
+    "registerUrl": "https://saavan.iitmparadox.org/events/culturals/shutter-safari",
+    "rulebookUrl": "https://docs.google.com/document/d/15OPezEvevkX6vu_5hpqV3iTTFtVlq6x8qdWCWeDQcRA/edit?usp=sharing",
+    "registrationDeadline": "2026-09-23"
   },
   "recruiting": false,
   "recruitmentForm": "https://forms.gle/9EDxsz9hQM7pRf7x7",
