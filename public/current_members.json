@@ -8,7 +8,7 @@
   "webDevTeam": [],
   "tenure": "2026-2027",
   "popup": {
-    "enabled": true,
+    "enabled": false,
     "fireworks": false,
     "retro": false,
     "title": "Shutter Safari",
