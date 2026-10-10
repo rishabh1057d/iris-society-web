@@ -1,5 +1,13 @@
 import { NextResponse } from "next/server"
 import { supabaseServer } from "../../../../lib/supabase-server"
+import { requireAdmin } from "../../../../lib/api-auth"
+
+const IMAGE_TYPES: Record<string, string> = {
+  "image/jpeg": "jpg",
+  "image/png": "png",
+  "image/webp": "webp",
+}
+const MAX_POSTER_BYTES = 5 * 1024 * 1024
 
 /**
  * POST /api/admin/upload-poster
@@ -8,25 +16,39 @@ import { supabaseServer } from "../../../../lib/supabase-server"
  */
 export async function POST(request: Request) {
   try {
-    const formData = await request.formData()
-    const file = formData.get("file") as File | null
+    const auth = await requireAdmin(request)
+    if (auth.error) return auth.error
 
-    if (!file) {
+    const formData = await request.formData()
+    const file = formData.get("file")
+
+    if (!(file instanceof File)) {
       return NextResponse.json({ success: false, error: "No file provided" }, { status: 400 })
     }
 
-    // Sanitise filename
-    const ext = file.name.split('.').pop() || "jpg"
-    const safeName = `event_poster_${Date.now()}.${ext}`.replace(/[^a-zA-Z0-9._-]/g, "")
+    const extension = IMAGE_TYPES[file.type]
+    if (!extension || !file.size || file.size > MAX_POSTER_BYTES) {
+      return NextResponse.json({ success: false, error: "Upload a JPG, PNG, or WebP image under 5 MB" }, { status: 400 })
+    }
+
+    const safeName = `event_poster_${crypto.randomUUID()}.${extension}`
 
     // Convert file to buffer
     const buffer = Buffer.from(await file.arrayBuffer())
+    const isImage = extension === "jpg"
+      ? buffer[0] === 0xff && buffer[1] === 0xd8 && buffer[2] === 0xff
+      : extension === "png"
+        ? buffer.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]))
+        : buffer.toString("ascii", 0, 4) === "RIFF" && buffer.toString("ascii", 8, 12) === "WEBP"
+    if (!isImage) {
+      return NextResponse.json({ success: false, error: "File is not a valid image" }, { status: 400 })
+    }
 
     // Upload to Supabase Storage
     const { data, error } = await supabaseServer.storage
       .from('event-posters')
       .upload(safeName, buffer, {
-        contentType: file.type || 'image/jpeg',
+        contentType: file.type,
         cacheControl: '3600',
         upsert: false
       })

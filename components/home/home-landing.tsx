@@ -58,9 +58,9 @@ const INDEX = [
 ]
 
 const RIBBON = [
-  { src: "/images/PIC00916.JPG", alt: "IRIS at an event" },
-  { src: "/images/PIC08926.jpg", alt: "Behind the scenes" },
-  { src: "/images/PIC06755.jpg", alt: "A moment with IRIS" },
+  { src: "/images/about/iris-at-an-event.webp", alt: "IRIS at an event" },
+  { src: "/images/about/behind-the-scenes.webp", alt: "Behind the scenes" },
+  { src: "/images/about/a-moment-with-iris.webp", alt: "A moment with IRIS" },
 ]
 
 export default function HomeLanding({
@@ -142,7 +142,7 @@ export default function HomeLanding({
               />
               <div className="relative h-[200px] w-[200px] sm:h-[240px] sm:w-[240px] md:h-[280px] md:w-[280px]">
                 <Image
-                  src="/images/logo.png"
+                  src="/images/brand/iris-logo.png"
                   alt="IRIS Society logo"
                   fill
                   priority

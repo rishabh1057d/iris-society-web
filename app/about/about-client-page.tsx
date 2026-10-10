@@ -59,17 +59,17 @@ const stats = [
 
 const moments = [
   {
-    src: "/images/PIC00916.JPG",
+    src: "/images/about/iris-at-an-event.webp",
     alt: "IRIS community at an event",
     className: "col-span-2 row-span-2 sm:col-span-2 sm:row-span-2",
   },
   {
-    src: "/images/PIC08926.jpg",
+    src: "/images/about/behind-the-scenes.webp",
     alt: "Behind the scenes with IRIS",
     className: "col-span-1 row-span-1",
   },
   {
-    src: "/images/PIC06755.jpg",
+    src: "/images/about/a-moment-with-iris.webp",
     alt: "IRIS photography moment",
     className: "col-span-1 row-span-1",
   },
@@ -113,7 +113,7 @@ function LogoMark({ className }: { className?: string }) {
       {/* Full logo, never cropped */}
       <div className="relative aspect-square w-full max-w-[280px] sm:max-w-[340px] md:max-w-[400px]">
         <Image
-          src="/images/logo.png"
+          src="/images/brand/iris-logo.png"
           alt="IRIS Society logo"
           fill
           priority
@@ -292,7 +292,7 @@ export default function AboutClientPage() {
                 </p>
                 <div className="relative aspect-square w-full max-w-[200px] sm:max-w-[220px]">
                   <Image
-                    src="/images/logo.png"
+                    src="/images/brand/iris-logo.png"
                     alt="IRIS Society logo"
                     fill
                     sizes="220px"
@@ -450,7 +450,7 @@ export default function AboutClientPage() {
               />
               <div className="relative h-20 w-20 sm:h-24 sm:w-24">
                 <Image
-                  src="/images/logo.png"
+                  src="/images/brand/iris-logo.png"
                   alt="IRIS logo"
                   fill
                   sizes="96px"
@@ -531,7 +531,7 @@ export default function AboutClientPage() {
             />
             <div className="relative mx-auto mb-4 h-16 w-16 sm:h-20 sm:w-20">
               <Image
-                src="/images/logo.png"
+                src="/images/brand/iris-logo.png"
                 alt=""
                 fill
                 sizes="80px"

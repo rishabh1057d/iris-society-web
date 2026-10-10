@@ -7,7 +7,7 @@ export default function Join() {
       <div className="page-shell max-w-2xl">
         <header className="page-hero">
           <Image
-            src="/images/logo.png"
+            src="/images/brand/iris-logo.png"
             alt="IRIS Society Logo"
             width={96}
             height={96}

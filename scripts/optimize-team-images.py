@@ -10,7 +10,7 @@ from PIL import Image, ImageOps
 
 ROOT = Path("public")
 JSON_PATH = ROOT / "previous_members.json"
-OUT_DIR = ROOT / "images" / "team-opt"
+OUT_DIR = ROOT / "images" / "team" / "optimized"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 MAX_EDGE = 900
@@ -50,6 +50,9 @@ def main() -> None:
         if src_url.startswith("http") or src_url == "/placeholder.svg":
             seen[src_url] = src_url
             return src_url
+        if src_url.startswith("/images/team/optimized/"):
+            seen[src_url] = src_url
+            return src_url
 
         src_path = ROOT / src_url.lstrip("/")
         if not src_path.exists():
@@ -84,7 +87,7 @@ def main() -> None:
             out_size = out_path.stat().st_size
             stats["bytes_out"] += out_size
             stats["optimized"] += 1
-            dest = f"/images/team-opt/{out_name}"
+            dest = f"/images/team/optimized/{out_name}"
             print(
                 f"OK {src_url} {size/1024:.0f}KB -> {dest} {out_size/1024:.0f}KB"
             )

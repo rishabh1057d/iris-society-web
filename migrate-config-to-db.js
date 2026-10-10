@@ -82,7 +82,9 @@ async function migrateEventConfig() {
     }
     
     // Create backup of original JSON
-    const backupPath = path.join(process.cwd(), 'public', `event_registration_config.json.backup-${Date.now()}`)
+    const backupDir = path.join(process.cwd(), '.backups')
+    await fs.mkdir(backupDir, { recursive: true })
+    const backupPath = path.join(backupDir, `event_registration_config.json.backup-${Date.now()}`)
     await fs.copyFile(configPath, backupPath)
     console.log(`💾 Backup created: ${path.basename(backupPath)}`)
     

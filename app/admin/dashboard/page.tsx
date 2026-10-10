@@ -58,7 +58,7 @@ export default function AdminDashboard() {
       >
         <div className="flex flex-col h-full">
           <div className="flex items-center justify-center p-6 border-b border-gray-700">
-            <Image src="/images/logo.png" alt="IRIS Society Logo" width={50} height={50} />
+            <Image src="/images/brand/iris-logo.png" alt="IRIS Society Logo" width={50} height={50} />
             <h1 className="ml-3 text-xl font-bold">Admin Panel</h1>
           </div>
 

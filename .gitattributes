@@ -1,1 +1,2 @@
-* text=auto eol=lf 
+# Diff patches contain required single-space context lines.
+*.patch -whitespace

@@ -7,9 +7,8 @@
         "month": "February",
         "theme": "Wildlife - Animal Kingdom",
         "photographer": "Arnab Sarkar",
-        "email": "24f1005678@ds.study.iitm.ac.in",
         "description": "In the heart of the wild, this stunning shot of a leopard emerging from the shadows captures both grace and raw power. The intense gaze, the perfect camouflage, and the quiet dominance of this majestic beast remind us why the animal kingdom never ceases to awe. A moment frozen in time - fierce, fearless, and breathtaking. Let nature write its own story through your lens.",
-        "image": "/images/week3.jpeg"
+        "image": "/images/potw/2025/february/week-1-wildlife-animal-kingdom.webp"
       },
       {
         "id": 6,
@@ -17,9 +16,8 @@
         "month": "February",
         "theme": "The Golden Hour",
         "photographer": "Arnab Sarkar",
-        "email": "24f1006789@ds.study.iitm.ac.in",
         "description": "Bathed in golden tranquility, this serene riverside scene captures the essence of the golden hour. The calm waters reflect the setting sun like a mirror, while the lone boat and silhouettes of trees add a poetic stillness to the moment. A perfect blend of light, shadow, and emotion - this image is where nature whispers peace and the sky tells its final story of the day.",
-        "image": "/images/golden_hour.png"
+        "image": "/images/potw/2025/february/week-2-the-golden-hour.webp"
       },
       {
         "id": 7,
@@ -27,9 +25,8 @@
         "month": "February",
         "theme": "Macro Magic",
         "photographer": "Ashwin A",
-        "email": "24f1007890@ds.study.iitm.ac.in",
         "description": "Tiny yet powerful - this macro shot captures a rare moment between two ants in stunning detail. The vibrant green backdrop and sharp focus reveal the hidden beauty of nature's smallest wonders.",
-        "image": "/images/macro_magiv.png"
+        "image": "/images/potw/2025/february/week-3-macro-magic.webp"
       }
     ],
     "March": [
@@ -39,9 +36,8 @@
         "month": "March",
         "theme": "Daily Hustle",
         "photographer": "Anirban Das",
-        "email": "24f1009012@ds.study.iitm.ac.in",
         "description": "Amidst the crowd and chaos, this striking frame freezes a powerful moment of stillness. The vibrant orange-robed figure stands out, telling a silent story in the middle of the city's rush - a perfect slice of everyday life captured in motion. ",
-        "image": "/images/daily_hustle.png"
+        "image": "/images/potw/2025/march/week-1-daily-hustle.webp"
       },
       {
         "id": 10,
@@ -49,9 +45,8 @@
         "month": "March",
         "theme": " Architectural Wonders",
         "photographer": "Fatima Fidha",
-        "email": "24f1000123@ds.study.iitm.ac.in",
         "description": "A masterpiece of symmetry and light, this shot captures the elegance of design reflected in still water. The rhythmic arches and glowing domes tell a story of craftsmanship that transcends time - where architecture becomes poetry in stone.",
-        "image": "/images/architectural_wonders.png"
+        "image": "/images/potw/2025/march/week-2-architectural-wonders.webp"
       },
       {
         "id": 11,
@@ -59,9 +54,8 @@
         "month": "March",
         "theme": "Wheels In Motion",
         "photographer": "Arghyadeep Biswas",
-        "email": "24f1001234@ds.study.iitm.ac.in",
         "description": "A vibrant glimpse into the pulse of the city - this shot captures the thrill of motion from the heart of an auto ride. The blur of neon-lit streets and the rainy windshield bring speed, story, and street life together in one dynamic frame. ",
-        "image": "/images/wheels_in_motion.png"
+        "image": "/images/potw/2025/march/week-3-wheels-in-motion.webp"
       },
       {
         "id": 12,
@@ -69,9 +63,8 @@
         "month": "March",
         "theme": "Capture the Flavor",
         "photographer": "Isha Gupta",
-        "email": "24f1002345@ds.study.iitm.ac.in",
         "description": "This sizzling shot of cheesy, spicy pizza is a flavor explosion captured in a frame. The golden crust, melty layers, and fiery toppings make it absolutely irresistible - a true celebration of comfort food done right!",
-        "image": "/images/capture_flavour.png"
+        "image": "/images/potw/2025/march/week-4-capture-the-flavor.webp"
       }
     ],
     "April": [
@@ -81,9 +74,8 @@
         "month": "April",
         "theme": "Cosmic Wonders",
         "photographer": "YASHAS K RAO",
-        "email": "24f1009012@ds.study.iitm.ac.in",
         "description": "Amidst the vast darkness of space, the Orion Nebula glows with ethereal light - a stellar nursery where new stars are born. Surrounded by a sea of distant stars, it stands as one of the universe's most captivating cosmic wonders, reminding us of the beauty and mystery that lies beyond Earth. ",
-        "image": "/images/cosmic_wonders.png"
+        "image": "/images/potw/2025/april/week-1-cosmic-wonders.webp"
       },
       {
         "id": 14,
@@ -91,9 +83,8 @@
         "month": "April",
         "theme": "Artified",
         "photographer": "Sahil Bind",
-        "email": "24f1000123@ds.study.iitm.ac.in",
         "description": "Bathed in golden twilight, this dreamy scene evokes the gentle magic of a Ghibli world - where glowing fireflies dance beneath an ancient tree and the setting sun whispers stories to the stars. It's nature seen through an artist's soul - soft, serene, and wonderfully artified.",
-        "image": "/images/artified.png"
+        "image": "/images/potw/2025/april/week-2-artified.webp"
       },
       {
         "id": 15,
@@ -101,9 +92,8 @@
         "month": "April",
         "theme": "Echoes Of Yesterday",
         "photographer": "Vashu Pandey",
-        "email": "24f1001234@ds.study.iitm.ac.in",
         "description": "Beneath the comforting shade of this old mango tree, time seems to slow. The worn plastic chairs, faded by sun and stories, whisper of childhood summers, lazy afternoons, and laughter that once echoed through the leaves. A simple scene, yet it holds a universe of memories - a quiet ode to the Echoes of Yesterday.",
-        "image": "/images/echoes_of_yesterday.png"
+        "image": "/images/potw/2025/april/week-3-echoes-of-yesterday.webp"
       },
       {
         "id": 16,
@@ -111,9 +101,8 @@
         "month": "April",
         "theme": "Paint With Light",
         "photographer": "NAMAN DEEP SINGH",
-        "email": "24f1002345@ds.study.iitm.ac.in",
         "description": "Light dances through darkness to form 2025 - a glowing symbol of the future captured through motion and time. This long-exposure image transforms fleeting strokes into a bold visual, blending creativity with precision. A perfect ode to the theme Paint with Light, where every streak becomes a brushstroke on the canvas of night.",
-        "image": "/images/paint_with_light.png"
+        "image": "/images/potw/2025/april/week-4-paint-with-light.webp"
       }
     ],
     "May": [
@@ -123,9 +112,8 @@
         "month": "May",
         "theme": "Workspace Whispers",
         "photographer": "Sahil Singh",
-        "email": "24f1009012@ds.study.iitm.ac.in",
         "description": "A quiet desk lit by a single lamp, scattered with notes, a glowing screen, and the gentle hum of focus - this is where ideas take shape. In the stillness of night, this setup speaks volumes. Workspace Whispers isn't just about tools, it's about the unspoken rhythm of dedication, the soft echoes of late-night learning, and the space where thoughts turn into action.",
-        "image": "/images/setup.png"
+        "image": "/images/potw/2025/may/week-1-workspace-whispers.webp"
       },
       {
         "id": 18,
@@ -133,9 +121,8 @@
         "month": "May",
         "theme": "Whishpers Within",
         "photographer": "Suvee sarkar",
-        "email": "24f1000123@ds.study.iitm.ac.in",
         "description": "With the mountains stretched endlessly ahead and a cup in hand, silence speaks louder than words. In this stillness, the soul listens - to the wind, the vastness, the peace. Whispers Within is about these quiet moments of reflection, where the world fades and all that remains is you, your thoughts, and the gentle hum of the universe.",
-        "image": "/images/Whispers_within.png"
+        "image": "/images/potw/2025/may/week-2-whishpers-within.webp"
       },
       {
         "id": 19,
@@ -143,9 +130,8 @@
         "month": "May",
         "theme": "Shades of Silence",
         "photographer": "Rishabh Singh",
-        "email": "24f1001234@ds.study.iitm.ac.in",
         "description": "A lone wooden bridge stretches endlessly toward silent mountains, captured in haunting monochrome. Each step forward echoes the weight of stillness, the strength of solitude. Shades of Silence isn't just the absence of sound - it's the quiet tension between the known and the unknown, the seen and the felt, the journey and the self.",
-        "image": "/images/silence_of_shadows.png"
+        "image": "/images/potw/2025/may/week-3-shades-of-silence.webp"
       },
       {
         "id": 20,
@@ -153,9 +139,8 @@
         "month": "May",
         "theme": "Break due to Paradox 2025",
         "photographer": "No Winner",
-        "email": "24f1001234@ds.study.iitm.ac.in",
         "description": "No POTW this week because everyone is at campus busy in enjoying Paradox 2025",
-        "image": "/images/PAradox_break.jpg"
+        "image": "/images/potw/paradox-break.webp"
       }
     ],
     "June": [
@@ -165,9 +150,8 @@
         "month": "June",
         "theme": "Break due to Paradox",
         "photographer": "No Winner",
-        "email": "24f1009012@ds.study.iitm.ac.in",
         "description": "No POTW this week because everyone is at campus busy in enjoying Paradox 2025",
-        "image": "/images/PAradox_break.jpg"
+        "image": "/images/potw/paradox-break.webp"
       },
       {
         "id": 22,
@@ -175,9 +159,8 @@
         "month": "June",
         "theme": "Break due to Paradox",
         "photographer": "No Winner",
-        "email": "24f1009012@ds.study.iitm.ac.in",
         "description": "No POTW this week because everyone is at campus busy in enjoying Paradox 2025",
-        "image": "/images/PAradox_break.jpg"
+        "image": "/images/potw/paradox-break.webp"
       },
       {
         "id": 23,
@@ -185,9 +168,8 @@
         "month": "June",
         "theme": "Paradox & Memories",
         "photographer": "Anshi Jain",
-        "email": "24f1009012@ds.study.iitm.ac.in",
         "description": "In the midst of travel, fest chaos, and ever-moving days, it's moments like these - gathered hands, a deck of UNO, and bursts of laughter - that become the heart of every journey. Captured in the glow of shared stories and silent rivalries, this frame speaks of Paradox 2025 not through grand adventures, but through the joy of pause, play, and pure jubilation.",
-        "image": "/images/paradox_memories.png"
+        "image": "/images/potw/2025/june/week-3-paradox-memories.webp"
       },
       {
         "id": 24,
@@ -195,9 +177,8 @@
         "month": "June",
         "theme": "Architecture and Symmetry",
         "photographer": "Priyanshu Sharma",
-        "email": " ",
         "description": "Framing the soul of symmetry - this shot captures the perfect corner of a Rajasthani haveli, where geometry meets heritage. The play of lines draws the eye upward to the twin arched windows, slightly ajar, revealing stories untold.",
-        "image": "/images/potw_16.jpg"
+        "image": "/images/potw/2025/june/week-4-architecture-and-symmetry.webp"
       }
     ],
     "July": [
@@ -207,9 +188,8 @@
         "month": "July",
         "theme": "Moods Of Monsoon",
         "photographer": "Khushi",
-        "email": "",
         "description": "A forest wrapped in mist, clouds heavy with stories, and light breaking gently through this frame captures the soul of the monsoon. It's not just rain; it's rhythm, reflection, and raw emotion. A quiet symphony where every droplet paints the sky, and nature sways to the music of the storm.",
-        "image": "/images/mood_of_monsson.jpg"
+        "image": "/images/potw/2025/july/week-1-moods-of-monsoon.webp"
       },
       {
         "id": 26,
@@ -217,9 +197,8 @@
         "month": "July",
         "theme": "Abstract Photography",
         "photographer": "Gouri Nandana",
-        "email": "",
         "description": "A lone paper boat drifts across a dark sea of fabric delicate, uncertain, and beautifully adrift. There's no clear story, only emotion: a quiet longing, a memory half-formed, a journey imagined. This is the essence of Beyond the Frame abstract not in what it shows, but in what it makes you feel.",
-        "image": "/images/abstract_photography.jpg"
+        "image": "/images/potw/2025/july/week-2-abstract-photography.webp"
       },
       {
         "id": 27,
@@ -227,9 +206,8 @@
         "month": "July",
         "theme": "Wildlife Photography",
         "photographer": "Aditi",
-        "email": "",
         "description": "Two tiny fledglings huddle together on a fragile branch - innocent, alert, and untouched by the noise of the world. Their feathers ruffle in the breeze, but their bond holds steady.",
-        "image": "/images/potw27.jpg"
+        "image": "/images/potw/2025/july/week-3-wildlife-photography.webp"
       },
       {
         "id": 28,
@@ -237,9 +215,8 @@
         "month": "July",
         "theme": " Portrait Photography",
         "photographer": "Vashu Pandey",
-        "email": "",
         "description": "A moment of quiet wonder, her eyes drawn to something above, lost in thought. This portrait captures not just her gaze, but the innocence and curiosity of childhood.",
-        "image": "/images/potw28.jpg"
+        "image": "/images/potw/2025/july/week-4-portrait-photography.webp"
       }
     ],
     "August": [
@@ -249,9 +226,8 @@
         "month": "August",
         "theme": "Monochrome Moments",
         "photographer": "Mohikshit Ghorai",
-        "email": "",
         "description": "A monochrome reimagining of an iconic Death Note scene - shadows, tension, and that unmistakable stillness before everything changes.",
-        "image": "/images/potw_29.jpg"
+        "image": "/images/potw/2025/august/week-1-monochrome-moments.webp"
       },
       {
         "id": 30,
@@ -259,9 +235,8 @@
         "month": "August",
         "theme": "Colors of Freedom",
         "photographer": "Khushi",
-        "email": "",
         "description": "Freedom is not just seen in flags and parades, but in the reflections within us. This close-up eye captures the tricolor spirit as a symbol of vision, pride, and unity - a reminder that independence lives in the way we see our nation and the hope we carry forward.",
-        "image": "/images/potw_30.jpg"
+        "image": "/images/potw/2025/august/week-2-colors-of-freedom.jpg"
       },
       {
         "id": 31,
@@ -269,9 +244,8 @@
         "month": "August",
         "theme": "Echoes of Everyday",
         "photographer": "Chitransh",
-        "email": "",
         "description": "In the pauses of life, time speaks the loudest. A man rests against the fading walls, wrapped in silence and shadows, a moment of waiting, of 'Intejaar'. Everyday sights like these hold stories of patience, resilience, and the quiet poetry of existence.",
-        "image": "/images/potw_31.jpg"
+        "image": "/images/potw/2025/august/week-3-echoes-of-everyday.webp"
       },
       {
         "id": 32,
@@ -279,9 +253,8 @@
         "month": "August",
         "theme": "Break Due to End Term",
         "photographer": "No Winner",
-        "email": "",
         "description": "No POTW this week because everyone is busy in studying for End Term",
-        "image": "/images/PAradox_break.jpg"
+        "image": "/images/potw/paradox-break.webp"
       }
     ],
     "September": [
@@ -291,9 +264,8 @@
         "month": "September",
         "theme": "Everydays Heroes",
         "photographer": "Vashu Pandey",
-        "email": "",
         "description": "Between 'majboor' and 'majdoor' lies the story of resilience. The daily grind, the silent strength, and the unacknowledged sacrifices of workers who build our cities, brick by brick. They may not wear capes, but their labor holds up the world we live in.",
-        "image": "/images/potw_33.jpg"
+        "image": "/images/potw/2025/september/week-1-everydays-heroes.webp"
       },
       {
         "id": 34,
@@ -301,9 +273,8 @@
         "month": "September",
         "theme": "Saavan Break",
         "photographer": "No winner",
-        "email": "",
         "description": "No POTW this week because of Saavan Fest",
-        "image": "/images/PAradox_break.jpg"
+        "image": "/images/potw/paradox-break.webp"
       },
       {
         "id": 35,
@@ -311,9 +282,8 @@
         "month": "September",
         "theme": "Saavan Break",
         "photographer": "No winner",
-        "email": "",
         "description": "No POTW this week because of Saavan Fest",
-        "image": "/images/PAradox_break.jpg"
+        "image": "/images/potw/paradox-break.webp"
       },
       {
         "id": 36,
@@ -321,9 +291,8 @@
         "month": "September",
         "theme": "Chants In Silence",
         "photographer": "Akash",
-        "email": "",
         "description": "In the glow of the flame and the silence of reverence, faith takes form. Navratri isn't just about celebration - it's about the quiet moments when devotion speaks louder than words, when every flicker of light becomes a prayer in motion.",
-        "image": "/images/potw_36.jpg"
+        "image": "/images/potw/2025/september/week-4-chants-in-silence.jpg"
       }
     ],
     "October": [
@@ -333,9 +302,8 @@
         "month": "October",
         "theme": "Dualities",
         "photographer": "Vijyansh Pandey",
-        "email": "",
         "description": "Between fear and focus, there's balance.A child walking the tightrope, carrying more than just weight, she carries courage, hope, and survival in each careful step.In her calm above the chaos lies the truest form of duality, strength wrapped in innocence. ",
-        "image": "/images/potw_37.jpg"
+        "image": "/images/potw/2025/october/week-1-dualities.webp"
       },
       {
         "id": 38,
@@ -343,9 +311,8 @@
         "month": "October",
         "theme": "Break",
         "photographer": "No Winner",
-        "email": "",
         "description": "Break",
-        "image": "/images/PAradox_break.jpg"
+        "image": "/images/potw/paradox-break.webp"
       },
       {
         "id": 39,
@@ -353,9 +320,8 @@
         "month": "October",
         "theme": "Break",
         "photographer": "No Winner",
-        "email": "",
         "description": "Break",
-        "image": "/images/PAradox_break.jpg"
+        "image": "/images/potw/paradox-break.webp"
       },
       {
         "id": 40,
@@ -363,9 +329,8 @@
         "month": "October",
         "theme": "Through the Glow",
         "photographer": "Amirtheswaran",
-        "email": "",
         "description": "When the sun starts to sink, everything slows down. The light softens, the sky changes colours, and for a short while, the world feels calm and alive at the same time.",
-        "image": "/images/potw_40.jpg"
+        "image": "/images/potw/2025/october/week-4-through-the-glow.webp"
       }
     ],
     "November": [
@@ -375,9 +340,8 @@
         "month": "November",
         "theme": "Sky is the Canvas",
         "photographer": "Niya Shine",
-        "email": "",
         "description": "Clouds shift, stretch, and twist into shapes that vanish in seconds. This week is about catching those fleeting patterns that feel alive. Finding the clouds that tell a story - maybe a creature, a face, or something only you can see - and capture that brief moment before it drifts away.",
-        "image": "/images/potw_41.png"
+        "image": "/images/potw/2025/november/week-1-sky-is-the-canvas.webp"
       },
       {
         "id": 42,
@@ -385,9 +349,8 @@
         "month": "November",
         "theme": "Desk Diaries",
         "photographer": "Jalaja",
-        "email": "",
         "description": "A desk holds more truth than it shows. Screens glow, notes pile up, and every object becomes a trace of how someone thinks and works. This frame captures that mix of focus and disorder that builds real progress. A workspace is never just a table. It is a record of effort taking shape.",
-        "image": "/images/potw_42.jpg"
+        "image": "/images/potw/2025/november/week-2-desk-diaries.webp"
       },
       {
         "id": 43,
@@ -395,9 +358,8 @@
         "month": "November",
         "theme": "Break due to Quiz-2",
         "photographer": "No Winner",
-        "email": "",
         "description": "Break",
-        "image": "/images/PAradox_break.jpg"
+        "image": "/images/potw/paradox-break.webp"
       },
       {
         "id": 44,
@@ -405,9 +367,8 @@
         "month": "November",
         "theme": "Shadow Play",
         "photographer": "Manya Kaistha",
-        "email": "",
         "description": "Light lands where it wants to. Shadows answer by shaping the scene into something sharper. This frame shows how the path, the trees, and the slope change character once the dark edges intervene. The shadow becomes the structure the eye follows.",
-        "image": "/images/potw_44.jpg"
+        "image": "/images/potw/2025/november/week-4-shadow-play.webp"
       }
     ],
     "December": [
@@ -417,9 +378,8 @@
         "month": "December",
         "theme": "Golden Hour",
         "photographer": "Amirtheswaran",
-        "email": "",
         "description": "The gradient moves from calm blues into a dense spread of orange and yellow, and the interior of the car picks up that reflection without competing with the scene. The frame shows how golden hour reshapes even a routine moment into something visually firm and directional.",
-        "image": "/images/potw_45.jpg"
+        "image": "/images/potw/2025/december/week-1-golden-hour.webp"
       },
       {
         "id": 46,
@@ -427,9 +387,8 @@
         "month": "December",
         "theme": "Bloom Stories",
         "photographer": "Nikitha M",
-        "email": "",
         "description": "The bloom is sharp and dense, and the reflection doubles its presence without adding clutter. The surface beneath introduces a quiet tension, turning a simple flower into a study of form and balance.",
-        "image": "/images/potw_46.png"
+        "image": "/images/potw/2025/december/week-2-bloom-stories.webp"
       },
       {
         "id": 47,
@@ -437,9 +396,8 @@
         "month": "December",
         "theme": "Bloom Stories",
         "photographer": "Sahil Bind",
-        "email": "",
         "description": "The petals are muted, letting the water droplets and their weight stand out. Selective color keeps attention on the stem and leaves without overpowering the frame. The dark background removes distractions and makes the bloom feel isolated and deliberate.",
-        "image": "/images/potw_47.jpg"
+        "image": "/images/potw/2025/december/week-3-bloom-stories.webp"
       }
     ]
   },
@@ -451,9 +409,8 @@
         "month": "January",
         "theme": "Year End Glow",
         "photographer": "Aritra ghosh",
-        "email": "",
         "description": "A large, artistically decorated Christmas tree stands indoors under warm lights. The glowing red and gold decorations, along with the surrounding festive ambience, reflect the spirit of the “Year End Glow” theme by capturing the warmth, celebration, and mood of the holiday season.",
-        "image": "/images/potw_48.jpg"
+        "image": "/images/potw/2026/january/week-1-year-end-glow.webp"
       },
       {
         "id": 49,
@@ -461,9 +418,8 @@
         "month": "January",
         "theme": "Break due to Margazhi",
         "photographer": "No Winner",
-        "email": "",
         "description": "No winner this week because of Margazhi",
-        "image": "/images/PAradox_break.jpg"
+        "image": "/images/potw/paradox-break.webp"
       },
       {
         "id": 50,
@@ -471,9 +427,8 @@
         "month": "January",
         "theme": "Through My Window",
         "photographer": "Manya Kaistha",
-        "email": "",
         "description": "Soft evening colors fill the sky as seen through a window grill, turning an everyday view into a quiet moment of pause. Framed by the window, the scene fits the “Through My Window” theme by showing how light and sky can change the mood of a familiar place.",
-        "image": "/images/potw_50.jpeg"
+        "image": "/images/potw/2026/january/week-3-through-my-window.webp"
       },
       {
         "id": 51,
@@ -481,9 +436,8 @@
         "month": "January",
         "theme": "A Frame from Tomorrow ",
         "photographer": "Rajnish Kumar",
-        "email": "",
         "description": "On a quiet stretch of shore, a father crouches to show his child something small in his hands while the world moves calmly around them. This frame reflects a simple future built on shared moments, patience, and being present for the ones who matter most.",
-        "image": "/images/potw_51.jpeg"
+        "image": "/images/potw/2026/january/week-4-a-frame-from-tomorrow.webp"
       }
     ],
     "February": [
@@ -493,9 +447,8 @@
         "month": "February",
         "theme": "Textures of the Earth",
         "photographer": "Manya Kaistha",
-        "email": "",
         "description": "A split tree trunk, layered with moss, lichen, and exposed wood, reveals the raw textures shaped by time and decay. The contrast between rough bark, soft growth, and hollow depth reflects the “Textures of the Earth” theme through natural detail and aging surfaces.",
-        "image": "/images/potw_52.jpeg"
+        "image": "/images/potw/2026/february/week-1-textures-of-the-earth.jpeg"
       },
       {
         "id": 53,
@@ -503,9 +456,8 @@
         "month": "February",
         "theme": "City in Motion",
         "photographer": "Amirtheswaran",
-        "email": "",
         "description": "Wet roads reflect streetlights as traffic turns into streaks of light, cutting through the frame under a canopy of trees. The motion of passing vehicles and the glow of the city bring out the pace and energy of “City in Motion.”",
-        "image": "/images/potw_53.jpeg"
+        "image": "/images/potw/2026/february/week-2-city-in-motion.jpeg"
       },
       {
         "id": 54,
@@ -513,9 +465,8 @@
         "month": "February",
         "theme": "Street Food Safari",
         "photographer": "Jalaja Utekar",
-        "email": "",
         "description": "A soft serve swirls into shape straight from the machine, caught mid-motion in a working hand. The close focus on the process and texture fits “Street Food Safari” by capturing a simple, familiar treat in the act of being made.",
-        "image": "/images/potw_54.jpeg"
+        "image": "/images/potw/2026/february/week-3-street-food-safari.jpeg"
       }
     ],
     "March": [
@@ -525,9 +476,8 @@
         "month": "March",
         "theme": "Paws of The Street",
         "photographer": "Jalaja Utekar",
-        "email": "",
         "description": "A quiet street cat rests between concrete walls, completely at ease in its own corner of the city. The close frame and calm expression capture the everyday life and unnoticed charm behind the theme Paws of the Street.",
-        "image": "/images/potw_55.jpeg"
+        "image": "/images/potw/2026/march/week-1-paws-of-the-street.webp"
       },
       {
         "id": 56,
@@ -535,9 +485,8 @@
         "month": "March",
         "theme": "Black and White Moments",
         "photographer": "Aditya Singh Sengar",
-        "email": "",
         "description": "The absence of color makes every shadow, arch, and silhouette speak louder. In black and white, the moment feels timeless where light and structure carry the entire emotion of the frame.",
-        "image": "/images/potw_56.jpeg"
+        "image": "/images/potw/2026/march/week-2-black-and-white-moments.jpeg"
       }
     ],
     "April": [
@@ -547,9 +496,8 @@
         "month": "April",
         "theme": "Traditions Around You",
         "photographer": "Amirtheswaran",
-        "email": "",
         "description": "Wrapped in fire, rhythm, and devotion, this moment captures how traditions stay alive through people who continue to carry them forward. In the middle of the flames, culture becomes both powerful and timeless.",
-        "image": "/images/potw_57.jpeg"
+        "image": "/images/potw/2026/april/week-1-traditions-around-you.webp"
       },
       {
         "id": 58,
@@ -557,9 +505,8 @@
         "month": "April",
         "theme": "Photo dump but make it Art",
         "photographer": "Ayushi Patel",
-        "email": "",
         "description": "A simple photo dump turns into art when light, shadows, and silence come together in one frame. Sometimes the beauty isn’t in the subject, but in the mood it leaves behind.",
-        "image": "/images/potw_58.jpeg"
+        "image": "/images/potw/2026/april/week-2-photo-dump-but-make-it-art.webp"
       }
     ]
   }

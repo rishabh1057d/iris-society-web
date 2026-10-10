@@ -56,7 +56,7 @@ export const SECTION_LIBRARY: Record<SectionId, LearningItem[]> = {
   tutorials: [
     {
       id: "photo-first-frame",
-      image: "/images/golden_hour.png",
+      image: "/images/potw/2025/february/week-2-the-golden-hour.webp",
       title: "Your camera to your first intentional frame",
       medium: "Photography",
       duration: "35 min",
@@ -95,7 +95,7 @@ export const SECTION_LIBRARY: Record<SectionId, LearningItem[]> = {
     },
     {
       id: "photo-exposure",
-      image: "/images/potw_40.jpg",
+      image: "/images/potw/2025/october/week-4-through-the-glow.webp",
       title: "Control light with shutter, aperture, and ISO",
       medium: "Photography",
       duration: "30 min",
@@ -129,7 +129,7 @@ export const SECTION_LIBRARY: Record<SectionId, LearningItem[]> = {
     },
     {
       id: "photo-composition",
-      image: "/images/silence_of_shadows.png",
+      image: "/images/potw/2025/may/week-3-shades-of-silence.webp",
       title: "Composition and visual storytelling",
       medium: "Both",
       duration: "28 min",
@@ -169,7 +169,7 @@ export const SECTION_LIBRARY: Record<SectionId, LearningItem[]> = {
     },
     {
       id: "video-first-sequence",
-      image: "/images/ff_holi_1.png",
+      image: "/images/gallery/festive-frames-holi/ff-holi-1-diptesh-ghosh.webp",
       title: "Your first clean video sequence",
       medium: "Videography",
       duration: "40 min",
@@ -214,7 +214,7 @@ export const SECTION_LIBRARY: Record<SectionId, LearningItem[]> = {
     },
     {
       id: "video-light-movement",
-      image: "/images/shutter_safari_piyush.jpg",
+      image: "/images/gallery/shutter-safari/shuttersafari-piyush-piyush-tiwari.webp",
       title: "Light, sound, and camera movement",
       medium: "Videography",
       duration: "32 min",
@@ -251,7 +251,7 @@ export const SECTION_LIBRARY: Record<SectionId, LearningItem[]> = {
     },
     {
       id: "edit-first-story",
-      image: "/images/daily_hustle.png",
+      image: "/images/potw/2025/march/week-1-daily-hustle.webp",
       title: "Edit your first photo and video story",
       medium: "Both",
       duration: "35 min",
@@ -290,7 +290,7 @@ export const SECTION_LIBRARY: Record<SectionId, LearningItem[]> = {
   guides: [
     {
       id: "what-is-photography",
-      image: "/images/daily_hustle.png",
+      image: "/images/potw/2025/march/week-1-daily-hustle.webp",
       title: "What is photography?",
       medium: "Photography",
       duration: "4 min",
@@ -310,7 +310,7 @@ export const SECTION_LIBRARY: Record<SectionId, LearningItem[]> = {
     },
     {
       id: "camera-equipment",
-      image: "/images/shutter_safari_winner.jpg",
+      image: "/images/gallery/shutter-safari/shuttersafari-winner-shreyaskar-srivastava.webp",
       title: "Camera equipment without the shopping spiral",
       medium: "Both",
       duration: "6 min",
@@ -331,7 +331,7 @@ export const SECTION_LIBRARY: Record<SectionId, LearningItem[]> = {
     },
     {
       id: "shutter-speed",
-      image: "/images/ff_holi_1.png",
+      image: "/images/gallery/festive-frames-holi/ff-holi-1-diptesh-ghosh.webp",
       title: "Shutter speed",
       medium: "Both",
       duration: "5 min",
@@ -357,7 +357,7 @@ export const SECTION_LIBRARY: Record<SectionId, LearningItem[]> = {
     },
     {
       id: "aperture",
-      image: "/images/macro_magiv.png",
+      image: "/images/potw/2025/february/week-3-macro-magic.webp",
       title: "Aperture and depth of field",
       medium: "Both",
       duration: "5 min",
@@ -377,7 +377,7 @@ export const SECTION_LIBRARY: Record<SectionId, LearningItem[]> = {
     },
     {
       id: "iso",
-      image: "/images/shutter_safari_piyush.jpg",
+      image: "/images/gallery/shutter-safari/shuttersafari-piyush-piyush-tiwari.webp",
       title: "ISO without fear",
       medium: "Both",
       duration: "4 min",
@@ -397,7 +397,7 @@ export const SECTION_LIBRARY: Record<SectionId, LearningItem[]> = {
     },
     {
       id: "composition",
-      image: "/images/silence_of_shadows.png",
+      image: "/images/potw/2025/may/week-3-shades-of-silence.webp",
       title: "Composition",
       medium: "Both",
       duration: "7 min",
@@ -423,7 +423,7 @@ export const SECTION_LIBRARY: Record<SectionId, LearningItem[]> = {
     },
     {
       id: "metering",
-      image: "/images/golden_hour.png",
+      image: "/images/potw/2025/february/week-2-the-golden-hour.webp",
       title: "Metering and exposure compensation",
       medium: "Photography",
       duration: "5 min",
@@ -443,7 +443,7 @@ export const SECTION_LIBRARY: Record<SectionId, LearningItem[]> = {
     },
     {
       id: "camera-modes",
-      image: "/images/potw_40.jpg",
+      image: "/images/potw/2025/october/week-4-through-the-glow.webp",
       title: "Camera modes",
       medium: "Both",
       duration: "5 min",
@@ -463,7 +463,7 @@ export const SECTION_LIBRARY: Record<SectionId, LearningItem[]> = {
     },
     {
       id: "focusing",
-      image: "/images/macro_magiv.png",
+      image: "/images/potw/2025/february/week-3-macro-magic.webp",
       title: "Focusing",
       medium: "Both",
       duration: "6 min",
@@ -486,7 +486,7 @@ export const SECTION_LIBRARY: Record<SectionId, LearningItem[]> = {
     },
     {
       id: "flash",
-      image: "/images/shutter_safari_piyush.jpg",
+      image: "/images/gallery/shutter-safari/shuttersafari-piyush-piyush-tiwari.webp",
       title: "Flash that does not look like flash",
       medium: "Photography",
       duration: "7 min",
@@ -506,7 +506,7 @@ export const SECTION_LIBRARY: Record<SectionId, LearningItem[]> = {
     },
     {
       id: "sharp-pictures",
-      image: "/images/potw_37.jpg",
+      image: "/images/potw/2025/october/week-1-dualities.webp",
       title: "How to take sharp pictures",
       medium: "Photography",
       duration: "6 min",
@@ -527,7 +527,7 @@ export const SECTION_LIBRARY: Record<SectionId, LearningItem[]> = {
     },
     {
       id: "video-basics",
-      image: "/images/ff_holi_1.png",
+      image: "/images/gallery/festive-frames-holi/ff-holi-1-diptesh-ghosh.webp",
       title: "Frame rate, resolution, and codecs",
       medium: "Videography",
       duration: "7 min",
@@ -551,7 +551,7 @@ export const SECTION_LIBRARY: Record<SectionId, LearningItem[]> = {
     },
     {
       id: "clean-audio",
-      image: "/images/beginner-clean-audio.png",
+      image: "/images/beginner/clean-audio-for-video.webp",
       title: "Clean audio for video",
       medium: "Videography",
       duration: "6 min",
@@ -576,7 +576,7 @@ export const SECTION_LIBRARY: Record<SectionId, LearningItem[]> = {
     },
     {
       id: "beginner-tips",
-      image: "/images/golden_hour.png",
+      image: "/images/potw/2025/february/week-2-the-golden-hour.webp",
       title: "Photography and video tips for beginners",
       medium: "Both",
       duration: "5 min",
@@ -606,7 +606,7 @@ export const SECTION_LIBRARY: Record<SectionId, LearningItem[]> = {
   best: [
     {
       id: "sean-tucker",
-      image: "/images/potw_31.jpg",
+      image: "/images/potw/2025/august/week-3-echoes-of-everyday.webp",
       title: "Sean Tucker",
       medium: "Photography",
       duration: "YouTube + essays",
@@ -627,7 +627,7 @@ export const SECTION_LIBRARY: Record<SectionId, LearningItem[]> = {
     },
     {
       id: "art-of-photography",
-      image: "/images/abstract_photography.jpg",
+      image: "/images/potw/2025/july/week-2-abstract-photography.webp",
       title: "The Art of Photography",
       medium: "Photography",
       duration: "YouTube",
@@ -643,7 +643,7 @@ export const SECTION_LIBRARY: Record<SectionId, LearningItem[]> = {
     },
     {
       id: "magnum-contact-sheets",
-      image: "/images/daily_hustle.png",
+      image: "/images/potw/2025/march/week-1-daily-hustle.webp",
       title: "Magnum contact sheets",
       medium: "Photography",
       duration: "Free article",
@@ -659,7 +659,7 @@ export const SECTION_LIBRARY: Record<SectionId, LearningItem[]> = {
     },
     {
       id: "photography-life",
-      image: "/images/macro_magiv.png",
+      image: "/images/potw/2025/february/week-3-macro-magic.webp",
       title: "Photography Life",
       medium: "Photography",
       duration: "Article library",
@@ -675,7 +675,7 @@ export const SECTION_LIBRARY: Record<SectionId, LearningItem[]> = {
     },
     {
       id: "studiobinder",
-      image: "/images/ff_holi_1.png",
+      image: "/images/gallery/festive-frames-holi/ff-holi-1-diptesh-ghosh.webp",
       title: "StudioBinder",
       medium: "Videography",
       duration: "YouTube + articles",
@@ -696,7 +696,7 @@ export const SECTION_LIBRARY: Record<SectionId, LearningItem[]> = {
     },
     {
       id: "film-riot",
-      image: "/images/shutter_safari_piyush.jpg",
+      image: "/images/gallery/shutter-safari/shuttersafari-piyush-piyush-tiwari.webp",
       title: "Film Riot",
       medium: "Videography",
       duration: "YouTube",
@@ -712,7 +712,7 @@ export const SECTION_LIBRARY: Record<SectionId, LearningItem[]> = {
     },
     {
       id: "gerald-undone",
-      image: "/images/potw_40.jpg",
+      image: "/images/potw/2025/october/week-4-through-the-glow.webp",
       title: "Gerald Undone",
       medium: "Videography",
       duration: "YouTube",
@@ -728,7 +728,7 @@ export const SECTION_LIBRARY: Record<SectionId, LearningItem[]> = {
     },
     {
       id: "roger-deakins",
-      image: "/images/silence_of_shadows.png",
+      image: "/images/potw/2025/may/week-3-shades-of-silence.webp",
       title: "Roger Deakins forum",
       medium: "Videography",
       duration: "Forum + podcast",
@@ -744,7 +744,7 @@ export const SECTION_LIBRARY: Record<SectionId, LearningItem[]> = {
     },
     {
       id: "american-cinematographer",
-      image: "/images/shutter_safari_piyush.jpg",
+      image: "/images/gallery/shutter-safari/shuttersafari-piyush-piyush-tiwari.webp",
       title: "American Cinematographer",
       medium: "Videography",
       duration: "Interviews + articles",

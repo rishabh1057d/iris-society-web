@@ -15,7 +15,6 @@ type WeeklyPhoto = {
   month: string
   theme: string
   photographer: string
-  email: string
   description: string
   image: string
 }
@@ -29,7 +28,6 @@ export default function POTWManagement() {
     week: 1,
     theme: "",
     photographer: "",
-    email: "",
     description: "",
     image: "/placeholder.svg?height=600&width=400",
   })
@@ -44,10 +42,9 @@ export default function POTWManagement() {
         month: "January",
         theme: "Nature's Patterns",
         photographer: "Priya Sharma",
-        email: "24f1002346@ds.study.iitm.ac.in",
         description:
           "This beautiful butterfly was captured during early morning at the campus garden. The intricate patterns on its wings showcase nature's artistic precision and beauty.",
-        image: "/images/week1.jpeg",
+        image: "/images/gallery/frame-quest/framequest-5-piyush-dipak-wani.webp",
       },
       {
         id: 2,
@@ -55,9 +52,8 @@ export default function POTWManagement() {
         month: "January",
         theme: "Birds of Prey",
         photographer: "Rahul Verma",
-        email: "24f1003421@ds.study.iitm.ac.in",
         description: "This hawk was photographed in its natural habitat, perched on a branch scanning for prey.",
-        image: "/images/week2.jpeg",
+        image: "/images/gallery/frame-quest/framequest-3-kaustubh.webp",
       },
       {
         id: 3,
@@ -65,9 +61,8 @@ export default function POTWManagement() {
         month: "January",
         theme: "Wild Encounters",
         photographer: "Ananya Patel",
-        email: "24f1001234@ds.study.iitm.ac.in",
         description: "This leopard was captured during a wildlife photography expedition.",
-        image: "/images/week3.jpeg",
+        image: "/images/potw/2025/february/week-1-wildlife-animal-kingdom.webp",
       },
       {
         id: 4,
@@ -75,9 +70,8 @@ export default function POTWManagement() {
         month: "January",
         theme: "Tools of the Trade",
         photographer: "Vikram Singh",
-        email: "24f1004567@ds.study.iitm.ac.in",
         description: "This Canon telephoto lens represents the essential equipment of a wildlife photographer.",
-        image: "/images/week4.jpeg",
+        image: "/images/gallery/samples/camera-equipment.webp",
       },
     ],
     February: [
@@ -87,7 +81,6 @@ export default function POTWManagement() {
         month: "February",
         theme: "Urban Landscapes",
         photographer: "Neha Gupta",
-        email: "24f1005678@ds.study.iitm.ac.in",
         description: "This cityscape captures the contrast between modern architecture and natural elements.",
         image: "/placeholder.svg?height=600&width=400",
       },
@@ -148,7 +141,6 @@ export default function POTWManagement() {
       month: selectedMonth,
       theme: newPhoto.theme,
       photographer: newPhoto.photographer,
-      email: newPhoto.email,
       description: newPhoto.description,
       image: newPhoto.image,
     }
@@ -167,7 +159,6 @@ export default function POTWManagement() {
       week: 1,
       theme: "",
       photographer: "",
-      email: "",
       description: "",
       image: "/placeholder.svg?height=600&width=400",
     })
@@ -298,21 +289,6 @@ export default function POTWManagement() {
                 </div>
 
                 <div className="space-y-2">
-                  <label htmlFor="email" className="block text-sm font-medium">
-                    Email
-                  </label>
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    value={newPhoto.email}
-                    onChange={handleInputChange}
-                    className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required
-                  />
-                </div>
-
-                <div className="space-y-2">
                   <label htmlFor="image" className="block text-sm font-medium">
                     Image URL
                   </label>
@@ -404,7 +380,6 @@ export default function POTWManagement() {
                       </button>
                     </div>
                     <p className="text-sm text-gray-300 mb-1">{photo.photographer}</p>
-                    <p className="text-xs text-gray-400 truncate">{photo.email}</p>
                   </div>
                 </div>
               ))}
