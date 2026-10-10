@@ -11,7 +11,7 @@
     "dev": "next dev --hostname 127.0.0.1",
     "typecheck": "tsc --noEmit",
     "start": "next start",
-    "test": "node --test tests/security-authorization.test.mjs tests/image-assets.test.mjs tests/preview-isolation.test.mjs tests/dependency-security.test.mjs",
+    "test": "node --test tests/security-authorization.test.mjs tests/image-assets.test.mjs tests/preview-isolation.test.mjs tests/dependency-security.test.mjs tests/font-assets.test.mjs",
     "test:smoke": "node --test tests/security-smoke.test.mjs tests/site-smoke.test.mjs"
   },
   "dependencies": {

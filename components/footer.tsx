@@ -61,6 +61,18 @@ export default function Footer() {
             <p className="mt-1 mb-0 text-xs text-slate-500">
               Photography &amp; Videography · IIT Madras BS
             </p>
+            <p className="mt-3 mb-0 mx-auto max-w-xl text-xs leading-relaxed text-slate-400">
+              Photos and videos © their respective creators. No unauthorized reuse,
+              reposting, or ownership claims.
+            </p>
+            <Link
+              href="https://github.com/rishabh1057d/iris-society-web/blob/main/ASSET_LICENSE.md"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex min-h-[44px] items-center px-3 text-xs text-slate-400 underline underline-offset-4 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400"
+            >
+              Media rights and permissions
+            </Link>
 
             <nav
               className="flex justify-center items-center gap-2 mt-5"

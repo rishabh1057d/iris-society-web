@@ -1,18 +1,18 @@
 @font-face {
-  font-family: "Saavan Samarkan";
-  src: url("/fonts/shutter-safari-samarkan.ttf") format("truetype");
+  font-family: "Event Display";
+  src: url("/fonts/event-display.ttf") format("truetype");
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Saavan Kids Dream";
-  src: url("/fonts/shutter-safari-kids-dream.ttf") format("truetype");
+  font-family: "Event Accent";
+  src: url("/fonts/event-accent.ttf") format("truetype");
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Saavan Khand";
-  src: url("/fonts/shutter-safari-khand-semibold.woff2") format("woff2");
+  font-family: "Event Body";
+  src: url("/fonts/event-body.woff2") format("woff2");
   font-weight: 600;
   font-display: swap;
 }
@@ -47,7 +47,7 @@
   border: 2px solid var(--ss-red-deep);
   box-shadow: 0 24px 75px rgba(0, 0, 0, .48), inset 0 0 0 2px rgba(251, 217, 58, .4);
   border-radius: 22px;
-  font-family: "Saavan Khand", "Arial Narrow", sans-serif;
+  font-family: "Event Body", "Arial Narrow", sans-serif;
   font-weight: 600;
   scrollbar-width: thin;
   scrollbar-color: var(--ss-yellow) var(--ss-green);
@@ -123,7 +123,7 @@
 .ss-deadline > span,
 .ss-actions,
 .ss-poster-caption,
-.ss-bottom { font-family: "Saavan Kids Dream", "Saavan Khand", sans-serif; }
+.ss-bottom { font-family: "Event Accent", "Event Body", sans-serif; }
 .ss-eyebrow {
   display: block;
   color: var(--ss-red);
@@ -143,7 +143,7 @@
 .ss-head h2 {
   margin: 2px 0 0;
   color: var(--ss-red);
-  font-family: "Saavan Samarkan", Georgia, serif;
+  font-family: "Event Display", Georgia, serif;
   font-size: clamp(52px, 8.6vw, 112px);
   font-weight: 400;
   line-height: .98;
