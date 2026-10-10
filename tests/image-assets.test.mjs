@@ -1,7 +1,6 @@
 import test from "node:test"
 import assert from "node:assert/strict"
 import { readFileSync, readdirSync, statSync } from "node:fs"
-import { execFileSync } from "node:child_process"
 import { createRequire } from "node:module"
 import path from "node:path"
 import config from "../next.config.mjs"
@@ -13,8 +12,9 @@ const imageFiles = readdirSync("public/images", { recursive: true })
   .filter(file => statSync(path.join("public/images", file)).isFile())
   .map(file => `/images/${file.replaceAll("\\", "/")}`)
 const images = new Set(imageFiles)
-const sources = execFileSync("rg", ["--files", "app", "components", "lib", "public"], { encoding: "utf8" })
-  .trim().split(/\r?\n/)
+const sources = ["app", "components", "lib", "public"]
+  .flatMap(dir => readdirSync(dir, { recursive: true }).map(file => path.join(dir, file)))
+  .filter(file => statSync(file).isFile())
   .filter(file => /\.(?:tsx?|jsx?|json|css|html)$/.test(file) && !file.endsWith("image-paths.json"))
 
 test("all local image references exist with exact case and use migrated paths", () => {
