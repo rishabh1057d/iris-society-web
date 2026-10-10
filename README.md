@@ -69,8 +69,8 @@ patch protects the build-only braces parser; see `docs/DEPENDENCY_SECURITY.md`.
 - `sql/`: safe fresh-project setup and existing-project hardening.
 - `tests/`: authorization, preview isolation, image, and HTTP regression checks.
 
-Vercel Production uses the society database. Preview credentials are deliberately
-absent; preview registration/admin features are disabled, not connected to
+Vercel Production uses the society database. Privileged production credentials are
+absent from previews; preview registration/admin features are disabled, not connected to
 production. Do not restore production keys to previews to bypass this boundary.
 
 ## Contribute and licensing
@@ -81,3 +81,5 @@ licensed; photographs, videos, branding, and third-party fonts are separately
 covered by [ASSET_LICENSE.md](ASSET_LICENSE.md).
 
 See [image asset conventions](docs/IMAGE_ASSETS.md) before adding or renaming website images.
+Maintainers can use the [release verification record](docs/OPEN_SOURCE_RELEASE.md)
+to distinguish completed checks from deployment/account checks still pending.
