@@ -1,7 +1,27 @@
 # Contributing to IRIS
 
-Students are welcome to suggest features, improve learning content, fix bugs,
-and submit photographs through the society's normal approval process.
+## Who can contribute
+
+Community pull requests and contributions are accepted only from students
+currently enrolled in the IIT Madras BS Degree Programme. This applies to code,
+learning content, assets, and feature suggestions. Contributions from non-students
+will not be accepted; their community PRs will be closed without merging.
+
+Maintainers must privately verify student eligibility before accepting a community
+contribution. If your GitHub identity has not been verified, contact
+photography.society@study.iitm.ac.in to arrange a private check. A PR checkbox or
+claimed email address alone is not proof. Never post student IDs, institutional
+email addresses, enrollment documents, or verification messages in public threads.
+
+This upstream acceptance policy does not narrow the MIT license's permissions
+to use, modify, or fork the code. It cannot prevent outsiders from opening public
+PRs; maintainers enforce it during review. Anyone may report a suspected security
+issue privately under [SECURITY.md](SECURITY.md).
+
+## Your first contribution
+
+Eligible students are welcome to suggest features, improve learning content,
+fix bugs, and submit photographs through the society's normal approval process.
 
 1. Open an issue for a bug or feature. Explain the problem and expected result;
    include screenshots and screen size for visual issues. Never post credentials,
@@ -15,7 +35,8 @@ and submit photographs through the society's normal approval process.
    Start the built site and run `pnpm test:smoke`; test the affected pages at
    desktop and phone widths. Include test results in your PR.
 6. Submit a pull request describing the change, its risks, and how it was tested.
-   A maintainer reviews it before merging. Do not commit generated builds,
+   A maintainer verifies eligibility and reviews it before accepting or merging.
+   Do not commit generated builds,
    screenshots, `.env.local`, browser profiles, or downloaded credential files.
 
 ## Content and assets

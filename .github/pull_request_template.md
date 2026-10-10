@@ -1,3 +1,13 @@
+## Student eligibility
+
+- [ ] I am currently enrolled in the IIT Madras BS Degree Programme and have read [CONTRIBUTING.md](https://github.com/rishabh1057d/iris-society-web/blob/main/CONTRIBUTING.md).
+- [ ] I understand that maintainers must privately verify eligibility before accepting a community contribution.
+
+Community PRs from non-students will be closed without merging. A checked box
+alone is not verification. Do not post student IDs, institutional email addresses,
+enrollment documents, or verification messages here; arrange any required check
+privately with maintainers.
+
 ## Change
 
 What does this fix or improve? Link the issue.
