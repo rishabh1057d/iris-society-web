@@ -46,6 +46,18 @@ Under the hood: **Next.js App Router, React, TypeScript, Tailwind CSS, and Frame
 Motion**. Supabase powers Google sign-in, event registration, and registration
 admin tools. The camera does not run on JavaScript. The website does.
 
+## Vibe coded. Literally. 🎧
+
+Yes, this website was built with AI-assisted coding. Also yes, "vibe coding"
+meant listening to music while coding: The Weeknd, Chase Atlantic, Tame Impala,
+The Neighbourhood (NBHD), Arctic Monkeys, Frank Ocean, and Lana Del Rey on one
+side; Arijit Singh, KK, Karan Aujla, A. R. Rahman, Shreya Ghoshal, Diljit Dosanjh,
+and Mohit Chauhan on the other. The playlist crossed genres. The bugs crossed
+their fingers.
+
+AI helped write the code; people are responsible for what ships. A great
+soundtrack is welcome. "The AI said it works" is not a test result.
+
 ## Want to contribute? Start here 🎓
 
 > [!IMPORTANT]
@@ -71,6 +83,20 @@ not a restriction on the [MIT license](LICENSE). Others may still use or fork
 the MIT-licensed code under its terms. A public repository does not prevent
 non-students from opening a PR; maintainers enforce eligibility before acceptance.
 Anyone can report a suspected vulnerability privately via [SECURITY.md](SECURITY.md).
+
+### AI-assisted contributions are welcome
+
+Eligible students can use AI to learn, code, debug, and prepare PRs. You still
+own the change: read and understand the final diff, test it yourself, and explain
+what you checked. Mention AI assistance and its scope in the PR; never present
+generated test results as tests you actually ran.
+
+Never put credentials or private student data into AI prompts, and never weaken
+authentication, admin checks, or database access rules just to make a test pass.
+Check generated dependencies, links, and asset rights too. Follow the
+[AI contribution rules](CONTRIBUTING.md#ai-assisted-contributions) and the test
+commands below. AI assistance does not waive student verification or human review.
+**We welcome AI-written code, not untested security compromises.**
 
 ## Run locally
 
@@ -163,8 +189,12 @@ prior written permission from the rights holder unless another license or law
 permits the use. Attribution alone is not permission.
 
 See [image asset conventions](docs/IMAGE_ASSETS.md) before adding or renaming website images.
-For contribution verification, media-permission requests, or a hello, contact
-photography.society@study.iitm.ac.in. Maintainers can use the
+Want more details, help choosing a first issue, or a chat about the project?
+Email [photography.society@study.iitm.ac.in](mailto:photography.society@study.iitm.ac.in)
+or reach out in the society's WhatsApp/GSpace groups if you are already a member.
+The same email handles contribution verification and media-permission requests.
+Keep identity checks private; report vulnerabilities via [SECURITY.md](SECURITY.md),
+not in group chats or public issues. Maintainers can use the
 [release verification record](docs/OPEN_SOURCE_RELEASE.md) for checks and their evidence.
 
 Built by students. Reviewed by humans. Best enjoyed with curiosity.

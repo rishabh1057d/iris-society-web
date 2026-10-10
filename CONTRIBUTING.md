@@ -39,6 +39,37 @@ fix bugs, and submit photographs through the society's normal approval process.
    Do not commit generated builds,
    screenshots, `.env.local`, browser profiles, or downloaded credential files.
 
+## AI-assisted contributions
+
+AI-assisted coding is welcome for eligible IITM BS students. Whether you wrote
+every line yourself or worked with an AI, you are responsible for the final
+change. Student verification and normal maintainer review still apply.
+
+- Read the entire diff and understand what it does before submitting. Keep it
+  focused; remove unrelated generated changes and code you cannot explain.
+- In the PR, say whether you used AI and briefly describe its scope. No prompt
+  dumps or private chat logs are needed.
+- Run the checks in "Your first contribution" yourself, test affected flows,
+  and report actual results, including failures or checks you could not run.
+  AI-generated claims are not evidence. Add or update tests for changed logic;
+  for UI changes, check desktop, phone, keyboard access, and reduced motion
+  where relevant.
+- Never send credentials, service-role keys, session tokens, registration
+  records, enrollment proof, or other private data to an AI tool. Use synthetic
+  fixtures and your own isolated development setup, not production data.
+- Do not bypass authentication, server-side admin checks, validation, row-level
+  security, preview isolation, or security tests to make generated code work.
+  Changes to these boundaries need explicit maintainer review and tests covering
+  both allowed and denied requests. Green CI alone is not a security review.
+- Verify suggested packages actually exist and are necessary; audit dependency
+  changes. Check factual claims, free resource links, licenses, and asset rights
+  rather than trusting generated suggestions.
+
+Untested or unsafe changes will need revision before acceptance. Need help?
+Contact photography.society@study.iitm.ac.in or ask in the society's WhatsApp/GSpace
+groups if you are already a member. Keep eligibility checks and security reports
+private; use [SECURITY.md](SECURITY.md) for vulnerabilities.
+
 ## Content and assets
 
 Tutorials/guides are in `lib/beginner/`. Recommend free resources, check links,
