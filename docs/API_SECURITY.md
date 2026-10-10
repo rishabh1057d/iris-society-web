@@ -1,0 +1,11 @@
+# Event API deployment checklist
+
+1. Set `ADMIN_EMAILS` in the server environment to a comma-separated list of approved admin addresses. Admins sign in through the existing Google/Supabase login. Do not prefix this setting with `NEXT_PUBLIC_`. Without it, admin API access is denied.
+2. Keep `SUPABASE_SERVICE_ROLE_KEY` server-only and scope all production database credentials to Vercel Production only, including integration-generated `POSTGRES_*`, Supabase secret/JWT keys, and admin settings. Database-backed Preview features are intentionally disabled; no separate paid project is needed. The `NEXT_PUBLIC_SUPABASE_ANON_KEY` is public by design and must rely on database grants and RLS.
+3. Run [`sql/harden_event_access.sql`](../sql/harden_event_access.sql) in the existing Supabase project's SQL editor, then deploy the API changes. The checked-in `create_*` SQL files also have safe defaults for a new database.
+4. In Supabase, inspect **all** policies on `public.event_config`, `public.event_registrations`, and `storage.objects`. Remove any other policy that permits untrusted users to read registration records, edit configuration, or upload posters. This migration removes the permissive policy names found in this repo; policies created outside it require a separate review.
+5. Verify anonymously: registration and admin API requests return 401; direct Supabase queries cannot read `event_registrations` or write `event_config`. Verify a signed-in student can read only their own registration, and an approved admin can export registrations and save config.
+
+Moving the admin allowlist out of `public/` stops serving it from the site after deployment, but the old JSON remains in Git history. If those addresses require confidentiality, rotate to new admin aliases and review repository history separately.
+
+Run `node --test tests/security-authorization.test.mjs` for authorization tests with fake users and database responses. With the local app running, run `node --test tests/security-smoke.test.mjs` to verify anonymous requests are denied; set `TEST_BASE_URL` to test a different local port.
