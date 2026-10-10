@@ -22,7 +22,7 @@ def update_gallery():
     gallery = load_json(gallery_path)
     print("\n1. Add Image to Gallery")
     if input("Add new image? (Y/n): ").strip().lower() in ('', 'y', 'yes'):
-        src = prompt("Image file name (in /images/)")
+        src = prompt("Image path relative to /images/ (e.g. gallery/photo.webp)")
         photographer = prompt("Photographer name")
         alt = prompt("Alt text")
         new_id = max((img['id'] for img in gallery), default=0) + 1
@@ -51,14 +51,12 @@ def update_potw():
         return
     theme = prompt("Theme")
     photographer = prompt("Photographer")
-    email = prompt("Email (optional)")
     description = prompt("Description (optional)")
-    image = prompt("Image file name (in /images/)")
+    image = prompt("Image path relative to /images/ (e.g. potw/2026/photo.webp)")
     potw[month].append({
         "week": week,
         "theme": theme,
         "photographer": photographer,
-        "email": email,
         "description": description,
         "image": f"/images/{image}"
     })
@@ -78,7 +76,7 @@ def update_events():
         dates = prompt("Dates")
         location = prompt("Location")
         collab = prompt("Collab")
-        image = prompt("Image file name (in /images/)")
+        image = prompt("Image path relative to /images/ (e.g. events/posters/event.webp)")
         ongoing = prompt("Ongoing? (Y/n)", "Y").lower() in ('y', '')
         registration_open = prompt("Registration Open? (Y/n)", "Y").lower() in ('y', '')
         registration_link = prompt("Registration Link")
@@ -168,7 +166,7 @@ def update_team():
         name = prompt("Name")
         role = prompt("Role")
         description = prompt("Description")
-        image = prompt("Image file name (in /images/)")
+        image = prompt("Image path relative to /images/ (e.g. meetups/photowalk.webp)")
         linkedin = prompt("LinkedIn (optional)")
         new_id = max([m['id'] for t in curr.values() for m in t], default=0) + 1
         member = {

@@ -15,19 +15,19 @@ export const SECTIONS = [
   {
     id: "tutorials",
     label: "Tutorials",
-    image: "/images/golden_hour.png",
+    image: "/images/potw/2025/february/week-2-the-golden-hour.webp",
     blurb: "Step by step lessons you can follow along",
   },
   {
     id: "guides",
     label: "Guides",
-    image: "/images/macro_magiv.png",
+    image: "/images/potw/2025/february/week-3-macro-magic.webp",
     blurb: "Quick answers for the questions you meet on a shoot",
   },
   {
     id: "best",
     label: "Learn from the best",
-    image: "/images/shutter_safari_winner.jpg",
+    image: "/images/gallery/shutter-safari/shuttersafari-winner-shreyaskar-srivastava.webp",
     blurb: "Trusted photographers, filmmakers, essays, and channels",
   },
 ] as const

@@ -925,7 +925,7 @@ export default function Home() {
                     </div>
                     <div className="ss-poster-frame">
                       <div className="ss-poster">
-                        <Image src={popupData.image || "/images/shutter-safari-saavan-2026.webp"} alt="Shutter Safari Saavan Edition 2.0 event poster" fill sizes="(max-width: 640px) 44vw, 300px" priority />
+                        <Image src={popupData.image || "/images/events/posters/shutter-safari-saavan-2026.webp"} alt="Shutter Safari Saavan Edition 2.0 event poster" fill sizes="(max-width: 640px) 44vw, 300px" priority />
                       </div>
                       <span className="ss-poster-caption">CAPTURE WHAT YOU FEEL</span>
                     </div>

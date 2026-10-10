@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useCallback } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
-import supabaseBrowser from "../../../../lib/supabase-browser"
+import supabaseBrowser, { authenticatedFetch, databaseConfigured } from "../../../../lib/supabase-browser"
 
 /* ─────────────────────── types ─────────────────────── */
 type EventConfig = {
@@ -42,7 +42,6 @@ export default function AdminEventRegistrationPage() {
   /* ── state ── */
   const [session, setSession] = useState<any>(null)
   const [loading, setLoading] = useState(true)
-  const [adminEmails, setAdminEmails] = useState<string[]>([])
   const [isAdmin, setIsAdmin] = useState(false)
   const [denied, setDenied] = useState(false)
 
@@ -64,40 +63,33 @@ export default function AdminEventRegistrationPage() {
   // tab
   const [tab, setTab] = useState<"config" | "registrations">("config")
 
-  /* ── load admin emails ── */
-  useEffect(() => {
-    ;(async () => {
-      try {
-        const res = await fetch("/admin_emails.json?" + Date.now())
-        if (res.ok) {
-          const data = await res.json()
-          setAdminEmails((data.admin_emails || []).map((e: string) => e.toLowerCase()))
-        }
-      } catch {}
-    })()
-  }, [])
-
   /* ── auth ── */
   useEffect(() => {
-    if (adminEmails.length === 0) return
-
+    if (!databaseConfigured) { setLoading(false); return }
     let mounted = true
+
+    const checkAdmin = async (sess: any) => {
+      if (!sess?.access_token) {
+        if (mounted) { setIsAdmin(false); setDenied(false) }
+        return
+      }
+      try {
+        const res = await fetch("/api/admin/me", {
+          cache: "no-store",
+          headers: { Authorization: `Bearer ${sess.access_token}` },
+        })
+        if (mounted) { setIsAdmin(res.ok); setDenied(!res.ok) }
+      } catch {
+        if (mounted) { setIsAdmin(false); setDenied(true) }
+      }
+    }
 
     const init = async () => {
       const { data } = await supabaseBrowser.auth.getSession()
       if (!mounted) return
       const sess = data.session ?? null
       setSession(sess)
-
-      if (sess?.user?.email) {
-        const email = sess.user.email.toLowerCase()
-        if (adminEmails.includes(email)) {
-          setIsAdmin(true)
-        } else {
-          setDenied(true)
-        }
-      }
-
+      await checkAdmin(sess)
       setLoading(false)
 
       // Clean up hash
@@ -111,33 +103,21 @@ export default function AdminEventRegistrationPage() {
     const { data: listener } = supabaseBrowser.auth.onAuthStateChange((_event, sess) => {
       if (!mounted) return
       setSession(sess ?? null)
-      if (sess?.user?.email) {
-        const email = sess.user.email.toLowerCase()
-        if (adminEmails.includes(email)) {
-          setIsAdmin(true)
-          setDenied(false)
-        } else {
-          setIsAdmin(false)
-          setDenied(true)
-        }
-      } else {
-        setIsAdmin(false)
-        setDenied(false)
-      }
+      void checkAdmin(sess)
     })
 
     return () => {
       mounted = false
       try { listener.subscription.unsubscribe() } catch {}
     }
-  }, [adminEmails])
+  }, [])
 
   /* ── load config once admin ── */
   useEffect(() => {
     if (!isAdmin) return
     ;(async () => {
       try {
-        const res = await fetch("/api/admin/event-config")
+        const res = await authenticatedFetch("/api/admin/event-config")
         if (res.ok) {
           const j = await res.json()
           if (j.config) setConfig(j.config)
@@ -151,7 +131,7 @@ export default function AdminEventRegistrationPage() {
     if (!isAdmin) return
     ;(async () => {
       try {
-        const res = await fetch("/api/admin/event-names")
+        const res = await authenticatedFetch("/api/admin/event-names")
         if (res.ok) {
           const j = await res.json()
           setEventNames(j.event_names || [])
@@ -168,7 +148,7 @@ export default function AdminEventRegistrationPage() {
       if (selectedEvent && selectedEvent !== "__all__") {
         params.set("event_name", selectedEvent)
       }
-      const res = await fetch(`/api/admin/registrations?${params}`)
+      const res = await authenticatedFetch(`/api/admin/registrations?${params}`)
       if (res.ok) {
         const j = await res.json()
         setRegistrations(j.data || [])
@@ -208,7 +188,7 @@ export default function AdminEventRegistrationPage() {
     setConfigSaving(true)
     setConfigStatus(null)
     try {
-      const res = await fetch("/api/admin/event-config", {
+      const res = await authenticatedFetch("/api/admin/event-config", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(config),
@@ -233,7 +213,7 @@ export default function AdminEventRegistrationPage() {
     try {
       const fd = new FormData()
       fd.append("file", file)
-      const res = await fetch("/api/admin/upload-poster", { method: "POST", body: fd })
+      const res = await authenticatedFetch("/api/admin/upload-poster", { method: "POST", body: fd })
       const j = await res.json()
       if (res.ok && j.path) {
         setConfig({ ...config, poster_image: j.path })
@@ -254,7 +234,11 @@ export default function AdminEventRegistrationPage() {
     if (selectedEvent && selectedEvent !== "__all__") {
       params.set("event_name", selectedEvent)
     }
-    const res = await fetch(`/api/admin/registrations?${params}`)
+    const res = await authenticatedFetch(`/api/admin/registrations?${params}`)
+    if (!res.ok) {
+      setConfigStatus({ type: "error", text: "Could not download registrations" })
+      return
+    }
     const blob = await res.blob()
     const url = URL.createObjectURL(blob)
     const a = document.createElement("a")
@@ -278,7 +262,7 @@ export default function AdminEventRegistrationPage() {
   } as React.CSSProperties
 
   /* ─────────────────── LOADING ─────────────────── */
-  if (loading || adminEmails.length === 0) {
+  if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
@@ -287,6 +271,10 @@ export default function AdminEventRegistrationPage() {
         </div>
       </div>
     )
+  }
+
+  if (!databaseConfigured) {
+    return <div className="min-h-screen flex items-center justify-center px-4 py-20"><div className="w-full max-w-md rounded-2xl border border-white/10 bg-white/5 p-8 text-center"><h1 className="text-2xl font-bold text-white mb-3">Admin tools unavailable</h1><p className="text-white/60">Database-backed features are disabled in this preview or unconfigured local copy.</p></div></div>
   }
 
   /* ─────────────────── SIGN-IN ─────────────────── */

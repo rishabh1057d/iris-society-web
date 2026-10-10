@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     description: "Get in touch with the IRIS Society at IIT Madras BS.",
     images: [
       {
-        url: "/images/collage.png",
+        url: "/images/about/society-collage.webp",
         width: 500,
         height: 400,
         alt: "A collage of photos taken by IRIS Society members",
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   twitter: {
     title: "Contact Us | IRIS Society",
     description: "Get in touch with the IRIS Society at IIT Madras BS.",
-    images: ["/images/collage.png"],
+    images: ["/images/about/society-collage.webp"],
   },
 }
 

@@ -18,6 +18,11 @@ CREATE TABLE IF NOT EXISTS public.event_registrations (
 
 COMMENT ON TABLE public.event_registrations IS 'Event registrations for IRIS society';
 
+-- Registration PII is accessible only through authenticated server routes.
+ALTER TABLE public.event_registrations ENABLE ROW LEVEL SECURITY;
+REVOKE ALL ON TABLE public.event_registrations FROM PUBLIC;
+REVOKE ALL ON TABLE public.event_registrations FROM anon, authenticated;
+
 -- If the table already exists, run this to add the event_name column:
 -- ALTER TABLE public.event_registrations ADD COLUMN IF NOT EXISTS event_name text;
 -- ALTER TABLE public.event_registrations DROP CONSTRAINT IF EXISTS event_registrations_student_email_key;
@@ -26,6 +31,5 @@ COMMENT ON TABLE public.event_registrations IS 'Event registrations for IRIS soc
 -- Create storage bucket for event posters (run once in Supabase SQL editor):
 -- INSERT INTO storage.buckets (id, name, public) VALUES ('event-posters', 'event-posters', true) ON CONFLICT DO NOTHING;
 -- CREATE POLICY "Public read access" ON storage.objects FOR SELECT USING (bucket_id = 'event-posters');
--- CREATE POLICY "Authenticated upload" ON storage.objects FOR INSERT WITH CHECK (bucket_id = 'event-posters');
--- CREATE POLICY "Authenticated update" ON storage.objects FOR UPDATE USING (bucket_id = 'event-posters');
--- CREATE POLICY "Authenticated delete" ON storage.objects FOR DELETE USING (bucket_id = 'event-posters');
+-- Poster uploads use the admin API and service role; do not grant blanket
+-- authenticated-user INSERT, UPDATE, or DELETE policies for this bucket.

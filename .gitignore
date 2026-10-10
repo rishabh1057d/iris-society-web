@@ -18,6 +18,7 @@ yarn-error.log*
 
 # env files
 .env*
+!.env.example
 
 # vercel
 .vercel
@@ -25,3 +26,17 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Local agent/browser tools and review screenshots (not application source)
+/.agents/
+/.playwright-mcp/
+/.okdev/
+/SKILL.md
+/skills-lock.json
+/instructions-carousle.md
+/*.png
+/.backups/
+*.backup-*
+
+# Local credential scan reports
+gitleaks-report*.json

@@ -24,7 +24,6 @@ type WeeklyPhoto = {
   month: string
   theme: string
   photographer: string
-  email: string
   description: string
   image: string
 }

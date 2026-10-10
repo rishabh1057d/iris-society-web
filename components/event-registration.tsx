@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useCallback } from "react"
 import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
-import supabaseBrowser from "../lib/supabase-browser"
+import supabaseBrowser, { authenticatedFetch, databaseConfigured } from "../lib/supabase-browser"
 
 /* ─────────────────────── types ─────────────────────── */
 type EventConfig = {
@@ -96,7 +96,8 @@ export default function EventRegistration() {
       const email = userSession.user.email as string
       try {
         const res = await fetch(
-          `/api/events/register?email=${encodeURIComponent(email)}&event_name=${encodeURIComponent(config.event_name)}`
+          `/api/events/register?email=${encodeURIComponent(email)}&event_name=${encodeURIComponent(config.event_name)}`,
+          { headers: { Authorization: `Bearer ${userSession.access_token}` } },
         )
         const j = await res.json()
         if (res.ok && j.registered) {
@@ -120,6 +121,7 @@ export default function EventRegistration() {
   /* ── auth init ── */
   useEffect(() => {
     if (configLoading) return
+    if (!databaseConfigured) { setLoading(false); return }
 
     let mounted = true
 
@@ -238,7 +240,7 @@ export default function EventRegistration() {
 
     setSubmitting(true)
     try {
-      const res = await fetch("/api/events/register", {
+      const res = await authenticatedFetch("/api/events/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -292,6 +294,9 @@ export default function EventRegistration() {
   }
 
   /* ─────────────────────── skeleton / loading ─────────────────────── */
+  if (!databaseConfigured) {
+    return <div className="flex-1 flex items-center justify-center px-4 py-24"><div className="w-full max-w-lg rounded-2xl border border-white/10 bg-white/5 p-8 text-center"><h2 className="text-2xl font-bold text-white mb-3">Registration unavailable</h2><p className="text-white/60">Database-backed features are disabled in this preview or unconfigured local copy. Please use the official society website to register.</p></div></div>
+  }
   if (configLoading || loading) {
     return (
       <div className="min-h-full flex-1 flex items-center justify-center py-24">

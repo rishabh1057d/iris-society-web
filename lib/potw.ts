@@ -10,7 +10,6 @@ export type PotwEntry = {
   year?: string | number
   theme?: string
   photographer?: string
-  email?: string
   description?: string
   image?: string
   [key: string]: unknown

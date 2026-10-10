@@ -89,7 +89,7 @@ export default function ContactClientPage() {
             <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#0a0a0c] p-2 sm:p-3">
               <div className="relative aspect-square w-full">
                 <Image
-                  src="/images/collage.png"
+                  src="/images/about/society-collage.webp"
                   alt="Collage of photos by IRIS Society members"
                   fill
                   sizes="(max-width: 768px) 90vw, 400px"

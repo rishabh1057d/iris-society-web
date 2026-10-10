@@ -2,16 +2,18 @@ import { NextResponse } from "next/server"
 import { createClient } from "@supabase/supabase-js"
 
 // Public Supabase client
-const supabase = createClient(
+const configured = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY && process.env.VERCEL_ENV !== "preview")
+const supabase = configured ? createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+) : null
 
 /**
  * GET /api/event-config
  * Returns the current active event configuration (public access).
  */
 export async function GET() {
+  if (!supabase) return NextResponse.json({ success: false, error: "Database features are unavailable in this environment" }, { status: 503 })
   try {
     const { data, error } = await supabase
       .from('event_config')

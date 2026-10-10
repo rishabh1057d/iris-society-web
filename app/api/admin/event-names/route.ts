@@ -1,12 +1,16 @@
 import { NextResponse } from "next/server"
 import { supabaseServer } from "../../../../lib/supabase-server"
+import { requireAdmin } from "../../../../lib/api-auth"
 
 /**
  * GET /api/admin/event-names
  * Returns a list of distinct event_name values from registrations.
  */
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    const auth = await requireAdmin(request)
+    if (auth.error) return auth.error
+
     const { data, error } = await supabaseServer
       .from("event_registrations")
       .select("event_name")

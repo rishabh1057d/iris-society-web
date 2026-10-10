@@ -122,7 +122,7 @@ export default function Navbar({ onJoinClick }: NavbarProps) {
             onClick={closeMenu}
           >
             <Image
-              src="/images/logo.png"
+              src="/images/brand/iris-logo.png"
               alt="IRIS Society"
               width={64}
               height={64}
