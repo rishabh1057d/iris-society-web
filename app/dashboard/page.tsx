@@ -23,7 +23,7 @@ export default function Dashboard() {
           <div className="flex flex-col md:flex-row items-center gap-6">
             <div className="w-24 h-24 rounded-full overflow-hidden">
               <Image
-                src="/logo.png"
+                src="/images/brand/iris-logo.png"
                 alt="IRIS Society Logo"
                 width={96}
                 height={96}
