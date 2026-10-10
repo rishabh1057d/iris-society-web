@@ -79,6 +79,10 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a PR and
 [SECURITY.md](SECURITY.md) for private security reports. Original code is MIT
 licensed; photographs, videos, branding, and third-party fonts are separately
 covered by [ASSET_LICENSE.md](ASSET_LICENSE.md).
+The code license does not authorize copying, reposting, editing or selling the
+photos/videos, removing creator credits, or claiming them as your own. Obtain
+prior written permission from the rights holder unless another license or law
+permits the use. Attribution alone is not permission.
 
 See [image asset conventions](docs/IMAGE_ASSETS.md) before adding or renaming website images.
 Maintainers can use the [release verification record](docs/OPEN_SOURCE_RELEASE.md)

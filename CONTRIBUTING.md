@@ -37,3 +37,6 @@ Original code/documentation contributions are accepted under the project's MIT
 license. Asset contributions retain their applicable rights and require explicit
 publication permission. Local admin content mockups are not production editors;
 event-registration admin tools are the database-backed implementation.
+Website publication consent is not a license for unrelated media reuse. Never
+remove creator credits, claim someone else's media, or republish it in a separate
+project without the rights holder's permission or another valid legal basis.
