@@ -22,3 +22,25 @@ test("all migrated images and old incoming URLs still work", async () => {
     assert.equal(new URL(redirect.headers.get("location"), origin).pathname, destination)
   }
 })
+
+test("generic popup fonts and the open-font notice are served", async () => {
+  for (const name of ["event-display.ttf", "event-accent.ttf", "event-body.woff2", "event-body-OFL.txt"]) {
+    const response = await fetch(new URL(`/fonts/${name}`, origin))
+    assert.equal(response.status, 200, name)
+    assert((await response.arrayBuffer()).byteLength > 0, name)
+  }
+})
+
+test("shared branding, image fallbacks and the media-rights notice remain available", async () => {
+  for (const name of ["/images/brand/iris-logo.png", "/placeholder.svg", "/placeholder.jpg"]) {
+    const response = await fetch(new URL(name, origin), { method: "HEAD" })
+    assert.equal(response.status, 200, name)
+  }
+  const response = await fetch(new URL("/", origin))
+  const html = await response.text()
+  assert(html.includes("Photos and videos"))
+  assert(html.includes("No unauthorized reuse"))
+  assert(html.includes("ASSET_LICENSE.md"))
+  assert(html.includes("/images/brand/iris-logo.png"))
+  assert(!html.includes('"/logo.png"'))
+})

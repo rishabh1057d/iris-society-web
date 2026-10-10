@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     siteName: "IRIS Society",
     images: [
       {
-        url: "/logo.png",
+        url: "/images/brand/iris-logo.png",
         width: 512,
         height: 512,
         alt: "IRIS Society Logo",
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     title: "IRIS Society",
     description:
       "Join IRIS Society, the premier photography and videography society dedicated to capturing moments and creating memories through the art of photography.",
-    images: ["/logo.png"],
+    images: ["/images/brand/iris-logo.png"],
   },
 }
 
