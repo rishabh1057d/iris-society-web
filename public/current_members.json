@@ -1,11 +1,153 @@
 {
-  "leadershipTeam": [],
+  "leadershipTeam": [
+    {
+      "id": 1,
+      "name": "T. Hasini Reddy",
+      "role": "Secretary",
+      "description": "Coordinates society events and operations.",
+      "image": "/images/team/optimized/t-hasini-reddy.webp",
+      "linkedin": "https://www.linkedin.com/in/hasinireddy22"
+    },
+    {
+      "id": 2,
+      "name": "Vishal",
+      "role": "Deputy Secretary",
+      "description": "Deputy Secretary, IRIS Society (2026-2027).",
+      "image": "/placeholder.svg",
+      "linkedin": ""
+    }
+  ],
   "Coordinators": [],
-  "OutreachAndSponsor": [],
-  "CreativeProduction": [],
-  "MultimediaDesign": [],
-  "ContentStrategyPR": [],
-  "webDevTeam": [],
+  "OutreachAndSponsor": [
+    {
+      "id": 1,
+      "name": "Bhoomi Bulchandani",
+      "role": "Outreach",
+      "description": "Outreach & Sponsorship Team",
+      "image": "/images/team/2026-2027/bhoomi-bulchandani.webp",
+      "linkedin": "https://www.linkedin.com/in/bhoomibulchandani"
+    },
+    {
+      "id": 2,
+      "name": "Sharansh Tiwari",
+      "role": "Outreach",
+      "description": "Outreach & Sponsorship Team",
+      "image": "/images/team/2026-2027/sharansh-tiwari.webp",
+      "linkedin": "https://www.linkedin.com/in/sharansh-tiwari-4658853b8"
+    }
+  ],
+  "CreativeProduction": [
+    {
+      "id": 1,
+      "name": "Mohd Usman Warsi",
+      "role": "Video Editor",
+      "description": "Creative Crew",
+      "image": "/images/team/2026-2027/mohd-usman-warsi.webp",
+      "linkedin": "https://www.linkedin.com/in/usman-warsi-590543411/"
+    },
+    {
+      "id": 2,
+      "name": "Daksh Prajapati",
+      "role": "Creative Producer",
+      "description": "Creative Crew",
+      "image": "/images/team/2026-2027/daksh-prajapati.webp",
+      "linkedin": "https://www.linkedin.com/in/daksh-prajapati-a57857228/"
+    },
+    {
+      "id": 3,
+      "name": "Vishal Kumar",
+      "role": "Creative Producer",
+      "description": "Creative Crew",
+      "image": "/images/team/2026-2027/vishal-kumar.webp",
+      "linkedin": ""
+    },
+    {
+      "id": 4,
+      "name": "Agniv Pratim Barua",
+      "role": "Creative Producer",
+      "description": "Creative Crew",
+      "image": "/images/team/2026-2027/agniv-pratim-barua.webp",
+      "linkedin": "https://www.linkedin.com/in/agniv-pratim-barua-0635493b9"
+    }
+  ],
+  "MultimediaDesign": [
+    {
+      "id": 1,
+      "name": "Tanushree Dey",
+      "role": "Graphic Designer",
+      "description": "Multimedia Team",
+      "image": "/images/team/optimized/tanushree-dey.jpg",
+      "linkedin": "https://www.linkedin.com/in/tanushree-dey-614397259/"
+    },
+    {
+      "id": 2,
+      "name": "Aman Sharma",
+      "role": "Video Editor, Graphic Designer",
+      "description": "Multimedia Team",
+      "image": "/images/team/2026-2027/aman-sharma.webp",
+      "linkedin": "https://www.linkedin.com/in/aman-sharma-originals"
+    },
+    {
+      "id": 3,
+      "name": "Arpit Kumar Mallick",
+      "role": "Graphic Designer",
+      "description": "Multimedia Team",
+      "image": "/placeholder.svg",
+      "linkedin": "https://www.linkedin.com/in/arpit-kumar-mallick-6aa920375/"
+    },
+    {
+      "id": 4,
+      "name": "Megha Sharma",
+      "role": "Graphic Designer",
+      "description": "Multimedia Team",
+      "image": "/images/team/2026-2027/megha-sharma.webp",
+      "linkedin": "https://www.linkedin.com/in/megha-sharma-9489a3357"
+    }
+  ],
+  "ContentStrategyPR": [
+    {
+      "id": 1,
+      "name": "M. Hema Varshni",
+      "role": "Content Strategist",
+      "description": "Content Strategy & PR Team",
+      "image": "/images/team/2026-2027/m-hema-varshni.webp",
+      "linkedin": "https://www.linkedin.com/in/hema-varshni-manivannan"
+    },
+    {
+      "id": 2,
+      "name": "Maddala Mohith",
+      "role": "Content Strategist",
+      "description": "Content Strategy & PR Team",
+      "image": "/images/team/optimized/mohith-maddala.webp",
+      "linkedin": "https://www.linkedin.com/in/mohith-maddala-168a21353/"
+    },
+    {
+      "id": 3,
+      "name": "Kiranpreet Kaur Dhaliwal",
+      "role": "PR",
+      "description": "Content Strategy & PR Team",
+      "image": "/images/team/2026-2027/kiranpreet-kaur-dhaliwal.webp",
+      "linkedin": "https://www.linkedin.com/in/kiranpreet-kaur-dhaliwal-729391378"
+    },
+    {
+      "id": 4,
+      "name": "Sreelakshmi",
+      "role": "PR",
+      "description": "Content Strategy & PR Team",
+      "image": "/images/team/2026-2027/sreelakshmi.webp",
+      "linkedin": "https://www.linkedin.com/in/sreelakshmi-madhamshetty-072b97378"
+    }
+  ],
+  "webDevTeam": [
+    {
+      "id": 1,
+      "name": "Rishabh Singh",
+      "role": "Web Developer",
+      "description": "Builds and maintains the IRIS Society website.",
+      "image": "/images/team/2026-2027/rishabh-singh.webp",
+      "linkedin": "https://www.linkedin.com/in/rishabh-singh-514b8628a/"
+    }
+  ],
   "tenure": "2026-2027",
   "popup": {
     "enabled": false,

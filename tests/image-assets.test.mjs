@@ -31,10 +31,10 @@ test("all local image references exist with exact case and use migrated paths", 
   assert(checked > 200, "Image reference scan unexpectedly found too few references")
 })
 
-test("every migrated image has a unique, organized, readable destination", async () => {
+test("every website image is organized and readable, with unique migrated destinations", async () => {
   const destinations = Object.values(mapping)
   assert.equal(new Set(destinations).size, destinations.length)
-  for (const url of destinations) {
+  for (const url of imageFiles) {
     assert(images.has(url), `Missing migrated image: ${url}`)
     assert.match(url, /^\/images\/(?:[a-z0-9-]+\/)+[a-z0-9-]+\.(?:png|jpe?g|webp)$/)
     const file = path.join("public", url.slice(1))
@@ -42,6 +42,28 @@ test("every migrated image has a unique, organized, readable destination", async
     const metadata = await sharp(file).metadata()
     assert(metadata.width > 0 && metadata.height > 0, `Unreadable image: ${url}`)
     await sharp(file).stats()
+  }
+})
+
+test("current team groups contain valid public profiles and local portraits", () => {
+  const current = JSON.parse(readFileSync("public/current_members.json", "utf8"))
+  const allowedFields = new Set(["id", "name", "role", "description", "image", "linkedin", "className"])
+  for (const group of ["leadershipTeam", "Coordinators", "OutreachAndSponsor", "CreativeProduction", "MultimediaDesign", "ContentStrategyPR", "webDevTeam"]) {
+    assert(Array.isArray(current[group]), `${group}: missing member list`)
+    const ids = new Set()
+    for (const member of current[group]) {
+      assert(Number.isInteger(member.id) && !ids.has(member.id), `${group}: invalid or duplicate id`)
+      ids.add(member.id)
+      assert(member.name?.trim() && member.role?.trim(), `${group}: missing name or role`)
+      for (const key of Object.keys(member)) assert(allowedFields.has(key), `${group}: unexpected public field ${key}`)
+      assert(member.image === "/placeholder.svg" || images.has(member.image), `${member.name}: missing local portrait`)
+      if (member.linkedin) {
+        const url = new URL(member.linkedin)
+        assert.equal(url.protocol, "https:")
+        assert.equal(url.hostname, "www.linkedin.com")
+        assert(url.pathname.startsWith("/in/"), `${member.name}: invalid personal LinkedIn URL`)
+      }
+    }
   }
 })
 

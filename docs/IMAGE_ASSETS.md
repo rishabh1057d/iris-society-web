@@ -10,6 +10,7 @@ Website images live in `public/images` with lowercase, hyphen-separated names:
 - `meetups`: photowalk photos.
 - `team/optimized`: portraits used by the previous-members page.
 - `team/portraits`: retained alternative portraits, including previously unused originals.
+- `team/2026-2027`: new portraits for the current term, compressed as WebP with a maximum 900px edge. Existing portraits are reused where no replacement was supplied.
 - `beginner`: learning-specific illustrations. Lessons can also reuse gallery/POTW images.
 
 Most assets use WebP at quality 86. Photos are capped at a 2400px long edge;

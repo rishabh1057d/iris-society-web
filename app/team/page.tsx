@@ -132,7 +132,7 @@ function LinkedInButton({
       href={memberLinkedIn(member)}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label={`${member.name} on LinkedIn`}
+      aria-label={member.linkedin?.trim() ? `${member.name} on LinkedIn` : "IRIS Society on LinkedIn"}
       onClick={(e) => e.stopPropagation()}
       className={cn(
         "inline-flex items-center justify-center rounded-full text-sky-300 transition",
@@ -369,7 +369,7 @@ function MemberDetail({
               className="event-glass-chip inline-flex min-h-[40px] items-center gap-2 rounded-full px-4 text-sm font-medium text-sky-100 transition hover:bg-white/10 active:scale-95"
             >
               <Linkedin className="h-4 w-4" />
-              LinkedIn
+              {member.linkedin?.trim() ? "LinkedIn" : "IRIS Society on LinkedIn"}
             </Link>
           </div>
         </div>
@@ -579,7 +579,8 @@ export default function Team() {
 
           {!loading && teamCount > 0 && (
             <p className="mt-5 text-xs tabular-nums text-slate-500">
-              {teamCount} people · {activeSections.length + 1} groups this tenure
+              {currentMembers.tenure && `Tenure ${currentMembers.tenure} · `}
+              {teamCount} people · {activeSections.length + 1} groups
             </p>
           )}
           {!loading && recruiting && teamCount === 0 && currentMembers.tenure && (
