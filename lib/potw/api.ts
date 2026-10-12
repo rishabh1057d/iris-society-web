@@ -1,7 +1,7 @@
 import "server-only"
 import { z } from "zod"
 import { supabaseServer as db, databaseConfigured } from "../supabase-server"
-import { adminAuth, studentAuth, respond, failure, rpc, publicLanding, publicCompetition, competition, competitionFields, photoVersion, canReadPhoto, PotwError, enabled } from "./server"
+import { adminAuth, studentAuth, respond, failure, rpc, publicLanding, publicCompetition, competition, competitionFields, photoVersion, canReadPhoto, PotwError, enabled, testMode } from "./server"
 import { competitionSchema, metadataSchema, parseRosterCsv, uploadSchema, uuid } from "./validation"
 import { processPhoto } from "./images"
 import { readUpload, removeObject, signedImage, signedUpload, storageConfigured, versionKeys, writePhoto } from "./r2"
@@ -64,7 +64,7 @@ export async function memberHandler(request: Request, path: string[]) {
     if (method === "GET" && path[0] === "my-submissions") {
       await rpc("potw_advance")
       const { start, end } = page(request, 20)
-      const { data, error } = await db.from("potw_submissions").select("id,competition_id,title,caption,state,review,current_version_id,created_at,updated_at,potw_competitions!potw_submissions_competition_id_fkey(*)", { count: "exact" }).eq("student_id", student.id).order("created_at", { ascending: false }).range(start, end)
+      const { data, error } = await db.from("potw_submissions").select("id,competition_id,title,caption,state,review,current_version_id,created_at,updated_at,potw_competitions!potw_submissions_competition_id_fkey!inner(*)", { count: "exact" }).eq("student_id", student.id).eq("potw_competitions.is_test", testMode).order("created_at", { ascending: false }).range(start, end)
       checkDatabaseError(error)
       const entries = (data ?? []).map(entry => {
         const c = entry.potw_competitions as unknown as Competition
@@ -186,11 +186,11 @@ export async function adminHandler(request: Request, path: string[]) {
       }
       if (path[0] === "storage") {
         const usage = await rpc<{ bytes: number; reserved: number }>("potw_storage_usage")
-        return respond({ configured: storageConfigured, enabled, ...usage, budget: Number(process.env.POTW_STORAGE_BUDGET_BYTES) || 8000000000 })
+        return respond({ configured: storageConfigured, enabled, testMode, ...usage, budget: Number(process.env.POTW_STORAGE_BUDGET_BYTES) || 8000000000 })
       }
       await rpc("potw_advance")
       if (!path.length || (path[0] === "competitions" && path.length === 1)) {
-        const { data, error } = await db.from("potw_competitions").select("*").order("created_at", { ascending: false }).limit(100)
+        const { data, error } = await db.from("potw_competitions").select("*").eq("is_test", testMode).order("created_at", { ascending: false }).limit(100)
         checkDatabaseError(error); return respond({ competitions: data })
       }
       if (path[0] === "competitions" && path.length === 2) {
@@ -217,7 +217,7 @@ export async function adminHandler(request: Request, path: string[]) {
     if (path[0] !== "competitions") throw new PotwError("Endpoint not found", 404)
     if (path.length === 1 || (path.length === 2 && request.method === "PATCH")) {
       const input = competitionSchema.parse(await body(request))
-      return respond(await rpc("potw_admin_action", { p_actor: actor, p_comp: path.length === 2 ? uuid.parse(path[1]) : null, p_action: path.length === 1 ? "create" : "update", p_data: input }))
+      return respond(await rpc("potw_admin_action", { p_actor: actor, p_comp: path.length === 2 ? uuid.parse(path[1]) : null, p_action: path.length === 1 ? "create" : "update", p_data: { ...input, is_test: testMode } }))
     }
     if (path.length !== 3) throw new PotwError("Endpoint not found", 404)
     const id = uuid.parse(path[1]), action = path[2]

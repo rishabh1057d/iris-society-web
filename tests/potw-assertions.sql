@@ -12,6 +12,9 @@ do $$ begin
   if has_function_privilege('authenticated','public.potw_cast_vote(uuid,uuid,uuid)','EXECUTE') or has_function_privilege('anon','potw_private.approved_identity(uuid)','EXECUTE') then raise exception 'Privileged functions exposed'; end if;
 end $$;
 set local role service_role;
+select public.potw_admin_roster('10000000-0000-4000-8000-000000000001', '[{"student_id":"fixture-a","email":"fixture@ae.study.iitm.ac.in","display_name":"Fixture A"},{"student_id":"fixture-b","email":"fixture@mg.study.iitm.ac.in","display_name":"Fixture B"}]'::jsonb);
+select pg_temp.expect_error($q$insert into public.potw_student_emails(email,student_id) values('fixture@gmail.com','20000000-0000-4000-8000-000000000001')$q$,'23514');
+select pg_temp.expect_error($q$insert into public.potw_student_emails(email,student_id) values('fixture@ae.study.iitm.ac.in.attacker.test','20000000-0000-4000-8000-000000000001')$q$,'23514');
 select public.potw_identity('10000000-0000-4000-8000-000000000001');
 select public.potw_identity('10000000-0000-4000-8000-000000000003');
 select pg_temp.expect_error($q$select public.potw_identity('10000000-0000-4000-8000-000000000004')$q$,'PT403');
@@ -129,5 +132,20 @@ do $$ declare usage jsonb; actual bigint; begin
   usage:=public.potw_storage_usage();
   select coalesce(sum(bytes),0) into actual from public.potw_photo_versions where purged_at is null;
   if (usage->>'bytes')::bigint<>actual then raise exception 'Storage total is incorrect'; end if;
+end $$;
+-- Branch tests can publish and switch their own featured competition, never the official one.
+do $$ declare official uuid; first_test jsonb; next_test jsonb; payload jsonb; begin
+  select id into official from public.potw_competitions where featured and published_at is not null and not is_test;
+  payload:=jsonb_build_object('theme','Internal test','description','Test','rules','Test','featured',true,'is_test',true,'submissions_open_at',clock_timestamp()+interval '5 days','submissions_close_at',clock_timestamp()+interval '6 days','voting_open_at',clock_timestamp()+interval '7 days','voting_close_at',clock_timestamp()+interval '8 days');
+  first_test:=public.potw_admin_action('10000000-0000-4000-8000-000000000001','create',null,payload);
+  perform public.potw_admin_action('10000000-0000-4000-8000-000000000001','transition',(first_test->>'id')::uuid,'{"target":"scheduled"}');
+  if not (select featured from public.potw_competitions where id=official) then raise exception 'Test publication hid official competition'; end if;
+  next_test:=public.potw_admin_action('10000000-0000-4000-8000-000000000001','create',null,payload);
+  perform public.potw_admin_action('10000000-0000-4000-8000-000000000001','transition',(next_test->>'id')::uuid,'{"target":"scheduled"}');
+  if (select featured from public.potw_competitions where id=(first_test->>'id')::uuid) then raise exception 'Test featured competition was not switched'; end if;
+  if not (select featured from public.potw_competitions where id=official) then raise exception 'Test switch hid official competition'; end if;
+  perform public.potw_admin_action('10000000-0000-4000-8000-000000000001','update',(next_test->>'id')::uuid,payload);
+  if not (select featured from public.potw_competitions where id=official) then raise exception 'Test edit hid official competition'; end if;
+  if exists(select 1 from public.potw_competitions where not is_test and theme='Internal test') then raise exception 'Test mode was not persisted'; end if;
 end $$;
 select 'POTW transactional assertions passed' as result;

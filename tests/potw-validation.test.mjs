@@ -13,6 +13,16 @@ test("roster CSV supports quoted names and approved aliases without trusting ID 
   assert.throws(() => validation.parseRosterCsv('student_id,email,display_name\na,x@ds.study.iitm.ac.in,Name\nb,x@ds.study.iitm.ac.in,Other'))
   assert.throws(() => validation.parseRosterCsv('student_id,email,display_name\na,x@ds.study.iitm.ac.in,"Unclosed'))
 })
+
+test("roster imports accept AE and MG alongside DS and ES, but no generic or lookalike domains", () => {
+  for (const program of ["ds", "es", "ae", "mg"]) {
+    const rows = validation.parseRosterCsv(`student_id,email,display_name\nfixture, FIXTURE@${program.toUpperCase()}.STUDY.IITM.AC.IN ,Fixture`)
+    assert.equal(rows[0].email, `fixture@${program}.study.iitm.ac.in`)
+  }
+  for (const domain of ["study.iitm.ac.in", "gmail.com", "ae.study.iitm.ac.in.attacker.test", "not-mg.study.iitm.ac.in"]) {
+    assert.throws(() => validation.parseRosterCsv(`student_id,email,display_name\nfixture,fixture@${domain},Fixture`))
+  }
+})
 test("upload and competition inputs reject forged identity, excessive bytes and invalid dates", () => {
   const upload = { competition_id: "30000000-0000-4000-8000-000000000001", bytes: 1024, content_type: "image/jpeg", title: "Photo" }
   assert.equal(validation.uploadSchema.parse(upload).purpose, "submission")
@@ -58,6 +68,7 @@ test("R2 CORS manifests use exact production/development origins and no display 
   for (const name of ["originals", "display"]) {
     const { CORSRules } = JSON.parse(readFileSync(`infra/r2/potw-${name}-cors.json`, "utf8"))
     assert.ok(CORSRules[0].AllowedOrigins.includes("https://iris-society.iitmbs.org"))
+    assert.ok(CORSRules[0].AllowedOrigins.includes("https://iris-society-iitmbs-git-feature-p-1587b6-rishabh1057ds-projects.vercel.app"))
     assert.ok(CORSRules[0].AllowedOrigins.every(origin => !origin.includes("*")))
     assert.equal(CORSRules[0].AllowedMethods.includes("PUT"), name === "originals")
   }

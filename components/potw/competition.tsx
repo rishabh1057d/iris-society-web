@@ -5,6 +5,7 @@ import { deadlineLabel } from "@/lib/potw/types"
 export function CompetitionPanel({ competition: c }: { competition: PublicCompetition | null }) {
   if (!c) return <section className="event-glass mb-8 rounded-2xl p-6"><h2 className="text-xl font-semibold">The next theme is on its way</h2><p className="mt-2 text-white/80">Previous winners are below. Student submissions open when the society publishes a competition.</p></section>
   return <section className="event-glass mb-8 overflow-hidden rounded-2xl">
+    {c.is_test && <p role="status" className="border-b border-amber-200/20 bg-amber-950/40 p-4 text-amber-100">Internal testing competition. These entries, votes, and results will not appear in the official competition.</p>}
     {c.banner && <img src={c.banner} alt="" className="max-h-72 w-full object-cover" width={1200} height={400} />}
     <div className="space-y-5 p-5 sm:p-8"><p className="text-sm uppercase tracking-widest text-white/80">{c.status.replaceAll("_", " ")}{c.voting_skipped && !c.result ? " · single finalist" : ""}</p>
       <h2 className="text-3xl font-semibold">{c.theme}</h2><p className="max-w-3xl whitespace-pre-wrap text-white/85">{c.description}</p>

@@ -1,9 +1,10 @@
 import { MetadataRoute } from 'next'
-import { publicLanding } from '@/lib/potw/server'
+import { publicLanding, testMode } from '@/lib/potw/server'
 
 export const dynamic = 'force-dynamic'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  if (testMode) return []
   const lastModified = new Date();
   const baseUrl = 'https://iris-society.iitmbs.org';
   const potw = await publicLanding();

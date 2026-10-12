@@ -1,7 +1,7 @@
 export const PHASES = ["draft", "scheduled", "submissions_open", "review", "voting_open", "voting_closed", "completed", "archived"] as const
 export type Phase = typeof PHASES[number]
 export type Competition = {
-  id: string; theme: string; description: string; rules: string; status: Phase; featured: boolean
+  id: string; theme: string; description: string; rules: string; status: Phase; featured: boolean; is_test?: boolean
   submissions_open_at: string; submissions_close_at: string; voting_open_at: string; voting_close_at: string
   published_at: string | null; shortlist_confirmed_at: string | null; locked_at: string | null
   banner_version_id: string | null; voting_skipped: boolean; created_at: string; updated_at: string
@@ -27,6 +27,7 @@ export type GalleryPhoto = { id: string; title: string; caption: string; version
 export type ImageAccess = { url: string; expires_at: string }
 export const UPLOAD_TYPES = ["image/jpeg", "image/png", "image/webp"] as const
 export const MAX_UPLOAD_BYTES = 5 * 1024 * 1024
+export const STUDENT_EMAIL_PATTERN = /@(ds|es|ae|mg)\.study\.iitm\.ac\.in$/i
 export function deadlineLabel(value: string) {
   return new Intl.DateTimeFormat("en-IN", { timeZone: "Asia/Kolkata", dateStyle: "medium", timeStyle: "short" }).format(new Date(value)) + " IST"
 }

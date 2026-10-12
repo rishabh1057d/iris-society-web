@@ -1,6 +1,6 @@
 {
   "CORSRules": [{
-    "AllowedOrigins": ["https://iris-society.iitmbs.org", "http://localhost:3000", "http://127.0.0.1:3000", "http://localhost:3001", "http://127.0.0.1:3001"],
+    "AllowedOrigins": ["https://iris-society.iitmbs.org", "http://localhost:3000", "http://127.0.0.1:3000", "http://localhost:3001", "http://127.0.0.1:3001", "https://iris-society-iitmbs-git-feature-p-1587b6-rishabh1057ds-projects.vercel.app"],
     "AllowedMethods": ["PUT", "GET", "HEAD"],
     "AllowedHeaders": ["content-type", "range"],
     "ExposeHeaders": ["ETag", "Content-Length"],

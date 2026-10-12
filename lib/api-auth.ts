@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { supabaseServer, databaseConfigured } from "./supabase-server"
+import { supabaseServer, databaseConfigured, trustedPotwPreview } from "./supabase-server"
 
 export async function requireUser(request: Request) {
   const authorization = request.headers.get("authorization")
@@ -7,7 +7,8 @@ export async function requireUser(request: Request) {
   if (!token) {
     return { user: null, error: NextResponse.json({ success: false, error: "Sign in required" }, { status: 401 }) }
   }
-  if (!databaseConfigured) {
+  const previewPathAllowed = /^\/api\/(?:potw(?:\/|$)|admin\/(?:potw(?:\/|$)|me$))/.test(new URL(request.url).pathname)
+  if (!databaseConfigured || (trustedPotwPreview && !previewPathAllowed)) {
     return { user: null, error: NextResponse.json({ success: false, error: "Database features are unavailable in this environment" }, { status: 503 }) }
   }
 

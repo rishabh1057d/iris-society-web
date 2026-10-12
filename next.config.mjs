@@ -1,13 +1,15 @@
 /** @type {import('next').NextConfig} */
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
+import { potwPreviewAllowed, potwTestMode } from './lib/potw-preview.mjs'
 
 const imagePaths = JSON.parse(readFileSync(new URL('./lib/image-paths.json', import.meta.url), 'utf8'))
 
 const nextConfig = {
   outputFileTracingRoot: fileURLToPath(new URL('.', import.meta.url)),
   env: {
-    NEXT_PUBLIC_DATABASE_DISABLED: process.env.VERCEL_ENV === 'preview' ? '1' : '0',
+    NEXT_PUBLIC_DATABASE_DISABLED: process.env.VERCEL_ENV === 'preview' && !potwPreviewAllowed(process.env) ? '1' : '0',
+    NEXT_PUBLIC_POTW_TEST_MODE: potwTestMode(process.env) ? '1' : '0',
   },
   async redirects() {
     return Object.entries(imagePaths).flatMap(([oldPath, destination]) => {

@@ -18,6 +18,7 @@ export function loadPotw(path, stubs = {}, env = {}, cache = new Map()) {
         const file = resolve(dirname(absolute), name)
         if (existsSync(file + ".ts")) return loadPotw(file + ".ts", stubs, env, cache)
         if (file.endsWith(".json")) return JSON.parse(readFileSync(file, "utf8"))
+        if (file.endsWith(".mjs")) return nativeRequire(file)
       }
       return nativeRequire(name)
     },

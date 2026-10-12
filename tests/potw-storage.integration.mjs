@@ -18,12 +18,14 @@ test("live private R2 signed upload, sanitized delivery, CORS and cleanup", { sk
   const staging = `staging/launch-check-${randomUUID()}`
   const keys = storage.versionKeys(randomUUID(), randomUUID())
   const objects = [[staging, true], [keys.original_key, true], [keys.display_key, false], [keys.thumbnail_key, false]]
-  const origin = "https://iris-society.iitmbs.org"
+  const origin = process.env.POTW_TEST_ORIGIN || "https://iris-society.iitmbs.org"
   const request = (url, options = {}) => fetch(url, { ...options, signal: AbortSignal.timeout(15000) })
+  let stage = "image preparation"
   try {
     const source = await sharp({ create: { width: 96, height: 64, channels: 3, background: "#5149a1" } })
       .jpeg().withExif({ IFD0: { Artist: "Synthetic launch check" } }).toBuffer()
     const upload = await storage.signedUpload(staging, source.length, "image/jpeg", 120)
+    stage = "upload CORS"
     for (const allowedOrigin of [origin, "http://localhost:3000", "http://127.0.0.1:3001"]) {
       const preflight = await request(upload, { method: "OPTIONS", headers: { Origin: allowedOrigin, "Access-Control-Request-Method": "PUT", "Access-Control-Request-Headers": "content-type" } })
       assert.ok(preflight.ok, "Upload preflight must succeed")
@@ -31,20 +33,24 @@ test("live private R2 signed upload, sanitized delivery, CORS and cleanup", { sk
     }
     const blocked = await request(upload, { method: "OPTIONS", headers: { Origin: "https://untrusted.invalid", "Access-Control-Request-Method": "PUT", "Access-Control-Request-Headers": "content-type" } })
     assert.notEqual(blocked.headers.get("access-control-allow-origin"), "https://untrusted.invalid")
+    stage = "upload signature enforcement"
     const wrongType = await request(upload, { method: "PUT", headers: { "Content-Type": "image/png" }, body: source })
     assert.equal(wrongType.status, 403, "The signed MIME type must be enforced")
     const wrongLength = await request(upload, { method: "PUT", headers: { "Content-Type": "image/jpeg" }, body: Buffer.concat([source, Buffer.from([0])]) })
     assert.equal(wrongLength.status, 403, "The signed byte length must be enforced")
+    stage = "direct upload"
     const uploaded = await request(upload, { method: "PUT", headers: { "Content-Type": "image/jpeg", Origin: origin }, body: source })
     assert.ok(uploaded.ok, "Direct signed PUT must succeed")
     assert.equal(uploaded.headers.get("access-control-allow-origin"), origin)
     assert.deepEqual(await storage.readUpload(staging, source.length, "image/jpeg"), source)
     await assert.rejects(storage.readUpload(staging, source.length + 1, "image/jpeg"))
+    stage = "sanitized display processing"
     const photo = await processPhoto(source, "image/jpeg")
     await storage.writePhoto(keys.original_key, source, "image/jpeg", true)
     await storage.writePhoto(keys.display_key, photo.display, "image/webp")
     await storage.writePhoto(keys.thumbnail_key, photo.thumbnail, "image/webp")
     const { url } = await storage.signedImage(keys.display_key)
+    stage = "display delivery and CORS"
     const display = await request(url, { headers: { Origin: origin } })
     assert.ok(display.ok, "Authorized display GET must succeed")
     assert.equal(display.headers.get("access-control-allow-origin"), origin)
@@ -52,6 +58,7 @@ test("live private R2 signed upload, sanitized delivery, CORS and cleanup", { sk
     const downloaded = Buffer.from(await display.arrayBuffer())
     assert.deepEqual(downloaded, photo.display)
     assert.equal((await sharp(downloaded).metadata()).exif, undefined)
+    stage = "private object access"
     const unsigned = new URL(url); unsigned.search = ""
     assert.equal((await request(unsigned)).ok, false, "The existing display object must not be publicly readable")
     const original = await storage.signedImage(keys.original_key, true, 60)
@@ -60,12 +67,13 @@ test("live private R2 signed upload, sanitized delivery, CORS and cleanup", { sk
     assert.deepEqual(Buffer.from(await fullResolution.arrayBuffer()), source)
     const unsignedOriginal = new URL(original.url); unsignedOriginal.search = ""
     assert.equal((await request(unsignedOriginal)).ok, false, "The existing original must remain private")
+    stage = "signed URL expiry"
     const expiring = await storage.signedImage(keys.display_key, false, 1)
     await new Promise(resolve => setTimeout(resolve, 2100))
     assert.equal((await request(expiring.url)).ok, false, "An expired bearer link must be rejected")
   } catch (error) {
     // Signed bearer URLs and SDK credentials must never appear in test failure output.
-    throw new Error(`Live R2 check failed: ${error.code ?? error.name} (${error.$metadata?.httpStatusCode ?? "check failed"})`)
+    throw new Error(`Live R2 check failed at ${stage}: ${error.code ?? error.name} (${error.$metadata?.httpStatusCode ?? "check failed"})`)
   } finally {
     const cleaned = await Promise.allSettled(objects.map(([key, original]) => storage.removeObject(key, original)))
     assert.ok(cleaned.every(result => result.status === "fulfilled"), "Synthetic test object cleanup failed")

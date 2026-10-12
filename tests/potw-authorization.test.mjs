@@ -21,6 +21,20 @@ test("verified institutional Google member passes; forged metadata and unapprove
   await assert.rejects(fixture({ approved: false }).server.studentAuth(request()), /Approved IRIS/)
   assert.equal((await fixture({ provider: "email" }).server.studentAuth(request())).error.status, 403)
 })
+
+test("all four BS domains require roster approval and exact domain matching", async () => {
+  for (const program of ["ds", "es", "ae", "mg"]) {
+    const userEmail = `fixture@${program}.study.iitm.ac.in`
+    assert.equal((await fixture({ userEmail }).server.studentAuth(request())).error, null)
+    await assert.rejects(fixture({ userEmail, approved: false }).server.studentAuth(request()), /Approved IRIS/)
+    assert.equal((await fixture({ userEmail, provider: "email" }).server.studentAuth(request())).error.status, 403)
+  }
+  for (const userEmail of ["fixture@study.iitm.ac.in", "fixture@gmail.com", "fixture@ae.study.iitm.ac.in.attacker.test", "fixture@not-mg.study.iitm.ac.in"]) {
+    const app = fixture({ userEmail })
+    assert.equal((await app.server.studentAuth(request())).error.status, 403)
+    assert.equal(app.queries(), 0)
+  }
+})
 test("disabled and preview environments fail closed", async () => {
   assert.equal((await fixture({ enabled: "0" }).server.studentAuth(request())).error.status, 503)
   assert.equal((await fixture({ enabled: "" }).server.studentAuth(request())).error.status, 503)

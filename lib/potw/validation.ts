@@ -1,5 +1,5 @@
 import { z } from "zod"
-import { UPLOAD_TYPES, MAX_UPLOAD_BYTES } from "./types"
+import { UPLOAD_TYPES, MAX_UPLOAD_BYTES, STUDENT_EMAIL_PATTERN } from "./types"
 
 export const uuid = z.string().uuid()
 export const metadataSchema = z.object({ title: z.string().trim().min(1).max(120), caption: z.string().trim().max(2000).default("") }).strict()
@@ -16,7 +16,7 @@ export const uploadSchema = z.object({
 }).strict()
 export const rosterSchema = z.array(z.object({
   student_id: z.string().trim().min(1).max(80).transform(v => v.toLowerCase()),
-  email: z.string().trim().email().max(254).transform(v => v.toLowerCase()).refine(v => /@(ds|es)\.study\.iitm\.ac\.in$/.test(v), "Institutional email required"),
+  email: z.string().trim().email().max(254).transform(v => v.toLowerCase()).refine(v => STUDENT_EMAIL_PATTERN.test(v), "Institutional email required"),
   display_name: z.string().trim().min(1).max(120),
 }).strict()).min(1).max(2000).superRefine((rows, ctx) => {
   const emails = new Set<string>()

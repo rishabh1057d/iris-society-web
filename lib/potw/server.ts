@@ -5,10 +5,27 @@ import { databaseConfigured, supabaseServer as db } from "../supabase-server"
 import { isUnusablePotw, selectFeaturedPotw, type PotwTree } from "../potw"
 import archive from "../../public/potw.json"
 import type { Competition, PhotoVersion, PublicCompetition, Result, Student, Submission } from "./types"
+import { STUDENT_EMAIL_PATTERN } from "./types"
+import { potwTestMode } from "../potw-preview.mjs"
 
 export const enabled = databaseConfigured && process.env.POTW_ENABLED === "1"
+export const testMode = potwTestMode(process.env)
 export class PotwError extends Error { constructor(message: string, public status = 400) { super(message) } }
+async function assertCompetitionScope(id: string) {
+  const { data, error } = await db.from("potw_competitions").select("id").eq("id", id).eq("is_test", testMode).single()
+  if (error || !data) throw new PotwError("Competition not found", 404)
+}
 export async function rpc<T>(name: string, args: Record<string, unknown> = {}): Promise<T> {
+  if (testMode && (name === "potw_admin_roster" || (name === "potw_admin_action" && ["approve_student", "revoke_student"].includes(String(args.p_action))))) {
+    throw new PotwError("The society roster is read-only in internal testing", 403)
+  }
+  if (typeof args.p_comp === "string") await assertCompetitionScope(args.p_comp)
+  const scopedTable = ({ potw_edit_submission: "potw_submissions", potw_claim_upload: "potw_upload_sessions", potw_complete_upload: "potw_upload_sessions" } as Record<string, string>)[name]
+  if (scopedTable && typeof args.p_id === "string") {
+    const { data, error } = await db.from(scopedTable).select("competition_id").eq("id", args.p_id).single()
+    if (error || !data) throw new PotwError("Submission or upload not found", 404)
+    await assertCompetitionScope(data.competition_id)
+  }
   const { data, error } = await db.rpc(name, args)
   if (error) {
     const status = /^PT\d{3}$/.test(error.code) ? Number(error.code.slice(2)) : error.code === "23505" ? 409 : 500
@@ -30,7 +47,7 @@ export async function studentAuth(request: Request) {
   if (auth.error) return { error: auth.error, user: null, student: null }
   if (!enabled) return { error: respond({ error: "Student POTW features are not enabled yet" }, 503), user: null, student: null }
   const user = auth.user!
-  if (!user.identities?.some(i => i.provider === "google") || !/@(ds|es)\.study\.iitm\.ac\.in$/i.test(user.email!)) {
+  if (!user.identities?.some(i => i.provider === "google") || !STUDENT_EMAIL_PATTERN.test(user.email!)) {
     return { error: respond({ error: "Sign in with your approved IITM BS Google account" }, 403), user: null, student: null }
   }
   const id = await rpc<string>("potw_identity", { p_actor: user.id })
@@ -41,7 +58,7 @@ export async function studentAuth(request: Request) {
 export async function adminAuth(request: Request) { return requireAdmin(request) }
 export async function competition(id: string, includeDraft = false): Promise<Competition> {
   await rpc("potw_advance", { p_comp: id })
-  let query = db.from("potw_competitions").select("*").eq("id", id)
+  let query = db.from("potw_competitions").select("*").eq("id", id).eq("is_test", testMode)
   if (!includeDraft) query = query.not("published_at", "is", null)
   const { data, error } = await query.single()
   if (error || !data) throw new PotwError("Competition not found", 404)
@@ -49,7 +66,7 @@ export async function competition(id: string, includeDraft = false): Promise<Com
 }
 export function competitionFields(c: Competition): Competition {
   // TypeScript types do not remove private fields returned by a database select.
-  return { id: c.id, theme: c.theme, description: c.description, rules: c.rules, status: c.status, featured: c.featured,
+  return { id: c.id, theme: c.theme, description: c.description, rules: c.rules, status: c.status, featured: c.featured, is_test: c.is_test,
     submissions_open_at: c.submissions_open_at, submissions_close_at: c.submissions_close_at, voting_open_at: c.voting_open_at, voting_close_at: c.voting_close_at,
     published_at: c.published_at, shortlist_confirmed_at: c.shortlist_confirmed_at, locked_at: c.locked_at, banner_version_id: c.banner_version_id,
     voting_skipped: c.voting_skipped, created_at: c.created_at, updated_at: c.updated_at }
@@ -76,7 +93,7 @@ export async function publicLanding() {
   if (!enabled) return fallback
   try {
     await rpc("potw_advance")
-    const { data, error } = await db.from("potw_competitions").select("*").not("published_at", "is", null).order("voting_close_at", { ascending: false }).limit(100)
+    const { data, error } = await db.from("potw_competitions").select("*").eq("is_test", testMode).not("published_at", "is", null).order("voting_close_at", { ascending: false }).limit(100)
     if (error) throw new PotwError("Unavailable", 503)
     const competitions = await publicCompetitions(data as Competition[])
     const { data: legacy } = await db.from("potw_legacy_archive").select("entry")
@@ -95,6 +112,7 @@ export async function publicLanding() {
 export async function photoVersion(id: string): Promise<PhotoVersion> {
   const { data, error } = await db.from("potw_photo_versions").select("*").eq("id", id).is("purged_at", null).is("purge_started_at", null).single()
   if (error || !data) throw new PotwError("Photo is unavailable", 404)
+  await assertCompetitionScope(data.competition_id)
   return data as PhotoVersion
 }
 export async function canReadPhoto(version: PhotoVersion, studentId: string, original = false) {
