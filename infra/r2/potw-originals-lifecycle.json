@@ -1,0 +1,10 @@
+{
+  "rules": [{
+    "id": "expire-abandoned-staging-1-day",
+    "enabled": true,
+    "conditions": { "prefix": "staging/" },
+    "deleteObjectsTransition": {
+      "condition": { "type": "Age", "maxAge": 86400 }
+    }
+  }]
+}

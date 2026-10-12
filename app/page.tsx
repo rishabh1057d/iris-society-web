@@ -13,7 +13,6 @@ import { motion, AnimatePresence, useAnimation, useInView, useScroll, useTransfo
 import SymphonyOverlay from "@/components/symphony-overlay"
 import HomeLanding from "@/components/home/home-landing"
 import "@/components/shutter-safari-popup.css"
-import { selectFeaturedPotw } from "@/lib/potw"
 function RainOverlay() {
   const palette = [
     '#fff2b2', // bright gold
@@ -514,7 +513,6 @@ import {
 export default function Home() {
   const [scrollY, setScrollY] = useState(0)
   const [isRedirecting, setIsRedirecting] = useState(false)
-  const [potwData, setPotwData] = useState<Record<string, Record<string, any[]>>>({})
   const [currentPotw, setCurrentPotw] = useState<any | null>(null)
   const [applyModalOpen, setApplyModalOpen] = useState(false)
   const heroRef = useRef<HTMLDivElement>(null)
@@ -702,23 +700,14 @@ export default function Home() {
 
   // Fetch POTW data from JSON
   useEffect(() => {
-    fetch("/potw.json")
+    fetch("/api/potw")
       .then((res) => res.json())
-      .then((data) => setPotwData(data))
+      .then((data) => setCurrentPotw(data.featured))
       .catch((err) => {
         console.error("Failed to load POTW data:", err)
-        setPotwData({})
+        setCurrentPotw(null)
       })
   }, [])
-
-  // Feature current week if present; otherwise always the latest real winner in the archive
-  useEffect(() => {
-    if (!potwData || Object.keys(potwData).length === 0) {
-      setCurrentPotw(null)
-      return
-    }
-    setCurrentPotw(selectFeaturedPotw(potwData))
-  }, [potwData])
 
   // Fetch recruiting status and popup config from current_members.json
   useEffect(() => {

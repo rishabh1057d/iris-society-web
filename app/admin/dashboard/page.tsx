@@ -1,43 +1,20 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
+import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Calendar, ClipboardList, Grid, Home, ImageIcon, Info, LogOut, Mail, Menu, X } from "lucide-react"
+import { SessionGate, usePotwSession } from "@/components/potw/session"
 
 export default function AdminDashboard() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
+  const auth = usePotwSession(true)
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const router = useRouter()
-
-  useEffect(() => {
-    // Check if user is authenticated
-    const token = localStorage.getItem("adminToken")
-    if (!token) {
-      router.push("/admin/login")
-    } else {
-      setIsAuthenticated(true)
-    }
-    setIsLoading(false)
-  }, [router])
-
-  const handleLogout = () => {
-    localStorage.removeItem("adminToken")
-    router.push("/admin/login")
-  }
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-900">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-      </div>
-    )
-  }
-
-  if (!isAuthenticated) {
-    return null // Will redirect in useEffect
+  if (!auth.ready) {
+    return <div className="page-shell max-w-2xl space-y-6 pb-24">
+      <header className="page-hero"><h1 className="page-hero-title">Admin sign in</h1><p className="page-hero-sub">Manage IRIS events and Photo of the Week.</p></header>
+      <SessionGate error={auth.error} signIn={auth.signIn} admin />
+      <Link className="btn-secondary" href="/potw">Back to Photo of the Week</Link>
+    </div>
   }
 
   return (
@@ -116,7 +93,7 @@ export default function AdminDashboard() {
 
           <div className="p-4 border-t border-gray-700">
             <button
-              onClick={handleLogout}
+              onClick={() => void auth.signOut()}
               className="flex items-center w-full px-4 py-3 text-gray-300 hover:bg-gray-700 rounded-md"
             >
               <LogOut className="h-5 w-5 mr-3" />

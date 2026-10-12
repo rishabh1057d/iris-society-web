@@ -8,4 +8,6 @@
 
 Moving the admin allowlist out of `public/` stops serving it from the site after deployment, but the old JSON remains in Git history. If those addresses require confidentiality, rotate to new admin aliases and review repository history separately.
 
+To add or remove an admin, edit the comma-separated `ADMIN_EMAILS` value in your ignored `.env.local` and restart the local server. Update the same variable in Vercel Production and redeploy for the website. Grants and removals only take effect in a deployment using the updated environment. Keep `.env.example` blank and do not commit real admin addresses. Google sign-in must match an allowlisted email exactly and have a confirmed Supabase session. This setting controls all existing admin APIs, including POTW, not just the POTW dashboard.
+
 Run `node --test tests/security-authorization.test.mjs` for authorization tests with fake users and database responses. With the local app running, run `node --test tests/security-smoke.test.mjs` to verify anonymous requests are denied; set `TEST_BASE_URL` to test a different local port.

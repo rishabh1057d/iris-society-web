@@ -1,10 +1,15 @@
 import { MetadataRoute } from 'next'
+import { publicLanding } from '@/lib/potw/server'
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export const dynamic = 'force-dynamic'
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastModified = new Date();
-  const baseUrl = 'https://iris-society-web.vercel.app';
+  const baseUrl = 'https://iris-society.iitmbs.org';
+  const potw = await publicLanding();
 
   return [
+    ...potw.competitions.map(c => ({ url: `${baseUrl}/potw/competitions/${c.id}`, lastModified: new Date(c.updated_at), changeFrequency: 'weekly' as const, priority: 0.6 })),
     {
       url: `${baseUrl}/`,
       lastModified,
@@ -60,4 +65,4 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: 0.8,
     },
   ]
-} 
+}

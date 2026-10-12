@@ -75,6 +75,19 @@ test("admin authorization uses the server allowlist, normalizes case, and fails 
   assert.equal((await fixture(adminEmail, { admins: "" }).auth.requireAdmin(request())).error.status, 403)
 })
 
+test("comma-separated admin grants and removals require an exact confirmed email match", async () => {
+  const secondAdmin = "second-admin@example.com"
+  const admins = ` ${adminEmail}, ${secondAdmin.toUpperCase()}, `
+  for (const email of [adminEmail, secondAdmin]) {
+    assert.equal((await fixture(email, { admins }).auth.requireAdmin(request())).error, null)
+  }
+  assert.equal((await fixture(secondAdmin, { admins: adminEmail }).auth.requireAdmin(request())).error.status, 403)
+  for (const email of ["admin@example.com.attacker.test", "not-admin@example.com"]) {
+    assert.equal((await fixture(email, { admins }).auth.requireAdmin(request())).error.status, 403)
+  }
+  assert.equal((await fixture(secondAdmin, { admins, confirmed: false }).auth.requireAdmin(request())).error.status, 401)
+})
+
 test("every admin handler denies a signed-in non-admin before database access", async () => {
   for (const [name, method] of [["event-config", "GET"], ["event-config", "PUT"], ["event-names", "GET"], ["registrations", "GET"], ["upload-poster", "POST"], ["me", "GET"]]) {
     const app = fixture()

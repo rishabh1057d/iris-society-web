@@ -2,7 +2,7 @@ name: CI
 on:
   pull_request:
   push:
-    branches: [main]
+    branches: [main, feature/potw-platform]
 permissions:
   contents: read
 concurrency:
@@ -13,6 +13,19 @@ jobs:
     name: checks
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:17.11
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: local_test_only
+          POSTGRES_DB: iris_potw_test
+        ports: [5432:5432]
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -39,6 +52,11 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm audit --prod
       - run: pnpm test
+      - run: pnpm test:potw
+      - run: pnpm test:potw:db
+        env:
+          POTW_TEST_DATABASE_URL: postgresql://postgres:local_test_only@localhost:5432/iris_potw_test
+      - run: pnpm lint:potw
       - run: pnpm build
       - run: pnpm typecheck
       - name: Smoke-test the built site
