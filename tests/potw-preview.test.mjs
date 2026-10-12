@@ -2,6 +2,20 @@ import test from "node:test"
 import assert from "node:assert/strict"
 import { loadPotw } from "./potw-module.mjs"
 
+test("private storage only accepts the enabled trusted branch, even if a fork receives credentials", async () => {
+  class PotwError extends Error {}
+  const env = { VERCEL_ENV: "preview", VERCEL_GIT_COMMIT_REF: "feature/potw-platform", VERCEL_GIT_REPO_OWNER: "rishabh1057d", VERCEL_GIT_REPO_SLUG: "iris-society-web", POTW_PREVIEW_ENABLED: "1", POTW_TEST_MODE: "1", R2_ACCOUNT_ID: "fixture-account", R2_ACCESS_KEY_ID: "fixture-access", R2_SECRET_ACCESS_KEY: "fixture-secret", R2_ORIGINALS_BUCKET: "fixture-originals", R2_DISPLAY_BUCKET: "fixture-display" }
+  const stubs = { "./server": { PotwError } }
+  const storage = loadPotw("lib/potw/r2.ts", stubs, env)
+  assert.equal(storage.storageConfigured, true)
+  assert.ok((await storage.signedUpload("staging/fixture", 1024, "image/jpeg", 120)).includes("X-Amz-Signature="))
+  for (const override of [{ VERCEL_GIT_REPO_OWNER: "fork-owner" }, { VERCEL_GIT_COMMIT_REF: "main" }, { POTW_PREVIEW_ENABLED: "0" }, { R2_SECRET_ACCESS_KEY: "" }]) {
+    const blocked = loadPotw("lib/potw/r2.ts", stubs, { ...env, ...override })
+    assert.equal(blocked.storageConfigured, false)
+    await assert.rejects(blocked.signedUpload("staging/fixture", 1024, "image/jpeg", 120), /not configured/)
+  }
+})
+
 function scopedServer(isTest, env) {
   let calls = 0
   const db = { rpc: async () => { calls++; return { data: "allowed", error: null } }, from(table) {

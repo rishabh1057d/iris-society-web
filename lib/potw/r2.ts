@@ -2,8 +2,9 @@ import "server-only"
 import { DeleteObjectCommand, GetObjectCommand, HeadObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3"
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner"
 import { PotwError } from "./server"
+import { potwPreviewAllowed } from "../potw-preview.mjs"
 
-export const storageConfigured = process.env.VERCEL_ENV !== "preview" && ["R2_ACCOUNT_ID", "R2_ACCESS_KEY_ID", "R2_SECRET_ACCESS_KEY", "R2_ORIGINALS_BUCKET", "R2_DISPLAY_BUCKET"].every(k => !!process.env[k])
+export const storageConfigured = (process.env.VERCEL_ENV !== "preview" || potwPreviewAllowed(process.env)) && ["R2_ACCOUNT_ID", "R2_ACCESS_KEY_ID", "R2_SECRET_ACCESS_KEY", "R2_ORIGINALS_BUCKET", "R2_DISPLAY_BUCKET"].every(k => !!process.env[k])
 export const originalsBucket = process.env.R2_ORIGINALS_BUCKET || "iris-potw-originals"
 export const displayBucket = process.env.R2_DISPLAY_BUCKET || "iris-potw-display"
 let client: S3Client | undefined
