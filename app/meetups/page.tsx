@@ -64,7 +64,7 @@ export default function Meetups() {
           alt={meetup.title}
           width={300}
           height={400}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-contain"
         />
       </div>
       <div className="p-5 md:p-6">

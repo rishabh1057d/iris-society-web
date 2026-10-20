@@ -4,7 +4,7 @@
       "id": 1,
       "name": "T. Hasini Reddy",
       "role": "Secretary",
-      "description": "Coordinates society events and operations.",
+      "description": "Leads IRIS Society and works with the team to plan events, support members, and keep the society running.",
       "image": "/images/team/optimized/t-hasini-reddy.webp",
       "linkedin": "https://www.linkedin.com/in/hasinireddy22"
     },
@@ -13,11 +13,28 @@
       "name": "Vishal",
       "role": "Deputy Secretary",
       "description": "Deputy Secretary, IRIS Society (2026-2027).",
-      "image": "/placeholder.svg",
+      "image": "/images/team/2026-2027/vishal-deputy-secretary.webp",
       "linkedin": ""
     }
   ],
-  "Coordinators": [],
+  "Coordinators": [
+    {
+      "id": 1,
+      "name": "Daksh Prajapati",
+      "role": "Coordinator",
+      "description": "Coordinates events and works with the team on photography and videography projects.",
+      "image": "/images/team/2026-2027/daksh-prajapati.webp",
+      "linkedin": "https://www.linkedin.com/in/daksh-prajapati-a57857228/"
+    },
+    {
+      "id": 2,
+      "name": "M. Hema Varshini",
+      "role": "Coordinator",
+      "description": "Coordinates society activities and helps the team keep members informed and involved.",
+      "image": "/images/team/2026-2027/m-hema-varshni.webp",
+      "linkedin": "https://www.linkedin.com/in/hema-varshni-manivannan"
+    }
+  ],
   "OutreachAndSponsor": [
     {
       "id": 1,
@@ -75,7 +92,7 @@
       "id": 1,
       "name": "Tanushree Dey",
       "role": "Graphic Designer",
-      "description": "Multimedia Team",
+      "description": "Creates posters, event graphics, and social media designs for the society.",
       "image": "/images/team/optimized/tanushree-dey.jpg",
       "linkedin": "https://www.linkedin.com/in/tanushree-dey-614397259/"
     },
@@ -102,12 +119,20 @@
       "description": "Multimedia Team",
       "image": "/images/team/2026-2027/megha-sharma.webp",
       "linkedin": "https://www.linkedin.com/in/megha-sharma-9489a3357"
+    },
+    {
+      "id": 5,
+      "name": "Keshav Malik",
+      "role": "Core Operations & Graphic Designer",
+      "description": "Supports society operations and creates graphics for events and social media.",
+      "image": "/images/team/optimized/keshav-malik.webp",
+      "linkedin": "https://www.linkedin.com/in/keshav-malik-6446703a2/"
     }
   ],
   "ContentStrategyPR": [
     {
       "id": 1,
-      "name": "M. Hema Varshni",
+      "name": "M. Hema Varshini",
       "role": "Content Strategist",
       "description": "Content Strategy & PR Team",
       "image": "/images/team/2026-2027/m-hema-varshni.webp",

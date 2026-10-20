@@ -75,3 +75,38 @@ test("legacy redirects cover every old URL without chains or loops", async () =>
     assert(redirects.some(rule => rule.source === source && rule.destination === destination && rule.permanent === true), `Missing redirect: ${oldPath}`)
   }
 })
+
+test("2026-27 coordinators reuse their team portraits and returning members are retained", () => {
+  const current = JSON.parse(readFileSync("public/current_members.json", "utf8"))
+  assert.deepEqual(current.Coordinators.map(member => member.name), ["Daksh Prajapati", "M. Hema Varshini"])
+  for (const coordinator of current.Coordinators) {
+    assert.equal(coordinator.role, "Coordinator")
+    const departmentMember = [...current.CreativeProduction, ...current.ContentStrategyPR].find(member => member.name === coordinator.name)
+    assert.equal(coordinator.image, departmentMember.image)
+    assert.equal(coordinator.linkedin, departmentMember.linkedin)
+  }
+  const layout = readFileSync("app/team/page.tsx", "utf8")
+  assert(layout.indexOf('key: "Coordinators"') < layout.indexOf('key: "OutreachAndSponsor"'))
+  assert.equal(current.MultimediaDesign.filter(member => member.name === "Tanushree Dey").length, 1)
+  assert.equal(current.MultimediaDesign.find(member => member.name === "Keshav Malik").role, "Core Operations & Graphic Designer")
+  assert.equal(current.leadershipTeam.find(member => member.role === "Deputy Secretary").image, "/images/team/2026-2027/vishal-deputy-secretary.webp")
+  assert.match(current.leadershipTeam.find(member => member.role === "Secretary").description, /Leads IRIS Society/)
+})
+
+test("new photowalk and Saavan archive records preserve their source and previous editions", () => {
+  const meetups = JSON.parse(readFileSync("public/meetup.json", "utf8"))
+  const events = JSON.parse(readFileSync("public/events.json", "utf8"))
+  for (const records of [meetups, events]) assert.equal(new Set(records.map(entry => entry.id)).size, records.length)
+  const photowalk = meetups.find(entry => entry.instagramUrl === "https://www.instagram.com/p/DeOgSdSywWL/")
+  assert.equal(photowalk.status, "previous")
+  assert.equal(photowalk.registrationOpen, false)
+  assert.match(photowalk.dates, /October 10, 2026/)
+  assert.match(photowalk.collab, /Pichavaram House x Nallamala House/)
+  assert(images.has(photowalk.image))
+  const saavan = events.find(entry => entry.title === "Shutter Safari: Saavan Edition 2.0")
+  assert.equal(saavan.status, "previous")
+  assert.equal(saavan.registrationOpen, false)
+  assert.equal(saavan.resultLink, "https://www.instagram.com/p/DeYwclZkkc6/")
+  assert(images.has(saavan.image))
+  assert(events.some(entry => entry.title === "Shutter Safari: Saavan Edition" && entry.dates.includes("2025")))
+})
