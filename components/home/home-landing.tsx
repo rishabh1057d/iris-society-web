@@ -159,7 +159,7 @@ export default function HomeLanding({
                 transition={{ ...spring.default, delay: 0.06 }}
                 className="mb-3 text-[11px] font-medium uppercase tracking-[0.22em] text-sky-200/75"
               >
-                IIT Madras BS
+                IITM BS Degree
               </motion.p>
 
               <motion.h1
