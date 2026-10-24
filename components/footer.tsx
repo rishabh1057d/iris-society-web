@@ -59,7 +59,7 @@ export default function Footer() {
               © {new Date().getFullYear()} IRIS Society. All rights reserved.
             </p>
             <p className="mt-1 mb-0 text-xs text-slate-500">
-              Photography &amp; Videography · IIT Madras BS
+              Photography &amp; Videography · IIT Madras BS Degree Program
             </p>
             <p className="mt-3 mb-0 mx-auto max-w-xl text-xs leading-relaxed text-slate-400">
               Photos and videos © their respective creators. No unauthorized reuse,
