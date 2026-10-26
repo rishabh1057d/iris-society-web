@@ -110,3 +110,31 @@ test("new photowalk and Saavan archive records preserve their source and previou
   assert(images.has(saavan.image))
   assert(events.some(entry => entry.title === "Shutter Safari: Saavan Edition" && entry.dates.includes("2025")))
 })
+
+test("September photowalks and Wiki Loves Peace have correct status, dates, links, and posters", () => {
+  const meetups = JSON.parse(readFileSync("public/meetup.json", "utf8"))
+  const events = JSON.parse(readFileSync("public/events.json", "utf8"))
+  for (const [title, date, image] of [
+    ["Lalbagh Photowalk Meetup", "September 5, 2026", "/images/meetups/lalbagh-photowalk-september-2026.webp"],
+    ["Jabalpur Photowalk Meetup", "September 13, 2026", "/images/meetups/jabalpur-photowalk-september-2026.webp"],
+    ["Delhi Photowalk Meetup", "September 14, 2026", "/images/meetups/delhi-photowalk-september-2026.webp"],
+  ]) {
+    const meetup = meetups.find(entry => entry.title === title)
+    assert(meetup, `Missing meetup: ${title}`)
+    assert.equal(meetup.status, "previous")
+    assert.equal(meetup.registrationOpen, false)
+    assert(meetup.dates.includes(date))
+    assert(images.has(meetup.image))
+    assert.equal(meetup.image, image)
+    assert(meetup.registrationLink.startsWith("https://"))
+  }
+  const campaign = events.find(entry => entry.title === "Wiki Loves Peace 2026")
+  assert(campaign)
+  assert.equal(campaign.status, "ongoing")
+  assert.equal(campaign.registrationOpen, true)
+  assert.equal(campaign.registrationLink, "https://w.wiki/UdeB")
+  assert.match(campaign.description, /WLP IRIS/)
+  assert.match(campaign.description, /₹8,000/)
+  assert.match(campaign.dates, /October 30, 2026.*UTC/)
+  assert(images.has(campaign.image))
+})

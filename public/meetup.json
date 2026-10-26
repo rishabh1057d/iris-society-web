@@ -1,4 +1,47 @@
-[{
+[
+  {
+    "id": 15,
+    "title": "Delhi Photowalk Meetup",
+    "description": "A post-exam photowalk at Deer Park, bringing students together to explore Delhi through photography.",
+    "dates": "11:00 AM onwards | September 14, 2026",
+    "location": "Deer Park, New Delhi",
+    "collab": "IRIS Society x Corbett House x Kaziranga House x Sundarbans House",
+    "image": "/images/meetups/delhi-photowalk-september-2026.webp",
+    "status": "previous",
+    "registrationOpen": false,
+    "registrationLink": "https://forms.gle/CSzwRpUNSyen9jbG6",
+    "locationLink": "",
+    "instagramUrl": ""
+  },
+  {
+    "id": 14,
+    "title": "Jabalpur Photowalk Meetup",
+    "description": "A post-exam photowalk around Kachnar City, bringing students together after end-term exams.",
+    "dates": "5:00 PM onwards | September 13, 2026",
+    "location": "Kachnar City, Jabalpur, Madhya Pradesh",
+    "collab": "IRIS Society x Corbett House",
+    "image": "/images/meetups/jabalpur-photowalk-september-2026.webp",
+    "status": "previous",
+    "registrationOpen": false,
+    "registrationLink": "https://docs.google.com/forms/d/e/1FAIpQLSdEP44c9v1ji8qEhWCvSAWVFs94MCcgKA_NLkRHD62Xv0VXqw/viewform",
+    "locationLink": "",
+    "instagramUrl": ""
+  },
+  {
+    "id": 13,
+    "title": "Lalbagh Photowalk Meetup",
+    "description": "A relaxed photowalk at Lalbagh for students to explore, experiment, and meet fellow photographers. Open to everyone, from phone photographers to camera users.",
+    "dates": "9:30 AM onwards | September 5, 2026",
+    "location": "Lalbagh, Bengaluru",
+    "collab": "Corbett House x IRIS Society",
+    "image": "/images/meetups/lalbagh-photowalk-september-2026.webp",
+    "status": "previous",
+    "registrationOpen": false,
+    "registrationLink": "https://forms.gle/zcMwz2LHLtnXVGVp9",
+    "locationLink": "",
+    "instagramUrl": ""
+  },
+  {
   "id": 12,
   "title": "Albert Hall Museum Photowalk - Jaipur",
   "description": "A photowalk exploring heritage and stories of peace at Albert Hall Museum, as part of the UNODA-supported Wiki Loves Peace 2026 campaign.",

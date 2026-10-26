@@ -1,4 +1,20 @@
-[{
+[
+  {
+    "id": 25,
+    "title": "Wiki Loves Peace 2026",
+    "description": "IRIS Society is a Community Partner for this UNODA-supported global photography campaign. Upload a photograph of a place that tells a story of peace to Wikimedia Commons and select the “WLP IRIS” category. Eligible IIT Madras BS students in this category can win ₹8,000, ₹5,000, or ₹3,000 Amazon vouchers for first, second, and third place. The best photo will also be featured on UNODA's social media with photographer credit.",
+    "dates": "September 21 – October 30, 2026 (11:59 PM UTC)",
+    "location": "Online | Wikimedia Commons",
+    "collab": "IRIS Society x Wiki Loves Peace",
+    "image": "/images/events/posters/wiki-loves-peace-2026.webp",
+    "registrationOpen": true,
+    "registrationLink": "https://w.wiki/UdeB",
+    "status": "ongoing",
+    "resultLink": "",
+    "liveSessionLink": "",
+    "speakerInstagram": ""
+  },
+  {
   "id": 24,
   "title": "Shutter Safari: Saavan Edition 2.0",
   "description": "IRIS Society's photography competition at Saavan '26 explored storytelling through three rounds: Fragments of Life, Duality, and Judgement Day. Photographers brought their own perspectives to everyday scenes and contrasting ideas.",
