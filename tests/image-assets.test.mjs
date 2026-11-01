@@ -78,7 +78,7 @@ test("legacy redirects cover every old URL without chains or loops", async () =>
 
 test("2026-27 coordinators reuse their team portraits and returning members are retained", () => {
   const current = JSON.parse(readFileSync("public/current_members.json", "utf8"))
-  assert.deepEqual(current.Coordinators.map(member => member.name), ["Daksh Prajapati", "M. Hema Varshini"])
+  assert.deepEqual(current.Coordinators.map(member => member.name), ["Daksh Prajapati", "M. Hema Varshni"])
   for (const coordinator of current.Coordinators) {
     assert.equal(coordinator.role, "Coordinator")
     const departmentMember = [...current.CreativeProduction, ...current.ContentStrategyPR].find(member => member.name === coordinator.name)
