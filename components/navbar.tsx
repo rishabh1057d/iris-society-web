@@ -13,7 +13,7 @@ interface NavbarProps {
 }
 
 const JOIN_URL =
-  "https://docs.google.com/forms/d/e/1FAIpQLSczSzMGIAd-sE_nxe9wOFSrsYy59lzRBhU9e5uhOjMtmIquLQ/viewform"
+  "https://forms.gle/ft3JSD6AsXHc2zsH9"
 
 const navItems = [
   { href: "/", label: "Home" },
