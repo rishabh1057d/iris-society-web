@@ -36,6 +36,7 @@ type IrisEvent = {
   image: string
   registrationOpen?: boolean
   registrationLink?: string
+  rulebookLink?: string
   status: "ongoing" | "previous" | string
   resultLink?: string
   liveSessionLink?: string
@@ -113,6 +114,12 @@ function EventActions({ event }: { event: IrisEvent }) {
         <ActionChip href={event.speakerInstagram} tone="pink">
           <Instagram className="w-3 h-3" />
           Guest
+        </ActionChip>
+      )}
+      {event.rulebookLink?.trim() && (
+        <ActionChip href={event.rulebookLink} tone="emerald">
+          <ExternalLink className="w-3 h-3" />
+          Rulebook
         </ActionChip>
       )}
     </div>
@@ -266,6 +273,7 @@ function EventListRow({
       {/* Actions sit under row but compact - only if any exist */}
       {(event.resultLink?.trim() ||
         event.liveSessionLink?.trim() ||
+        event.rulebookLink?.trim() ||
         event.speakerInstagram?.trim() ||
         event.status !== "previous" ||
         event.registrationOpen) && (
